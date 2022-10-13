@@ -1,4 +1,4 @@
-package com.abc.shopping_list_1
+package com.taesch.taesch
 
 import io.flutter.embedding.android.FlutterActivity
 

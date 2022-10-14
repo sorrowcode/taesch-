@@ -7,7 +7,7 @@ import 'shopping_list_page.dart';
 /// all configuration happens here
 class App extends StatelessWidget {
   const App({super.key});
-  
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

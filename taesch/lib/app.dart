@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'shopping_list_page.dart';
+import 'pages/view/shopping_list_page.dart';
 
 /// this class is the root element of the widget tree
 ///

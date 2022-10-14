@@ -1,0 +1,3 @@
+class ShoppingListPageVM {
+  void test() {}
+}

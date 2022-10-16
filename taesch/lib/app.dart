@@ -23,10 +23,16 @@ class _AppState extends State<App> {
         primarySwatch: Colors.blue,
       ),
       routes: {
-        Screen.shoppingList.text: (context) => ShoppingListPage(title: Screen.shoppingList.text,),
-        Screen.nearShops.text: (context) => NearShopsPage(title: Screen.nearShops.text,),
+        Screen.shoppingList.text: (context) => ShoppingListPage(
+              title: Screen.shoppingList.text,
+            ),
+        Screen.nearShops.text: (context) => NearShopsPage(
+              title: Screen.nearShops.text,
+            ),
       },
-      home: ShoppingListPage(title: Screen.shoppingList.text,),
+      home: ShoppingListPage(
+        title: Screen.shoppingList.text,
+      ),
     );
   }
 }

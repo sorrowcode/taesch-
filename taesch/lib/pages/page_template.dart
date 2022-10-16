@@ -4,8 +4,9 @@ import 'package:taesch/pages/i_view_model.dart';
 import '../model/screen.dart';
 
 /// template page with the needed structure
-abstract class PageTemplate extends StatefulWidget{
+abstract class PageTemplate extends StatefulWidget {
   final String title;
+
   const PageTemplate({super.key, required this.title});
 }
 

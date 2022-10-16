@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:taesch/pages/view/near_shops_page.dart';
 
+import 'model/screen.dart';
 import 'pages/view/shopping_list_page.dart';
 
 /// this class is the root element of the widget tree
 ///
 /// all configuration happens here
-class App extends StatelessWidget {
+class App extends StatefulWidget {
   const App({super.key});
 
+  @override
+  State<StatefulWidget> createState() => _AppState();
+}
+
+class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -15,7 +22,11 @@ class App extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: ShoppingListPage(title: 'Shopping List'),
+      routes: {
+        Screen.shoppingList.text: (context) => ShoppingListPage(title: Screen.shoppingList.text,),
+        Screen.nearShops.text: (context) => NearShopsPage(title: Screen.nearShops.text,),
+      },
+      home: ShoppingListPage(title: Screen.shoppingList.text,),
     );
   }
 }

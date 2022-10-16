@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:taesch/pages/page_template.dart';
+import 'package:taesch/pages/view_model/shopping_list_page_vm.dart';
 
 /// shows the shopping list elements
 class ShoppingListPage extends PageTemplate {
@@ -11,6 +12,10 @@ class ShoppingListPage extends PageTemplate {
 }
 
 class _ShoppingListPageState extends PageTemplateState {
+  _ShoppingListPageState() {
+    vm = ShoppingListPageVM();
+  }
+
   @override
   Widget body() {
     return const Center(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:taesch/pages/i_view_model.dart';
 
 import '../model/screen.dart';
 
@@ -9,6 +10,9 @@ abstract class PageTemplate extends StatefulWidget{
 }
 
 abstract class PageTemplateState extends State<PageTemplate> {
+  // has to be initialized in the constructor of the states
+  late IViewModel vm;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

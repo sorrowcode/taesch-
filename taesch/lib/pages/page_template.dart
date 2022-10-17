@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:taesch/app.dart';
 import 'package:taesch/pages/i_view_model.dart';
 
 import '../model/screen.dart';
@@ -24,33 +25,34 @@ abstract class PageTemplateState extends State<PageTemplate> {
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
-          children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
-              child: Text('Drawer Header'),
-            ),
-            ListTile(
-              title: Text(Screen.shoppingList.text),
-              onTap: () {
-                setState(() {
-                  Navigator.pushNamed(context, Screen.shoppingList.text);
-                });
-              },
-            ),
-            ListTile(
-              title: Text(Screen.nearShops.text),
-              onTap: () {
-                setState(() {
-                  Navigator.pushNamed(context, Screen.nearShops.text);
-                });
-              },
-            ),
-          ],
+          children: _setupSideBarElements(),
         ),
       ),
     );
+  }
+
+  /// general setup for the side bar
+  ///
+  /// in case of an exception check the routes in [App]
+  List<Widget> _setupSideBarElements() {
+    var elements = <Widget>[];
+    elements.add(const DrawerHeader(
+      decoration: BoxDecoration(
+        color: Colors.blue,
+      ),
+      child: Text('Drawer Header'),
+    ));
+    for (var page in Screen.values) {
+      elements.add(ListTile(
+        title: Text(page.text),
+        onTap: () {
+          setState(() {
+            Navigator.pushNamed(context, page.text);
+          });
+        },
+      ));
+    }
+    return elements;
   }
 
   Widget body();

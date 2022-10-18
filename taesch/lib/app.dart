@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:taesch/pages/view/near_shops_page.dart';
 
+import 'model/screen.dart';
 import 'pages/view/shopping_list_page.dart';
 
 /// this class is the root element of the widget tree
@@ -15,7 +17,17 @@ class App extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: ShoppingListPage(title: 'Shopping List'),
+      routes: {
+        Screen.shoppingList.text: (context) => ShoppingListPage(
+              title: Screen.shoppingList.text,
+            ),
+        Screen.nearShops.text: (context) => NearShopsPage(
+              title: Screen.nearShops.text,
+            ),
+      },
+      home: ShoppingListPage(
+        title: Screen.shoppingList.text,
+      ),
     );
   }
 }

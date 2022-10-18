@@ -1,5 +1,5 @@
 import 'package:taesch/pages/i_view_model.dart';
 
-class ShoppingListPageVM implements IViewModel {
+class NearShopsPageVM implements IViewModel {
   void test() {}
 }

@@ -1,34 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:taesch/pages/page_template.dart';
 import 'package:taesch/pages/view_model/shopping_list_page_vm.dart';
 
-/// this page contains all the shopping list elements
-class ShoppingListPage extends StatefulWidget {
-  ShoppingListPage({super.key, required this.title});
-
-  final String title;
-  final ShoppingListPageVM _vm = ShoppingListPageVM();
+/// shows the shopping list elements
+class ShoppingListPage extends PageTemplate {
+  const ShoppingListPage({super.key, required super.title});
 
   @override
-  State<ShoppingListPage> createState() => _ShoppingListPageState();
+  State<StatefulWidget> createState() => _ShoppingListPageState();
 }
 
-class _ShoppingListPageState extends State<ShoppingListPage> {
+class _ShoppingListPageState extends PageTemplateState {
+  _ShoppingListPageState() {
+    vm = ShoppingListPageVM();
+  }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          widget._vm.test();
-        },
-        child: const Icon(Icons.add),
-      ),
+  Widget body() {
+    return const Center(
+      child: Text("Shopping List"),
     );
   }
 }

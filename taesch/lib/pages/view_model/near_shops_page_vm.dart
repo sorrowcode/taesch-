@@ -1,5 +1,6 @@
-import 'package:taesch/pages/i_view_model.dart';
+import 'package:taesch/pages/view/near_shops_page.dart';
 
-class NearShopsPageVM implements IViewModel {
+/// vm for [NearShopsPage]
+class NearShopsPageVM {
   void test() {}
 }

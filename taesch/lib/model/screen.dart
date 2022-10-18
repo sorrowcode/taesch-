@@ -1,8 +1,5 @@
 /// enumeration for tracking the screen
-enum Screen {
-  shoppingList,
-  nearShops,
-}
+enum Screen { shoppingList, nearShops, settings }
 
 /// extension of the enumeration for holding some constants
 extension ScreenString on Screen {
@@ -12,6 +9,8 @@ extension ScreenString on Screen {
         return "Shopping List";
       case Screen.nearShops:
         return "Near Shops";
+      case Screen.settings:
+        return "Settings";
     }
   }
 }

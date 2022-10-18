@@ -1,5 +1,6 @@
-import 'package:taesch/pages/i_view_model.dart';
+import 'package:taesch/pages/view/shopping_list_page.dart';
 
-class ShoppingListPageVM implements IViewModel {
+/// vm for [ShoppingListPage]
+class ShoppingListPageVM {
   void test() {}
 }

@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:taesch/pages/view/near_shops_page.dart';
-
+import 'package:taesch/pages/view_model/app_vm.dart';
 import 'model/screen.dart';
-import 'pages/view/shopping_list_page.dart';
 
 /// this class is the root element of the widget tree
 ///
 /// all configuration happens here
-class App extends StatelessWidget {
-  const App({super.key});
+class App extends StatefulWidget {
+  final vm = AppVM();
 
+  App({super.key});
+
+  @override
+  State<StatefulWidget> createState() => AppState();
+}
+
+class AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -17,17 +22,45 @@ class App extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      routes: {
-        Screen.shoppingList.text: (context) => ShoppingListPage(
-              title: Screen.shoppingList.text,
-            ),
-        Screen.nearShops.text: (context) => NearShopsPage(
-              title: Screen.nearShops.text,
-            ),
-      },
-      home: ShoppingListPage(
-        title: Screen.shoppingList.text,
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text(widget.vm.screenState.text),
+        ),
+        body: widget.vm.getCurrentScreen(),
+        drawer: Drawer(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: _setupSideBarElements(),
+          ),
+        ),
+        floatingActionButton: widget.vm.screenState == Screen.shoppingList
+            ? FloatingActionButton(
+                child: const Icon(Icons.add),
+                onPressed: () {},
+              )
+            : null,
       ),
     );
+  }
+
+  List<Widget> _setupSideBarElements() {
+    var elements = <Widget>[];
+    elements.add(const DrawerHeader(
+      decoration: BoxDecoration(
+        color: Colors.blue,
+      ),
+      child: Text('Drawer Header'),
+    ));
+    for (var page in Screen.values) {
+      elements.add(ListTile(
+        title: Text(page.text),
+        onTap: () {
+          setState(() {
+            widget.vm.screenState = page;
+          });
+        },
+      ));
+    }
+    return elements;
   }
 }

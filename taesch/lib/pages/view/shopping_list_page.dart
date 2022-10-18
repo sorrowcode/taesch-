@@ -1,23 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:taesch/pages/page_template.dart';
-import 'package:taesch/pages/view_model/shopping_list_page_vm.dart';
 
 /// shows the shopping list elements
-class ShoppingListPage extends PageTemplate {
-  const ShoppingListPage({super.key, required super.title});
+class ShoppingListPage extends StatefulWidget {
+  const ShoppingListPage({super.key});
 
   @override
   State<StatefulWidget> createState() => _ShoppingListPageState();
 }
 
-class _ShoppingListPageState extends PageTemplateState {
-  _ShoppingListPageState() {
-    vm = ShoppingListPageVM();
-  }
-
+class _ShoppingListPageState extends State<ShoppingListPage> {
   @override
-  Widget body() {
+  Widget build(BuildContext context) {
     return const Center(
       child: Text("Shopping List"),
     );

@@ -15,6 +15,8 @@ class App extends StatefulWidget {
 }
 
 class AppState extends State<App> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -23,6 +25,7 @@ class AppState extends State<App> {
         primarySwatch: Colors.blue,
       ),
       home: Scaffold(
+        key: _scaffoldKey,
         appBar: AppBar(
           title: Text(widget.vm.screenState.text),
         ),
@@ -57,6 +60,7 @@ class AppState extends State<App> {
         onTap: () {
           setState(() {
             widget.vm.screenState = page;
+            _scaffoldKey.currentState!.closeDrawer();
           });
         },
       ));

@@ -11,10 +11,10 @@ class App extends StatefulWidget {
   App({super.key});
 
   @override
-  State<StatefulWidget> createState() => AppState();
+  State<StatefulWidget> createState() => _AppState();
 }
 
-class AppState extends State<App> {
+class _AppState extends State<App> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override

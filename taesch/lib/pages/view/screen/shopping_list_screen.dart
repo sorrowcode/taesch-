@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 /// shows the shopping list elements
-class ShoppingListPage extends StatefulWidget {
-  const ShoppingListPage({super.key});
+class ShoppingListScreen extends StatefulWidget {
+  const ShoppingListScreen({super.key});
 
   @override
-  State<StatefulWidget> createState() => _ShoppingListPageState();
+  State<StatefulWidget> createState() => _ShoppingListScreenState();
 }
 
-class _ShoppingListPageState extends State<ShoppingListPage> {
+class _ShoppingListScreenState extends State<ShoppingListScreen> {
   @override
   Widget build(BuildContext context) {
     return const Center(

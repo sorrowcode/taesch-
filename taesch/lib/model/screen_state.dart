@@ -1,15 +1,15 @@
 /// enumeration for tracking the screen
-enum Screen { shoppingList, nearShops, settings }
+enum ScreenState { shoppingList, nearShops, settings }
 
 /// extension of the enumeration for holding some constants
-extension ScreenString on Screen {
+extension ScreenString on ScreenState {
   String get text {
     switch (this) {
-      case Screen.shoppingList:
+      case ScreenState.shoppingList:
         return "Shopping List";
-      case Screen.nearShops:
+      case ScreenState.nearShops:
         return "Near Shops";
-      case Screen.settings:
+      case ScreenState.settings:
         return "Settings";
     }
   }

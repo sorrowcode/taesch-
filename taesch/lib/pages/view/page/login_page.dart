@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:taesch/model/error.dart';
-import 'package:taesch/pages/view/page/hope_page.dart';
+import 'package:taesch/pages/view/page/home_page.dart';
 import 'package:taesch/pages/view/page/register_page.dart';
 import 'package:taesch/pages/view/page/starting_page.dart';
 import 'package:taesch/pages/view_model/login_page_vm.dart';

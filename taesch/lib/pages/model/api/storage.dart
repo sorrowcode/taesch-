@@ -1,13 +1,16 @@
 // Stores data permanently
-class PersistStorage {
+class PersistStorage<T> {
+
 
   // retrieves stored data
-  dynamic getRepo() {}
+  dynamic read(String filter) {}
 
   // adds or overwrites stored data
-  void writeRepo(dynamic data) {}
+  void insert(T data) {}
 
   // clears stored data
-  void clearRepo() {}
+  void update(T data) {}
+
+  void delete(T data) {}
 
 }

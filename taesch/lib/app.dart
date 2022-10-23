@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:taesch/pages/view/page/login_page.dart';
 import 'package:taesch/pages/view_model/app_vm.dart';
 
 /// this class is the root element of the widget tree
@@ -21,7 +22,7 @@ class _AppState extends State<App> {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: ,
+      home: const LoginPage(),
     );
   }
 }

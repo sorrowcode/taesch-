@@ -33,9 +33,9 @@ class HomePageState extends State<HomePage> {
       ),
       floatingActionButton: widget._vm.screenState == ScreenState.shoppingList
           ? FloatingActionButton(
-        child: const Icon(Icons.add),
-        onPressed: () {},
-      )
+              child: const Icon(Icons.add),
+              onPressed: () {},
+            )
           : null,
     );
   }

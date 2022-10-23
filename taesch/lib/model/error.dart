@@ -7,6 +7,8 @@ enum Error {
   noNumber,
   noSpecialCharacter,
   tooLongOrTooShort,
+  noUsername,
+  invalidUsername,
 }
 
 extension ErrorMessage on Error {
@@ -28,6 +30,10 @@ extension ErrorMessage on Error {
         return "The password should contain at least one special character";
       case Error.tooLongOrTooShort:
         return "The length of the password should be between 8 and 32 characters";
+      case Error.noUsername:
+        return "The length of the username should be between 5 and 20 characters";
+      case Error.invalidUsername:
+        return "Please enter a valid username";
     }
   }
 }

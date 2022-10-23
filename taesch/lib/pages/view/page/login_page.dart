@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:taesch/model/error.dart';
+import 'package:taesch/pages/view/page/hope_page.dart';
+import 'package:taesch/pages/view/page/register_page.dart';
 import 'package:taesch/pages/view/page/starting_page.dart';
 import 'package:taesch/pages/view_model/login_page_vm.dart';
-import 'package:taesch/model/error.dart';
 
 class LoginPage extends StartingPage {
   const LoginPage({super.key});
@@ -11,7 +13,6 @@ class LoginPage extends StartingPage {
 }
 
 class _LoginPageState extends StartingPageState {
-
   _LoginPageState() {
     vm = LoginPageVM();
   }
@@ -19,8 +20,12 @@ class _LoginPageState extends StartingPageState {
   @override
   List<Widget> bodyElements() {
     return [
-      Image.network(
-          "https://static.vecteezy.com/ti/gratis-vektor/p3/4999463-einkaufswagen-symbol-illustration-kostenlos-vektor.jpg"),
+      Text(
+        (vm as LoginPageVM).title,
+        style: const TextStyle(
+          fontSize: 40,
+        ),
+      ),
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
         child: TextFormField(
@@ -28,7 +33,7 @@ class _LoginPageState extends StartingPageState {
             return vm.validateEMail(value)?.message;
           },
           decoration: const InputDecoration(
-            hintText: LoginPageVM.emailHintText,
+            hintText: LoginPageVM.emailHint,
             border: OutlineInputBorder(),
           ),
         ),
@@ -41,7 +46,7 @@ class _LoginPageState extends StartingPageState {
             return vm.validatePassword(value)?.message;
           },
           decoration: const InputDecoration(
-            hintText: LoginPageVM.passwordHintText,
+            hintText: LoginPageVM.passwordHint,
             border: OutlineInputBorder(),
           ),
         ),
@@ -51,22 +56,18 @@ class _LoginPageState extends StartingPageState {
         children: [
           OutlinedButton(
             onPressed: () {
-              /*
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const),
+                MaterialPageRoute(builder: (context) => const RegisterPage()),
               );
-              
-               */
             },
             child: Text((vm as LoginPageVM).registrationButtonText),
           ),
           OutlinedButton(
             onPressed: () {
               if (formKey.currentState!.validate()) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Processing Data')),
-                );
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => HomePage()));
               }
             },
             child: Text((vm as LoginPageVM).submitButtonText),

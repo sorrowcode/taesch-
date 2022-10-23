@@ -46,15 +46,32 @@ class _LoginPageState extends StartingPageState {
           ),
         ),
       ),
-      OutlinedButton(
-        onPressed: () {
-          if (formKey.currentState!.validate()) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Processing Data')),
-            );
-          }
-        },
-        child: Text((vm as LoginPageVM).submitButtonText),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          OutlinedButton(
+            onPressed: () {
+              /*
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const),
+              );
+              
+               */
+            },
+            child: Text((vm as LoginPageVM).registrationButtonText),
+          ),
+          OutlinedButton(
+            onPressed: () {
+              if (formKey.currentState!.validate()) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Processing Data')),
+                );
+              }
+            },
+            child: Text((vm as LoginPageVM).submitButtonText),
+          )
+        ],
       )
     ];
   }

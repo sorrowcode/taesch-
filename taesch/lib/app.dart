@@ -18,7 +18,7 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Taesch!',
+      title: widget._vm.appTitle,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),

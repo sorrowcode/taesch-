@@ -1,4 +1,6 @@
 import 'package:taesch/app.dart';
 
 /// vm for [App] view
-class AppVM {}
+class AppVM {
+  String appTitle = "Taesch!";
+}

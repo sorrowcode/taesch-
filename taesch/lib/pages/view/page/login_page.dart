@@ -30,7 +30,7 @@ class LoginPageState extends State<LoginPage> {
                   child: TextFormField(
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return "Please insert an E-Mail address";
+                          return "Please enter an E-Mail address";
                         }
                         if (!RegExp(r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$").hasMatch(value)) {
                           return "Please enter a valid email address";
@@ -45,7 +45,26 @@ class LoginPageState extends State<LoginPage> {
               Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                   child: TextFormField(
+                    obscureText: true,
                     validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Please enter a password";
+                      }
+                      if (!RegExp(r"^.*[0-9].*$").hasMatch(value)) {
+                        return "The password should contain at least one number";
+                      }
+                      if (!RegExp(r"^.*[a-z].*$").hasMatch(value)) {
+                        return "The password should have at least on lower case letter";
+                      }
+                      if (!RegExp(r"^.*[A-Z].*$").hasMatch(value)) {
+                        return "The password should contain at least one upper case letter";
+                      }
+                      if (!RegExp(r"^.*\W.*$").hasMatch(value)) {
+                        return "The password should contain at least one special character";
+                      }
+                      if (!RegExp(r"^.{8,32}$").hasMatch(value)) {
+                        return "The length of the password should be between 8 and 32 characters";
+                      }
                       return null;
                     },
                     decoration: const InputDecoration(

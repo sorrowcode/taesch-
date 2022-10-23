@@ -9,6 +9,7 @@ enum Error {
   tooLongOrTooShort,
   noUsername,
   invalidUsername,
+  notSamePassword,
 }
 
 extension ErrorMessage on Error {
@@ -34,6 +35,8 @@ extension ErrorMessage on Error {
         return "The length of the username should be between 5 and 20 characters";
       case Error.invalidUsername:
         return "Please enter a valid username";
+      case Error.notSamePassword:
+        return "Passwords do not match";
     }
   }
 }

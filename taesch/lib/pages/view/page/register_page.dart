@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:taesch/model/error.dart';
 import 'package:taesch/pages/view/page/hope_page.dart';
 import 'package:taesch/pages/view/page/starting_page.dart';
 import 'package:taesch/pages/view_model/register_page_vm.dart';
-import 'package:taesch/model/error.dart';
 
 class RegisterPage extends StartingPage {
   const RegisterPage({super.key});
@@ -30,7 +30,7 @@ class _RegisterPageState extends StartingPageState {
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
         child: TextFormField(
           validator: (value) {
-            return (vm as RegisterPageVM).validatePassword(value)?.message;
+            return (vm as RegisterPageVM).validateUsername(value)?.message;
           },
           decoration: const InputDecoration(
             hintText: RegisterPageVM.usernameHint,
@@ -53,6 +53,7 @@ class _RegisterPageState extends StartingPageState {
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
         child: TextFormField(
+          obscureText: true,
           controller: (vm as RegisterPageVM).passwordController,
           validator: (value) {
             return vm.validatePassword(value)?.message;
@@ -66,8 +67,9 @@ class _RegisterPageState extends StartingPageState {
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
         child: TextFormField(
+          obscureText: true,
           validator: (value) {
-            return null;
+            return (vm as RegisterPageVM).validateSamePassword(value)?.message;
           },
           decoration: const InputDecoration(
             hintText: RegisterPageVM.passwordHint,

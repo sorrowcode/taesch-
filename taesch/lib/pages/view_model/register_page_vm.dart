@@ -13,7 +13,7 @@ class RegisterPageVM extends StartingPageVM {
   Error? validateUsername(String? value) {
     if (value == null || value.isEmpty) {
       return Error.noUsername;
-    } else if (!RegExp(r"^.{5,20}.*$").hasMatch(value)) {
+    } else if (!RegExp(r"^.{3,15}.*$").hasMatch(value)) {
       return Error.invalidUsername;
     }
     return null;

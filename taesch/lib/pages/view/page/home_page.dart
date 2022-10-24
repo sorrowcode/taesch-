@@ -11,10 +11,10 @@ class HomePage extends StatefulWidget {
   HomePage({super.key});
 
   @override
-  State<StatefulWidget> createState() => HomePageState();
+  State<StatefulWidget> createState() => _HomePageState();
 }
 
-class HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override

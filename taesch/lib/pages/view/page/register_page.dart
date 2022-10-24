@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:taesch/model/error.dart';
+import 'package:taesch/model/widget_key.dart';
 import 'package:taesch/pages/view/page/home_page.dart';
 import 'package:taesch/pages/view/page/starting_page.dart';
 import 'package:taesch/pages/view_model/register_page_vm.dart';
@@ -29,6 +30,7 @@ class _RegisterPageState extends StartingPageState {
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
         child: TextFormField(
+          key: Key(WidgetKey.usernameRegisterKey.text),
           validator: (value) {
             return (vm as RegisterPageVM).validateUsername(value)?.message;
           },
@@ -41,6 +43,7 @@ class _RegisterPageState extends StartingPageState {
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
         child: TextFormField(
+          key: Key(WidgetKey.emailRegisterKey.text),
           validator: (value) {
             return vm.validateEMail(value)?.message;
           },
@@ -53,6 +56,7 @@ class _RegisterPageState extends StartingPageState {
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
         child: TextFormField(
+          key: Key(WidgetKey.firstPasswordRegisterKey.text),
           obscureText: true,
           controller: (vm as RegisterPageVM).passwordController,
           validator: (value) {
@@ -67,6 +71,7 @@ class _RegisterPageState extends StartingPageState {
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
         child: TextFormField(
+          key: Key(WidgetKey.secondPasswordRegisterKey.text),
           obscureText: true,
           validator: (value) {
             return (vm as RegisterPageVM).validateSamePassword(value)?.message;

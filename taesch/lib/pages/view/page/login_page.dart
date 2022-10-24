@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:taesch/model/error.dart';
+import 'package:taesch/model/widget_key.dart';
 import 'package:taesch/pages/view/page/home_page.dart';
 import 'package:taesch/pages/view/page/register_page.dart';
 import 'package:taesch/pages/view/page/starting_page.dart';
@@ -29,6 +30,7 @@ class _LoginPageState extends StartingPageState {
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
         child: TextFormField(
+          key: Key(WidgetKey.emailLoginKey.text),
           validator: (value) {
             return vm.validateEMail(value)?.message;
           },
@@ -41,6 +43,7 @@ class _LoginPageState extends StartingPageState {
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
         child: TextFormField(
+          key: Key(WidgetKey.passwordLoginKey.text),
           obscureText: true,
           validator: (value) {
             return vm.validatePassword(value)?.message;
@@ -64,6 +67,7 @@ class _LoginPageState extends StartingPageState {
             child: Text((vm as LoginPageVM).registrationButtonText),
           ),
           OutlinedButton(
+            key: Key(WidgetKey.loginButtonKey.text),
             onPressed: () {
               if (formKey.currentState!.validate()) {
                 Navigator.push(context,

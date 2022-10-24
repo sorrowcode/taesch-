@@ -5,8 +5,8 @@ import 'package:taesch/pages/view_model/starting_page_vm.dart';
 class RegisterPageVM extends StartingPageVM {
   String title = "Register";
   static const usernameHint = "username";
-  static const emailHint = "maxmustermann@mail.com";
-  static const passwordHint = "Pa55w0rd";
+  static const emailHint = "email";
+  static const passwordHint = "password";
   String submitButtonText = "Submit";
   final passwordController = TextEditingController();
 

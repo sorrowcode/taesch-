@@ -16,27 +16,27 @@ extension ErrorMessage on Error {
   String get message {
     switch (this) {
       case Error.noEmail:
-        return "Please enter an E-Mail address";
+        return "no email";
       case Error.invalidEmail:
-        return "Please enter a valid email address";
+        return "invalid email";
       case Error.noPassword:
-        return "Please enter a password";
+        return "no password";
       case Error.noLowerCaseLetter:
-        return "The password should have at least on lower case letter";
+        return "missing lower case letter";
       case Error.noUpperCaseLetter:
-        return "The password should contain at least one upper case letter";
+        return "missing upper case letter";
       case Error.noNumber:
-        return "The password should contain at least one number";
+        return "missing number";
       case Error.noSpecialCharacter:
-        return "The password should contain at least one special character";
+        return "missing special character";
       case Error.tooLongOrTooShort:
-        return "The length of the password should be between 8 and 32 characters";
+        return "too long or too short";
       case Error.noUsername:
-        return "The length of the username should be between 5 and 20 characters";
+        return "no username";
       case Error.invalidUsername:
-        return "Please enter a valid username";
+        return "invalid username";
       case Error.notSamePassword:
-        return "Passwords do not match";
+        return "passwords don't match";
     }
   }
 }

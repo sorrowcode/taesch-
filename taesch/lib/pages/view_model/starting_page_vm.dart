@@ -23,6 +23,8 @@ abstract class StartingPageVM {
   Error? validatePassword(String? value) {
     if (value == null || value.isEmpty) {
       return Error.noPassword;
+    } else if (!RegExp(r"^.{8,32}.*$").hasMatch(value)) {
+      return Error.tooLongOrTooShort;
     } else if (!RegExp(r"^.*[0-9].*$").hasMatch(value)) {
       return Error.noNumber;
     } else if (!RegExp(r"^.*[a-z].*$").hasMatch(value)) {
@@ -31,8 +33,6 @@ abstract class StartingPageVM {
       return Error.noUpperCaseLetter;
     } else if (!RegExp(r"^.*\W.*$").hasMatch(value)) {
       return Error.noSpecialCharacter;
-    } else if (!RegExp(r"^.{8,32}.*$").hasMatch(value)) {
-      return Error.tooLongOrTooShort;
     }
     return null;
   }

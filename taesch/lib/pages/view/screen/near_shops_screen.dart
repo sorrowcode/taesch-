@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 /// shows the shops which are near to the own location
-class NearShopsPage extends StatefulWidget {
-  const NearShopsPage({super.key});
+class NearShopsScreen extends StatefulWidget {
+  const NearShopsScreen({super.key});
 
   @override
-  State<StatefulWidget> createState() => _NearShopsPageState();
+  State<StatefulWidget> createState() => _NearShopsScreenState();
 }
 
-class _NearShopsPageState extends State<NearShopsPage> {
+class _NearShopsScreenState extends State<NearShopsScreen> {
   @override
   Widget build(BuildContext context) {
     return const Center(

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:taesch/model/error.dart';
 import 'package:taesch/model/widget_key.dart';
-import 'package:taesch/pages/view/page/home_page.dart';
 import 'package:taesch/pages/view/page/register_page.dart';
+import 'package:taesch/pages/view/page/splash_page.dart';
 import 'package:taesch/pages/view/page/starting_page.dart';
 import 'package:taesch/pages/view_model/login_page_vm.dart';
 
@@ -81,8 +81,10 @@ class _LoginPageState extends StartingPageState {
             key: Key(WidgetKey.loginButtonKey.text),
             onPressed: () {
               if (formKey.currentState!.validate()) {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => HomePage()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SplashPage()));
               }
             },
             child: Text(

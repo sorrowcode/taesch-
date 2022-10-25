@@ -4,12 +4,17 @@ import 'package:taesch/pages/model/api/storage.dart';
 import 'package:taesch/pages/model/shoppingitem.dart';
 
 class StorageShopItems implements PersistStorage<ShoppingItem>{
-  late Database db;
-  StorageShopItems(){
-    getDb();
+  late Database _db;
+
+  StorageShopItems._create() {
+    return;
   }
-  void getDb() async {
-    db = await openDatabase(
+  /// Public factory
+  static Future<StorageShopItems> create() async {
+    // Call the private constructor
+    var component = StorageShopItems._create();
+
+    component._db = await openDatabase(
       // Set the path to the database. Note: Using the `join` function from the
       // `path` package is best practice to ensure the path is correctly
       // constructed for each platform.
@@ -25,16 +30,14 @@ class StorageShopItems implements PersistStorage<ShoppingItem>{
       // path to perform database upgrades and downgrades.
       version: 1,
     );
+    return component;
   }
 
   @override
   Future<void> delete(ShoppingItem shopItem) async {
-    // Remove the Dog from the database.
-    await db.delete(
+    await _db.delete(
       'shopping_items',
-      // Use a `where` clause to delete a specific dog.
-      where: 'shop_item = ?',
-      // Pass the Dog's id as a whereArg to prevent SQL injection.
+      where: 'item_title = ?',
       whereArgs: [shopItem.title],
     );
   }
@@ -42,9 +45,8 @@ class StorageShopItems implements PersistStorage<ShoppingItem>{
   @override
   Future<List<ShoppingItem>> read(String filter) async {
     // Query the table for all The ShoppingItems
-    final List<Map<String, dynamic>> maps = await db.query('shopping_items');
-
-    // Convert the List<Map<String, dynamic> into a List<Dog>.
+    final List<Map<String, dynamic>> maps = await _db.query('shopping_items');
+    // Convert the List<Map<String, dynamic> into a List<ShoppingItem>.
     return List.generate(maps.length, (i) {
       return ShoppingItem.db(
         title: maps[i]['item_title'],
@@ -55,21 +57,19 @@ class StorageShopItems implements PersistStorage<ShoppingItem>{
   }
 
   @override
+  ///item Title is identifier => don't change
   Future<void> update(ShoppingItem shopItem) async {
-    // Update the given Dog.
-    await db.update(
+    await _db.update(
       'shopping_items',
       shopItem.toMap(),
-      // Ensure that the Dog has a matching id.
       where: 'item_title = ?',
-      // Pass the Dog's id as a whereArg to prevent SQL injection.
-      whereArgs: [shopItem.title],
+      whereArgs: [shopItem.title]
     );
   }
 
   @override
   Future<void> insert(ShoppingItem shopItem) async {
-    await db.insert(
+    await _db.insert(
       'shopping_items',
       shopItem.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,

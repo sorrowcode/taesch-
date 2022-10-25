@@ -34,9 +34,36 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: widget._vm.screenState == ScreenState.shoppingList
           ? FloatingActionButton(
               child: const Icon(Icons.add),
-              onPressed: () {},
+              onPressed: () {showDialog(
+                context: context,
+                builder: (BuildContext context) => _popupDialogCreateShoppingItem(context),
+              );},
             )
           : null,
+    );
+  }
+
+  Widget _popupDialogCreateShoppingItem(BuildContext context){
+    return AlertDialog(
+      title: const Text('Add Item to Shopping List'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children:const [
+          TextField(
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+              hintText: 'Enter Item'
+            )
+          )
+        ],
+    ),
+    actions: <Widget>[
+       TextButton(child: const Text('Add'),
+         onPressed: () {
+           Navigator.of(context).pop();
+         },)
+    ]
     );
   }
 

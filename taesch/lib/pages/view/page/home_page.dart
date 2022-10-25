@@ -59,7 +59,7 @@ class _HomePageState extends State<HomePage> {
         ],
     ),
     actions: <Widget>[
-       TextButton(child: const Text('Add'),
+       TextButton(child: const Icon(Icons.check),
          onPressed: () {
            Navigator.of(context).pop();
          },)

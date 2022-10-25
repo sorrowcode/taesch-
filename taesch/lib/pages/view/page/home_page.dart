@@ -62,7 +62,12 @@ class _HomePageState extends State<HomePage> {
        TextButton(child: const Icon(Icons.check),
          onPressed: () {
            Navigator.of(context).pop();
-         },)
+         }
+       ),
+      TextButton(child: const Icon(Icons.close),
+        onPressed: () {
+          Navigator.of(context).pop();
+        },)
     ]
     );
   }

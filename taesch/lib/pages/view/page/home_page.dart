@@ -34,6 +34,7 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: widget._vm.screenState == ScreenState.shoppingList
           ? FloatingActionButton(
               child: const Icon(Icons.add),
+              backgroundColor: Theme.of(context).floatingActionButtonTheme.backgroundColor,
               onPressed: () {},
             )
           : null,
@@ -42,11 +43,12 @@ class _HomePageState extends State<HomePage> {
 
   List<Widget> _setupSideBarElements() {
     var elements = <Widget>[];
-    elements.add(const DrawerHeader(
+    elements.add( DrawerHeader(
       decoration: BoxDecoration(
-        color: Colors.blue,
+        color: Theme.of(context).colorScheme.primary,
+
       ),
-      child: Text('Drawer Header'),
+      child: Text(''),
     ));
     for (var page in ScreenState.values) {
       elements.add(ListTile(

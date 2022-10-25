@@ -30,12 +30,12 @@ class _LoginPageState extends StartingPageState {
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
         child: TextFormField(
+          initialValue: "test@test.de",
           key: Key(WidgetKey.emailLoginKey.text),
           validator: (value) {
             return vm.validateEMail(value)?.message;
           },
           decoration: const InputDecoration(
-            hintText: LoginPageVM.emailHint,
             border: OutlineInputBorder(),
           ),
         ),
@@ -43,13 +43,13 @@ class _LoginPageState extends StartingPageState {
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
         child: TextFormField(
+          initialValue: "123TesT§",
           key: Key(WidgetKey.passwordLoginKey.text),
           obscureText: true,
           validator: (value) {
             return vm.validatePassword(value)?.message;
           },
           decoration: const InputDecoration(
-            hintText: LoginPageVM.passwordHint,
             border: OutlineInputBorder(),
           ),
         ),
@@ -57,16 +57,27 @@ class _LoginPageState extends StartingPageState {
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          OutlinedButton(
+          TextButton(
+            style: OutlinedButton.styleFrom(
+              backgroundColor: Theme.of(context).colorScheme.primary,
+            ),
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const RegisterPage()),
+                MaterialPageRoute(
+                    builder: (context) => const RegisterPage()),
               );
             },
-            child: Text((vm as LoginPageVM).registrationButtonText),
+            child: Text(
+              (vm as LoginPageVM).registrationButtonText,
+              style: Theme.of(context).textTheme.button,
+            ),
           ),
-          OutlinedButton(
+          TextButton(
+            style: OutlinedButton.styleFrom(
+              backgroundColor:
+              Theme.of(context).buttonTheme.colorScheme?.primary,
+            ),
             key: Key(WidgetKey.loginButtonKey.text),
             onPressed: () {
               if (formKey.currentState!.validate()) {
@@ -74,10 +85,13 @@ class _LoginPageState extends StartingPageState {
                     MaterialPageRoute(builder: (context) => HomePage()));
               }
             },
-            child: Text((vm as LoginPageVM).submitButtonText),
+            child: Text(
+              "Login",
+              style: Theme.of(context).textTheme.button,
+            ),
           )
         ],
-      )
+      ),
     ];
   }
 }

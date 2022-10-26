@@ -1,11 +1,11 @@
-class ShoppingItem {
+class ShoppingListItem {
   String title;
   String image;
   int bought = 0;
 
-  ShoppingItem(this.title, this.image);
+  ShoppingListItem(this.title, this.image);
 
-  ShoppingItem.db(
+  ShoppingListItem.db(
       {required this.title, required this.image, required this.bought});
 
   void toggleBought() => bought = bought > 0 ? 0 : 1;

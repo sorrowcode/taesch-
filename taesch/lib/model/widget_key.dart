@@ -7,6 +7,7 @@ enum WidgetKey {
   emailRegisterKey,
   firstPasswordRegisterKey,
   secondPasswordRegisterKey,
+  submitButtonKey,
 }
 
 extension KeyText on WidgetKey {

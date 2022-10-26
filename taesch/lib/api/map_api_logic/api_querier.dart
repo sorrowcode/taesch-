@@ -4,9 +4,9 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:http/http.dart';
+import 'package:taesch/model/map_spot.dart';
+import 'package:taesch/utils/my_tools.dart';
 
-import 'map_spot.dart';
-import 'my_tools.dart';
 import 'querying_tools.dart';
 
 class APIQuerier {

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:taesch/model/screen_state.dart';
-import 'package:taesch/pages/view/screen/near_shops_screen.dart';
-import 'package:taesch/pages/view/screen/settings_screen.dart';
-import 'package:taesch/pages/view/screen/shopping_list_screen.dart';
-import 'package:taesch/pages/view_model/home_page_vm.dart';
+import 'package:taesch/view/screen/near_shops_screen.dart';
+import 'package:taesch/view/screen/settings_screen.dart';
+import 'package:taesch/view/screen/shopping_list_screen.dart';
+import 'package:taesch/view_model/home_page_vm.dart';
 
 class HomePage extends StatefulWidget {
   final _vm = HomePageVM();
@@ -32,11 +32,10 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       floatingActionButton: widget._vm.screenState == ScreenState.shoppingList
-          ? FloatingActionButton(
-              child: const Icon(Icons.add),
-              backgroundColor:
+          ? FloatingActionButton(              backgroundColor:
                   Theme.of(context).floatingActionButtonTheme.backgroundColor,
               onPressed: () {},
+              child: const Icon(Icons.add),
             )
           : null,
     );
@@ -48,7 +47,7 @@ class _HomePageState extends State<HomePage> {
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.primary,
       ),
-      child: Text(''),
+      child: const Text(''),
     ));
     for (var page in ScreenState.values) {
       elements.add(ListTile(

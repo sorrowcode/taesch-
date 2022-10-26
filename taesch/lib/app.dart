@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:taesch/pages/view/page/login_page.dart';
-import 'package:taesch/pages/view_model/app_vm.dart';
+import 'package:taesch/view/page/login_page.dart';
+import 'package:taesch/view_model/app_vm.dart';
 
 /// this class is the root element of the widget tree
 ///
@@ -21,7 +21,7 @@ class _AppState extends State<App> {
       title: widget._vm.appTitle,
       theme: ThemeData(
           brightness: Brightness.light,
-          scaffoldBackgroundColor: Color(0xFFf5efff),
+          scaffoldBackgroundColor: const Color(0xFFf5efff),
           colorScheme: ColorScheme.fromSwatch().copyWith(
             primary: const Color(0xFF7371FC),
             secondary: const Color(0xFFf5efff),

@@ -1,9 +1,9 @@
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:taesch/pages/model/api/storage.dart';
-import 'package:taesch/pages/model/shoppingitem.dart';
+import 'package:taesch/api/storage.dart';
+import 'package:taesch/model/shopping_list_item.dart';
 
-class StorageShopItems implements PersistStorage<ShoppingItem> {
+class StorageShopItems implements PersistStorage<ShoppingListItem> {
   late Database _db;
 
   StorageShopItems._create() {
@@ -35,7 +35,7 @@ class StorageShopItems implements PersistStorage<ShoppingItem> {
   }
 
   @override
-  Future<void> delete(ShoppingItem shopItem) async {
+  Future<void> delete(ShoppingListItem shopItem) async {
     await _db.delete(
       'shopping_items',
       where: 'item_title = ?',
@@ -44,12 +44,12 @@ class StorageShopItems implements PersistStorage<ShoppingItem> {
   }
 
   @override
-  Future<List<ShoppingItem>> read(String filter) async {
+  Future<List<ShoppingListItem>> read(String filter) async {
     // Query the table for all The ShoppingItems
     final List<Map<String, dynamic>> maps = await _db.query('shopping_items');
     // Convert the List<Map<String, dynamic> into a List<ShoppingItem>.
     return List.generate(maps.length, (i) {
-      return ShoppingItem.db(
+      return ShoppingListItem.db(
         title: maps[i]['item_title'],
         image: maps[i]['image'],
         bought: maps[i]['bought'],
@@ -60,13 +60,13 @@ class StorageShopItems implements PersistStorage<ShoppingItem> {
   @override
 
   ///item Title is identifier => don't change
-  Future<void> update(ShoppingItem shopItem) async {
+  Future<void> update(ShoppingListItem shopItem) async {
     await _db.update('shopping_items', shopItem.toMap(),
         where: 'item_title = ?', whereArgs: [shopItem.title]);
   }
 
   @override
-  Future<void> insert(ShoppingItem shopItem) async {
+  Future<void> insert(ShoppingListItem shopItem) async {
     await _db.insert(
       'shopping_items',
       shopItem.toMap(),

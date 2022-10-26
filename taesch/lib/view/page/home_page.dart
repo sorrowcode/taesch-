@@ -18,6 +18,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final formKey = GlobalKey<FormState>();
+  Widget screen = ShoppingListScreen();
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text(widget._vm.screenState.text),
       ),
-      body: _getCurrentScreen(),
+      body: screen,
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -71,6 +72,7 @@ class _HomePageState extends State<HomePage> {
               child: const Icon(Icons.check),
               onPressed: () {
                 if (formKey.currentState!.validate()) {
+                  _getCurrentScreen();
                   Navigator.of(context).pop();
                 }
               }),
@@ -107,14 +109,20 @@ class _HomePageState extends State<HomePage> {
   }
 
   /// sets up screen that changes when a different screen is selected
-  Widget _getCurrentScreen() {
-    switch (widget._vm.screenState) {
-      case ScreenState.shoppingList:
-        return const ShoppingListScreen();
-      case ScreenState.nearShops:
-        return const NearShopsScreen();
-      case ScreenState.settings:
-        return const SettingsScreen();
-    }
+  void _getCurrentScreen() {
+    setState(() {
+      switch (widget._vm.screenState) {
+        case ScreenState.shoppingList:
+          screen = const ShoppingListScreen();
+          break;
+        case ScreenState.nearShops:
+          screen = const NearShopsScreen();
+          break;
+        case ScreenState.settings:
+          screen = const SettingsScreen();
+          break;
+      }
+    });
+
   }
 }

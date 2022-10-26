@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:taesch/model/shopping_list_item.dart';
+
 
 /// shows the shopping list elements
 class ShoppingListScreen extends StatefulWidget {
@@ -10,6 +12,13 @@ class ShoppingListScreen extends StatefulWidget {
 }
 
 class _ShoppingListScreenState extends State<ShoppingListScreen> {
+  List<ShoppingListItem> itemList = [];
+
+  @override
+  void initState() async {
+    super.initState();
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +28,7 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
         mainAxisSpacing: 10,
         crossAxisCount: 2,
       ),
-      itemCount: 40,
+      itemCount: itemList.length,
       itemBuilder: (BuildContext context, int index) {
         return Card(
           child: InkWell(
@@ -27,10 +36,10 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
             onTap: () {
               debugPrint('Card tapped.');
             },
-            child: const SizedBox(
+            child: SizedBox(
               width: 100,
               height: 100,
-              child: Center(child: Text('Text')),
+              child: Center(child: Text(itemList[index].title)),
             ),
           ),
         );

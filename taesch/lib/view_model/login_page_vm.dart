@@ -5,5 +5,5 @@ class LoginPageVM extends StartingPageVM {
   static const String emailHint = "email";
   static const String passwordHint = "password";
   String registrationButtonText = "Register";
-  String submitButtonText = "Submit";
+  String loginButtonText = "Login";
 }

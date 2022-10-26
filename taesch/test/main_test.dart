@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'package:taesch/api/storage.dart';
+import 'package:taesch/api/storage_shop_items.dart';
 import 'package:taesch/app.dart';
 import 'package:taesch/model/error_case.dart';
 import 'package:taesch/model/screen_state.dart';
+import 'package:taesch/model/shopping_list_item.dart';
 import 'package:taesch/model/widget_key.dart';
 import 'package:taesch/view/page/home_page.dart';
-import 'package:taesch/view/page/register_page.dart';
 import 'package:taesch/view/screen/near_shops_screen.dart';
 import 'package:taesch/view/screen/shopping_list_screen.dart';
 import 'package:taesch/view_model/login_page_vm.dart';
@@ -18,8 +23,14 @@ void main() {
     LoginPageVM vm = LoginPageVM();
     testWidgets("testing with no input", (widgetTester) async {
       await widgetTester.pumpWidget(App());
-      expect(find.text("Login"), findsOneWidget);
-      await widgetTester.tap(find.text(vm.submitButtonText));
+      expect(find.text("Login"), findsAtLeastNWidgets(2));
+      await widgetTester.enterText(
+          find.byKey(Key(WidgetKey.emailLoginKey.text)), "");
+      await widgetTester.pump();
+      await widgetTester.enterText(
+          find.byKey(Key(WidgetKey.passwordLoginKey.text)), "");
+      await widgetTester.pump();
+      await widgetTester.tap(find.byKey(Key(WidgetKey.loginButtonKey.text)));
       await widgetTester.pump();
       expect(find.text(ErrorCase.noEmail.message), findsOneWidget);
       expect(find.text(ErrorCase.noPassword.message), findsOneWidget);
@@ -33,38 +44,24 @@ void main() {
       await widgetTester.enterText(
           find.byKey(Key(WidgetKey.passwordLoginKey.text)), "abc123ABC");
       await widgetTester.pump();
-      await widgetTester.tap(find.text(vm.submitButtonText));
+      await widgetTester.tap(find.byKey(Key(WidgetKey.loginButtonKey.text)));
       await widgetTester.pump();
       expect(find.text(ErrorCase.invalidEmail.message), findsOneWidget);
       expect(find.text(ErrorCase.noSpecialCharacter.message), findsOneWidget);
-    });
-
-    testWidgets("testing with valid input", (widgetTester) async {
-      await widgetTester.pumpWidget(App());
-      await widgetTester.enterText(
-          find.byKey(Key(WidgetKey.emailLoginKey.text)), "johndoe@mail.com");
-      await widgetTester.pump();
-      expect(find.text("johndoe@mail.com"), findsOneWidget);
-      await widgetTester.enterText(
-          find.byKey(Key(WidgetKey.passwordLoginKey.text)), "abc!123ABC");
-      await widgetTester.pump();
-      expect(find.text(vm.submitButtonText), findsOneWidget);
-      await widgetTester.tap(find.byKey(Key(WidgetKey.loginButtonKey.text)));
-      await widgetTester.pump();
-      for (ErrorCase element in ErrorCase.values) {
-        expect(find.text(element.message), findsNothing);
-      }
     });
   });
 
   group("testing register page functionality", () {
     RegisterPageVM vm = RegisterPageVM();
     testWidgets("testing with no values", (widgetTester) async {
-      await widgetTester.pumpWidget(const MaterialApp(
-        home: RegisterPage(),
-      ));
+      await widgetTester.pumpWidget(App());
+      await widgetTester
+          .tap(find.byKey(Key(WidgetKey.registrationButtonKey.text)));
+      await widgetTester.pumpAndSettle();
 
-      await widgetTester.tap(find.text(vm.submitButtonText));
+      //expect(find.byType(RegisterPage), findsOneWidget); <- tester
+
+      await widgetTester.tap(find.byKey(Key(WidgetKey.submitButtonKey.text)));
       await widgetTester.pump();
 
       expect(find.text(ErrorCase.noUsername.message), findsOneWidget);
@@ -73,9 +70,10 @@ void main() {
     });
 
     testWidgets("testing with invalid values", (widgetTester) async {
-      await widgetTester.pumpWidget(const MaterialApp(
-        home: RegisterPage(),
-      ));
+      await widgetTester.pumpWidget(App());
+      await widgetTester
+          .tap(find.byKey(Key(WidgetKey.registrationButtonKey.text)));
+      await widgetTester.pumpAndSettle();
       await widgetTester.enterText(
           find.byKey(Key(WidgetKey.usernameRegisterKey.text)), "a");
       await widgetTester.pump();
@@ -111,22 +109,25 @@ void main() {
       expect(find.byType(ShoppingListScreen), findsOneWidget);
       expect(find.byType(NearShopsScreen), findsNothing);
       // finding the button for the drawer
+
       var findMenuButton = find.byIcon(Icons.menu);
       expect(findMenuButton, findsOneWidget);
+
       // tapping the button which should make the drawer visible
       await widgetTester.ensureVisible(findMenuButton);
       await widgetTester.tap(findMenuButton);
       await widgetTester.pumpAndSettle();
       // checking if drawer made list tiles visible
-      expect(find.byType(ListTile), findsAtLeastNWidgets(2));
+      expect(find.byType(ListTile), findsAtLeastNWidgets(3));
+
       var findNearShopsListTile = find.text(ScreenState.nearShops.text);
-      expect(findNearShopsListTile, findsOneWidget);
+      expect(findNearShopsListTile, findsAtLeastNWidgets(1));
 
       // tapping on list tile to switch page
       await widgetTester.tap(findNearShopsListTile);
       await widgetTester.pumpAndSettle(const Duration(seconds: 1));
       // checking if page was switched
-      expect(find.text(ScreenState.nearShops.text), findsAtLeastNWidgets(2));
+      expect(find.byType(NearShopsScreen), findsOneWidget);
     });
   });
   // unit
@@ -215,6 +216,44 @@ void main() {
     test("testing comparison of same password", () {
       var result = vm.validateSamePassword("abc");
       expect(result, ErrorCase.notSamePassword);
+    });
+  });
+
+  group('String', () {
+    late PersistStorage itemList;
+    // Setup sqflite_common_ffi for flutter test
+    setUpAll(() async {
+      // Initialize FFI
+      sqfliteFfiInit();
+      // Change the default factory
+      databaseFactory = databaseFactoryFfi;
+
+      itemList = await StorageShopItems.create();
+    });
+    WidgetsFlutterBinding.ensureInitialized();
+    ShoppingListItem testItem = ShoppingListItem('TestItem', '');
+
+    test('Store ShoppingItem', () async {
+      itemList.insert(testItem);
+      expect((await itemList.read('*')).toString(), [testItem].toString());
+    });
+    test('Update ShoppingItem', () async {
+      testItem = ShoppingListItem('TestItem', 'abcd');
+      itemList.update(testItem);
+      expect((await itemList.read('*')).toString(), [testItem].toString());
+    });
+    test('Update ShoppingItem wrong', () async {
+      ShoppingListItem wrong = ShoppingListItem('Wrong', '');
+      itemList.update(wrong);
+      expect((await itemList.read('*')).toString(), [testItem].toString());
+    }); //nothing happens
+    test('Delete ShoppingItem', () async {
+      itemList.delete(testItem);
+      expect((await itemList.read('*')).toString(), [].toString());
+    });
+    tearDownAll(() async {
+      await databaseFactory.deleteDatabase(
+          join(await getDatabasesPath(), 'shoppinglist_database.db'));
     });
   });
 }

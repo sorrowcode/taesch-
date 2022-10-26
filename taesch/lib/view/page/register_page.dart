@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:taesch/model/error_case.dart';
 import 'package:taesch/model/widget_key.dart';
 import 'package:taesch/view/page/splash_page.dart';
 import 'package:taesch/view/page/starting_page.dart';
 import 'package:taesch/view_model/register_page_vm.dart';
-import 'package:taesch/model/error_case.dart';
 
 class RegisterPage extends StartingPage {
   const RegisterPage({super.key});
@@ -83,6 +83,7 @@ class _RegisterPageState extends StartingPageState {
         ),
       ),
       OutlinedButton(
+        key: Key(WidgetKey.submitButtonKey.text),
         onPressed: () {
           if (formKey.currentState!.validate()) {
             Navigator.push(context,

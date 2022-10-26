@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:taesch/app.dart';
-import 'package:taesch/model/error.dart';
+import 'package:taesch/model/error_case.dart';
 import 'package:taesch/model/screen_state.dart';
 import 'package:taesch/model/widget_key.dart';
-import 'package:taesch/pages/view/page/home_page.dart';
-import 'package:taesch/pages/view/page/register_page.dart';
-import 'package:taesch/pages/view/screen/near_shops_screen.dart';
-import 'package:taesch/pages/view/screen/shopping_list_screen.dart';
-import 'package:taesch/pages/view_model/login_page_vm.dart';
-import 'package:taesch/pages/view_model/register_page_vm.dart';
-import 'package:taesch/pages/view_model/starting_page_vm.dart';
+import 'package:taesch/view/page/home_page.dart';
+import 'package:taesch/view/page/register_page.dart';
+import 'package:taesch/view/screen/near_shops_screen.dart';
+import 'package:taesch/view/screen/shopping_list_screen.dart';
+import 'package:taesch/view_model/login_page_vm.dart';
+import 'package:taesch/view_model/register_page_vm.dart';
+import 'package:taesch/view_model/starting_page_vm.dart';
 
 void main() {
   // ui
@@ -21,8 +21,8 @@ void main() {
       expect(find.text("Login"), findsOneWidget);
       await widgetTester.tap(find.text(vm.submitButtonText));
       await widgetTester.pump();
-      expect(find.text(Error.noEmail.message), findsOneWidget);
-      expect(find.text(Error.noPassword.message), findsOneWidget);
+      expect(find.text(ErrorCase.noEmail.message), findsOneWidget);
+      expect(find.text(ErrorCase.noPassword.message), findsOneWidget);
     });
 
     testWidgets("testing with invalid input", (widgetTester) async {
@@ -35,8 +35,8 @@ void main() {
       await widgetTester.pump();
       await widgetTester.tap(find.text(vm.submitButtonText));
       await widgetTester.pump();
-      expect(find.text(Error.invalidEmail.message), findsOneWidget);
-      expect(find.text(Error.noSpecialCharacter.message), findsOneWidget);
+      expect(find.text(ErrorCase.invalidEmail.message), findsOneWidget);
+      expect(find.text(ErrorCase.noSpecialCharacter.message), findsOneWidget);
     });
 
     testWidgets("testing with valid input", (widgetTester) async {
@@ -51,7 +51,7 @@ void main() {
       expect(find.text(vm.submitButtonText), findsOneWidget);
       await widgetTester.tap(find.byKey(Key(WidgetKey.loginButtonKey.text)));
       await widgetTester.pump();
-      for (Error element in Error.values) {
+      for (ErrorCase element in ErrorCase.values) {
         expect(find.text(element.message), findsNothing);
       }
     });
@@ -67,9 +67,9 @@ void main() {
       await widgetTester.tap(find.text(vm.submitButtonText));
       await widgetTester.pump();
 
-      expect(find.text(Error.noUsername.message), findsOneWidget);
-      expect(find.text(Error.noEmail.message), findsOneWidget);
-      expect(find.text(Error.noPassword.message), findsOneWidget);
+      expect(find.text(ErrorCase.noUsername.message), findsOneWidget);
+      expect(find.text(ErrorCase.noEmail.message), findsOneWidget);
+      expect(find.text(ErrorCase.noPassword.message), findsOneWidget);
     });
 
     testWidgets("testing with invalid values", (widgetTester) async {
@@ -91,10 +91,10 @@ void main() {
       await widgetTester.tap(find.byType(OutlinedButton));
       await widgetTester.pump();
 
-      expect(find.text(Error.invalidUsername.message), findsOneWidget);
-      expect(find.text(Error.invalidEmail.message), findsOneWidget);
-      expect(find.text(Error.tooLongOrTooShort.message), findsOneWidget);
-      expect(find.text(Error.notSamePassword.message), findsOneWidget);
+      expect(find.text(ErrorCase.invalidUsername.message), findsOneWidget);
+      expect(find.text(ErrorCase.invalidEmail.message), findsOneWidget);
+      expect(find.text(ErrorCase.tooLongOrTooShort.message), findsOneWidget);
+      expect(find.text(ErrorCase.notSamePassword.message), findsOneWidget);
     });
   });
 
@@ -135,14 +135,14 @@ void main() {
 
     test("testing null or empty values", () {
       var result = vm.validateEMail(null);
-      expect(result, Error.noEmail);
+      expect(result, ErrorCase.noEmail);
       result = vm.validateEMail("");
-      expect(result, Error.noEmail);
+      expect(result, ErrorCase.noEmail);
     });
 
     test("testing wrong content", () {
       var result = vm.validateEMail("value");
-      expect(result, Error.invalidEmail);
+      expect(result, ErrorCase.invalidEmail);
     });
 
     test("testing valid value", () {
@@ -155,34 +155,34 @@ void main() {
 
     test("testing no password", () {
       var result = vm.validatePassword(null);
-      expect(result, Error.noPassword);
+      expect(result, ErrorCase.noPassword);
       result = vm.validatePassword("");
-      expect(result, Error.noPassword);
+      expect(result, ErrorCase.noPassword);
     });
 
     test("testing password without number", () {
       var result = vm.validatePassword("abcABC!KK");
-      expect(result, Error.noNumber);
+      expect(result, ErrorCase.noNumber);
     });
 
     test("testing password without lower case character", () {
       var result = vm.validatePassword("ABC123!!AAA");
-      expect(result, Error.noLowerCaseLetter);
+      expect(result, ErrorCase.noLowerCaseLetter);
     });
 
     test("testing password without upper case character", () {
       var result = vm.validatePassword("abc123!!aaa");
-      expect(result, Error.noUpperCaseLetter);
+      expect(result, ErrorCase.noUpperCaseLetter);
     });
 
     test("testing password without special characters", () {
       var result = vm.validatePassword("abc123ABCAAA");
-      expect(result, Error.noSpecialCharacter);
+      expect(result, ErrorCase.noSpecialCharacter);
     });
 
     test("testing too short or too long password", () {
       var result = vm.validatePassword("a!2B");
-      expect(Error.tooLongOrTooShort, result);
+      expect(ErrorCase.tooLongOrTooShort, result);
     });
 
     test("testing valid value", () {
@@ -195,14 +195,14 @@ void main() {
 
     test("testing empty username input", () {
       var result = vm.validateUsername(null);
-      expect(result, Error.noUsername);
+      expect(result, ErrorCase.noUsername);
       result = vm.validateUsername("");
-      expect(result, Error.noUsername);
+      expect(result, ErrorCase.noUsername);
     });
 
     test("testing username with too less characters", () {
       var result = vm.validateUsername("a");
-      expect(result, Error.invalidUsername);
+      expect(result, ErrorCase.invalidUsername);
     });
 
     test("testing valid username", () {
@@ -214,7 +214,7 @@ void main() {
     RegisterPageVM vm = RegisterPageVM();
     test("testing comparison of same password", () {
       var result = vm.validateSamePassword("abc");
-      expect(result, Error.notSamePassword);
+      expect(result, ErrorCase.notSamePassword);
     });
   });
 }

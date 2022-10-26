@@ -1,7 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:taesch/pages/view/page/home_page.dart';
+
+import 'home_page.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});

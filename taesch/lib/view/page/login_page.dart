@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:taesch/model/error.dart';
 import 'package:taesch/model/widget_key.dart';
-import 'package:taesch/pages/view/page/register_page.dart';
-import 'package:taesch/pages/view/page/splash_page.dart';
-import 'package:taesch/pages/view/page/starting_page.dart';
-import 'package:taesch/pages/view_model/login_page_vm.dart';
+import 'package:taesch/view/page/register_page.dart';
+import 'package:taesch/view/page/splash_page.dart';
+import 'package:taesch/view/page/starting_page.dart';
+import 'package:taesch/view_model/login_page_vm.dart';
+import 'package:taesch/model/error_case.dart';
 
 class LoginPage extends StartingPage {
   const LoginPage({super.key});
@@ -64,8 +64,7 @@ class _LoginPageState extends StartingPageState {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                    builder: (context) => const RegisterPage()),
+                MaterialPageRoute(builder: (context) => const RegisterPage()),
               );
             },
             child: Text(
@@ -76,7 +75,7 @@ class _LoginPageState extends StartingPageState {
           TextButton(
             style: OutlinedButton.styleFrom(
               backgroundColor:
-              Theme.of(context).buttonTheme.colorScheme?.primary,
+                  Theme.of(context).buttonTheme.colorScheme?.primary,
             ),
             key: Key(WidgetKey.loginButtonKey.text),
             onPressed: () {

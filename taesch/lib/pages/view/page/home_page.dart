@@ -74,11 +74,12 @@ class _HomePageState extends State<HomePage> {
 
   List<Widget> _setupSideBarElements() {
     var elements = <Widget>[];
-    elements.add(const DrawerHeader(
+    elements.add( DrawerHeader(
       decoration: BoxDecoration(
-        color: Colors.blue,
+        color: Theme.of(context).colorScheme.primary,
+
       ),
-      child: Text('Drawer Header'),
+      child: Text(''),
     ));
     for (var page in ScreenState.values) {
       elements.add(ListTile(

@@ -1,6 +1,6 @@
-// Code taken from https://www.flutterclutter.dev/flutter/tutorials/creating-a-geo-game/2020/1893/
+// Code snippets taken from https://www.flutterclutter.dev/flutter/tutorials/creating-a-geo-game/2020/1893/
 
-import 'dart:ffi';
+import 'dart:async';
 
 import 'package:http/http.dart';
 import 'dart:convert';
@@ -11,56 +11,33 @@ class GeoTester{
   Map<String, dynamic> _jsonMapData = Map();
 
   Future<void> makeHTTPRequest() async {
-    Response resp = await get(Uri.parse(_apiUrl+OSMQueries.OSMQueryBuilder()));
-    //data=[out:json];node[highway=speed_camera](43.46669501043081,-5.708215989569187,43.588927989569186,-5.605835010430813);out%20meta;
-    //data=[bbox];node[amenity=post_box];out;&bbox=7.0,50.6,7.3,50.8
-    // implement a timeout for the await
-    if (resp.statusCode == 200) {
-      // If the server did return a 200 OK response,
-      // then parse the JSON.
-      _jsonMapData = jsonDecode(resp.body);
-      //map.
-      //print(resp.body);
-      try {
-        print("Content:");
-        //print(_jsonMapData["elements"]);
-        //print(_jsonMapData["elements"][0]["lat"]);
-        //Map<String, dynamic> innerJson = jsonDecode(_jsonMapData["elements"]);// as Map<String, dynamic>;
-        //innerJson.forEach((k, v) => print("Key : $k, Value : $v"));
-        List<MapSpot> spots = extractJSONData();
-        print("done  :D");
+    try {
+      // build http request and set timeout
+      Response resp = await get(Uri.parse(_apiUrl + OSMQueries.OSMQueryBuilder()))
+          .timeout(const Duration(seconds: OSMQueries.queryTimeoutSeconds));
 
-      }catch(e){
-        print("Couldn't print json data.");
+      if (resp.statusCode == 200) {
+        // If the server did return a 200 OK response,
+        // then parse the JSON.
+        _jsonMapData = jsonDecode(resp.body);
+
+        try {
+          List<MapSpot> spots = extractJSONData();
+        } catch (e) {
+          print("Couldn't extract json data.");
+        }
+
+        return;
+
+      } else {
+        // If the server did not return a 200 OK response,
+        // then throw an exception.
+        throw Exception('Error on sending http request.');
       }
-      return;
-    } else {
-      // If the server did not return a 200 OK response,
-      // then throw an exception.
-      throw Exception('Failed to load map data.');
+    }on TimeoutException catch(e){
+      print("Timeout for http request.");
     }
-    print("okkkkk");
 
-    /*Request request = Request('GET', Uri.https(_apiUrl, _path));
-    // do sth with request object
-
-    String responseText;
-
-    print("Sending request.");
-    try{
-      StreamedResponse response = await Client()
-          .send(request)
-          .timeout(const Duration(seconds: 5));
-
-      responseText = await response.stream.bytesToString();
-      print("received response from geo API.");
-    }
-    catch (exception) {
-      print(exception);
-      return Future.error(exception);
-    }
-    */
-    return;
   }
 
   List<MapSpot> extractJSONData(){
@@ -153,6 +130,8 @@ class OSMQueries{
   static const String queryTestBoundingBoxPostBox = "data=[bbox];node[amenity=post_box];out;&bbox=7.0,50.6,7.3,50.8";
   static const String queryTestHighspeedCameras = "data=[out:json];node[highway=speed_camera](43.46669501043081,-5.708215989569187,43.588927989569186,-5.605835010430813);out%20meta;";
 
+  static const int queryTimeoutSeconds = 4;
+  
   static String OSMQueryBuilder(){
     // zunächst ein Defaultwert. In Zukunft sollen weitere Parameter gesetzt werden können.
     return OSMQueries.query1Heilbronn;

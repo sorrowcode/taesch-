@@ -7,14 +7,11 @@ import 'dart:convert';
 
 class GeoTester{
 
-  final String _apiUrl = 'overpass-api.de';
-  final String _path = '/api/interpreter';
+  final String _apiUrl = 'http://overpass-api.de//api/interpreter?';
   Map<String, dynamic> _jsonMapData = Map();
 
   Future<void> makeHTTPRequest() async {
-    Response resp = await get(Uri.parse("http://overpass-api.de//api/interpreter?data=[out:json][timeout:25];area(3602202162)->.searchArea;(nwr[\"shop\"=\"supermarket\"](around:2000,48.8534,2.3488)(area.searchArea););out;"));
-    //http://overpass-api.de//api/interpreter?data=[out:json];node[highway=speed_camera](43.46669501043081,-5.708215989569187,43.588927989569186,-5.605835010430813);out%20meta;
-    //?data=[bbox];node[amenity=post_box];out;&bbox=7.0,50.6,7.3,50.8
+    Response resp = await get(Uri.parse(_apiUrl+OSMQueries.OSMQueryBuilder()));
     //data=[out:json];node[highway=speed_camera](43.46669501043081,-5.708215989569187,43.588927989569186,-5.605835010430813);out%20meta;
     //data=[bbox];node[amenity=post_box];out;&bbox=7.0,50.6,7.3,50.8
     // implement a timeout for the await
@@ -27,7 +24,7 @@ class GeoTester{
       try {
         print("Content:");
         //print(_jsonMapData["elements"]);
-        print(_jsonMapData["elements"][0]["lat"]);
+        //print(_jsonMapData["elements"][0]["lat"]);
         //Map<String, dynamic> innerJson = jsonDecode(_jsonMapData["elements"]);// as Map<String, dynamic>;
         //innerJson.forEach((k, v) => print("Key : $k, Value : $v"));
         List<MapSpot> spots = extractJSONData();
@@ -76,22 +73,22 @@ class GeoTester{
 
       try{
         // Einträge extrahieren - data[elements]
-        List<dynamic> elementContents = MyTools.getElements(elementList);
+        List<dynamic> elementContents = MyTools.getElements(list: elementList);
         int clength = elementContents.length<15 ? elementContents.length : 15;
         for (int i = 0; i<clength; i++) {
 
           try {
             // jeden Eintrag auslesen - data[elements][3]
-            //List<dynamic> entryContents = MyTools.getElements(elementContents[i]);
-
-            //try{
+            // List<dynamic> entryContents = MyTools.getElements(list: elementContents[i]);
+            var entries = elementContents[i];
+            try{
               // neues MapSpot-Objekt instanziieren - data[elements][3][name]
               // Initialisierung durch Zugriffe auf entryContents
-              MapSpot mapSpot = MapSpot(elementContents[i]["name"], 4.0, 3.0);
+              MapSpot mapSpot = MapSpot(entries["type"], 4.0, 3.0);
               spotList.add(mapSpot);
-            //}catch(e){
-              //print("Mistake on MapSpot creation.");
-            //}
+            }catch(e){
+              print("Mistake on MapSpot creation.");
+            }
 
           } catch (e) {
             print("Mistake on accessing or assigning elements-entry.");
@@ -103,7 +100,7 @@ class GeoTester{
       }
 
     }catch(e){
-      print("No key \"elements\".");
+      print("The specified key does not exist.");
     }
     //dataList.add();
     return spotList;
@@ -123,19 +120,41 @@ class MapSpot{
 
 class MyTools{
 
-  static List<dynamic> getElements(dynamic list){
+  static List<dynamic> getElements({required dynamic list, int cap = 0}){
     List<dynamic> result = [];
+    bool capSet = cap>0 ? true : false;
     bool endReached = false;
     int counter = 0;
     while (!endReached){
       try{
         result.add(list[counter]);
         counter++;
+        if (capSet){
+          if (counter>cap) endReached=true;
+        }
       }catch(e){
         endReached = true;
         print("counter = "+counter.toString());
       }
     }
     return result;
+  }
+}
+
+class MapQueryIndexes{
+  static const String name = "name";
+  static const String latitude = "lat";
+  static const String longitude = "long";
+}
+
+class OSMQueries{
+  static const String query1Heilbronn = "data=[out:json][timeout:50];area[name=\"Heilbronn\"]->.searchArea;(nwr[\"shop\"=\"supermarket\"](around:2000,49.1427,9.2109)(area.searchArea););out;";
+  static const String queryTestAreaParis = "data=[out:json][timeout:25];area(3602202162)->.searchArea;(nwr[\"shop\"=\"supermarket\"](around:2000,48.8534,2.3488)(area.searchArea););out;";
+  static const String queryTestBoundingBoxPostBox = "data=[bbox];node[amenity=post_box];out;&bbox=7.0,50.6,7.3,50.8";
+  static const String queryTestHighspeedCameras = "data=[out:json];node[highway=speed_camera](43.46669501043081,-5.708215989569187,43.588927989569186,-5.605835010430813);out%20meta;";
+
+  static String OSMQueryBuilder(){
+    // zunächst ein Defaultwert. In Zukunft sollen weitere Parameter gesetzt werden können.
+    return OSMQueries.query1Heilbronn;
   }
 }

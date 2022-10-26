@@ -5,7 +5,11 @@ import 'dart:async';
 import 'package:http/http.dart';
 import 'dart:convert';
 
-class GeoTester{
+import 'my_tools.dart';
+import 'querying_tools.dart';
+import 'map_spot.dart';
+
+class APIQuerier{
 
   final String _apiUrl = 'http://overpass-api.de//api/interpreter?';
   Map<String, dynamic> _jsonMapData = Map();
@@ -51,7 +55,8 @@ class GeoTester{
       try{
         // Einträge extrahieren - data[elements]
         List<dynamic> elementContents = MyTools.getElements(list: elementList);
-        int clength = elementContents.length<15 ? elementContents.length : 15;
+        // int clength = elementContents.length<15 ? elementContents.length : 15;
+        int clength = elementContents.length;
         for (int i = 0; i<clength; i++) {
 
           try {
@@ -83,57 +88,4 @@ class GeoTester{
     return spotList;
   }
 
-}
-
-class MapSpot{
-
-  final String name;
-  final double long;
-  final double lat;
-
-  MapSpot(this.name, this.long, this.lat);
-
-}
-
-class MyTools{
-
-  static List<dynamic> getElements({required dynamic list, int cap = 0}){
-    List<dynamic> result = [];
-    bool capSet = cap>0 ? true : false;
-    bool endReached = false;
-    int counter = 0;
-    while (!endReached){
-      try{
-        result.add(list[counter]);
-        counter++;
-        if (capSet){
-          if (counter>cap) endReached=true;
-        }
-      }catch(e){
-        endReached = true;
-        print("counter = "+counter.toString());
-      }
-    }
-    return result;
-  }
-}
-
-class MapQueryIndexes{
-  static const String name = "name";
-  static const String latitude = "lat";
-  static const String longitude = "long";
-}
-
-class OSMQueries{
-  static const String query1Heilbronn = "data=[out:json][timeout:50];area[name=\"Heilbronn\"]->.searchArea;(nwr[\"shop\"=\"supermarket\"](around:2000,49.1427,9.2109)(area.searchArea););out;";
-  static const String queryTestAreaParis = "data=[out:json][timeout:25];area(3602202162)->.searchArea;(nwr[\"shop\"=\"supermarket\"](around:2000,48.8534,2.3488)(area.searchArea););out;";
-  static const String queryTestBoundingBoxPostBox = "data=[bbox];node[amenity=post_box];out;&bbox=7.0,50.6,7.3,50.8";
-  static const String queryTestHighspeedCameras = "data=[out:json];node[highway=speed_camera](43.46669501043081,-5.708215989569187,43.588927989569186,-5.605835010430813);out%20meta;";
-
-  static const int queryTimeoutSeconds = 4;
-  
-  static String OSMQueryBuilder(){
-    // zunächst ein Defaultwert. In Zukunft sollen weitere Parameter gesetzt werden können.
-    return OSMQueries.query1Heilbronn;
-  }
 }

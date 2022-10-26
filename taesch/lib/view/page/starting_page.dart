@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:taesch/pages/view_model/starting_page_vm.dart';
+import 'package:taesch/view_model/starting_page_vm.dart';
 
 abstract class StartingPage extends StatefulWidget {
   const StartingPage({super.key});

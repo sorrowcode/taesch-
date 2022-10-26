@@ -10,7 +10,6 @@ class ShoppingListScreen extends StatefulWidget {
 }
 
 class _ShoppingListScreenState extends State<ShoppingListScreen> {
-
   @override
   Widget build(BuildContext context) {
     return const Center();

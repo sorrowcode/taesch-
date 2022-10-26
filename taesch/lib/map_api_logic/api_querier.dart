@@ -31,6 +31,7 @@ class APIQuerier{
           print("Couldn't extract json data.");
         }
 
+        print("Done processing response.");
         return;
 
       } else {

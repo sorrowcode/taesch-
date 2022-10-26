@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:taesch/api_querier.dart';
+import 'package:taesch/map_api_logic/api_querier.dart';
 //import 'package:flutter_geo_guesser/api/overpass_api.dart'
 
 import 'app.dart';

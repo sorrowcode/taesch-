@@ -10,6 +10,7 @@ enum ErrorCase {
   noUsername,
   invalidUsername,
   notSamePassword,
+  emptyField,
 }
 
 extension ErrorMessage on ErrorCase {
@@ -37,6 +38,8 @@ extension ErrorMessage on ErrorCase {
         return "invalid username";
       case ErrorCase.notSamePassword:
         return "passwords don't match";
+      case ErrorCase.emptyField:
+        return "Field is empty";
     }
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:taesch/model/error_case.dart';
 import 'package:taesch/model/screen_state.dart';
 import 'package:taesch/view/screen/near_shops_screen.dart';
 import 'package:taesch/view/screen/settings_screen.dart';
@@ -16,6 +17,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -32,13 +34,53 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       floatingActionButton: widget._vm.screenState == ScreenState.shoppingList
-          ? FloatingActionButton(              backgroundColor:
-                  Theme.of(context).floatingActionButtonTheme.backgroundColor,
-              onPressed: () {},
+          ? FloatingActionButton(
               child: const Icon(Icons.add),
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) =>
+                      _popupDialogCreateShoppingItem(context),
+                );
+              },
             )
           : null,
     );
+  }
+
+  Widget _popupDialogCreateShoppingItem(BuildContext context) {
+    return AlertDialog(
+        title: const Text('Add Item to Shopping List'),
+        content: Form(
+          key: formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextFormField(
+                  validator: (value) {
+                    return widget._vm.validateShoppingListItem(value)?.message;
+                  },
+                  decoration: const InputDecoration(
+                      border: OutlineInputBorder(), hintText: 'Enter Item'))
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          TextButton(
+              child: const Icon(Icons.check),
+              onPressed: () {
+                if (formKey.currentState!.validate()) {
+                  Navigator.of(context).pop();
+                }
+              }),
+          TextButton(
+            child: const Icon(Icons.close),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          )
+        ]);
   }
 
   List<Widget> _setupSideBarElements() {

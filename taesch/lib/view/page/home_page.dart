@@ -17,6 +17,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -50,23 +51,28 @@ class _HomePageState extends State<HomePage> {
   Widget _popupDialogCreateShoppingItem(BuildContext context) {
     return AlertDialog(
         title: const Text('Add Item to Shopping List'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TextFormField(
-                validator: (value) {
-                  return widget._vm.validateShoppingListItem(value)?.message;
-                },
-                decoration: const InputDecoration(
-                    border: OutlineInputBorder(), hintText: 'Enter Item'))
-          ],
+        content: Form(
+          key: formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextFormField(
+                  validator: (value) {
+                    return widget._vm.validateShoppingListItem(value)?.message;
+                  },
+                  decoration: const InputDecoration(
+                      border: OutlineInputBorder(), hintText: 'Enter Item'))
+            ],
+          ),
         ),
         actions: <Widget>[
           TextButton(
               child: const Icon(Icons.check),
               onPressed: () {
-                Navigator.of(context).pop();
+                if (formKey.currentState!.validate()) {
+                  Navigator.of(context).pop();
+                }
               }),
           TextButton(
             child: const Icon(Icons.close),

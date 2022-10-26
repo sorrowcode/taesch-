@@ -52,7 +52,7 @@ void main() {
   });
 
   group("testing register page functionality", () {
-    RegisterPageVM vm = RegisterPageVM();
+    //RegisterPageVM vm = RegisterPageVM();
     testWidgets("testing with no values", (widgetTester) async {
       await widgetTester.pumpWidget(App());
       await widgetTester

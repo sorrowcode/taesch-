@@ -1,19 +1,21 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:taesch/pages/view/page/login_page.dart';
-import 'package:taesch/pages/view_model/app_vm.dart';
-import 'package:taesch/pages/view_model/settings_screen_vm.dart';
+import 'package:taesch/view/page/login_page.dart';
+
+import 'view_model/app_vm.dart';
 
 /// this class is the root element of the widget tree
 ///
 /// all configuration happens here
 class App extends StatefulWidget {
   final _vm = AppVM();
-  bool isDarkMode = SettingsScreenVM.isDarkMode;
 
   App({super.key});
 
   @override
   State<StatefulWidget> createState() => _AppState();
+
+  static _AppState? of(BuildContext context) => context.findAncestorStateOfType<_AppState>();
 }
 
 class _AppState extends State<App> {
@@ -21,10 +23,9 @@ class _AppState extends State<App> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: widget._vm.appTitle,
-      themeMode: _setMode() ? ThemeMode.dark : ThemeMode.light,
-
+      themeMode: widget._vm.mode,
       darkTheme: ThemeData(
-          scaffoldBackgroundColor: Color(0xFF6a687a),
+          scaffoldBackgroundColor: const Color(0xFF6a687a),
           colorScheme: ColorScheme.fromSwatch()
               .copyWith(
                 primary: const Color(0xFF2c3d55),
@@ -50,11 +51,9 @@ class _AppState extends State<App> {
           appBarTheme: const AppBarTheme(
             backgroundColor: Color(0xFF2c3d55),
           )),
-
-
       theme: ThemeData(
           brightness: Brightness.light,
-          scaffoldBackgroundColor: Color(0xFFf5efff),
+          scaffoldBackgroundColor: const Color(0xFFf5efff),
           colorScheme: ColorScheme.fromSwatch().copyWith(
             primary: const Color(0xFF7371FC),
             secondary: const Color(0xFFf5efff),
@@ -83,12 +82,9 @@ class _AppState extends State<App> {
     );
   }
 
-  bool _setMode() {
+  void changeTheme(ThemeMode mode) {
     setState(() {
-      widget.isDarkMode = SettingsScreenVM.isDarkMode;
-
-      print("isDarkMode: ${SettingsScreenVM.isDarkMode}");
+      widget._vm.mode = mode;
     });
-    return widget.isDarkMode;
   }
 }

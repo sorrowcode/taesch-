@@ -1,20 +1,19 @@
-import 'package:taesch/api/storage_shop_items.dart';
+import 'package:taesch/api/repository.dart';
 import 'package:taesch/model/error_case.dart';
 import 'package:taesch/model/screen_state.dart';
 import 'package:taesch/model/shopping_list_item.dart';
 
 class HomePageVM {
+  var repository = Repository();
   ScreenState screenState = ScreenState.shoppingList;
+  late ShoppingListItem temp;
   static const String shoppingListItemText = '';
 
   ErrorCase? validateShoppingListItem(String? value) {
     if (value == null || value.isEmpty) {
       return ErrorCase.emptyField;
     } else {
-      ShoppingListItem item = ShoppingListItem(value, "");
-      StorageShopItems.create().then((value) => () {
-            value.insert(item);
-          });
+      temp = ShoppingListItem(value, "");
     }
     return null;
   }

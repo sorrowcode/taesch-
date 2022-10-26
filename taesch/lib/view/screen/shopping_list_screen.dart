@@ -1,25 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:taesch/model/shopping_list_item.dart';
-
+import 'package:taesch/view_model/shopping_list_screen_vm.dart';
 
 /// shows the shopping list elements
 class ShoppingListScreen extends StatefulWidget {
-  const ShoppingListScreen({super.key});
+  final ShoppingListScreenVM _vm = ShoppingListScreenVM();
+
+  ShoppingListScreen({super.key});
 
   @override
   State<StatefulWidget> createState() => _ShoppingListScreenState();
 }
 
 class _ShoppingListScreenState extends State<ShoppingListScreen> {
-  List<ShoppingListItem> itemList = [];
-
-  @override
-  void initState() async {
-    super.initState();
-
-  }
-
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
@@ -28,7 +21,7 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
         mainAxisSpacing: 10,
         crossAxisCount: 2,
       ),
-      itemCount: itemList.length,
+      itemCount: widget._vm.repository.shoppingListItems.length,
       itemBuilder: (BuildContext context, int index) {
         return Card(
           child: InkWell(
@@ -39,7 +32,9 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
             child: SizedBox(
               width: 100,
               height: 100,
-              child: Center(child: Text(itemList[index].title)),
+              child: Center(
+                  child: Text(
+                      widget._vm.repository.shoppingListItems[index].title)),
             ),
           ),
         );

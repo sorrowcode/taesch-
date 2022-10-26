@@ -71,6 +71,10 @@ class _HomePageState extends State<HomePage> {
               child: const Icon(Icons.check),
               onPressed: () {
                 if (formKey.currentState!.validate()) {
+                  setState(() {
+                    widget._vm.repository.shoppingListItems
+                        .add(widget._vm.temp);
+                  });
                   Navigator.of(context).pop();
                 }
               }),
@@ -109,7 +113,7 @@ class _HomePageState extends State<HomePage> {
   Widget _getCurrentScreen() {
     switch (widget._vm.screenState) {
       case ScreenState.shoppingList:
-        return const ShoppingListScreen();
+        return ShoppingListScreen();
       case ScreenState.nearShops:
         return const NearShopsScreen();
       case ScreenState.settings:

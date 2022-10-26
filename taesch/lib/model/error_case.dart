@@ -1,4 +1,4 @@
-enum Error {
+enum ErrorCase {
   noEmail,
   invalidEmail,
   noPassword,
@@ -10,33 +10,36 @@ enum Error {
   noUsername,
   invalidUsername,
   notSamePassword,
+  emptyField,
 }
 
-extension ErrorMessage on Error {
+extension ErrorMessage on ErrorCase {
   String get message {
     switch (this) {
-      case Error.noEmail:
+      case ErrorCase.noEmail:
         return "no email";
-      case Error.invalidEmail:
+      case ErrorCase.invalidEmail:
         return "invalid email";
-      case Error.noPassword:
+      case ErrorCase.noPassword:
         return "no password";
-      case Error.noLowerCaseLetter:
+      case ErrorCase.noLowerCaseLetter:
         return "missing lower case letter";
-      case Error.noUpperCaseLetter:
+      case ErrorCase.noUpperCaseLetter:
         return "missing upper case letter";
-      case Error.noNumber:
+      case ErrorCase.noNumber:
         return "missing number";
-      case Error.noSpecialCharacter:
+      case ErrorCase.noSpecialCharacter:
         return "missing special character";
-      case Error.tooLongOrTooShort:
+      case ErrorCase.tooLongOrTooShort:
         return "too long or too short";
-      case Error.noUsername:
+      case ErrorCase.noUsername:
         return "no username";
-      case Error.invalidUsername:
+      case ErrorCase.invalidUsername:
         return "invalid username";
-      case Error.notSamePassword:
+      case ErrorCase.notSamePassword:
         return "passwords don't match";
+      case ErrorCase.emptyField:
+        return "Field is empty";
     }
   }
 }

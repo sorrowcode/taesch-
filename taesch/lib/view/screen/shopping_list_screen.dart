@@ -10,7 +10,6 @@ class ShoppingListScreen extends StatefulWidget {
 }
 
 class _ShoppingListScreenState extends State<ShoppingListScreen> {
-  var data = ['a', 'b', 'c', 'd', 'e'];
 
   @override
   Widget build(BuildContext context) {

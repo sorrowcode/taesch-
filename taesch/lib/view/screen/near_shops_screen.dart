@@ -12,7 +12,6 @@ class NearShopsScreen extends StatefulWidget {
 class _NearShopsScreenState extends State<NearShopsScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Center(
-    );
+    return const Center();
   }
 }

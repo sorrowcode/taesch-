@@ -22,6 +22,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         title: Text(widget._vm.screenState.text),
       ),
       body: _getCurrentScreen(),
@@ -72,7 +73,7 @@ class _HomePageState extends State<HomePage> {
       case ScreenState.nearShops:
         return const NearShopsScreen();
       case ScreenState.settings:
-        return const SettingsScreen();
+        return SettingsScreen();
     }
   }
 }

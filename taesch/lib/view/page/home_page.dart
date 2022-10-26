@@ -32,8 +32,7 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       floatingActionButton: widget._vm.screenState == ScreenState.shoppingList
-          ? FloatingActionButton(
-              backgroundColor:
+          ? FloatingActionButton(              backgroundColor:
                   Theme.of(context).floatingActionButtonTheme.backgroundColor,
               onPressed: () {},
               child: const Icon(Icons.add),

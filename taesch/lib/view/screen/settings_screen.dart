@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:taesch/app.dart';
-import 'package:taesch/view/page/home_page.dart';
 
 import '../../view_model/settings_screen_vm.dart';
 
@@ -20,7 +19,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     return SwitchListTile(
       title: const Text('Dark Mode'),
-      value: widget._vm.repository.isDarkModeEnabled ,
+      value: widget._vm.repository.isDarkModeEnabled,
       onChanged: (bool value) {
         setState(() {
           widget._vm.repository.isDarkModeEnabled = value;

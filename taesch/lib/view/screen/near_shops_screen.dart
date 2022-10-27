@@ -13,65 +13,65 @@ class NearShopsScreen extends StatefulWidget {
 }
 
 class _NearShopsScreenState extends State<NearShopsScreen> {
+  APIQuerier apiQuerier = APIQuerier();
+  bool _toggler = false;
 
-    APIQuerier apiQuerier = APIQuerier();
-    bool _toggler = false;
-
-    List<Widget> createSpotWidgets(List<MapSpot> list){
-        var elements = <Widget>[];
-        for (int i=0; i<list.length; i++){
-            var entry = list[i];
-            var cont = Container(
-                child: Column(
-                    children: [
-                        Text(entry.name,
-                        style: const TextStyle(fontWeight: FontWeight.bold)),
-                        Text(entry.address),
-                        Text("   ")
-                    ],
-                ),
-            );
-            elements.add(cont);
-        }
-        return elements;
+  List<Widget> createSpotWidgets(List<MapSpot> list) {
+    var elements = <Widget>[];
+    for (int i = 0; i < list.length; i++) {
+      var entry = list[i];
+      var cont = Container(
+        child: Column(
+          children: [
+            Text(entry.name,
+                style: const TextStyle(fontWeight: FontWeight.bold)),
+            Text(entry.address),
+            Text("   ")
+          ],
+        ),
+      );
+      elements.add(cont);
     }
+    return elements;
+  }
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     //return const Center();
-      apiQuerier.makeHTTPRequest();
-      var mapdata = apiQuerier.extractJSONData();
-      var scrollWidgetList = createSpotWidgets(mapdata);
-      print("SUCCESS");
+    apiQuerier.makeHTTPRequest();
+    var mapdata = apiQuerier.extractJSONData();
+    var scrollWidgetList = createSpotWidgets(mapdata);
+    print("SUCCESS");
 
     return Scaffold(
-      body: Column(
-          children: [
-              Container(
-                  height: 100,
-                  //color: _toggleColor? Colors.purple : Colors.blue,
-                  child: Column(
-                      children: [
-                          Text("Area: Heilbronn",
-                              style: TextStyle(fontSize: 25)),
-                          TextButton(
-                              child: Text("Search"),
-                              onPressed: (){setState(() {
-                                  _toggler = !_toggler;
-                              });},
-                          )
-                      ],
-                  ),
-              ),
-              Expanded(
-                  child: SingleChildScrollView(
-                      child: Column(
-                          children: _toggler? scrollWidgetList : scrollWidgetList,
-                      ),
-                  )
-              )
-          ],
-      )
-    );
+        body: Column(
+      children: [
+        Center(
+          child: SizedBox(
+            height: 100,
+            //color: _toggleColor? Colors.purple : Colors.blue,
+            child: Column(
+              children: [
+                Text("Area: Heilbronn", style: TextStyle(fontSize: 25)),
+                TextButton(
+                  child: Text("Search"),
+                  onPressed: () {
+                    setState(() {
+                      _toggler = !_toggler;
+                    });
+                  },
+                )
+              ],
+            ),
+          ),
+        ),
+        Expanded(
+            child: SingleChildScrollView(
+          child: Column(
+            children: _toggler ? scrollWidgetList : scrollWidgetList,
+          ),
+        ))
+      ],
+    ));
   }
 }

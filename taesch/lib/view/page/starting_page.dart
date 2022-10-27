@@ -12,7 +12,7 @@ abstract class StartingPageState extends State<StartingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
+      body: Container(
       margin: const EdgeInsets.only(
         left: 40,
         right: 40,

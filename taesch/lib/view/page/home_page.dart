@@ -117,7 +117,7 @@ class _HomePageState extends State<HomePage> {
       case ScreenState.nearShops:
         return const NearShopsScreen();
       case ScreenState.settings:
-        return const SettingsScreen();
+        return SettingsScreen();
     }
   }
 }

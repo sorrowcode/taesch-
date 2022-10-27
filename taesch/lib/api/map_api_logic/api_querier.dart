@@ -64,28 +64,27 @@ class APIQuerier {
             try {
               // neues MapSpot-Objekt instanziieren - data[elements][3][name]
               // Initialisierung durch Zugriffe auf entryContents
-              try{
+              try {
                 var tags = entries["tags"];
 
                 String name = "n/a";
-                try{
+                try {
                   name = tags["name"];
-                }catch(e){}
+                } catch (e) {}
 
                 String street = "n/a";
-                try{
+                try {
                   street = tags["addr:street"];
-                }catch(e){}
+                } catch (e) {}
 
                 String number = "n/a";
-                try{
+                try {
                   number = tags["addr:housenumber"];
-                }catch(e){}
+                } catch (e) {}
 
-                MapSpot mapSpot = MapSpot(name, 0, 0, street+", "+number);
+                MapSpot mapSpot = MapSpot(name, 0, 0, street + ", " + number);
                 spotList.add(mapSpot);
-
-              }catch(e){}
+              } catch (e) {}
             } catch (e) {
               print("Mistake on MapSpot creation.");
             }

@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:taesch/model/shopping_list_item.dart';
 
 class Repository {

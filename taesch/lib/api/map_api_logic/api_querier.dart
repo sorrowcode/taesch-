@@ -26,7 +26,7 @@ class APIQuerier {
         _jsonMapData = jsonDecode(resp.body);
 
         try {
-          List<MapSpot> spots = extractJSONData();
+          // List<MapSpot> spots = extractJSONData();
         } catch (e) {
           print("Couldn't extract json data.");
         }
@@ -64,8 +64,27 @@ class APIQuerier {
             try {
               // neues MapSpot-Objekt instanziieren - data[elements][3][name]
               // Initialisierung durch Zugriffe auf entryContents
-              MapSpot mapSpot = MapSpot(entries["type"], 4.0, 3.0);
-              spotList.add(mapSpot);
+              try {
+                var tags = entries["tags"];
+
+                String name = "n/a";
+                try {
+                  name = tags["name"];
+                } catch (e) {}
+
+                String street = "n/a";
+                try {
+                  street = tags["addr:street"];
+                } catch (e) {}
+
+                String number = "n/a";
+                try {
+                  number = tags["addr:housenumber"];
+                } catch (e) {}
+
+                MapSpot mapSpot = MapSpot(name, 0, 0, street + ", " + number);
+                spotList.add(mapSpot);
+              } catch (e) {}
             } catch (e) {
               print("Mistake on MapSpot creation.");
             }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:taesch/view_model/shopping_list_screen_vm.dart';
+import 'package:taesch/view_model/screen/shopping_list_screen_vm.dart';
 
 /// shows the shopping list elements
 class ShoppingListScreen extends StatefulWidget {

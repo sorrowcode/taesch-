@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:taesch/model/error_case.dart';
-import 'package:taesch/view_model/add_item_dialog_vm.dart';
+import 'package:taesch/view_model/custom_widget/add_item_dialog_vm.dart';
 
 class AddItemDialog extends StatefulWidget {
   final _vm = AddItemDialogVM();

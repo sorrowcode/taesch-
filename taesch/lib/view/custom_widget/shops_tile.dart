@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:taesch/view_model/shops_tile_vm.dart';
+import 'package:taesch/view_model/custom_widget/shops_tile_vm.dart';
 
 class ShopsTile extends StatefulWidget {
   late ShopsTileVM _vm;

@@ -4,7 +4,7 @@ import 'package:taesch/view/custom_widget/add_item_dialog.dart';
 import 'package:taesch/view/screen/near_shops_screen.dart';
 import 'package:taesch/view/screen/settings_screen.dart';
 import 'package:taesch/view/screen/shopping_list_screen.dart';
-import 'package:taesch/view_model/home_page_vm.dart';
+import 'package:taesch/view_model/page/home_page_vm.dart';
 
 class HomePage extends StatefulWidget {
   final _vm = HomePageVM();

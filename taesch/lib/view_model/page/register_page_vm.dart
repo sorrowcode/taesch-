@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:taesch/model/error_case.dart';
-import 'package:taesch/view_model/starting_page_vm.dart';
+import 'package:taesch/view_model/page/starting_page_vm.dart';
 
 class RegisterPageVM extends StartingPageVM {
   String title = "Register";

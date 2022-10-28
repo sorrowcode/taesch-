@@ -4,7 +4,7 @@ import 'package:taesch/model/error_case.dart';
 import 'package:taesch/model/widget_key.dart';
 import 'package:taesch/view/page/splash_page.dart';
 import 'package:taesch/view/page/starting_page.dart';
-import 'package:taesch/view_model/register_page_vm.dart';
+import 'package:taesch/view_model/page/register_page_vm.dart';
 
 class RegisterPage extends StartingPage {
   const RegisterPage({super.key});

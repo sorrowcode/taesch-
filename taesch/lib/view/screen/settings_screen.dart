@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:taesch/app.dart';
-
-import '../../view_model/settings_screen_vm.dart';
+import 'package:taesch/view_model/screen/settings_screen_vm.dart';
 
 /// shows the shopping list elements
 class SettingsScreen extends StatefulWidget {

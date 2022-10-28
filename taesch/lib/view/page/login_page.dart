@@ -4,7 +4,7 @@ import 'package:taesch/model/widget_key.dart';
 import 'package:taesch/view/page/register_page.dart';
 import 'package:taesch/view/page/splash_page.dart';
 import 'package:taesch/view/page/starting_page.dart';
-import 'package:taesch/view_model/login_page_vm.dart';
+import 'package:taesch/view_model/page/login_page_vm.dart';
 
 class LoginPage extends StartingPage {
   const LoginPage({super.key});

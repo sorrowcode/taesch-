@@ -13,9 +13,9 @@ import 'package:taesch/model/widget_key.dart';
 import 'package:taesch/view/page/home_page.dart';
 import 'package:taesch/view/screen/near_shops_screen.dart';
 import 'package:taesch/view/screen/shopping_list_screen.dart';
-import 'package:taesch/view_model/login_page_vm.dart';
-import 'package:taesch/view_model/register_page_vm.dart';
-import 'package:taesch/view_model/starting_page_vm.dart';
+import 'package:taesch/view_model/page/login_page_vm.dart';
+import 'package:taesch/view_model/page/register_page_vm.dart';
+import 'package:taesch/view_model/page/starting_page_vm.dart';
 
 void main() {
   // ui

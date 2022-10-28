@@ -17,7 +17,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return SwitchListTile(
-      title: const Text('Dark Mode'),
+      title: Text(widget._vm.switchTitle),
       value: widget._vm.repository.isDarkModeEnabled,
       onChanged: (bool value) {
         setState(() {

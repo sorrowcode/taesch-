@@ -12,14 +12,14 @@ class AddItemDialog extends StatefulWidget {
 }
 
 class _AddItemDialogState extends State<AddItemDialog> {
-  final formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-        title: const Text('Add Item to Shopping List'),
+        title: Text(widget._vm.title),
         content: Form(
-          key: formKey,
+          key: _formKey,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -28,8 +28,8 @@ class _AddItemDialogState extends State<AddItemDialog> {
                   validator: (value) {
                     return widget._vm.validateShoppingListItem(value)?.message;
                   },
-                  decoration: const InputDecoration(
-                      border: OutlineInputBorder(), hintText: 'Enter Item'))
+                  decoration: InputDecoration(
+                      border: const OutlineInputBorder(), hintText: widget._vm.textFormHint))
             ],
           ),
         ),
@@ -37,7 +37,7 @@ class _AddItemDialogState extends State<AddItemDialog> {
           TextButton(
               child: const Icon(Icons.check),
               onPressed: () {
-                if (formKey.currentState!.validate()) {
+                if (_formKey.currentState!.validate()) {
                   setState(() {
                     widget._vm.repository.shoppingListItems
                         .add(widget._vm.temp);

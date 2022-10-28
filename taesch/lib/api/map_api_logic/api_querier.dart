@@ -11,7 +11,7 @@ import 'querying_tools.dart';
 
 class APIQuerier {
   final String _apiUrl = 'http://overpass-api.de//api/interpreter?';
-  Map<String, dynamic> _jsonMapData = Map();
+  Map<String, dynamic> _jsonMapData = {};
 
   Future<void> makeHTTPRequest() async {
     try {

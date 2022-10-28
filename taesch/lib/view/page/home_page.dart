@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:taesch/model/error_case.dart';
 import 'package:taesch/model/screen_state.dart';
 import 'package:taesch/view/custom_widget/add_item_dialog.dart';
 import 'package:taesch/view/screen/near_shops_screen.dart';
@@ -39,8 +38,7 @@ class _HomePageState extends State<HomePage> {
               onPressed: () {
                 showDialog(
                   context: context,
-                  builder: (BuildContext context) =>
-                      AddItemDialog(),
+                  builder: (BuildContext context) => AddItemDialog(),
                 );
               },
             )
@@ -76,7 +74,7 @@ class _HomePageState extends State<HomePage> {
       case ScreenState.shoppingList:
         return ShoppingListScreen();
       case ScreenState.nearShops:
-        return const NearShopsScreen();
+        return NearShopsScreen();
       case ScreenState.settings:
         return SettingsScreen();
     }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:taesch/view_model/add_item_dialog_vm.dart';
 import 'package:taesch/model/error_case.dart';
+import 'package:taesch/view_model/add_item_dialog_vm.dart';
 
 class AddItemDialog extends StatefulWidget {
   final _vm = AddItemDialogVM();
@@ -8,10 +8,10 @@ class AddItemDialog extends StatefulWidget {
   AddItemDialog({super.key});
 
   @override
-  State<StatefulWidget> createState() => AddItemDialogState();
+  State<StatefulWidget> createState() => _AddItemDialogState();
 }
 
-class AddItemDialogState extends State<AddItemDialog> {
+class _AddItemDialogState extends State<AddItemDialog> {
   final formKey = GlobalKey<FormState>();
 
   @override

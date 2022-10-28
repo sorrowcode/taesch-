@@ -16,6 +16,7 @@ class _ShopsTileState extends State<ShopsTile> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      leading: const Icon(Icons.shopping_cart_rounded),
       title: Text(widget._vm.title),
       subtitle: Text(widget._vm.address),
     );

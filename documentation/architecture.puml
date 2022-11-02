@@ -26,6 +26,7 @@ class "file:::::::run::media::sorrow::2DF9AC0D6AFF6A07::lectures::mobile-lab::ta
 class "file:::::::run::media::sorrow::2DF9AC0D6AFF6A07::lectures::mobile-lab::taesch-::taesch::lib::api::repository.dart::Repository" {
   +bool isDarkModeEnabled
   +List<dynamic> shoppingListItems
+  +List<dynamic> shopsCache
   {static} -Repository _singleton
 }
 
@@ -137,6 +138,25 @@ class "file:::::::run::media::sorrow::2DF9AC0D6AFF6A07::lectures::mobile-lab::ta
   {static} +List<dynamic> getElements()
 }
 
+class "file:::::::run::media::sorrow::2DF9AC0D6AFF6A07::lectures::mobile-lab::taesch-::taesch::lib::view::custom_widget::add_item_dialog.dart::AddItemDialog" {
+  -dynamic _vm
+  +dynamic createState()
+}
+
+class "file:::::::run::media::sorrow::2DF9AC0D6AFF6A07::lectures::mobile-lab::taesch-::taesch::lib::view::custom_widget::add_item_dialog.dart::_AddItemDialogState" {
+  -dynamic _formKey
+  +dynamic build()
+}
+
+class "file:::::::run::media::sorrow::2DF9AC0D6AFF6A07::lectures::mobile-lab::taesch-::taesch::lib::view::custom_widget::shops_tile.dart::ShopsTile" {
+  -dynamic _vm
+  +dynamic createState()
+}
+
+class "file:::::::run::media::sorrow::2DF9AC0D6AFF6A07::lectures::mobile-lab::taesch-::taesch::lib::view::custom_widget::shops_tile.dart::_ShopsTileState" {
+  +dynamic build()
+}
+
 class "file:::::::run::media::sorrow::2DF9AC0D6AFF6A07::lectures::mobile-lab::taesch-::taesch::lib::view::page::home_page.dart::HomePage" {
   -dynamic _vm
   +dynamic createState()
@@ -144,9 +164,7 @@ class "file:::::::run::media::sorrow::2DF9AC0D6AFF6A07::lectures::mobile-lab::ta
 
 class "file:::::::run::media::sorrow::2DF9AC0D6AFF6A07::lectures::mobile-lab::taesch-::taesch::lib::view::page::home_page.dart::_HomePageState" {
   -dynamic _scaffoldKey
-  +dynamic formKey
   +dynamic build()
-  -dynamic _popupDialogCreateShoppingItem()
   -List<dynamic> _setupSideBarElements()
   -dynamic _getCurrentScreen()
 }
@@ -187,22 +205,19 @@ abstract class "file:::::::run::media::sorrow::2DF9AC0D6AFF6A07::lectures::mobil
 }
 
 class "file:::::::run::media::sorrow::2DF9AC0D6AFF6A07::lectures::mobile-lab::taesch-::taesch::lib::view::screen::near_shops_screen.dart::NearShopsScreen" {
+  -dynamic _vm
   +dynamic createState()
 }
 
 class "file:::::::run::media::sorrow::2DF9AC0D6AFF6A07::lectures::mobile-lab::taesch-::taesch::lib::view::screen::near_shops_screen.dart::_NearShopsScreenState" {
-  +dynamic apiQuerier
-  -bool _toggler
-  +List<dynamic> createSpotWidgets()
+  -List<dynamic> _getShopList()
   +dynamic build()
 }
 
 class "file:::::::run::media::sorrow::2DF9AC0D6AFF6A07::lectures::mobile-lab::taesch-::taesch::lib::view::screen::settings_screen.dart::SettingsScreen" {
-  -SettingsScreenVM _vm
+  -dynamic _vm
   +dynamic createState()
 }
-
-"file:::::::run::media::sorrow::2DF9AC0D6AFF6A07::lectures::mobile-lab::taesch-::taesch::lib::view::screen::settings_screen.dart::SettingsScreen" o-- "file:::::::run::media::sorrow::2DF9AC0D6AFF6A07::lectures::mobile-lab::taesch-::taesch::lib::view_model::settings_screen_vm.dart::SettingsScreenVM"
 
 class "file:::::::run::media::sorrow::2DF9AC0D6AFF6A07::lectures::mobile-lab::taesch-::taesch::lib::view::screen::settings_screen.dart::_SettingsScreenState" {
   +dynamic build()
@@ -223,15 +238,26 @@ class "file:::::::run::media::sorrow::2DF9AC0D6AFF6A07::lectures::mobile-lab::ta
   +dynamic mode
 }
 
-class "file:::::::run::media::sorrow::2DF9AC0D6AFF6A07::lectures::mobile-lab::taesch-::taesch::lib::view_model::home_page_vm.dart::HomePageVM" {
-  +dynamic repository
-  +dynamic screenState
+class "file:::::::run::media::sorrow::2DF9AC0D6AFF6A07::lectures::mobile-lab::taesch-::taesch::lib::view_model::custom_widget::add_item_dialog_vm.dart::AddItemDialogVM" {
+  +String title
+  +String textFormHint
   +dynamic temp
-  {static} +String shoppingListItemText
+  +dynamic repository
   +dynamic validateShoppingListItem()
 }
 
-class "file:::::::run::media::sorrow::2DF9AC0D6AFF6A07::lectures::mobile-lab::taesch-::taesch::lib::view_model::login_page_vm.dart::LoginPageVM" {
+class "file:::::::run::media::sorrow::2DF9AC0D6AFF6A07::lectures::mobile-lab::taesch-::taesch::lib::view_model::custom_widget::shops_tile_vm.dart::ShopsTileVM" {
+  +String title
+  +String address
+}
+
+class "file:::::::run::media::sorrow::2DF9AC0D6AFF6A07::lectures::mobile-lab::taesch-::taesch::lib::view_model::page::home_page_vm.dart::HomePageVM" {
+  +dynamic repository
+  +dynamic screenState
+  {static} +String shoppingListItemText
+}
+
+class "file:::::::run::media::sorrow::2DF9AC0D6AFF6A07::lectures::mobile-lab::taesch-::taesch::lib::view_model::page::login_page_vm.dart::LoginPageVM" {
   +String title
   {static} +String emailHint
   {static} +String passwordHint
@@ -239,11 +265,7 @@ class "file:::::::run::media::sorrow::2DF9AC0D6AFF6A07::lectures::mobile-lab::ta
   +String loginButtonText
 }
 
-class "file:::::::run::media::sorrow::2DF9AC0D6AFF6A07::lectures::mobile-lab::taesch-::taesch::lib::view_model::near_shops_screen_vm.dart::NearShopsScreenVM" {
-  +void test()
-}
-
-class "file:::::::run::media::sorrow::2DF9AC0D6AFF6A07::lectures::mobile-lab::taesch-::taesch::lib::view_model::register_page_vm.dart::RegisterPageVM" {
+class "file:::::::run::media::sorrow::2DF9AC0D6AFF6A07::lectures::mobile-lab::taesch-::taesch::lib::view_model::page::register_page_vm.dart::RegisterPageVM" {
   +String title
   {static} +String usernameHint
   {static} +String emailHint
@@ -254,17 +276,24 @@ class "file:::::::run::media::sorrow::2DF9AC0D6AFF6A07::lectures::mobile-lab::ta
   +dynamic validateSamePassword()
 }
 
-class "file:::::::run::media::sorrow::2DF9AC0D6AFF6A07::lectures::mobile-lab::taesch-::taesch::lib::view_model::settings_screen_vm.dart::SettingsScreenVM" {
-  +dynamic repository
-}
-
-class "file:::::::run::media::sorrow::2DF9AC0D6AFF6A07::lectures::mobile-lab::taesch-::taesch::lib::view_model::shopping_list_screen_vm.dart::ShoppingListScreenVM" {
-  +dynamic repository
-}
-
-abstract class "file:::::::run::media::sorrow::2DF9AC0D6AFF6A07::lectures::mobile-lab::taesch-::taesch::lib::view_model::starting_page_vm.dart::StartingPageVM" {
+abstract class "file:::::::run::media::sorrow::2DF9AC0D6AFF6A07::lectures::mobile-lab::taesch-::taesch::lib::view_model::page::starting_page_vm.dart::StartingPageVM" {
   +dynamic validateEMail()
   +dynamic validatePassword()
+}
+
+class "file:::::::run::media::sorrow::2DF9AC0D6AFF6A07::lectures::mobile-lab::taesch-::taesch::lib::view_model::screen::near_shops_screen_vm.dart::NearShopsScreenVM" {
+  -dynamic _apiQuerier
+  +dynamic repository
+  +void getShops()
+}
+
+class "file:::::::run::media::sorrow::2DF9AC0D6AFF6A07::lectures::mobile-lab::taesch-::taesch::lib::view_model::screen::settings_screen_vm.dart::SettingsScreenVM" {
+  +dynamic repository
+  +String switchTitle
+}
+
+class "file:::::::run::media::sorrow::2DF9AC0D6AFF6A07::lectures::mobile-lab::taesch-::taesch::lib::view_model::screen::shopping_list_screen_vm.dart::ShoppingListScreenVM" {
+  +dynamic repository
 }
 
 

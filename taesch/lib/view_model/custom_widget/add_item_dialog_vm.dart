@@ -1,13 +1,12 @@
 import 'package:taesch/api/repository.dart';
 import 'package:taesch/model/error_case.dart';
-import 'package:taesch/model/screen_state.dart';
 import 'package:taesch/model/shopping_list_item.dart';
 
-class HomePageVM {
-  var repository = Repository();
-  ScreenState screenState = ScreenState.shoppingList;
+class AddItemDialogVM {
+  String title = 'Add Item to Shopping List';
+  String textFormHint = 'Enter Item';
   late ShoppingListItem temp;
-  static const String shoppingListItemText = '';
+  var repository = Repository();
 
   ErrorCase? validateShoppingListItem(String? value) {
     if (value == null || value.isEmpty) {

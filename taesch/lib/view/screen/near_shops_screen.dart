@@ -1,55 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:taesch/api/map_api_logic/api_querier.dart';
-
-import '../../model/map_spot.dart';
+import 'package:taesch/view/custom_widget/shops_tile.dart';
+import 'package:taesch/view_model/screen/near_shops_screen_vm.dart';
 
 /// shows the shops which are near to the own location
 class NearShopsScreen extends StatefulWidget {
-  const NearShopsScreen({super.key});
+  final _vm = NearShopsScreenVM();
+
+  NearShopsScreen({super.key});
 
   @override
   State<StatefulWidget> createState() => _NearShopsScreenState();
 }
 
 class _NearShopsScreenState extends State<NearShopsScreen> {
-  APIQuerier apiQuerier = APIQuerier();
-  bool _toggler = false;
-
-  List<Widget> createSpotWidgets(List<MapSpot> list) {
-    var elements = <Widget>[];
-    for (int i = 0; i < list.length; i++) {
-      var entry = list[i];
-      var cont = Container(
-        child: Column(
-          children: [
-            Text(entry.name,
-                style: const TextStyle(fontWeight: FontWeight.bold)),
-            Text(entry.address),
-            Text("   ")
-          ],
-        ),
-      );
-      elements.add(cont);
-    }
-    return elements;
+  List<Widget> _getShopList() {
+    var shopsList = <Widget>[];
+    setState(() {
+      for (int i = 0; i < widget._vm.repository.shopsCache.length; i++) {
+        shopsList.add(ShopsTile(
+            title: widget._vm.repository.shopsCache[i].name,
+            address: widget._vm.repository.shopsCache[i].address));
+      }
+    });
+    return shopsList;
   }
 
   @override
   Widget build(BuildContext context) {
-    //return const Center();
-    apiQuerier.makeHTTPRequest();
-    var mapdata = apiQuerier.extractJSONData();
-    var scrollWidgetList = createSpotWidgets(mapdata);
-    print("SUCCESS");
-
+    //widget._vm.getShops();
     return Scaffold(
         body: Column(
       children: [
         Center(
           child: SizedBox(
             height: 100,
-            //color: _toggleColor? Colors.purple : Colors.blue,
             child: Column(
               children: [
                 Text("Area: Heilbronn", style: TextStyle(fontSize: 25)),
@@ -57,7 +42,7 @@ class _NearShopsScreenState extends State<NearShopsScreen> {
                   child: Text("Search"),
                   onPressed: () {
                     setState(() {
-                      _toggler = !_toggler;
+                      widget._vm.getShops();
                     });
                   },
                 )
@@ -68,7 +53,7 @@ class _NearShopsScreenState extends State<NearShopsScreen> {
         Expanded(
             child: SingleChildScrollView(
           child: Column(
-            children: _toggler ? scrollWidgetList : scrollWidgetList,
+            children: _getShopList(),
           ),
         ))
       ],

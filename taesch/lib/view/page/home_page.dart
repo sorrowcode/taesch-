@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:taesch/model/error_case.dart';
 import 'package:taesch/model/screen_state.dart';
+import 'package:taesch/view/custom_widget/add_item_dialog.dart';
 import 'package:taesch/view/screen/near_shops_screen.dart';
 import 'package:taesch/view/screen/settings_screen.dart';
 import 'package:taesch/view/screen/shopping_list_screen.dart';
-import 'package:taesch/view_model/home_page_vm.dart';
+import 'package:taesch/view_model/page/home_page_vm.dart';
 
 class HomePage extends StatefulWidget {
   final _vm = HomePageVM();
@@ -17,7 +17,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -39,52 +38,12 @@ class _HomePageState extends State<HomePage> {
               onPressed: () {
                 showDialog(
                   context: context,
-                  builder: (BuildContext context) =>
-                      _popupDialogCreateShoppingItem(context),
+                  builder: (BuildContext context) => AddItemDialog(),
                 );
               },
             )
           : null,
     );
-  }
-
-  Widget _popupDialogCreateShoppingItem(BuildContext context) {
-    return AlertDialog(
-        title: const Text('Add Item to Shopping List'),
-        content: Form(
-          key: formKey,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              TextFormField(
-                  validator: (value) {
-                    return widget._vm.validateShoppingListItem(value)?.message;
-                  },
-                  decoration: const InputDecoration(
-                      border: OutlineInputBorder(), hintText: 'Enter Item'))
-            ],
-          ),
-        ),
-        actions: <Widget>[
-          TextButton(
-              child: const Icon(Icons.check),
-              onPressed: () {
-                if (formKey.currentState!.validate()) {
-                  setState(() {
-                    widget._vm.repository.shoppingListItems
-                        .add(widget._vm.temp);
-                  });
-                  Navigator.of(context).pop();
-                }
-              }),
-          TextButton(
-            child: const Icon(Icons.close),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          )
-        ]);
   }
 
   List<Widget> _setupSideBarElements() {
@@ -115,7 +74,7 @@ class _HomePageState extends State<HomePage> {
       case ScreenState.shoppingList:
         return ShoppingListScreen();
       case ScreenState.nearShops:
-        return const NearShopsScreen();
+        return NearShopsScreen();
       case ScreenState.settings:
         return SettingsScreen();
     }

@@ -1,4 +1,4 @@
-import 'package:taesch/view_model/starting_page_vm.dart';
+import 'package:taesch/view_model/page/starting_page_vm.dart';
 
 class LoginPageVM extends StartingPageVM {
   String title = "Login";

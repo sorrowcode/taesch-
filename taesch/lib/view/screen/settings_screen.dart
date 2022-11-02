@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:taesch/app.dart';
-
-import '../../view_model/settings_screen_vm.dart';
+import 'package:taesch/view_model/screen/settings_screen_vm.dart';
 
 /// shows the shopping list elements
 class SettingsScreen extends StatefulWidget {
@@ -18,7 +17,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return SwitchListTile(
-      title: const Text('Dark Mode'),
+      title: Text(widget._vm.switchTitle),
       value: widget._vm.repository.isDarkModeEnabled,
       onChanged: (bool value) {
         setState(() {

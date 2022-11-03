@@ -3,5 +3,4 @@ class Tag {
   late double prioValue;
 
   Tag({required this.tagName});
-
 }

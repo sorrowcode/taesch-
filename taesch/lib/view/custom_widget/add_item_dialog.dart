@@ -29,7 +29,8 @@ class _AddItemDialogState extends State<AddItemDialog> {
                     return widget._vm.validateShoppingListItem(value)?.message;
                   },
                   decoration: InputDecoration(
-                      border: const OutlineInputBorder(), hintText: widget._vm.textFormHint))
+                      border: const OutlineInputBorder(),
+                      hintText: widget._vm.textFormHint))
             ],
           ),
         ),
@@ -41,7 +42,8 @@ class _AddItemDialogState extends State<AddItemDialog> {
                   setState(() {
                     widget._vm.repository.shoppingListItems
                         .add(widget._vm.temp);
-                    widget._vm.repository.shoppingListSize.value = widget._vm.repository.shoppingListItems.length;
+                    widget._vm.repository.shoppingListSize.value =
+                        widget._vm.repository.shoppingListItems.length;
                   });
                   Navigator.of(context).pop();
                 }

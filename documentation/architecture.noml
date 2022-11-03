@@ -1,0 +1,432 @@
+[APIQuerier
+  |
+  -_apiUrl: String;
+  -_jsonMapData: Map<String, dynamic>
+  |
+  +Future<void> makeHTTPRequest();
+  +List<MapSpot> extractJSONData()
+]
+
+[MapQueryIndexes
+  |
+  <static>+name: String;
+  <static>+latitude: String;
+  <static>+longitude: String
+]
+
+[OSMQueries
+  |
+  <static>+query1Heilbronn: String;
+  <static>+queryTestAreaParis: String;
+  <static>+queryTestBoundingBoxPostBox: String;
+  <static>+queryTestHighspeedCameras: String;
+  <static>+queryTimeoutSeconds: int
+  |
+  <static>+String OSMQueryBuilder()
+]
+
+[Repository
+  |
+  +isDarkModeEnabled: bool;
+  +shoppingListItems: List<ShoppingListItem>;
+  +shopsCache: List<MapSpot>;
+  <static>-_singleton: Repository
+]
+
+[Repository]o-[Repository]
+
+[PersistStorage
+  |
+  +dynamic read();
+  +void insert();
+  +void update();
+  +void delete()
+]
+
+[StorageShopItems
+  |
+  -_db: Database
+  |
+  <static>+Future<StorageShopItems> create();
+  +Future<void> delete();
+  +Future<List<ShoppingListItem>> read();
+  +Future<void> update();
+  +Future<void> insert()
+]
+
+[StorageShopItems]o-[<abstract>Database]
+[PersistStorage]<:--[StorageShopItems]
+
+[App
+  |
+  -_vm: AppVM
+  |
+  +State<StatefulWidget> createState();
+  <static>+_AppState? of()
+]
+
+[App]o-[AppVM]
+[<abstract>StatefulWidget]<:-[App]
+
+[_AppState
+  |
+  +Widget build();
+  +void changeTheme()
+]
+
+[<abstract>State]<:-[_AppState]
+
+[ErrorCase
+  |
+  +index: int;
+  <static>+values: List<ErrorCase>;
+  <static>+noEmail: ErrorCase;
+  <static>+invalidEmail: ErrorCase;
+  <static>+noPassword: ErrorCase;
+  <static>+noLowerCaseLetter: ErrorCase;
+  <static>+noUpperCaseLetter: ErrorCase;
+  <static>+noNumber: ErrorCase;
+  <static>+noSpecialCharacter: ErrorCase;
+  <static>+tooLongOrTooShort: ErrorCase;
+  <static>+noUsername: ErrorCase;
+  <static>+invalidUsername: ErrorCase;
+  <static>+notSamePassword: ErrorCase;
+  <static>+emptyField: ErrorCase
+]
+
+[ErrorCase]o-[ErrorCase]
+[<abstract>Enum]<:--[ErrorCase]
+
+[MapSpot
+  |
+  +name: String;
+  +long: double;
+  +lat: double;
+  +address: String
+]
+
+[ScreenState
+  |
+  +index: int;
+  <static>+values: List<ScreenState>;
+  <static>+shoppingList: ScreenState;
+  <static>+nearShops: ScreenState;
+  <static>+settings: ScreenState
+]
+
+[ScreenState]o-[ScreenState]
+[<abstract>Enum]<:--[ScreenState]
+
+[ShoppingListItem
+  |
+  +title: String;
+  +image: String;
+  +bought: int
+  |
+  +void toggleBought();
+  +Map<String, dynamic> toMap();
+  +String toString()
+]
+
+[User
+  |
+  +username: String;
+  +email: String;
+  +loggedIn: bool;
+  <static>-_singleton: User
+]
+
+[User]o-[User]
+
+[WidgetKey
+  |
+  +index: int;
+  <static>+values: List<WidgetKey>;
+  <static>+emailLoginKey: WidgetKey;
+  <static>+passwordLoginKey: WidgetKey;
+  <static>+registrationButtonKey: WidgetKey;
+  <static>+loginButtonKey: WidgetKey;
+  <static>+usernameRegisterKey: WidgetKey;
+  <static>+emailRegisterKey: WidgetKey;
+  <static>+firstPasswordRegisterKey: WidgetKey;
+  <static>+secondPasswordRegisterKey: WidgetKey;
+  <static>+submitButtonKey: WidgetKey
+]
+
+[WidgetKey]o-[WidgetKey]
+[<abstract>Enum]<:--[WidgetKey]
+
+[MyTools
+  |
+  <static>+List<dynamic> getElements()
+]
+
+[AddItemDialog
+  |
+  -_vm: AddItemDialogVM
+  |
+  +State<StatefulWidget> createState()
+]
+
+[AddItemDialog]o-[AddItemDialogVM]
+[<abstract>StatefulWidget]<:-[AddItemDialog]
+
+[_AddItemDialogState
+  |
+  -_formKey: GlobalKey<FormState>
+  |
+  +Widget build()
+]
+
+[_AddItemDialogState]o-[<abstract>GlobalKey]
+[<abstract>State]<:-[_AddItemDialogState]
+
+[ShopsTile
+  |
+  -_vm: ShopsTileVM
+  |
+  +State<StatefulWidget> createState()
+]
+
+[ShopsTile]o-[ShopsTileVM]
+[<abstract>StatefulWidget]<:-[ShopsTile]
+
+[_ShopsTileState
+  |
+  +Widget build()
+]
+
+[<abstract>State]<:-[_ShopsTileState]
+
+[HomePage
+  |
+  -_vm: HomePageVM
+  |
+  +State<StatefulWidget> createState()
+]
+
+[HomePage]o-[HomePageVM]
+[<abstract>StatefulWidget]<:-[HomePage]
+
+[_HomePageState
+  |
+  -_scaffoldKey: GlobalKey<ScaffoldState>
+  |
+  +Widget build();
+  -List<Widget> _setupSideBarElements();
+  -Widget _getCurrentScreen()
+]
+
+[_HomePageState]o-[<abstract>GlobalKey]
+[<abstract>State]<:-[_HomePageState]
+
+[LoginPage
+  |
+  +State<StatefulWidget> createState()
+]
+
+[<abstract>StartingPage]<:-[LoginPage]
+
+[_LoginPageState
+  |
+  +List<Widget> bodyElements()
+]
+
+[<abstract>StartingPageState]<:-[_LoginPageState]
+
+[RegisterPage
+  |
+  +State<StatefulWidget> createState()
+]
+
+[<abstract>StartingPage]<:-[RegisterPage]
+
+[_RegisterPageState
+  |
+  +List<Widget> bodyElements()
+]
+
+[<abstract>StartingPageState]<:-[_RegisterPageState]
+
+[SplashPage
+  |
+  +State<StatefulWidget> createState()
+]
+
+[<abstract>StatefulWidget]<:-[SplashPage]
+
+[SplashPageState
+  |
+  +void initState();
+  +Widget build()
+]
+
+[<abstract>State]<:-[SplashPageState]
+
+[<abstract>StartingPage
+]
+
+[<abstract>StatefulWidget]<:-[<abstract>StartingPage]
+
+[<abstract>StartingPageState
+  |
+  +vm: StartingPageVM;
+  +formKey: GlobalKey<FormState>
+  |
+  +Widget build();
+  +List<Widget> bodyElements()
+]
+
+[<abstract>StartingPageState]o-[<abstract>StartingPageVM]
+[<abstract>StartingPageState]o-[<abstract>GlobalKey]
+[<abstract>State]<:-[<abstract>StartingPageState]
+
+[NearShopsScreen
+  |
+  -_vm: NearShopsScreenVM
+  |
+  +State<StatefulWidget> createState()
+]
+
+[NearShopsScreen]o-[NearShopsScreenVM]
+[<abstract>StatefulWidget]<:-[NearShopsScreen]
+
+[_NearShopsScreenState
+  |
+  -List<Widget> _getShopList();
+  +Widget build()
+]
+
+[<abstract>State]<:-[_NearShopsScreenState]
+
+[SettingsScreen
+  |
+  -_vm: SettingsScreenVM
+  |
+  +State<StatefulWidget> createState()
+]
+
+[SettingsScreen]o-[SettingsScreenVM]
+[<abstract>StatefulWidget]<:-[SettingsScreen]
+
+[_SettingsScreenState
+  |
+  +Widget build()
+]
+
+[<abstract>State]<:-[_SettingsScreenState]
+
+[ShoppingListScreen
+  |
+  -_vm: ShoppingListScreenVM
+  |
+  +State<StatefulWidget> createState()
+]
+
+[ShoppingListScreen]o-[ShoppingListScreenVM]
+[<abstract>StatefulWidget]<:-[ShoppingListScreen]
+
+[_ShoppingListScreenState
+  |
+  +Widget build()
+]
+
+[<abstract>State]<:-[_ShoppingListScreenState]
+
+[AppVM
+  |
+  +appTitle: String;
+  +repository: Repository;
+  +mode: ThemeMode
+]
+
+[AppVM]o-[Repository]
+[AppVM]o-[ThemeMode]
+
+[AddItemDialogVM
+  |
+  +title: String;
+  +textFormHint: String;
+  +temp: ShoppingListItem;
+  +repository: Repository
+  |
+  +ErrorCase? validateShoppingListItem()
+]
+
+[AddItemDialogVM]o-[ShoppingListItem]
+[AddItemDialogVM]o-[Repository]
+
+[ShopsTileVM
+  |
+  +title: String;
+  +address: String
+]
+
+[HomePageVM
+  |
+  +repository: Repository;
+  +screenState: ScreenState;
+  <static>+shoppingListItemText: String
+]
+
+[HomePageVM]o-[Repository]
+[HomePageVM]o-[ScreenState]
+
+[LoginPageVM
+  |
+  +title: String;
+  <static>+emailHint: String;
+  <static>+passwordHint: String;
+  +registrationButtonText: String;
+  +loginButtonText: String
+]
+
+[<abstract>StartingPageVM]<:-[LoginPageVM]
+
+[RegisterPageVM
+  |
+  +title: String;
+  <static>+usernameHint: String;
+  <static>+emailHint: String;
+  <static>+passwordHint: String;
+  +submitButtonText: String;
+  +passwordController: TextEditingController
+  |
+  +ErrorCase? validateUsername();
+  +ErrorCase? validateSamePassword()
+]
+
+[RegisterPageVM]o-[TextEditingController]
+[<abstract>StartingPageVM]<:-[RegisterPageVM]
+
+[<abstract>StartingPageVM
+  |
+  +ErrorCase? validateEMail();
+  +ErrorCase? validatePassword()
+]
+
+[NearShopsScreenVM
+  |
+  -_apiQuerier: APIQuerier;
+  +repository: Repository
+  |
+  +void getShops()
+]
+
+[NearShopsScreenVM]o-[APIQuerier]
+[NearShopsScreenVM]o-[Repository]
+
+[SettingsScreenVM
+  |
+  +repository: Repository;
+  +switchTitle: String
+]
+
+[SettingsScreenVM]o-[Repository]
+
+[ShoppingListScreenVM
+  |
+  +repository: Repository
+]
+
+[ShoppingListScreenVM]o-[Repository]

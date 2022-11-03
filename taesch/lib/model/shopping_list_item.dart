@@ -1,21 +1,22 @@
+import 'package:taesch/model/tag.dart';
+
 class ShoppingListItem {
   String title;
   String image;
-  int bought = 0;
+  List<Tag> tags = [];
+  double weight = 0;
 
   ShoppingListItem(this.title, this.image);
 
   ShoppingListItem.db(
-      {required this.title, required this.image, required this.bought});
-
-  void toggleBought() => bought = bought > 0 ? 0 : 1;
+      {required this.title, required this.image, required this.weight});
 
   Map<String, dynamic> toMap() {
-    return {'item_title': title, 'image': image, 'bought': bought};
+    return {'item_title': title, 'image': image, 'weight': weight};
   }
 
   @override
   String toString() {
-    return 'ShoppingItem{"item_title":"$title", "image":"$image", "bought":$bought}';
+    return 'ShoppingItem{"item_title":"$title", "image":"$image", "weight":$weight}';
   }
 }

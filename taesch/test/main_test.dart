@@ -15,7 +15,6 @@ import 'package:taesch/view_model/page/starting_page_vm.dart';
 void main() {
   // ui
   group("testing login page functionality", () {
-    LoginPageVM vm = LoginPageVM();
     testWidgets("testing with no input", (widgetTester) async {
       await widgetTester.pumpWidget(App());
       expect(find.text("Login"), findsAtLeastNWidgets(2));
@@ -47,7 +46,6 @@ void main() {
   });
 
   group("testing register page functionality", () {
-    //RegisterPageVM vm = RegisterPageVM();
     testWidgets("testing with no values", (widgetTester) async {
       await widgetTester.pumpWidget(App());
       await widgetTester

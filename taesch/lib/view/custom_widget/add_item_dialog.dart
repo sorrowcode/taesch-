@@ -41,6 +41,7 @@ class _AddItemDialogState extends State<AddItemDialog> {
                   setState(() {
                     widget._vm.repository.shoppingListItems
                         .add(widget._vm.temp);
+                    widget._vm.repository.shoppingListSize.value = widget._vm.repository.shoppingListItems.length;
                   });
                   Navigator.of(context).pop();
                 }

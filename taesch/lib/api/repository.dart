@@ -1,12 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:taesch/model/map_spot.dart';
+import 'package:taesch/model/shop.dart';
 import 'package:taesch/model/shopping_list_item.dart';
 
 class Repository {
   bool isDarkModeEnabled = false;
   final List<ShoppingListItem> _shoppingListItems = [];
   ValueNotifier<int> shoppingListSize = ValueNotifier(0);
-  List<MapSpot> shopsCache = [];
+  List<Shop> shopsCache = [];
+  ValueNotifier<int> shopsCacheSize = ValueNotifier(0);
 
   static final Repository _singleton = Repository._internal();
 

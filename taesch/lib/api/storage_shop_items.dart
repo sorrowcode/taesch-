@@ -52,13 +52,12 @@ class StorageShopItems implements PersistStorage<ShoppingListItem> {
       return ShoppingListItem.db(
         title: maps[i]['item_title'],
         image: maps[i]['image'],
-        bought: maps[i]['bought'],
+        weight: 0,
       );
     });
   }
 
   @override
-
   ///item Title is identifier => don't change
   Future<void> update(ShoppingListItem shopItem) async {
     await _db.update('shopping_items', shopItem.toMap(),

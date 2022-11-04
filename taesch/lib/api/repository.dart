@@ -4,7 +4,7 @@ import 'package:taesch/model/shopping_list_item.dart';
 
 class Repository {
   bool isDarkModeEnabled = false;
-  List<ShoppingListItem> shoppingListItems = [];
+  final List<ShoppingListItem> _shoppingListItems = [];
   ValueNotifier<int> shoppingListSize = ValueNotifier(0);
   List<MapSpot> shopsCache = [];
 
@@ -15,4 +15,6 @@ class Repository {
   }
 
   Repository._internal();
+
+  List<ShoppingListItem> get shoppingListItems => _shoppingListItems;
 }

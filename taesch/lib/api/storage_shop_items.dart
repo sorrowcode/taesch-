@@ -1,15 +1,22 @@
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:taesch/api/repository.dart';
 import 'package:taesch/api/storage.dart';
 import 'package:taesch/model/shopping_list_item.dart';
 
 class StorageShopItems implements PersistStorage<ShoppingListItem> {
   late Database _db;
-
+  late Repository repository;
 
   StorageShopItems._create() {
-
+    repository = Repository();
+    listenerSetup();
     return;
+  }
+  listenerSetup() {
+    repository.shoppingListSize.addListener(() {
+      replace(repository.shoppingListItems);
+    });
   }
 
   /// Public factory
@@ -65,6 +72,17 @@ class StorageShopItems implements PersistStorage<ShoppingListItem> {
   Future<void> update(ShoppingListItem shopItem) async {
     await _db.update('shopping_items', shopItem.toMap(),
         where: 'item_title = ?', whereArgs: [shopItem.title]);
+  }
+  Future<void> replace(List<ShoppingListItem> shoppinglist) async {
+    await _db.transaction((txn) async  {
+      await txn.delete('shopping_items');
+          Batch batch = txn.batch();
+      for (var item in shoppinglist) {
+        batch.insert('shopping_items', item.toMap());
+      }
+      batch.commit();
+    });
+
   }
 
   @override

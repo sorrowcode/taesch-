@@ -6,7 +6,9 @@ import 'package:taesch/model/shopping_list_item.dart';
 class StorageShopItems implements PersistStorage<ShoppingListItem> {
   late Database _db;
 
+
   StorageShopItems._create() {
+
     return;
   }
 
@@ -52,7 +54,7 @@ class StorageShopItems implements PersistStorage<ShoppingListItem> {
       return ShoppingListItem.db(
         title: maps[i]['item_title'],
         image: maps[i]['image'],
-        bought: maps[i]['bought'],
+        weight: maps[i]['weight'],
       );
     });
   }

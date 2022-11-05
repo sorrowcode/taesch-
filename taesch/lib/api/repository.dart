@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:taesch/model/map_spot.dart';
 import 'package:taesch/model/shop.dart';
 import 'package:taesch/model/shopping_list_item.dart';
 

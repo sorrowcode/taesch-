@@ -52,16 +52,15 @@ class _NearShopsScreenState extends State<NearShopsScreen> {
         Expanded(
             child: SingleChildScrollView(
           child: ValueListenableBuilder<int>(
-            valueListenable: widget._vm.repository.shopsCacheSize,
-            child: Column(
-              children: _getShopList(),
-            ),
-            builder: (context, value, child) {
-              return Column(
+              valueListenable: widget._vm.repository.shopsCacheSize,
+              child: Column(
                 children: _getShopList(),
-              );
-            }
-          ),
+              ),
+              builder: (context, value, child) {
+                return Column(
+                  children: _getShopList(),
+                );
+              }),
         ))
       ],
     ));

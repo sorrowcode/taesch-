@@ -58,6 +58,7 @@ class StorageShopItems implements PersistStorage<ShoppingListItem> {
   }
 
   @override
+
   ///item Title is identifier => don't change
   Future<void> update(ShoppingListItem shopItem) async {
     await _db.update('shopping_items', shopItem.toMap(),

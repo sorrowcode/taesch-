@@ -1,7 +1,7 @@
 /// Stores data permanently
 class PersistStorage<T> {
   /// retrieves stored data
-  dynamic read(String filter) {}
+  dynamic read(Map<String,dynamic> filter) {}
 
   /// adds or overwrites stored data
   void insert(T data) {}

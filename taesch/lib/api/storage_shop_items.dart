@@ -53,9 +53,9 @@ class StorageShopItems implements PersistStorage<ShoppingListItem> {
   }
 
   @override
-  Future<List<ShoppingListItem>> read(String filter) async {
+  Future<List<ShoppingListItem>> read(Map filter) async {
     // Query the table for all The ShoppingItems
-    final List<Map<String, dynamic>> maps = await _db.query('shopping_items');
+    final List<Map<String, dynamic>> maps = await _db.query('shopping_items',where: filter.keys.join('=?,'), whereArgs: filter.values.toList(growable: false));
     // Convert the List<Map<String, dynamic> into a List<ShoppingItem>.
     return List.generate(maps.length, (i) {
       return ShoppingListItem.db(

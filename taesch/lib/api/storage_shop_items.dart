@@ -10,10 +10,10 @@ class StorageShopItems implements PersistStorage<ShoppingListItem> {
 
   StorageShopItems._create() {
     repository = Repository();
-    listenerSetup();
+    _listenerSetup();
     return;
   }
-  listenerSetup() {
+  _listenerSetup() {
     repository.shoppingListSize.addListener(() {
       replace(repository.shoppingListItems);
     });

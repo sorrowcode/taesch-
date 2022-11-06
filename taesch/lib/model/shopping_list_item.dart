@@ -17,6 +17,6 @@ class ShoppingListItem {
 
   @override
   String toString() {
-    return 'ShoppingItem{"item_title":"$title", "image":"$image", "weight":$weight}';
+    return 'ShoppingItem{"item_title":"$title", "image":"$image", "weight":$weight, "tags":$tags}';
   }
 }

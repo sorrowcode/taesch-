@@ -36,8 +36,12 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
                     width: 100,
                     height: 100,
                     child: Center(
-                        child: Text(widget
+                        child: Row(children: [
+                          Expanded(child: Text(widget
                             ._vm.repository.shoppingListItems[index].title)),
+                          Expanded(child: Text(widget
+                            ._vm.repository.shoppingListItems[index].tags.map<String>((e) => e.tagName).join(', ')))])
+                    ),
                   ),
                 ),
               );

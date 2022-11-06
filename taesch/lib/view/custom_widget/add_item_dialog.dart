@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:taesch/model/error_case.dart';
 import 'package:taesch/view_model/custom_widget/add_item_dialog_vm.dart';
@@ -30,7 +32,15 @@ class _AddItemDialogState extends State<AddItemDialog> {
                   },
                   decoration: InputDecoration(
                       border: const OutlineInputBorder(),
-                      hintText: widget._vm.textFormHint))
+                      hintText: widget._vm.textFormHint)),
+              TextFormField(
+                validator: (value) {
+                  log('what is the Value' + value.toString());
+                  return widget._vm.validateTags(value);
+                },
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  hintText: widget._vm.textFormHint))
             ],
           ),
         ),
@@ -39,6 +49,7 @@ class _AddItemDialogState extends State<AddItemDialog> {
               child: const Icon(Icons.check),
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
+                  log(widget._vm.temp.toString() +'afterValidation');
                   setState(() {
                     widget._vm.repository.shoppingListItems
                         .add(widget._vm.temp);

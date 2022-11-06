@@ -15,14 +15,13 @@ class NearShopsScreen extends StatefulWidget {
 
 class _NearShopsScreenState extends State<NearShopsScreen> {
   List<Widget> _getShopList() {
+    widget._vm.loadShops();
     var shopsList = <Widget>[];
-    setState(() {
-      for (int i = 0; i < widget._vm.repository.shopsCache.length; i++) {
-        shopsList.add(ShopsTile(
-            title: widget._vm.repository.shopsCache[i].name,
-            address: widget._vm.repository.shopsCache[i].address));
-      }
-    });
+    for (int i = 0; i < widget._vm.repository.shopsCache.length; i++) {
+      shopsList.add(ShopsTile(
+          title: widget._vm.repository.shopsCache[i].name,
+          address: widget._vm.repository.shopsCache[i].address));
+    }
     return shopsList;
   }
 
@@ -42,7 +41,7 @@ class _NearShopsScreenState extends State<NearShopsScreen> {
                   child: Text("Search"),
                   onPressed: () {
                     setState(() {
-                      widget._vm.getShops();
+                      widget._vm.loadShops();
                     });
                   },
                 )
@@ -52,9 +51,16 @@ class _NearShopsScreenState extends State<NearShopsScreen> {
         ),
         Expanded(
             child: SingleChildScrollView(
-          child: Column(
-            children: _getShopList(),
-          ),
+          child: ValueListenableBuilder<int>(
+              valueListenable: widget._vm.repository.shopsCacheSize,
+              child: Column(
+                children: _getShopList(),
+              ),
+              builder: (context, value, child) {
+                return Column(
+                  children: _getShopList(),
+                );
+              }),
         ))
       ],
     ));

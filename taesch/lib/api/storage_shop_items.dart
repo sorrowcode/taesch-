@@ -44,8 +44,8 @@ class StorageShopItems implements PersistStorage<ShoppingListItem> {
   }
 
   @override
-  Future<void> delete(ShoppingListItem shopItem) async {
-    await _db.delete(
+  void delete(ShoppingListItem shopItem) {
+    _db.delete(
       'shopping_items',
       where: 'item_title = ?',
       whereArgs: [shopItem.title],
@@ -69,12 +69,12 @@ class StorageShopItems implements PersistStorage<ShoppingListItem> {
   @override
 
   ///item Title is identifier => don't change
-  Future<void> update(ShoppingListItem shopItem) async {
-    await _db.update('shopping_items', shopItem.toMap(),
+  void update(ShoppingListItem shopItem) {
+    _db.update('shopping_items', shopItem.toMap(),
         where: 'item_title = ?', whereArgs: [shopItem.title]);
   }
-  Future<void> replace(List<ShoppingListItem> shoppinglist) async {
-    await _db.transaction((txn) async  {
+  void replace(List<ShoppingListItem> shoppinglist) {
+    _db.transaction((txn) async  {
       await txn.delete('shopping_items');
           Batch batch = txn.batch();
       for (var item in shoppinglist) {
@@ -86,7 +86,7 @@ class StorageShopItems implements PersistStorage<ShoppingListItem> {
   }
 
   @override
-  Future<void> insert(ShoppingListItem shopItem) async {
+  void insert(ShoppingListItem shopItem) async {
     await _db.insert(
       'shopping_items',
       shopItem.toMap(),

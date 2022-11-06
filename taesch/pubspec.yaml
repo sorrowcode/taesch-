@@ -33,15 +33,16 @@ dependencies:
     sdk: flutter
   geolocator: ^9.0.2
   http:
-  sqflite:
-  path:
-  test:
+  sqflite: ^2.2.0+3
+  path: ^1.8.2
+  shared_preferences: ^2.0.15
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
 
 dev_dependencies:
+  test:
   flutter_test:
     sdk: flutter
   sqflite_common_ffi:

@@ -1,6 +1,11 @@
+import 'dart:async';
+import 'dart:io';
+import 'dart:isolate';
+
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:taesch/api/map_api_logic/geolocation_tools.dart';
+import 'package:taesch/utils/my_tools.dart';
 
 import 'app.dart';
 
@@ -15,7 +20,14 @@ void main() {
   //apiQuerier.makeHTTPRequest();
   runApp(App());
 
-  // the following can only be called after WidgetsFlutterBinding.ensureInitialized() has been called
-  print("fetch Position");
-  GeolocationTools.getCurrentPosition();
+  initialize();
+
+  //GeolocationTools.getCurrentPosition();
+  //Future<Position> pos;
+  //pos.runtimeType as Position;
+  //MyTools.spawnIsolate(GeolocationTools.getCurrentPosition);
+}
+
+void initialize(){
+  GeolocationTools.startGeoTimer();
 }

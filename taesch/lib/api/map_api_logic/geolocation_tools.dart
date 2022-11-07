@@ -10,8 +10,9 @@ import 'package:geolocator/geolocator.dart';
 class GeolocationTools{
 
   static const locateTimeout = 20; // <-- measured delay, for precise location
+  static const timerPauseSeconds = 10;
 
-  static void getCurrentPosition() async{
+  static Future<void> getCurrentPosition() async{
     if(_geolocatorPermissionIsSet()){
       // return lat and long
       try {
@@ -23,7 +24,9 @@ class GeolocationTools{
         print("333333333dodioidofidofidf");
         positionFuture.timeout(const Duration(seconds: locateTimeout));
         print("11111111111YYYYYYYYYYYYYY99999999999999999");
-        //sleep(const Duration(seconds: 5)); // if not called in an isolate, this stops the main thread
+        //sleep(const Duration(seconds: 5)); // this stops execution of async code in an isolate
+        //await Future.delayed(Duration(seconds: 5));
+        print("finished sleeping");
         try{
           Position position = await positionFuture;
 
@@ -74,6 +77,17 @@ class GeolocationTools{
     }
     print("geolocator permitted.");
     return true;
+  }
+
+  static void startGeoTimer(){
+    Timer.periodic(const Duration(seconds: timerPauseSeconds), (timer) async {
+      print(timer.tick);
+      await getCurrentPosition();
+      if (false) {
+        print('Cancel timer');
+        timer.cancel();
+      }
+    });
   }
 
 }

@@ -7,6 +7,7 @@ import 'package:http/http.dart';
 import 'package:taesch/model/map_spot.dart';
 import 'package:taesch/utils/my_tools.dart';
 
+import 'geolocation_tools.dart';
 import 'querying_tools.dart';
 
 class APIQuerier {
@@ -32,6 +33,7 @@ class APIQuerier {
         }
 
         print("Done processing response.");
+        //MyTools.spawnIsolate(GeolocationTools.getCurrentPosition);
         return;
       } else {
         // If the server did not return a 200 OK response,

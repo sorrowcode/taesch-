@@ -1,3 +1,7 @@
+import 'dart:isolate';
+
+import 'package:flutter/cupertino.dart';
+
 class MyTools {
   static List<dynamic> getElements({required dynamic list, int cap = 0}) {
     List<dynamic> result = [];
@@ -19,4 +23,20 @@ class MyTools {
     return result;
   }
 
+  static void spawnIsolate(Function func) async {
+    await Isolate.spawn(IsolateExecutor(func).run, ReceivePort().sendPort);
+  }
+
+
+}
+
+class IsolateExecutor{
+  Function _function;
+
+  IsolateExecutor(this._function);
+  Future<void> run(SendPort sendPort) async{
+    WidgetsFlutterBinding.ensureInitialized();
+    await _function();
+    Isolate.exit(sendPort, "Isolate finished.");
+  }
 }

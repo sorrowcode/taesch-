@@ -15,4 +15,4 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: build image in order to test the code
-      run: docker build ./taesch --file Dockerfile --tag taescht_test:$(date +%s)
+      run: docker build -t taesch_test:$(date +%s) ./taesch

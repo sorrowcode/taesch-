@@ -23,8 +23,6 @@ class _ShopsMapScreenState extends State<ShopsMapScreen>{
         return  Scaffold(
             body: Center(
                 child: SizedBox(
-                    width: 200,
-                    height: 200,
                     child: FlutterMap(
                         options: MapOptions(
                             center: LatLng(45.5231, -122.6765),

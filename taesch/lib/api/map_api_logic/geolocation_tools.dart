@@ -16,23 +16,15 @@ class GeolocationTools{
     if(_geolocatorPermissionIsSet()){
       // return lat and long
       try {
-        print("jknsdkjsdnjkdnfjkfnjkfnselkdjfn555558585858558");
         // instantiate Future
 
         Future<Position> positionFuture = Geolocator.getCurrentPosition(
             desiredAccuracy: LocationAccuracy.high);
-        print("333333333dodioidofidofidf");
         positionFuture.timeout(const Duration(seconds: locateTimeout));
-        print("11111111111YYYYYYYYYYYYYY99999999999999999");
-        //sleep(const Duration(seconds: 5)); // this stops execution of async code in an isolate
         //await Future.delayed(Duration(seconds: 5));
-        print("finished sleeping");
+        //print("finished sleeping");
         try{
           Position position = await positionFuture;
-
-          /*Position position = await Geolocator.getCurrentPosition(
-              desiredAccuracy: LocationAccuracy.high).timeout(const Duration(seconds: locateTimeout));
-           */
 
           // on success locating the user, return the position
           print("Position: \nlat: "+position.latitude.toString()+"\nlong: "+position.longitude.toString());

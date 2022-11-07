@@ -11,21 +11,13 @@ import 'app.dart';
 
 /// entry point
 void main() {
+
   //Future<LocationPermission> permission = Geolocator.requestPermission();
   //Future<Position> position = Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);//sdks 26 - 33
 
-  //Future<bool> permission = GeolocationTools.handleLocationPermission();
-
-  //APIQuerier apiQuerier = APIQuerier();
-  //apiQuerier.makeHTTPRequest();
   runApp(App());
 
   initialize();
-
-  //GeolocationTools.getCurrentPosition();
-  //Future<Position> pos;
-  //pos.runtimeType as Position;
-  //MyTools.spawnIsolate(GeolocationTools.getCurrentPosition);
 }
 
 void initialize(){

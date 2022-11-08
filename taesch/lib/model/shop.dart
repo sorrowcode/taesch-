@@ -1,3 +1,4 @@
+import 'package:geolocator/geolocator.dart';
 import 'package:taesch/model/discount.dart';
 import 'package:taesch/model/map_spot.dart';
 
@@ -12,4 +13,5 @@ class Shop {
   String get name => _spot.name;
 
   String get address => _spot.address;
+
 }

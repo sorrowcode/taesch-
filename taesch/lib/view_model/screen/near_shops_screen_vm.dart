@@ -18,5 +18,6 @@ class NearShopsScreenVM {
       shops.add(Shop(spot: spot));
     }
     repository.fillUpShopCache(shops);
+    repository.fillUpMapSpotCache(extractedData);
   }
 }

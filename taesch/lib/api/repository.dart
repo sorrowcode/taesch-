@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:taesch/api/map_api_logic/geolocation_tools.dart';
+import 'package:taesch/api/map_api_logic/querying_tools.dart';
 import 'package:taesch/model/map_spot.dart';
 import 'package:taesch/model/shopping_list_item.dart';
 import 'package:taesch/utils/my_tools.dart';
@@ -12,6 +13,7 @@ class Repository {
 
   GeolocationTools geolocationTools = GeolocationTools();
   MyTools tools = MyTools();
+  OSMQueries queries = OSMQueries();
 
   static final Repository _singleton = Repository._internal();
 

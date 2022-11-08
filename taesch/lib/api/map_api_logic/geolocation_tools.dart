@@ -1,12 +1,8 @@
 
 //import 'package:flutter/material.dart';
 import 'dart:async';
-import 'dart:ffi';
-import 'dart:io';
-import 'dart:ui';
 
 import 'package:geolocator/geolocator.dart';
-import 'package:taesch/api/repository.dart';
 
 class GeolocationTools{
 

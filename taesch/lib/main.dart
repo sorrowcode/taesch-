@@ -5,6 +5,7 @@ import 'dart:isolate';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:taesch/api/map_api_logic/geolocation_tools.dart';
+import 'package:taesch/api/repository.dart';
 import 'package:taesch/utils/my_tools.dart';
 
 import 'app.dart';
@@ -21,5 +22,6 @@ void main() {
 }
 
 void initialize(){
-  GeolocationTools.startGeoTimer();
+  //GeolocationTools.startGeoTimer();
+  Repository().geolocationTools.startGeoTimer();
 }

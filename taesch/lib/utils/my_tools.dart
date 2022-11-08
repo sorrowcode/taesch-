@@ -2,7 +2,7 @@ import 'dart:isolate';
 import 'isolate_executor.dart';
 
 class MyTools {
-  static List<dynamic> getElements({required dynamic list, int cap = 0}) {
+  List<dynamic> getElements({required dynamic list, int cap = 0}) {
     List<dynamic> result = [];
     bool capSet = cap > 0 ? true : false;
     bool endReached = false;
@@ -22,7 +22,7 @@ class MyTools {
     return result;
   }
 
-  static void spawnIsolate(Function func) async {
+  void spawnIsolate(Function func) async {
     await Isolate.spawn(IsolateExecutor(func).run, ReceivePort().sendPort);
   }
 

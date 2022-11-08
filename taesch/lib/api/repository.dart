@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
+import 'package:taesch/api/map_api_logic/geolocation_tools.dart';
 import 'package:taesch/model/map_spot.dart';
 import 'package:taesch/model/shopping_list_item.dart';
+import 'package:taesch/utils/my_tools.dart';
 
 class Repository {
   bool isDarkModeEnabled = false;
@@ -8,8 +10,8 @@ class Repository {
   ValueNotifier<int> shoppingListSize = ValueNotifier(0);
   List<MapSpot> shopsCache = [];
 
-  final int locationTimerPauseSeconds = 10;
-  final int locateTimeoutSeconds = 20; // <-- measured delay, for precise location
+  GeolocationTools geolocationTools = GeolocationTools();
+  MyTools tools = MyTools();
 
   static final Repository _singleton = Repository._internal();
 

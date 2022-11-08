@@ -10,7 +10,10 @@ import 'package:taesch/api/repository.dart';
 
 class GeolocationTools{
 
-  static Future<void> getCurrentPosition() async{
+  final int locateTimeout = 20; // <-- measured delay, for precise location
+  final int locationTimerPause = 10;
+
+  Future<void> getCurrentPosition() async{
     if(_geolocatorPermissionIsSet()){
       // return lat and long
       try {
@@ -18,7 +21,7 @@ class GeolocationTools{
 
         Future<Position> positionFuture = Geolocator.getCurrentPosition(
             desiredAccuracy: LocationAccuracy.high);
-        positionFuture.timeout(Duration(seconds: Repository().locateTimeoutSeconds));
+        positionFuture.timeout(Duration(seconds: locateTimeout));
         //await Future.delayed(Duration(seconds: 5));
         //print("finished sleeping");
         try{
@@ -38,14 +41,14 @@ class GeolocationTools{
     }
   }
 
-  static bool _geolocatorPermissionIsSet(){
+  bool _geolocatorPermissionIsSet(){
     // check wether Geolocator has the permission
     // work with timeouts
     Future<LocationPermission> permission = Geolocator.requestPermission();
     return true;
   }
 
-  static Future<bool> handleLocationPermission() async {
+  Future<bool> handleLocationPermission() async {
     bool serviceEnabled;
     LocationPermission permission;
 
@@ -69,8 +72,8 @@ class GeolocationTools{
     return true;
   }
 
-  static void startGeoTimer(){
-    Timer.periodic(Duration(seconds: Repository().locationTimerPauseSeconds), (timer) async {
+  void startGeoTimer(){
+    Timer.periodic(Duration(seconds: locationTimerPause), (timer) async {
       print(timer.tick);
       await getCurrentPosition();
       if (false) {

@@ -4,13 +4,15 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:http/http.dart';
+import 'package:taesch/api/repository.dart';
 import 'package:taesch/model/map_spot.dart';
-import 'package:taesch/utils/my_tools.dart';
+// import 'package:taesch/utils/my_tools.dart';
 
-import 'geolocation_tools.dart';
+// import 'geolocation_tools.dart';
 import 'querying_tools.dart';
 
 class APIQuerier {
+  final Repository repository = Repository();
   final String _apiUrl = 'http://overpass-api.de//api/interpreter?';
   Map<String, dynamic> _jsonMapData = {};
 
@@ -55,7 +57,7 @@ class APIQuerier {
 
       try {
         // Einträge extrahieren - data[elements]
-        List<dynamic> elementContents = MyTools.getElements(list: elementList);
+        List<dynamic> elementContents = repository.tools.getElements(list: elementList);
         // int clength = elementContents.length<15 ? elementContents.length : 15;
         int clength = elementContents.length;
         for (int i = 0; i < clength; i++) {

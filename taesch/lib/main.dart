@@ -18,10 +18,4 @@ void main() {
 
   runApp(App());
 
-  initialize();
-}
-
-void initialize(){
-  //GeolocationTools.startGeoTimer();
-  Repository().geolocationTools.startGeoTimer();
 }

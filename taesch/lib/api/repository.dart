@@ -18,4 +18,12 @@ class Repository {
   Repository._internal();
 
   List<ShoppingListItem> get shoppingListItems => _shoppingListItems;
+
+  void fillUpShopCache(List<Shop> shops){
+    shopsCache = []; // reset
+    for (Shop shop in shops){
+      shopsCache.add(shop);
+    }
+    shopsCacheSize.value = shopsCache.length;
+  }
 }

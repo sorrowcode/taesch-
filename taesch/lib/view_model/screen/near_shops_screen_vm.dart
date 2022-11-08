@@ -13,9 +13,10 @@ class NearShopsScreenVM {
   void loadShops() {
     _apiQuerier.makeHTTPRequest();
     var extractedData = _apiQuerier.extractJSONData();
+    List<Shop> shops = [];
     for (MapSpot spot in extractedData) {
-      repository.shopsCache.add(Shop(spot: spot));
+      shops.add(Shop(spot: spot));
     }
-    repository.shopsCacheSize.value = repository.shopsCache.length;
+    repository.fillUpShopCache(shops);
   }
 }

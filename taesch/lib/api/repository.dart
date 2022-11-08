@@ -8,6 +8,9 @@ class Repository {
   ValueNotifier<int> shoppingListSize = ValueNotifier(0);
   List<MapSpot> shopsCache = [];
 
+  final int locationTimerPauseSeconds = 10;
+  final int locateTimeoutSeconds = 20; // <-- measured delay, for precise location
+
   static final Repository _singleton = Repository._internal();
 
   factory Repository() {

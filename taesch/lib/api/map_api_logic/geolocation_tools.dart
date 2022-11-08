@@ -6,11 +6,9 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:geolocator/geolocator.dart';
+import 'package:taesch/api/repository.dart';
 
 class GeolocationTools{
-
-  static const locateTimeout = 20; // <-- measured delay, for precise location
-  static const timerPauseSeconds = 10;
 
   static Future<void> getCurrentPosition() async{
     if(_geolocatorPermissionIsSet()){
@@ -20,7 +18,7 @@ class GeolocationTools{
 
         Future<Position> positionFuture = Geolocator.getCurrentPosition(
             desiredAccuracy: LocationAccuracy.high);
-        positionFuture.timeout(const Duration(seconds: locateTimeout));
+        positionFuture.timeout(Duration(seconds: Repository().locateTimeoutSeconds));
         //await Future.delayed(Duration(seconds: 5));
         //print("finished sleeping");
         try{
@@ -72,7 +70,7 @@ class GeolocationTools{
   }
 
   static void startGeoTimer(){
-    Timer.periodic(const Duration(seconds: timerPauseSeconds), (timer) async {
+    Timer.periodic(Duration(seconds: Repository().locationTimerPauseSeconds), (timer) async {
       print(timer.tick);
       await getCurrentPosition();
       if (false) {

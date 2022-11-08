@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 
+import '../../model/map_spot.dart';
+
 class ShopsMapScreen extends StatefulWidget{
     final _vm = ShopsMapScreenVM();
 
@@ -16,6 +18,29 @@ class ShopsMapScreen extends StatefulWidget{
 }
 
 class _ShopsMapScreenState extends State<ShopsMapScreen>{
+
+    List<Marker> _getMarkersFromSpot(List<MapSpot> mapSpots){
+        List<Marker> markers = [];
+        for (MapSpot mapSpot in mapSpots){
+            markers.add(
+                Marker(
+                    point: LatLng(mapSpot.lat, mapSpot.long),
+                    builder: (ctx) => GestureDetector(
+                        onTap: () {
+                            /*ScaffoldMessenger.of(ctx).showSnackBar(const SnackBar(
+                                content: Text('Tapped on blue FlutterLogo Marker'),
+                                )
+                            );*/
+                            print("Tapped on marker.");
+                        },
+                        child: const FlutterLogo(),
+                    )
+                )
+            );
+        }
+        return markers;
+    }
+
     @override
     Widget build(BuildContext context) {
 
@@ -33,6 +58,17 @@ class _ShopsMapScreenState extends State<ShopsMapScreen>{
                                 urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                                 userAgentPackageName: 'dev.fleaflet.flutter_map.example',
                             ),
+                            MarkerLayer(
+                                markers: [
+                                    Marker(
+                                        point: LatLng(45.5231, -122.6765),
+                                        builder: (ctx) => GestureDetector(
+                                            onTap: () {},
+                                            child: Icon(Icons.location_on)//const FlutterLogo(),
+                                        )
+                                    )
+                                ],
+                            )
                         ],
                     ),
                 ),

@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:http/http.dart';
+import 'package:taesch/api/map_api_logic/overpass_query_indexes.dart';
 import 'package:taesch/model/map_spot.dart';
 import 'package:taesch/utils/my_tools.dart';
 
@@ -65,24 +66,36 @@ class APIQuerier {
               // neues MapSpot-Objekt instanziieren - data[elements][3][name]
               // Initialisierung durch Zugriffe auf entryContents
               try {
+
+                double latitude = 0.0;
+                try{
+                  latitude = double.parse(entries[OverpassQueryIndexes.latitude.identifier].toString());
+                  // .toString is necessary, otherwise parsing fails
+                }catch(e){}
+
+                double longitude = 0.0;
+                try{
+                  longitude = double.parse(entries[OverpassQueryIndexes.longitude.identifier].toString());
+                }catch(e){}
+
                 var tags = entries["tags"];
 
                 String name = "n/a";
                 try {
-                  name = tags["name"];
+                  name = tags[OverpassQueryIndexes.name.identifier];
                 } catch (e) {}
 
                 String street = "n/a";
                 try {
-                  street = tags["addr:street"];
+                  street = tags[OverpassQueryIndexes.street];
                 } catch (e) {}
 
                 String number = "n/a";
                 try {
-                  number = tags["addr:housenumber"];
+                  number = tags[OverpassQueryIndexes.houseNumber];
                 } catch (e) {}
 
-                MapSpot mapSpot = MapSpot(name, 0, 0, street + ", " + number);
+                MapSpot mapSpot = MapSpot(name, longitude, latitude, street + ", " + number);
                 spotList.add(mapSpot);
               } catch (e) {}
             } catch (e) {

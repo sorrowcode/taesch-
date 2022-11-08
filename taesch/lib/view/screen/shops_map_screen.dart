@@ -33,7 +33,7 @@ class _ShopsMapScreenState extends State<ShopsMapScreen>{
                             );*/
                             print("Tapped on marker.");
                         },
-                        child: const FlutterLogo(),
+                        child: Icon(Icons.location_on),
                     )
                 )
             );

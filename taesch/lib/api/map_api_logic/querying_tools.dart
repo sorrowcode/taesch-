@@ -1,8 +1,3 @@
-class MapQueryIndexes {
-  static const String name = "name";
-  static const String latitude = "lat";
-  static const String longitude = "long";
-}
 
 class OSMQueries {
   static const String query1Heilbronn =

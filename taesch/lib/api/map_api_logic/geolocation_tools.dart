@@ -34,10 +34,12 @@ class GeolocationTools{
           repository.userPosition = position;
 
         }on TimeoutException catch(e){
-          print("Too long to get location."); // error message
+          // print("Too long to get location."); // error message
+          e.toString();
         }
       }catch(e){
-        print("Fetching position failed because of:\n"+e.toString());
+        // print("Fetching position failed because of:\n"+e.toString());
+        e.toString();
       }
     }else{
       // return some default position, or NULL
@@ -47,7 +49,7 @@ class GeolocationTools{
   bool _geolocatorPermissionIsSet(){
     // check wether Geolocator has the permission
     // work with timeouts
-    Future<LocationPermission> permission = Geolocator.requestPermission();
+    // Future<LocationPermission> permission = Geolocator.requestPermission();
     return true;
   }
 
@@ -58,31 +60,34 @@ class GeolocationTools{
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       // snackbar
-      print('Location services are disabled. Please enable the services');
+      // print('Location services are disabled. Please enable the services'); // <- log
       return false;
     }
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
-      print('Location permissions are denied');
+      // print('Location permissions are denied');// <- log
         return false;
       }
     if (permission == LocationPermission.deniedForever) {
-      print('Location permissions are permanently denied, we cannot request permissions.');
+      // print('Location permissions are permanently denied, we cannot request permissions.'); // <- log
       return false;
     }
-    print("geolocator permitted.");
+    // print("geolocator permitted."); // <- log
     return true;
   }
 
   void startGeoTimer(){
     Timer.periodic(Duration(seconds: locationTimerPause), (timer) async {
-      print(timer.tick);
+      //print(timer.tick);
       await getCurrentPosition();
-      if (false) {
+
+      // abort condition
+      /*if (false) {
         print('Cancel timer');
         timer.cancel();
-      }
+      }*/
+
     });
   }
 

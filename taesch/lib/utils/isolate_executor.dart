@@ -2,7 +2,7 @@ import 'dart:isolate';
 import 'package:flutter/material.dart';
 
 class IsolateExecutor{
-  Function _function;
+  final Function _function;
 
   IsolateExecutor(this._function);
   Future<void> run(SendPort sendPort) async{

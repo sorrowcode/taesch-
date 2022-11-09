@@ -10,7 +10,7 @@ class OSMQueries {
 
   final int queryTimeoutSeconds = 4;
 
-  String OSMQueryBuilder() {
+  String osmQueryBuilder() {
     // zunächst ein Defaultwert. In Zukunft sollen weitere Parameter gesetzt werden können.
     return query1Heilbronn;
   }

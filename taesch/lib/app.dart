@@ -23,6 +23,7 @@ class AppState extends State<App> {
 
   @override
   void initState(){
+    super.initState();
     widget._vm.repository.geolocationTools.startGeoTimer();
   }
 

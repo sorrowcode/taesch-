@@ -22,7 +22,7 @@ class APIQuerier {
     try {
       // build http request and set timeout
       Response resp =
-          await get(Uri.parse(_apiUrl + repository.queries.OSMQueryBuilder()))
+          await get(Uri.parse(_apiUrl + repository.queries.osmQueryBuilder()))
               .timeout(Duration(seconds: repository.queries.queryTimeoutSeconds));
 
       if (resp.statusCode == 200) {

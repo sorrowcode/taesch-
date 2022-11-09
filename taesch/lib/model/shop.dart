@@ -1,4 +1,3 @@
-import 'package:geolocator/geolocator.dart';
 import 'package:taesch/model/discount.dart';
 import 'package:taesch/model/map_spot.dart';
 

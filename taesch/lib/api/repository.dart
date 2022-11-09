@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:taesch/model/shop.dart';
 import 'package:taesch/model/shopping_list_item.dart';
 
@@ -11,6 +12,8 @@ class Repository {
   List<Shop> shopsCache = [];
   List<MapSpot> mapSpotsCache = []; // not all MapSpots might be Shops
   ValueNotifier<int> shopsCacheSize = ValueNotifier(0);
+
+  LatLng userPosition = LatLng(49.1427,9.2109);
 
   static final Repository _singleton = Repository._internal();
 

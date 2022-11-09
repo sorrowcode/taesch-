@@ -25,7 +25,7 @@ class _ShopsMapScreenState extends State<ShopsMapScreen>{
             markers.add(
                 Marker(
                     point: LatLng(mapSpot.lat, mapSpot.long),
-                    builder: (ctx) => GestureDetector(
+                    /*builder: (ctx) => GestureDetector(
                         onTap: () {
                             /*ScaffoldMessenger.of(ctx).showSnackBar(const SnackBar(
                                 content: Text('Tapped on blue FlutterLogo Marker'),
@@ -34,7 +34,9 @@ class _ShopsMapScreenState extends State<ShopsMapScreen>{
                             print("Tapped on marker.");
                         },
                         child: Icon(Icons.location_on),
-                    )
+
+                    )*/
+                    builder: (ctx) => const Icon(Icons.location_on)
                 )
             );
         }
@@ -50,7 +52,7 @@ class _ShopsMapScreenState extends State<ShopsMapScreen>{
                 child: SizedBox(
                     child: FlutterMap(
                         options: MapOptions(
-                            center: LatLng(45.5231, -122.6765),
+                            center: widget._vm.repository.userPosition,
                             zoom: 13,
                         ),
                         children: [
@@ -61,13 +63,13 @@ class _ShopsMapScreenState extends State<ShopsMapScreen>{
                             MarkerLayer(
                                 markers: [
                                     Marker(
-                                        point: LatLng(45.5231, -122.6765),
+                                        point: widget._vm.repository.userPosition,
                                         builder: (ctx) => GestureDetector(
                                             onTap: () {},
-                                            child: Icon(Icons.location_on)//const FlutterLogo(),
+                                            child: Icon(Icons.my_location)//const FlutterLogo(),
                                         )
                                     )
-                                ],
+                                ]+_getMarkersFromSpot(widget._vm.repository.mapSpotsCache),
                             )
                         ],
                     ),

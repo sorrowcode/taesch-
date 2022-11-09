@@ -31,7 +31,8 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
                   splashColor: Colors.blue.withAlpha(30),
                   onTap: () {
                     setState(() {
-                      widget._vm.repository.shoppingListItems.remove(widget._vm.repository.shoppingListItems[index]);
+                      widget
+                          ._vm.repository.shoppingListItems.remove(widget._vm.repository.shoppingListItems[index]);
                     });
                     },
                   child: SizedBox(

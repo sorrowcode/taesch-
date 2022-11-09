@@ -9,7 +9,6 @@ class Repository {
   final List<ShoppingListItem> _shoppingListItems = [];
   ValueNotifier<int> shoppingListSize = ValueNotifier(0);
   List<Shop> shopsCache = [];
-  List<MapSpot> mapSpotsCache = []; // not all MapSpots might be Shops
   ValueNotifier<int> shopsCacheSize = ValueNotifier(0);
 
   LatLng userPosition = LatLng(49.1427, 9.2109);

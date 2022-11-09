@@ -4,6 +4,8 @@ import 'package:latlong2/latlong.dart';
 import 'package:taesch/model/map_spot.dart';
 import 'package:taesch/view_model/screen/shops_map_screen_vm.dart';
 
+import '../../model/shop.dart';
+
 class ShopsMapScreen extends StatefulWidget {
   final _vm = ShopsMapScreenVM();
 
@@ -37,6 +39,13 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    // fetch MapSpots from each Shop
+    List<MapSpot> mapSpots = [];
+    for (Shop shop in widget._vm.repository.shopsCache){
+      mapSpots.add(shop.mapSpot);
+    }
+
     // taken from the example code of https://github.com/fleaflet/flutter_map/blob/master/example/lib/pages/moving_markers.dart
     return Scaffold(
       body: Center(
@@ -61,7 +70,7 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
                                   const Icon(Icons.my_location) //const FlutterLogo(),
                               ))
                     ] +
-                    _getMarkersFromSpot(widget._vm.repository.mapSpotsCache),
+                    _getMarkersFromSpot(mapSpots),
               )
             ],
           ),

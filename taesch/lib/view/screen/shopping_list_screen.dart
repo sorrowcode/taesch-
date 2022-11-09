@@ -30,8 +30,10 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
                 child: InkWell(
                   splashColor: Colors.blue.withAlpha(30),
                   onTap: () {
-                    debugPrint('Card tapped.');
-                  },
+                    setState(() {
+                      widget._vm.repository.shoppingListItems.remove(widget._vm.repository.shoppingListItems[index]);
+                    });
+                    },
                   child: SizedBox(
                     width: 100,
                     height: 100,

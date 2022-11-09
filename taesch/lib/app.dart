@@ -19,7 +19,7 @@ class App extends StatefulWidget {
 }
 
 
-class _AppState extends State<App> {
+class AppState extends State<App> {
 
   @override
   void initState(){

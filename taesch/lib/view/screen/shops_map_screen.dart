@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:taesch/model/map_spot.dart';
 import 'package:taesch/view_model/screen/shops_map_screen_vm.dart';
@@ -40,6 +41,9 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
   @override
   Widget build(BuildContext context) {
 
+    // create user position object
+    Position position = widget._vm.repository.userPosition;
+
     // fetch MapSpots from each Shop
     List<MapSpot> mapSpots = [];
     for (Shop shop in widget._vm.repository.shopsCache){
@@ -52,7 +56,7 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
         child: SizedBox(
           child: FlutterMap(
             options: MapOptions(
-              center: widget._vm.repository.userPosition,
+              center: LatLng(position.latitude, position.longitude),
               zoom: 13,
             ),
             children: [
@@ -63,7 +67,7 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
               MarkerLayer(
                 markers: [
                       Marker(
-                          point: widget._vm.repository.userPosition,
+                          point: LatLng(position.latitude, position.longitude),
                           builder: (ctx) => GestureDetector(
                               onTap: () {},
                               child:

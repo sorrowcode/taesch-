@@ -24,7 +24,9 @@ class GeolocationTools{
           Position position = await positionFuture;
 
           // on success locating the user, return the position
-          print("Position: \nlat: "+position.latitude.toString()+"\nlong: "+position.longitude.toString());
+          // print("Position: \nlat: "+position.latitude.toString()+"\nlong: "+position.longitude.toString()); // <- log
+
+          // update position in Repository
 
         }on TimeoutException catch(e){
           print("Too long to get location."); // error message

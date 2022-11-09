@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:latlong2/latlong.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:taesch/model/shop.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:taesch/api/map_api_logic/geolocation_tools.dart';
 import 'package:taesch/api/map_api_logic/querying_tools.dart';
-import 'package:taesch/model/map_spot.dart';
 import 'package:taesch/model/shopping_list_item.dart';
 import 'package:taesch/utils/my_tools.dart';
 
-import '../model/shop.dart';
 
 class Repository {
   bool isDarkModeEnabled = false;
@@ -18,7 +16,17 @@ class Repository {
   ValueNotifier<int> shopsCacheSize = ValueNotifier(0);
 
 
-  LatLng userPosition = LatLng(49.1427, 9.2109);
+  Position userPosition = const Position(
+      latitude: 49.1427,
+      longitude: 9.2109,
+      timestamp: null,
+      accuracy: 0.0,
+      altitude: 0.0,
+      heading: 0.0,
+      speed: 0.0,
+      speedAccuracy: 0.0
+  );//LatLng(49.1427, 9.2109);
+
   GeolocationTools geolocationTools = GeolocationTools();
   MyTools tools = MyTools();
   OSMQueries queries = OSMQueries();

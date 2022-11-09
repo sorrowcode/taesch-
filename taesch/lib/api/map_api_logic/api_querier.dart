@@ -11,7 +11,7 @@ import 'package:taesch/model/map_spot.dart';
 // import 'package:taesch/utils/my_tools.dart';
 
 // import 'geolocation_tools.dart';
-import 'querying_tools.dart';
+// import 'querying_tools.dart';
 
 class APIQuerier {
   final Repository repository = Repository();
@@ -47,6 +47,7 @@ class APIQuerier {
       }
     } on TimeoutException catch (e) {
       //print("Timeout for http request.");
+      e.toString(); // <- needs to be logged
     }
   }
 

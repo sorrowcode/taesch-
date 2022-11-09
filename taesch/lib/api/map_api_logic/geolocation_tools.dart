@@ -3,11 +3,15 @@
 import 'dart:async';
 
 import 'package:geolocator/geolocator.dart';
+import 'package:taesch/api/repository.dart';
 
 class GeolocationTools{
 
+  Repository repository;
   final int locateTimeout = 20; // <-- measured delay, for precise location
   final int locationTimerPause = 10;
+
+  GeolocationTools(this.repository);
 
   Future<void> getCurrentPosition() async{
     if(_geolocatorPermissionIsSet()){
@@ -27,6 +31,7 @@ class GeolocationTools{
           // print("Position: \nlat: "+position.latitude.toString()+"\nlong: "+position.longitude.toString()); // <- log
 
           // update position in Repository
+          repository.userPosition = position;
 
         }on TimeoutException catch(e){
           print("Too long to get location."); // error message

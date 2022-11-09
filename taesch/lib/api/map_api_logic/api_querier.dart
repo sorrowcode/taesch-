@@ -30,11 +30,11 @@ class APIQuerier {
         // then parse the JSON.
         _jsonMapData = jsonDecode(resp.body);
 
-        try {
+        /*try {
           // List<MapSpot> spots = extractJSONData();
         } catch (e) {
           //print("Couldn't extract json data.");
-        }
+        }*/
 
         //print("Done processing response.");
 

@@ -27,7 +27,7 @@ class Repository {
       speedAccuracy: 0.0
   );//LatLng(49.1427, 9.2109);
 
-  GeolocationTools geolocationTools = GeolocationTools();
+  late GeolocationTools geolocationTools;// = GeolocationTools(this);
   MyTools tools = MyTools();
   OSMQueries queries = OSMQueries();
 
@@ -37,7 +37,9 @@ class Repository {
     return _singleton;
   }
 
-  Repository._internal();
+  Repository._internal(){
+    geolocationTools = GeolocationTools(this);
+  }
 
   List<ShoppingListItem> get shoppingListItems => _shoppingListItems;
 

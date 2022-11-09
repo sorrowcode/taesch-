@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:taesch/model/map_spot.dart';
 import 'package:taesch/model/shop.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:taesch/api/map_api_logic/geolocation_tools.dart';
+import 'package:taesch/api/map_api_logic/querying_tools.dart';
+import 'package:taesch/model/map_spot.dart';
 import 'package:taesch/model/shopping_list_item.dart';
+import 'package:taesch/utils/my_tools.dart';
+
+import '../model/shop.dart';
 
 class Repository {
   bool isDarkModeEnabled = false;
@@ -11,7 +17,11 @@ class Repository {
   List<Shop> shopsCache = [];
   ValueNotifier<int> shopsCacheSize = ValueNotifier(0);
 
+
   LatLng userPosition = LatLng(49.1427, 9.2109);
+  GeolocationTools geolocationTools = GeolocationTools();
+  MyTools tools = MyTools();
+  OSMQueries queries = OSMQueries();
 
   static final Repository _singleton = Repository._internal();
 

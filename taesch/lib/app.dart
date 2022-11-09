@@ -18,9 +18,17 @@ class App extends StatefulWidget {
       context.findAncestorStateOfType<AppState>();
 }
 
-class AppState extends State<App> {
+
+class _AppState extends State<App> {
+
+  @override
+  void initState(){
+    widget._vm.repository.geolocationTools.startGeoTimer();
+  }
+
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
       title: widget._vm.appTitle,
       themeMode: widget._vm.mode,

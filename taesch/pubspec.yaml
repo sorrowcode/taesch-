@@ -32,6 +32,7 @@ dependencies:
   flutter:
     sdk: flutter
   geolocator: ^9.0.2
+  # location: ^3.0.0
   http:
   sqflite:
   path:

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:taesch/view/custom_widget/shops_tile.dart';
 import 'package:taesch/view_model/screen/near_shops_screen_vm.dart';
 
@@ -36,9 +35,9 @@ class _NearShopsScreenState extends State<NearShopsScreen> {
             height: 100,
             child: Column(
               children: [
-                Text("Area: Heilbronn", style: TextStyle(fontSize: 25)),
+                const Text("Area: Heilbronn", style: TextStyle(fontSize: 25)),
                 TextButton(
-                  child: Text("Search"),
+                  child: const Text("Search"),
                   onPressed: () {
                     setState(() {
                       widget._vm.loadShops();

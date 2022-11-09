@@ -1,9 +1,3 @@
-class MapQueryIndexes {
-  final String name = "name";
-  final String latitude = "lat";
-  final String longitude = "long";
-}
-
 class OSMQueries {
   final String query1Heilbronn =
       "data=[out:json][timeout:50];area[name=\"Heilbronn\"]->.searchArea;(nwr[\"shop\"=\"supermarket\"](around:2000,49.1427,9.2109)(area.searchArea););out;";
@@ -20,4 +14,8 @@ class OSMQueries {
     // zunächst ein Defaultwert. In Zukunft sollen weitere Parameter gesetzt werden können.
     return query1Heilbronn;
   }
+}
+
+class OSMQueryBuilder {
+
 }

@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:taesch/view_model/custom_widget/shops_tile_vm.dart';
 
 class ShopsTile extends StatefulWidget {
-  late ShopsTileVM _vm;
+  final ShopsTileVM _vm = ShopsTileVM();
 
   ShopsTile({super.key, required String title, required String address}) {
-    _vm = ShopsTileVM(title: title, address: address);
+    _vm.title = title;
+    _vm.address = address;
   }
 
   @override

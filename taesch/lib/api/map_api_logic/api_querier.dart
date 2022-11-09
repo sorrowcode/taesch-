@@ -72,7 +72,9 @@ class APIQuerier {
                       entries[OverpassQueryIndexes.latitude.identifier]
                           .toString());
                   // .toString is necessary, otherwise parsing fails
-                } catch (e) {}
+                } catch (e) {
+
+                }
 
                 double longitude = 0.0;
                 try {

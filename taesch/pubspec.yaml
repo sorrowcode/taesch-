@@ -36,10 +36,11 @@ dependencies:
   sqflite:
   path:
   test:
+  osm_nominatim: ^2.0.1
   flutter_map: ^3.0.0
   latlong2: ^0.8.1 # <-- used in conjunction with flutter_map
 
-dependency_overrides:
+#dependency_overrides:
   #flutter_map:
     #git:
      # url: https://github.com/fleaflet/flutter_map.git

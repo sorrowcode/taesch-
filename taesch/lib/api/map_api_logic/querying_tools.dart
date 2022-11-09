@@ -15,3 +15,7 @@ class OSMQueries {
     return OSMQueries.query1Heilbronn;
   }
 }
+
+class OSMQueryBuilder {
+
+}

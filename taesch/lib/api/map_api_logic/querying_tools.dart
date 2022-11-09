@@ -16,6 +16,4 @@ class OSMQueries {
   }
 }
 
-class OSMQueryBuilder {
-
-}
+class OSMQueryBuilder {}

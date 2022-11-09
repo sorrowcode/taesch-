@@ -21,9 +21,9 @@ class APIQuerier {
   Future<void> makeHTTPRequest() async {
     try {
       // build http request and set timeout
-      Response resp =
-          await get(Uri.parse(_apiUrl + repository.queries.osmQueryBuilder()))
-              .timeout(Duration(seconds: repository.queries.queryTimeoutSeconds));
+      Response resp = await get(
+              Uri.parse(_apiUrl + repository.queries.osmQueryBuilder()))
+          .timeout(Duration(seconds: repository.queries.queryTimeoutSeconds));
 
       if (resp.statusCode == 200) {
         // If the server did return a 200 OK response,
@@ -61,7 +61,8 @@ class APIQuerier {
 
       try {
         // Einträge extrahieren - data[elements]
-        List<dynamic> elementContents = repository.tools.getElements(list: elementList);
+        List<dynamic> elementContents =
+            repository.tools.getElements(list: elementList);
         // int clength = elementContents.length<15 ? elementContents.length : 15;
         int clength = elementContents.length;
         for (int i = 0; i < clength; i++) {
@@ -70,90 +71,96 @@ class APIQuerier {
             // List<dynamic> entryContents = MyTools.getElements(list: elementContents[i]);
             var entries = elementContents[i];
 
-              // neues MapSpot-Objekt instanziieren - data[elements][3][name]
-              // Initialisierung durch Zugriffe auf entryContents
+            // neues MapSpot-Objekt instanziieren - data[elements][3][name]
+            // Initialisierung durch Zugriffe auf entryContents
+            try {
+              String noValue = "no value", accessedValue = noValue;
+
+              double latitude = 0.0;
+              accessedValue = noValue;
               try {
-                String noValue = "no value", accessedValue = noValue;
-
-                double latitude = 0.0;
-                accessedValue = noValue;
-                try {
-                  accessedValue = entries[OverpassQueryIndexes.latitude.identifier].toString(); // .toString is necessary, otherwise parsing fails
-                  latitude = double.parse(accessedValue);
-                } catch (e) {
-                  try {
-                    throw QueryException(
-                        "Parsing of accessed latitude index to double failed. Value: $accessedValue");
-                  }on QueryException catch(f){
-                    f.cause; // <- needs to be logged
-                  }
-                }
-
-                double longitude = 0.0;
-                accessedValue = noValue;
-                try {
-                  accessedValue = entries[OverpassQueryIndexes.longitude.identifier].toString();
-                  longitude = double.parse(accessedValue);
-                } catch (e) {
-                  try {
-                    throw QueryException(
-                        "Parsing of accessed longitude index to double failed. Value: $accessedValue");
-                  }on QueryException catch(f){
-                    f.cause; // <- needs to be logged
-                  }
-                }
-
-                var tags = entries["tags"];
-
-                String name = "n/a";
-                accessedValue = noValue;
-                try {
-                  accessedValue = tags[OverpassQueryIndexes.name.identifier];//.toString()
-                  name = accessedValue;
-                } catch (e) {
-                  try {
-                    throw QueryException(
-                        "Accessing name index failed. Value: $accessedValue");
-                  }on QueryException catch(f){
-                    f.cause; // <- needs to be logged
-                  }
-                }
-
-                String street = "n/a";
-                accessedValue = noValue;
-                try {
-                  accessedValue = tags[OverpassQueryIndexes.street];//.toString();
-                  street = tags[OverpassQueryIndexes.street];
-                } catch (e) {
-                  try {
-                    throw QueryException(
-                        "Accessing street index failed. Value: $accessedValue");
-                  }on QueryException catch(f){
-                    f.cause; // <- needs to be logged
-                  }
-                }
-
-                String number = "n/a";
-                accessedValue = noValue;
-                try {
-                  accessedValue = tags[OverpassQueryIndexes.houseNumber];//.toString
-                  number = accessedValue;
-                } catch (e) {
-                  try {
-                    throw QueryException(
-                        "Accessing street-number index failed. Value: $accessedValue");
-                  }on QueryException catch(f){
-                    f.cause; // <- needs to be logged
-                  }
-                }
-
-                MapSpot mapSpot =
-                    MapSpot(name, longitude, latitude, "$street, $number");
-                spotList.add(mapSpot);
+                accessedValue = entries[
+                        OverpassQueryIndexes.latitude.identifier]
+                    .toString(); // .toString is necessary, otherwise parsing fails
+                latitude = double.parse(accessedValue);
               } catch (e) {
-                e.toString(); // <- needs to be logged
+                try {
+                  throw QueryException(
+                      "Parsing of accessed latitude index to double failed. Value: $accessedValue");
+                } on QueryException catch (f) {
+                  f.cause; // <- needs to be logged
+                }
               }
 
+              double longitude = 0.0;
+              accessedValue = noValue;
+              try {
+                accessedValue =
+                    entries[OverpassQueryIndexes.longitude.identifier]
+                        .toString();
+                longitude = double.parse(accessedValue);
+              } catch (e) {
+                try {
+                  throw QueryException(
+                      "Parsing of accessed longitude index to double failed. Value: $accessedValue");
+                } on QueryException catch (f) {
+                  f.cause; // <- needs to be logged
+                }
+              }
+
+              var tags = entries["tags"];
+
+              String name = "n/a";
+              accessedValue = noValue;
+              try {
+                accessedValue =
+                    tags[OverpassQueryIndexes.name.identifier]; //.toString()
+                name = accessedValue;
+              } catch (e) {
+                try {
+                  throw QueryException(
+                      "Accessing name index failed. Value: $accessedValue");
+                } on QueryException catch (f) {
+                  f.cause; // <- needs to be logged
+                }
+              }
+
+              String street = "n/a";
+              accessedValue = noValue;
+              try {
+                accessedValue =
+                    tags[OverpassQueryIndexes.street]; //.toString();
+                street = tags[OverpassQueryIndexes.street];
+              } catch (e) {
+                try {
+                  throw QueryException(
+                      "Accessing street index failed. Value: $accessedValue");
+                } on QueryException catch (f) {
+                  f.cause; // <- needs to be logged
+                }
+              }
+
+              String number = "n/a";
+              accessedValue = noValue;
+              try {
+                accessedValue =
+                    tags[OverpassQueryIndexes.houseNumber]; //.toString
+                number = accessedValue;
+              } catch (e) {
+                try {
+                  throw QueryException(
+                      "Accessing street-number index failed. Value: $accessedValue");
+                } on QueryException catch (f) {
+                  f.cause; // <- needs to be logged
+                }
+              }
+
+              MapSpot mapSpot =
+                  MapSpot(name, longitude, latitude, "$street, $number");
+              spotList.add(mapSpot);
+            } catch (e) {
+              e.toString(); // <- needs to be logged
+            }
           } catch (e) {
             //print("Mistake on accessing or assigning elements-entry.");
             e.toString();

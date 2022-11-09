@@ -40,13 +40,12 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     // create user position object
     Position position = widget._vm.repository.userPosition;
 
     // fetch MapSpots from each Shop
     List<MapSpot> mapSpots = [];
-    for (Shop shop in widget._vm.repository.shopsCache){
+    for (Shop shop in widget._vm.repository.shopsCache) {
       mapSpots.add(shop.mapSpot);
     }
 
@@ -70,8 +69,8 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
                           point: LatLng(position.latitude, position.longitude),
                           builder: (ctx) => GestureDetector(
                               onTap: () {},
-                              child:
-                                  const Icon(Icons.my_location) //const FlutterLogo(),
+                              child: const Icon(
+                                  Icons.my_location) //const FlutterLogo(),
                               ))
                     ] +
                     _getMarkersFromSpot(mapSpots),

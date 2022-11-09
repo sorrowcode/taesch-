@@ -1,20 +1,18 @@
-
 //import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:geolocator/geolocator.dart';
 import 'package:taesch/api/repository.dart';
 
-class GeolocationTools{
-
+class GeolocationTools {
   Repository repository;
   final int locateTimeout = 20; // <-- measured delay, for precise location
   final int locationTimerPause = 10;
 
   GeolocationTools(this.repository);
 
-  Future<void> getCurrentPosition() async{
-    if(_geolocatorPermissionIsSet()){
+  Future<void> getCurrentPosition() async {
+    if (_geolocatorPermissionIsSet()) {
       // return lat and long
       try {
         // instantiate Future
@@ -24,7 +22,7 @@ class GeolocationTools{
         positionFuture.timeout(Duration(seconds: locateTimeout));
         //await Future.delayed(Duration(seconds: 5));
         //print("finished sleeping");
-        try{
+        try {
           Position position = await positionFuture;
 
           // on success locating the user, return the position
@@ -32,21 +30,20 @@ class GeolocationTools{
 
           // update position in Repository
           repository.userPosition = position;
-
-        }on TimeoutException catch(e){
+        } on TimeoutException catch (e) {
           // print("Too long to get location."); // error message
           e.toString();
         }
-      }catch(e){
+      } catch (e) {
         // print("Fetching position failed because of:\n"+e.toString());
         e.toString();
       }
-    }else{
+    } else {
       // return some default position, or NULL
     }
   }
 
-  bool _geolocatorPermissionIsSet(){
+  bool _geolocatorPermissionIsSet() {
     // check wether Geolocator has the permission
     // work with timeouts
     // Future<LocationPermission> permission = Geolocator.requestPermission();
@@ -67,8 +64,8 @@ class GeolocationTools{
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       // print('Location permissions are denied');// <- log
-        return false;
-      }
+      return false;
+    }
     if (permission == LocationPermission.deniedForever) {
       // print('Location permissions are permanently denied, we cannot request permissions.'); // <- log
       return false;
@@ -77,7 +74,7 @@ class GeolocationTools{
     return true;
   }
 
-  void startGeoTimer(){
+  void startGeoTimer() {
     Timer.periodic(Duration(seconds: locationTimerPause), (timer) async {
       //print(timer.tick);
       await getCurrentPosition();
@@ -87,8 +84,6 @@ class GeolocationTools{
         print('Cancel timer');
         timer.cancel();
       }*/
-
     });
   }
-
 }

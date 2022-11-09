@@ -1,4 +1,5 @@
 import 'dart:isolate';
+
 import 'isolate_executor.dart';
 
 class MyTools {
@@ -25,6 +26,4 @@ class MyTools {
   void spawnIsolate(Function func) async {
     await Isolate.spawn(IsolateExecutor(func).run, ReceivePort().sendPort);
   }
-
-
 }

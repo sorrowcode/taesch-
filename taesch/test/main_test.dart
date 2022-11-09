@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:taesch/api/map_api_logic/geolocation_tools.dart';
+// import 'package:taesch/api/map_api_logic/geolocation_tools.dart';
 import 'package:taesch/app.dart';
 import 'package:taesch/model/error_case.dart';
 import 'package:taesch/model/screen_state.dart';

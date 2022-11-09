@@ -5,6 +5,8 @@ import 'package:taesch/model/map_spot.dart';
 import 'package:taesch/model/shopping_list_item.dart';
 import 'package:taesch/utils/my_tools.dart';
 
+import '../model/shop.dart';
+
 class Repository {
   bool isDarkModeEnabled = false;
   final List<ShoppingListItem> _shoppingListItems = [];

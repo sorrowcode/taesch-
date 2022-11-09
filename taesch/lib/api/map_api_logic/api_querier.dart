@@ -5,6 +5,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart';
 import 'package:taesch/api/map_api_logic/overpass_query_indexes.dart';
+import 'package:taesch/api/map_api_logic/query_exceptions.dart';
 import 'package:taesch/model/map_spot.dart';
 import 'package:taesch/utils/my_tools.dart';
 
@@ -62,60 +63,103 @@ class APIQuerier {
             // jeden Eintrag auslesen - data[elements][3]
             // List<dynamic> entryContents = MyTools.getElements(list: elementContents[i]);
             var entries = elementContents[i];
-            try {
+
               // neues MapSpot-Objekt instanziieren - data[elements][3][name]
               // Initialisierung durch Zugriffe auf entryContents
               try {
-                double latitude = 0.0;
-                try {
-                  latitude = double.parse(
-                      entries[OverpassQueryIndexes.latitude.identifier]
-                          .toString());
-                  // .toString is necessary, otherwise parsing fails
-                } catch (e) {
+                String noValue = "no value", accessedValue = noValue;
 
+                double latitude = 0.0;
+                accessedValue = noValue;
+                try {
+                  accessedValue = entries[OverpassQueryIndexes.latitude.identifier].toString(); // .toString is necessary, otherwise parsing fails
+                  latitude = double.parse(accessedValue);
+                } catch (e) {
+                  try {
+                    throw QueryException(
+                        "Parsing of accessed latitude index to double failed. Value: $accessedValue");
+                  }on QueryException catch(f){
+                    f.cause; // <- needs to be logged
+                  }
                 }
 
                 double longitude = 0.0;
+                accessedValue = noValue;
                 try {
-                  longitude = double.parse(
-                      entries[OverpassQueryIndexes.longitude.identifier]
-                          .toString());
-                } catch (e) {}
+                  accessedValue = entries[OverpassQueryIndexes.longitude.identifier].toString();
+                  longitude = double.parse(accessedValue);
+                } catch (e) {
+                  try {
+                    throw QueryException(
+                        "Parsing of accessed longitude index to double failed. Value: $accessedValue");
+                  }on QueryException catch(f){
+                    f.cause; // <- needs to be logged
+                  }
+                }
 
                 var tags = entries["tags"];
 
                 String name = "n/a";
+                accessedValue = noValue;
                 try {
-                  name = tags[OverpassQueryIndexes.name.identifier];
-                } catch (e) {}
+                  accessedValue = tags[OverpassQueryIndexes.name.identifier];//.toString()
+                  name = accessedValue;
+                } catch (e) {
+                  try {
+                    throw QueryException(
+                        "Accessing name index failed. Value: $accessedValue");
+                  }on QueryException catch(f){
+                    f.cause; // <- needs to be logged
+                  }
+                }
 
                 String street = "n/a";
+                accessedValue = noValue;
                 try {
+                  accessedValue = tags[OverpassQueryIndexes.street];//.toString();
                   street = tags[OverpassQueryIndexes.street];
-                } catch (e) {}
+                } catch (e) {
+                  try {
+                    throw QueryException(
+                        "Accessing street index failed. Value: $accessedValue");
+                  }on QueryException catch(f){
+                    f.cause; // <- needs to be logged
+                  }
+                }
 
                 String number = "n/a";
+                accessedValue = noValue;
                 try {
-                  number = tags[OverpassQueryIndexes.houseNumber];
-                } catch (e) {}
+                  accessedValue = tags[OverpassQueryIndexes.houseNumber];//.toString
+                  number = accessedValue;
+                } catch (e) {
+                  try {
+                    throw QueryException(
+                        "Accessing street-number index failed. Value: $accessedValue");
+                  }on QueryException catch(f){
+                    f.cause; // <- needs to be logged
+                  }
+                }
 
                 MapSpot mapSpot =
                     MapSpot(name, longitude, latitude, "$street, $number");
                 spotList.add(mapSpot);
-              } catch (e) {}
-            } catch (e) {
-              //print("Mistake on MapSpot creation.");
-            }
+              } catch (e) {
+                e.toString(); // <- needs to be logged
+              }
+
           } catch (e) {
             //print("Mistake on accessing or assigning elements-entry.");
+            e.toString();
           }
         }
       } catch (e) {
         //print("JSON conversion to list failed.");
+        e.toString();
       }
     } catch (e) {
       //print("The specified key does not exist.");
+      e.toString();
     }
     //dataList.add();
     return spotList;

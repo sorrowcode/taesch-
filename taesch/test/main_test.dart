@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:path/path.dart';
+import 'package:taesch/api/storage.dart';
 import 'package:taesch/app.dart';
 import 'package:taesch/model/error_case.dart';
 import 'package:taesch/model/screen_state.dart';
+import 'package:taesch/model/shopping_list_item.dart';
 import 'package:taesch/model/widget_key.dart';
 import 'package:taesch/view/page/home_page.dart';
 import 'package:taesch/view/screen/near_shops_screen.dart';
@@ -11,6 +14,10 @@ import 'package:taesch/view/screen/shopping_list_screen.dart';
 import 'package:taesch/view_model/page/login_page_vm.dart';
 import 'package:taesch/view_model/page/register_page_vm.dart';
 import 'package:taesch/view_model/page/starting_page_vm.dart';
+import 'package:taesch/api/storage_shop_items.dart';
+
+import 'package:sqflite/sqflite.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 void main() {
   // ui
@@ -267,6 +274,53 @@ void main() {
     test("testing comparison of same password", () {
       var result = vm.validateSamePassword("abc");
       expect(result, ErrorCase.notSamePassword);
+    });
+  });
+
+  group('ShoppingItemsDB', () {
+    late PersistStorage<ShoppingListItem> storeage;
+    setUpAll(() {
+      // Initialize FFI
+      sqfliteFfiInit();
+      // Change the default factory for unit testing calls for SQFlite
+      databaseFactory = databaseFactoryFfi;
+
+      StorageShopItems.create().then((value) {storeage = value;});
+    });
+    //setUp(() async {storeage = await StorageShopItems.create();});
+
+    /*test('autoReplace', () async {
+      Repository repo = Repository();
+      storeage = await StorageShopItems.create();
+      var testItem = ShoppingListItem(title: 'AutoReplaceTestItem', image: '');
+      repo.shoppingListItems.add(testItem);
+      var itemList = await storeage.read({});
+      expect(itemList, [testItem]);
+    });*/
+
+    var testItem = ShoppingListItem(title: 'TestItem', image: '');
+
+    test('Store ShoppingItem',() async {
+      storeage = await StorageShopItems.create();
+      storeage.insert(testItem);
+      expect((await storeage.read({})).toString(), [testItem].toString());
+    });
+    test('Update ShoppingItem',() async {
+      testItem = ShoppingListItem(title: 'TestItem', image: 'abcd');
+      storeage.update(testItem);
+      expect((await storeage.read({})).toString(), [testItem].toString());
+    });
+    test('Delete ShoppingItem',() async {
+      storeage.delete(testItem);
+      expect((await storeage.read({})).toString(), [].toString());
+    });
+    test('replace complete List', () async {
+      testItem = ShoppingListItem(title: 'TestItem', image: 'abef');
+      (storeage as StorageShopItems).replace([testItem]);
+      expect((await storeage.read({})).toString(), [testItem].toString());
+    });
+    tearDownAll(() async {
+      await databaseFactory.deleteDatabase(join(await getDatabasesPath(), 'shoppinglist_database.db'));
     });
   });
 }

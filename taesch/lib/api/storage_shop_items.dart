@@ -1,22 +1,13 @@
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:taesch/api/repository.dart';
 import 'package:taesch/api/storage.dart';
 import 'package:taesch/model/shopping_list_item.dart';
 
 class StorageShopItems implements PersistStorage<ShoppingListItem> {
   late Database _db;
-  late Repository repository;
 
   StorageShopItems._create() {
-    repository = Repository();
-    _listenerSetup();
     return;
-  }
-  _listenerSetup() {
-    repository.shoppingListSize.addListener(() {
-      replace(repository.shoppingListItems);
-    });
   }
 
   /// Public factory
@@ -33,7 +24,7 @@ class StorageShopItems implements PersistStorage<ShoppingListItem> {
       onCreate: (db, version) {
         // Run the CREATE TABLE statement on the database.
         return db.execute(
-          'CREATE TABLE shopping_items(id INTEGER PRIMARY KEY, item_title TEXT, image TEXT, bought BOOLEAN)',
+          'CREATE TABLE shopping_items(id INTEGER PRIMARY KEY, item_title TEXT, image TEXT, weight DOUBLE)',
         );
       },
       // Set the version. This executes the onCreate function and provides a
@@ -54,8 +45,16 @@ class StorageShopItems implements PersistStorage<ShoppingListItem> {
 
   @override
   Future<List<ShoppingListItem>> read(Map filter) async {
+    Future<List<Map<String, Object?>>> query;
+    if(filter.isEmpty) {
+      query = _db.query('shopping_items');
+    } else {
+      query = _db.query('shopping_items',where: filter.keys.join('=?,'),
+                  whereArgs: filter.values.toList(growable: false));
+    }
+
     // Query the table for all The ShoppingItems
-    final List<Map<String, dynamic>> maps = await _db.query('shopping_items',where: filter.keys.join('=?,'), whereArgs: filter.values.toList(growable: false));
+    final List<Map<String, dynamic>> maps = await query;
     // Convert the List<Map<String, dynamic> into a List<ShoppingItem>.
     return List.generate(maps.length, (i) {
       return ShoppingListItem.db(
@@ -82,7 +81,6 @@ class StorageShopItems implements PersistStorage<ShoppingListItem> {
       }
       batch.commit();
     });
-
   }
 
   @override

@@ -1,12 +1,12 @@
 import 'package:taesch/model/tag.dart';
 
 class ShoppingListItem {
-  String title;
-  String image;
-  List<Tag> tags = [];
+  final String title;
+  final String image;
+  final List<Tag> tags = [];
   double weight = 0;
 
-  ShoppingListItem(this.title, this.image);
+  ShoppingListItem({required this.title, required this.image});
 
   ShoppingListItem.db(
       {required this.title, required this.image, required this.weight});

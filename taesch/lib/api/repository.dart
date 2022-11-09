@@ -7,9 +7,10 @@ import 'package:taesch/utils/my_tools.dart';
 
 class Repository {
   bool isDarkModeEnabled = false;
-  List<ShoppingListItem> shoppingListItems = [];
+  final List<ShoppingListItem> _shoppingListItems = [];
   ValueNotifier<int> shoppingListSize = ValueNotifier(0);
-  List<MapSpot> shopsCache = [];
+  List<Shop> shopsCache = [];
+  ValueNotifier<int> shopsCacheSize = ValueNotifier(0);
 
   GeolocationTools geolocationTools = GeolocationTools();
   MyTools tools = MyTools();
@@ -22,4 +23,6 @@ class Repository {
   }
 
   Repository._internal();
+
+  List<ShoppingListItem> get shoppingListItems => _shoppingListItems;
 }

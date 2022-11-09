@@ -20,7 +20,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
         title: Text(widget._vm.screenState.text),
@@ -43,6 +45,7 @@ class _HomePageState extends State<HomePage> {
               },
             )
           : null,
+      )
     );
   }
 

@@ -35,9 +35,18 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
                   child: SizedBox(
                     width: 100,
                     height: 100,
-                    child: Center(
-                        child: Text(widget
-                            ._vm.repository.shoppingListItems[index].title)),
+                    child: Column(
+                      children: [
+                        Text(widget
+                        ._vm.repository.shoppingListItems[index].title),
+                        ListView.builder(
+                          itemCount: widget
+                              ._vm.repository.shoppingListItems[index].tags.length,
+                          itemBuilder: (BuildContext ctxt, int index) => widget._vm.buildBody(ctxt,index,widget
+                              ._vm.repository.shoppingListItems[index].tags),
+                        )
+                      ],
+                    )
                   ),
                 ),
               );
@@ -46,3 +55,5 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
         });
   }
 }
+
+

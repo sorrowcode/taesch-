@@ -1,4 +1,3 @@
-
 class OSMQueries {
   static const String query1Heilbronn =
       "data=[out:json][timeout:50];area[name=\"Heilbronn\"]->.searchArea;(nwr[\"shop\"=\"supermarket\"](around:2000,49.1427,9.2109)(area.searchArea););out;";

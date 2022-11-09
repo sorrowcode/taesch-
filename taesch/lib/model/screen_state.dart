@@ -12,7 +12,7 @@ extension ScreenString on ScreenState {
       case ScreenState.settings:
         return "Settings";
       case ScreenState.shopsMap:
-        return "Map Shops";
+        return "Map";
     }
   }
 }

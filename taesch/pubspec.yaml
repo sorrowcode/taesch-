@@ -36,18 +36,15 @@ dependencies:
   sqflite:
   path:
   test:
+  flutter_map: ^3.0.0
   latlong2: ^0.8.1 # <-- used in conjunction with flutter_map
 
 dependency_overrides:
-  flutter_map:
-    git:
-      url: https://github.com/fleaflet/flutter_map.git
+  #flutter_map:
+    #git:
+     # url: https://github.com/fleaflet/flutter_map.git
       # ref: main
-      # das Paket flutter_map wird im Rahmen der BSD-3 Lizenz genutzt
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2
+      # das Paket flutter_map wird im Rahmen der BSD-3 Lizenz genutzt todo
 
 dev_dependencies:
   flutter_test:

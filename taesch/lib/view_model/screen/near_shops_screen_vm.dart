@@ -1,9 +1,8 @@
 import 'package:taesch/api/map_api_logic/api_querier.dart';
 import 'package:taesch/api/repository.dart';
 import 'package:taesch/model/map_spot.dart';
+import 'package:taesch/model/shop.dart';
 import 'package:taesch/view/screen/near_shops_screen.dart';
-
-import '../../model/shop.dart';
 
 /// vm for [NearShopsScreen]
 class NearShopsScreenVM {
@@ -17,7 +16,9 @@ class NearShopsScreenVM {
     for (MapSpot spot in extractedData) {
       shops.add(Shop(spot: spot));
     }
-    repository.fillUpShopCache(shops);
-    repository.fillUpMapSpotCache(extractedData);
+
+    repository.fillUpCache(shops);
+    //repository.fillUpShopCache(shops); todo: delete
+    //repository.fillUpMapSpotCache(extractedData);
   }
 }

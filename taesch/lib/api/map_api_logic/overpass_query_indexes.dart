@@ -6,9 +6,9 @@ enum OverpassQueryIndexes {
   houseNumber,
 }
 
-extension OverpassQueryJSONIndexesValues on OverpassQueryIndexes{
-  String get identifier{
-    switch(this){
+extension OverpassQueryJSONIndexesValues on OverpassQueryIndexes {
+  String get identifier {
+    switch (this) {
       case OverpassQueryIndexes.name:
         return "name";
       case OverpassQueryIndexes.latitude:

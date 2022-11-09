@@ -1,6 +1,8 @@
 class ShopsTileVM {
-  final String title;
-  final String address;
+  late String title;
+  late String address;
 
-  ShopsTileVM({required this.title, required this.address});
+  ShopsTileVM();
+
+  ShopsTileVM.withData({required this.title, required this.address});
 }

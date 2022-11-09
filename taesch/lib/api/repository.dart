@@ -1,9 +1,8 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:taesch/model/map_spot.dart';
 import 'package:taesch/model/shop.dart';
 import 'package:taesch/model/shopping_list_item.dart';
-
-import '../model/map_spot.dart';
 
 class Repository {
   bool isDarkModeEnabled = false;
@@ -13,7 +12,7 @@ class Repository {
   List<MapSpot> mapSpotsCache = []; // not all MapSpots might be Shops
   ValueNotifier<int> shopsCacheSize = ValueNotifier(0);
 
-  LatLng userPosition = LatLng(49.1427,9.2109);
+  LatLng userPosition = LatLng(49.1427, 9.2109);
 
   static final Repository _singleton = Repository._internal();
 
@@ -25,6 +24,15 @@ class Repository {
 
   List<ShoppingListItem> get shoppingListItems => _shoppingListItems;
 
+  void fillUpCache(List<Shop> shops) {
+    shopsCache = []; // reset
+    for (Shop shop in shops) {
+      shopsCache.add(shop);
+    }
+    shopsCacheSize.value = shopsCache.length;
+  }
+
+/* todo: delete
   void fillUpShopCache(List<Shop> shops){
     shopsCache = []; // reset
     for (Shop shop in shops){
@@ -39,5 +47,5 @@ class Repository {
       mapSpotsCache.add(spot);
     }
   }
-
+    */
 }

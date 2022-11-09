@@ -29,10 +29,10 @@ class APIQuerier {
         try {
           // List<MapSpot> spots = extractJSONData();
         } catch (e) {
-          print("Couldn't extract json data.");
+          //print("Couldn't extract json data.");
         }
 
-        print("Done processing response.");
+        //print("Done processing response.");
         return;
       } else {
         // If the server did not return a 200 OK response,
@@ -40,7 +40,7 @@ class APIQuerier {
         throw Exception('Error on sending http request.');
       }
     } on TimeoutException catch (e) {
-      print("Timeout for http request.");
+      //print("Timeout for http request.");
     }
   }
 
@@ -66,17 +66,20 @@ class APIQuerier {
               // neues MapSpot-Objekt instanziieren - data[elements][3][name]
               // Initialisierung durch Zugriffe auf entryContents
               try {
-
                 double latitude = 0.0;
-                try{
-                  latitude = double.parse(entries[OverpassQueryIndexes.latitude.identifier].toString());
+                try {
+                  latitude = double.parse(
+                      entries[OverpassQueryIndexes.latitude.identifier]
+                          .toString());
                   // .toString is necessary, otherwise parsing fails
-                }catch(e){}
+                } catch (e) {}
 
                 double longitude = 0.0;
-                try{
-                  longitude = double.parse(entries[OverpassQueryIndexes.longitude.identifier].toString());
-                }catch(e){}
+                try {
+                  longitude = double.parse(
+                      entries[OverpassQueryIndexes.longitude.identifier]
+                          .toString());
+                } catch (e) {}
 
                 var tags = entries["tags"];
 
@@ -95,21 +98,22 @@ class APIQuerier {
                   number = tags[OverpassQueryIndexes.houseNumber];
                 } catch (e) {}
 
-                MapSpot mapSpot = MapSpot(name, longitude, latitude, street + ", " + number);
+                MapSpot mapSpot =
+                    MapSpot(name, longitude, latitude, "$street, $number");
                 spotList.add(mapSpot);
               } catch (e) {}
             } catch (e) {
-              print("Mistake on MapSpot creation.");
+              //print("Mistake on MapSpot creation.");
             }
           } catch (e) {
-            print("Mistake on accessing or assigning elements-entry.");
+            //print("Mistake on accessing or assigning elements-entry.");
           }
         }
       } catch (e) {
-        print("JSON conversion to list failed.");
+        //print("JSON conversion to list failed.");
       }
     } catch (e) {
-      print("The specified key does not exist.");
+      //print("The specified key does not exist.");
     }
     //dataList.add();
     return spotList;

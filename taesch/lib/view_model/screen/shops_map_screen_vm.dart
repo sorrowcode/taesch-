@@ -1,7 +1,5 @@
-
-
 import 'package:taesch/api/repository.dart';
 
-class ShopsMapScreenVM{
+class ShopsMapScreenVM {
   Repository repository = Repository();
 }

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:taesch/app.dart';
@@ -267,6 +269,13 @@ void main() {
     test("testing comparison of same password", () {
       var result = vm.validateSamePassword("abc");
       expect(result, ErrorCase.notSamePassword);
+    });
+  });
+  
+  group('character conversion', () {
+    test('character conversion', () {
+      var inputString = utf8.encode(jsonEncode({"test-text":"äöüß"}));
+      expect(jsonDecode(utf8.decode(inputString.toList())), {"test-text":"äöüß"});
     });
   });
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+// import 'package:taesch/api/map_api_logic/geolocation_tools.dart';
 import 'package:taesch/app.dart';
 import 'package:taesch/model/error_case.dart';
 import 'package:taesch/model/screen_state.dart';
@@ -269,4 +270,22 @@ void main() {
       expect(result, ErrorCase.notSamePassword);
     });
   });
+
+  /* Integration Test - has plugin dependency
+
+  group("testing geo-location fetch", () {
+    GeolocationTools tools = GeolocationTools();
+    test("testing fetch duration", () async {
+      WidgetsFlutterBinding.ensureInitialized();
+      DateTime time = DateTime.now();
+      var millisBefore = time.millisecondsSinceEpoch;
+      await tools.getCurrentPosition();
+      var millisNow = time.millisecondsSinceEpoch;
+      int maxSeconds = 30;
+      var totalTime = ((millisNow - millisBefore) / 1000);
+      expect(totalTime < maxSeconds, true);
+    });
+  });
+  */
+
 }

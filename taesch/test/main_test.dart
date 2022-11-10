@@ -280,13 +280,13 @@ void main() {
 
   group('ShoppingItemsDB', () {
     late PersistStorage<ShoppingListItem> storeage;
-    setUpAll(() {
+    setUpAll(() async {
       // Initialize FFI
       sqfliteFfiInit();
       // Change the default factory for unit testing calls for SQFlite
       databaseFactory = databaseFactoryFfi;
 
-      StorageShopItems.create().then((value) {storeage = value;});
+      storeage = await StorageShopItems.create();
     });
     //setUp(() async {storeage = await StorageShopItems.create();});
 
@@ -302,7 +302,6 @@ void main() {
     var testItem = ShoppingListItem(title: 'TestItem', image: '');
 
     test('Store ShoppingItem',() async {
-      storeage = await StorageShopItems.create();
       storeage.insert(testItem);
       expect((await storeage.read({})).toString(), [testItem].toString());
     });

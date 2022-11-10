@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:taesch/api/repository.dart';
 
 import 'home_page.dart';
 
@@ -14,6 +15,7 @@ class SplashPage extends StatefulWidget {
 class SplashPageState extends State<SplashPage> {
   @override
   void initState() {
+    Repository().geolocationTools.startGeoTimer();
     Timer(const Duration(seconds: 3), () {
       Navigator.of(context)
           .push(MaterialPageRoute(builder: (context) => HomePage()));

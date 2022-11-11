@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:path/path.dart';
@@ -324,6 +326,14 @@ void main() {
     });
   });
 
+  
+  group('character conversion', () {
+    test('character conversion', () {
+      var inputString = utf8.encode(jsonEncode({"test-text":"äöüß"}));
+      expect(jsonDecode(utf8.decode(inputString.toList())), {"test-text":"äöüß"});
+    });
+  });
+  
   /* Integration Test - has plugin dependency
 
   group("testing geo-location fetch", () {
@@ -340,5 +350,4 @@ void main() {
     });
   });
   */
-
 }

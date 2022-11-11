@@ -28,7 +28,7 @@ class APIQuerier {
       if (resp.statusCode == 200) {
         // If the server did return a 200 OK response,
         // then parse the JSON.
-        _jsonMapData = jsonDecode(resp.body);
+        _jsonMapData = jsonDecode(utf8.decode(resp.body.codeUnits));
 
         /*try {
           // List<MapSpot> spots = extractJSONData();

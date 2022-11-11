@@ -35,6 +35,7 @@ dependencies:
   # location: ^3.0.0
   http:
   sqflite:
+  sqlite3_flutter_libs:
   path:
   shared_preferences: ^2.0.15
   osm_nominatim: ^2.0.1

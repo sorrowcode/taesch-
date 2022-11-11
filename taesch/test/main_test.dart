@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 // import 'package:taesch/api/map_api_logic/geolocation_tools.dart';
@@ -270,7 +272,14 @@ void main() {
       expect(result, ErrorCase.notSamePassword);
     });
   });
-
+  
+  group('character conversion', () {
+    test('character conversion', () {
+      var inputString = utf8.encode(jsonEncode({"test-text":"äöüß"}));
+      expect(jsonDecode(utf8.decode(inputString.toList())), {"test-text":"äöüß"});
+    });
+  });
+  
   /* Integration Test - has plugin dependency
 
   group("testing geo-location fetch", () {
@@ -287,5 +296,4 @@ void main() {
     });
   });
   */
-
 }

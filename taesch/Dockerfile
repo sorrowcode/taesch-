@@ -2,8 +2,8 @@ FROM cirrusci/flutter:latest
 
 COPY . /taesch
 WORKDIR /taesch
-RUN flutter pub get
-RUN flutter pub upgrade
-RUN flutter pub outdated
+RUN apt update
+RUN apt upgrade -y
+RUN apt install sqlite3 libsqlite3-dev -y
 RUN flutter analyze
 RUN flutter test

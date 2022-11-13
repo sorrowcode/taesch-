@@ -35,11 +35,14 @@ dependencies:
   # location: ^3.0.0
   http:
   sqflite:
+  sqlite3_flutter_libs:
   path:
-  test:
+  shared_preferences: ^2.0.15
   osm_nominatim: ^2.0.1
   flutter_map: ^3.0.0
   latlong2: ^0.8.1 # <-- used in conjunction with flutter_map
+  test:
+  sqflite_common_ffi:
 
 #dependency_overrides:
   #flutter_map:
@@ -51,7 +54,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  sqflite_common_ffi:
+
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

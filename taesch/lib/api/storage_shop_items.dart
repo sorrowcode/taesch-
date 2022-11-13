@@ -24,7 +24,7 @@ class StorageShopItems implements PersistStorage<ShoppingListItem> {
       onCreate: (db, version) {
         // Run the CREATE TABLE statement on the database.
         return db.execute(
-          'CREATE TABLE shopping_items(id INTEGER PRIMARY KEY, item_title TEXT, image TEXT, bought BOOLEAN)',
+          'CREATE TABLE shopping_items(id INTEGER PRIMARY KEY, item_title TEXT, image TEXT, weight DOUBLE)',
         );
       },
       // Set the version. This executes the onCreate function and provides a
@@ -35,8 +35,8 @@ class StorageShopItems implements PersistStorage<ShoppingListItem> {
   }
 
   @override
-  Future<void> delete(ShoppingListItem shopItem) async {
-    await _db.delete(
+  void delete(ShoppingListItem shopItem) {
+    _db.delete(
       'shopping_items',
       where: 'item_title = ?',
       whereArgs: [shopItem.title],
@@ -44,15 +44,23 @@ class StorageShopItems implements PersistStorage<ShoppingListItem> {
   }
 
   @override
-  Future<List<ShoppingListItem>> read(String filter) async {
+  Future<List<ShoppingListItem>> read(Map filter) async {
+    Future<List<Map<String, Object?>>> query;
+    if(filter.isEmpty) {
+      query = _db.query('shopping_items');
+    } else {
+      query = _db.query('shopping_items',where: filter.keys.join('=?,'),
+                  whereArgs: filter.values.toList(growable: false));
+    }
+
     // Query the table for all The ShoppingItems
-    final List<Map<String, dynamic>> maps = await _db.query('shopping_items');
+    final List<Map<String, dynamic>> maps = await query;
     // Convert the List<Map<String, dynamic> into a List<ShoppingItem>.
     return List.generate(maps.length, (i) {
       return ShoppingListItem.db(
         title: maps[i]['item_title'],
         image: maps[i]['image'],
-        weight: 0,
+        weight: maps[i]['weight'],
       );
     });
   }
@@ -60,13 +68,23 @@ class StorageShopItems implements PersistStorage<ShoppingListItem> {
   @override
 
   ///item Title is identifier => don't change
-  Future<void> update(ShoppingListItem shopItem) async {
-    await _db.update('shopping_items', shopItem.toMap(),
+  void update(ShoppingListItem shopItem) {
+    _db.update('shopping_items', shopItem.toMap(),
         where: 'item_title = ?', whereArgs: [shopItem.title]);
+  }
+  void replace(List<ShoppingListItem> shoppinglist) {
+    _db.transaction((txn) async  {
+      await txn.delete('shopping_items');
+          Batch batch = txn.batch();
+      for (var item in shoppinglist) {
+        batch.insert('shopping_items', item.toMap());
+      }
+      batch.commit();
+    });
   }
 
   @override
-  Future<void> insert(ShoppingListItem shopItem) async {
+  void insert(ShoppingListItem shopItem) async {
     await _db.insert(
       'shopping_items',
       shopItem.toMap(),

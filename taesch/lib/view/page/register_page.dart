@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:taesch/model/error_case.dart';
 import 'package:taesch/model/widget_key.dart';
 import 'package:taesch/view/page/splash_page.dart';

@@ -12,4 +12,6 @@ class Shop {
   String get name => _spot.name;
 
   String get address => _spot.address;
+
+  MapSpot get mapSpot => _spot;
 }

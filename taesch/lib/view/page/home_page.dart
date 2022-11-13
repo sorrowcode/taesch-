@@ -4,6 +4,7 @@ import 'package:taesch/view/custom_widget/add_item_dialog.dart';
 import 'package:taesch/view/screen/near_shops_screen.dart';
 import 'package:taesch/view/screen/settings_screen.dart';
 import 'package:taesch/view/screen/shopping_list_screen.dart';
+import 'package:taesch/view/screen/shops_map_screen.dart';
 import 'package:taesch/view_model/page/home_page_vm.dart';
 
 class HomePage extends StatefulWidget {
@@ -80,6 +81,8 @@ class _HomePageState extends State<HomePage> {
         return NearShopsScreen();
       case ScreenState.settings:
         return SettingsScreen();
+      case ScreenState.shopsMap:
+        return ShopsMapScreen();
     }
   }
 }

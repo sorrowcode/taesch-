@@ -1,8 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:path/path.dart';
+import 'package:taesch/api/storage.dart';
+// import 'package:taesch/api/map_api_logic/geolocation_tools.dart';
 import 'package:taesch/app.dart';
 import 'package:taesch/model/error_case.dart';
 import 'package:taesch/model/screen_state.dart';
+import 'package:taesch/model/shopping_list_item.dart';
 import 'package:taesch/model/widget_key.dart';
 import 'package:taesch/view/page/home_page.dart';
 import 'package:taesch/view/screen/near_shops_screen.dart';
@@ -11,6 +17,10 @@ import 'package:taesch/view/screen/shopping_list_screen.dart';
 import 'package:taesch/view_model/page/login_page_vm.dart';
 import 'package:taesch/view_model/page/register_page_vm.dart';
 import 'package:taesch/view_model/page/starting_page_vm.dart';
+import 'package:taesch/api/storage_shop_items.dart';
+
+import 'package:sqflite/sqflite.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 void main() {
   // ui
@@ -269,4 +279,75 @@ void main() {
       expect(result, ErrorCase.notSamePassword);
     });
   });
+
+  group('ShoppingItemsDB', () {
+    late PersistStorage<ShoppingListItem> storeage;
+    setUpAll(() async {
+      // Initialize FFI
+      sqfliteFfiInit();
+      // Change the default factory for unit testing calls for SQFlite
+      databaseFactory = databaseFactoryFfi;
+
+      storeage = await StorageShopItems.create();
+    });
+    //setUp(() async {storeage = await StorageShopItems.create();});
+
+    /*test('autoReplace', () async {
+      Repository repo = Repository();
+      storeage = await StorageShopItems.create();
+      var testItem = ShoppingListItem(title: 'AutoReplaceTestItem', image: '');
+      repo.shoppingListItems.add(testItem);
+      var itemList = await storeage.read({});
+      expect(itemList, [testItem]);
+    });*/
+
+    var testItem = ShoppingListItem(title: 'TestItem', image: '');
+
+    test('Store ShoppingItem',() async {
+      storeage.insert(testItem);
+      expect((await storeage.read({})).toString(), [testItem].toString());
+    });
+    test('Update ShoppingItem',() async {
+      testItem = ShoppingListItem(title: 'TestItem', image: 'abcd');
+      storeage.update(testItem);
+      expect((await storeage.read({})).toString(), [testItem].toString());
+    });
+    test('Delete ShoppingItem',() async {
+      storeage.delete(testItem);
+      expect((await storeage.read({})).toString(), [].toString());
+    });
+    test('replace complete List', () async {
+      testItem = ShoppingListItem(title: 'TestItem', image: 'abef');
+      (storeage as StorageShopItems).replace([testItem]);
+      expect((await storeage.read({})).toString(), [testItem].toString());
+    });
+    tearDownAll(() async {
+      await databaseFactory.deleteDatabase(join(await getDatabasesPath(), 'shoppinglist_database.db'));
+    });
+  });
+
+  
+  group('character conversion', () {
+    test('character conversion', () {
+      var inputString = utf8.encode(jsonEncode({"test-text":"äöüß"}));
+      expect(jsonDecode(utf8.decode(inputString.toList())), {"test-text":"äöüß"});
+    });
+  });
+  
+  /* Integration Test - has plugin dependency
+
+  group("testing geo-location fetch", () {
+    GeolocationTools tools = GeolocationTools();
+    test("testing fetch duration", () async {
+      WidgetsFlutterBinding.ensureInitialized();
+      DateTime time = DateTime.now();
+      var millisBefore = time.millisecondsSinceEpoch;
+      await tools.getCurrentPosition();
+      var millisNow = time.millisecondsSinceEpoch;
+      int maxSeconds = 30;
+      var totalTime = ((millisNow - millisBefore) / 1000);
+      expect(totalTime < maxSeconds, true);
+    });
+  });
+  */
 }

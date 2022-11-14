@@ -5,8 +5,8 @@ import 'dart:convert';
 
 import 'package:http/http.dart';
 import 'package:taesch/api/map_api_logic/overpass_query_indexes.dart';
-import 'package:taesch/exceptions/query_exceptions.dart';
 import 'package:taesch/api/repository.dart';
+import 'package:taesch/exceptions/query_exceptions.dart';
 import 'package:taesch/model/map_spot.dart';
 // import 'package:taesch/utils/my_tools.dart';
 

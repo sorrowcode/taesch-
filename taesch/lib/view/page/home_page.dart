@@ -22,32 +22,32 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () async => false,
-      child: Scaffold(
-      key: _scaffoldKey,
-      appBar: AppBar(
-        title: Text(widget._vm.screenState.text),
-      ),
-      body: _getCurrentScreen(),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: _setupSideBarElements(),
-        ),
-      ),
-      floatingActionButton: widget._vm.screenState == ScreenState.shoppingList
-          ? FloatingActionButton(
-              child: const Icon(Icons.add),
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) => AddItemDialog(),
-                );
-              },
-            )
-          : null,
-      )
-    );
+        onWillPop: () async => false,
+        child: Scaffold(
+          key: _scaffoldKey,
+          appBar: AppBar(
+            title: Text(widget._vm.screenState.text),
+          ),
+          body: _getCurrentScreen(),
+          drawer: Drawer(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: _setupSideBarElements(),
+            ),
+          ),
+          floatingActionButton:
+              widget._vm.screenState == ScreenState.shoppingList
+                  ? FloatingActionButton(
+                      child: const Icon(Icons.add),
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) => AddItemDialog(),
+                        );
+                      },
+                    )
+                  : null,
+        ));
   }
 
   List<Widget> _setupSideBarElements() {

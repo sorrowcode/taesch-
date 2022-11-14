@@ -21,7 +21,7 @@ class _RegisterPageState extends StartingPageState {
 
   @override
   List<Widget> bodyElements() {
-    logger.log(level: LogLevel.debug, logMessage: LogMessage(
+    logger.log(level: LogLevel.info, logMessage: LogMessage(
         message: "entered register page"
     ));
     return [
@@ -37,7 +37,7 @@ class _RegisterPageState extends StartingPageState {
           key: Key(WidgetKey.usernameRegisterKey.text),
           validator: (value) {
             logger.log(level: LogLevel.debug, logMessage: LogMessage(
-                message: "username validation: $value"
+                message: "username validation: ${(vm as RegisterPageVM).validateUsername(value)?.message}"
             ));
             return (vm as RegisterPageVM).validateUsername(value)?.message;
           },
@@ -53,7 +53,7 @@ class _RegisterPageState extends StartingPageState {
           key: Key(WidgetKey.emailRegisterKey.text),
           validator: (value) {
             logger.log(level: LogLevel.debug, logMessage: LogMessage(
-                message: "email validation: $value"
+                message: "email validation: ${vm.validateEMail(value)?.message}"
             ));
             return vm.validateEMail(value)?.message;
           },
@@ -71,7 +71,7 @@ class _RegisterPageState extends StartingPageState {
           controller: (vm as RegisterPageVM).passwordController,
           validator: (value) {
             logger.log(level: LogLevel.debug, logMessage: LogMessage(
-                message: "password validation: $value"
+                message: "password validation: ${vm.validatePassword(value)?.message}"
             ));
             return vm.validatePassword(value)?.message;
           },
@@ -88,7 +88,7 @@ class _RegisterPageState extends StartingPageState {
           obscureText: true,
           validator: (value) {
             logger.log(level: LogLevel.debug, logMessage: LogMessage(
-                message: "password comparison validation: $value"
+                message: "password comparison validation: ${(vm as RegisterPageVM).validateSamePassword(value)?.message}"
             ));
             return (vm as RegisterPageVM).validateSamePassword(value)?.message;
           },
@@ -101,7 +101,7 @@ class _RegisterPageState extends StartingPageState {
       OutlinedButton(
         key: Key(WidgetKey.submitButtonKey.text),
         onPressed: () {
-          logger.log(level: LogLevel.debug, logMessage: LogMessage(
+          logger.log(level: LogLevel.info, logMessage: LogMessage(
               message: "${(vm as RegisterPageVM).submitButtonText} pressed"
           ));
           if (formKey.currentState!.validate()) {

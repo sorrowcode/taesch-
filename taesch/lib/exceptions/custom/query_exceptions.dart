@@ -9,7 +9,7 @@ class QueryException extends IException {
   void logCause(LogLevel level) {
     logger.log(level: level, logMessage: LogMessage(
       message: cause,
-      error: toString(),
+      title: toString(),
     ));
   }
 }

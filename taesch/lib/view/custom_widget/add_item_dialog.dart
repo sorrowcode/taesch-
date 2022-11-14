@@ -34,7 +34,7 @@ class _AddItemDialogState extends State<AddItemDialog> {
               TextFormField(
                   validator: (value) {
                     logger.log(level: LogLevel.debug, logMessage: LogMessage(
-                      message: "${widget._vm.textFormHint} validation: $value"
+                      message: "${widget._vm.textFormHint} validation: ${widget._vm.validateShoppingListItem(value)?.message}"
                     ));
                     return widget._vm.validateShoppingListItem(value)?.message;
                   },
@@ -48,7 +48,7 @@ class _AddItemDialogState extends State<AddItemDialog> {
           TextButton(
               child: const Icon(Icons.check),
               onPressed: () {
-                logger.log(level: LogLevel.debug, logMessage: LogMessage(
+                logger.log(level: LogLevel.info, logMessage: LogMessage(
                   message: "check button pressed"
                 ));
                 if (_formKey.currentState!.validate()) {

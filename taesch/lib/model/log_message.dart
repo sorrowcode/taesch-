@@ -1,7 +1,7 @@
 class LogMessage {
   dynamic message;
-  dynamic error;
+  dynamic title;
   StackTrace? stackTrace;
 
-  LogMessage({this.message, this.error, this.stackTrace});
+  LogMessage({this.message, this.title, this.stackTrace});
 }

@@ -22,7 +22,7 @@ class _LoginPageState extends StartingPageState {
 
   @override
   List<Widget> bodyElements() {
-    logger.log(level: LogLevel.debug, logMessage: LogMessage(
+    logger.log(level: LogLevel.info, logMessage: LogMessage(
         message: "entered login page"
     ));
     return [
@@ -39,7 +39,7 @@ class _LoginPageState extends StartingPageState {
           key: Key(WidgetKey.emailLoginKey.text),
           validator: (value) {
             logger.log(level: LogLevel.debug, logMessage: LogMessage(
-                message: "email validation: $value"
+                message: "email validation: ${vm.validateEMail(value)?.message}"
             ));
             return vm.validateEMail(value)?.message;
           },
@@ -56,7 +56,7 @@ class _LoginPageState extends StartingPageState {
           obscureText: true,
           validator: (value) {
             logger.log(level: LogLevel.debug, logMessage: LogMessage(
-                message: "password validation: $value"
+                message: "password validation: ${vm.validatePassword(value)?.message}"
             ));
             return vm.validatePassword(value)?.message;
           },
@@ -74,7 +74,7 @@ class _LoginPageState extends StartingPageState {
             ),
             key: Key(WidgetKey.registrationButtonKey.text),
             onPressed: () {
-              logger.log(level: LogLevel.debug, logMessage: LogMessage(
+              logger.log(level: LogLevel.info, logMessage: LogMessage(
                   message: "${(vm as LoginPageVM).registrationButtonText} button pressed"
               ));
               Navigator.push(
@@ -94,7 +94,7 @@ class _LoginPageState extends StartingPageState {
             ),
             key: Key(WidgetKey.loginButtonKey.text),
             onPressed: () {
-              logger.log(level: LogLevel.debug, logMessage: LogMessage(
+              logger.log(level: LogLevel.info, logMessage: LogMessage(
                   message: "${(vm as LoginPageVM).loginButtonText} button pressed"
               ));
               if (formKey.currentState!.validate()) {

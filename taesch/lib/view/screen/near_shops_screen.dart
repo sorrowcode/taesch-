@@ -32,7 +32,7 @@ class _NearShopsScreenState extends State<NearShopsScreen> {
   @override
   Widget build(BuildContext context) {
     //widget._vm.getShops();
-    logger.log(level: LogLevel.debug, logMessage: LogMessage(
+    logger.log(level: LogLevel.info, logMessage: LogMessage(
         message: "entered near shops screen"
     ));
     return Scaffold(
@@ -47,7 +47,7 @@ class _NearShopsScreenState extends State<NearShopsScreen> {
                 TextButton(
                   child: const Text("Search"),
                   onPressed: () {
-                    logger.log(level: LogLevel.debug, logMessage: LogMessage(
+                    logger.log(level: LogLevel.info, logMessage: LogMessage(
                         message: "search button pressed"
                     ));
                     setState(() {

@@ -20,14 +20,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    logger.log(level: LogLevel.debug, logMessage: LogMessage(
+    logger.log(level: LogLevel.info, logMessage: LogMessage(
         message: "entered settings screen"
     ));
     return SwitchListTile(
       title: Text(widget._vm.switchTitle),
       value: widget._vm.repository.isDarkModeEnabled,
       onChanged: (bool value) {
-        logger.log(level: LogLevel.debug, logMessage: LogMessage(
+        logger.log(level: LogLevel.info, logMessage: LogMessage(
             message: "switched ${widget._vm.switchTitle} button to $value"
         ));
         setState(() {

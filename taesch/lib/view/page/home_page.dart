@@ -25,7 +25,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    logger.log(level: LogLevel.debug, logMessage: LogMessage(
+    logger.log(level: LogLevel.info, logMessage: LogMessage(
         message: "entered HomePage"
     ));
     return WillPopScope(
@@ -47,7 +47,7 @@ class _HomePageState extends State<HomePage> {
                   ? FloatingActionButton(
                       child: const Icon(Icons.add),
                       onPressed: () {
-                        logger.log(level: LogLevel.debug, logMessage: LogMessage(
+                        logger.log(level: LogLevel.info, logMessage: LogMessage(
                             message: "floating action button add item pressed"
                         ));
                         showDialog(
@@ -73,7 +73,7 @@ class _HomePageState extends State<HomePage> {
         title: Text(page.text),
         onTap: () {
           setState(() {
-            logger.log(level: LogLevel.debug, logMessage: LogMessage(
+            logger.log(level: LogLevel.info, logMessage: LogMessage(
                 message: "tapped on side bar element ${page.text}"
             ));
             widget._vm.screenState = page;

@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:taesch/middleware/log/log_level.dart';
+import 'package:taesch/middleware/log/logger_wrapper.dart';
+import 'package:taesch/model/log_message.dart';
 import 'package:taesch/model/map_spot.dart';
+import 'package:taesch/model/shop.dart';
 import 'package:taesch/view_model/screen/shops_map_screen_vm.dart';
-
-import '../../model/shop.dart';
 
 class ShopsMapScreen extends StatefulWidget {
   final _vm = ShopsMapScreenVM();
@@ -17,6 +19,8 @@ class ShopsMapScreen extends StatefulWidget {
 }
 
 class _ShopsMapScreenState extends State<ShopsMapScreen> {
+  LoggerWrapper logger = LoggerWrapper();
+
   List<Marker> _getMarkersFromSpot(List<MapSpot> mapSpots) {
     List<Marker> markers = [];
     for (MapSpot mapSpot in mapSpots) {
@@ -40,6 +44,10 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
 
   @override
   Widget build(BuildContext context) {
+    logger.log(
+        level: LogLevel.info,
+        logMessage: LogMessage(message: "entered shops map screen"));
+
     // create user position object
     Position position = widget._vm.repository.userPosition;
 

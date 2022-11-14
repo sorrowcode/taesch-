@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:taesch/middleware/log/logger_wrapper.dart';
 import 'package:taesch/view_model/page/starting_page_vm.dart';
 
 abstract class StartingPage extends StatefulWidget {
@@ -8,6 +9,7 @@ abstract class StartingPage extends StatefulWidget {
 abstract class StartingPageState extends State<StartingPage> {
   late StartingPageVM vm;
   final formKey = GlobalKey<FormState>();
+  LoggerWrapper logger = LoggerWrapper();
 
   @override
   Widget build(BuildContext context) {

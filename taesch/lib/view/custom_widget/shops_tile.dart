@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:taesch/middleware/log/logger_wrapper.dart';
 import 'package:taesch/view_model/custom_widget/shops_tile_vm.dart';
 
 class ShopsTile extends StatefulWidget {
@@ -14,6 +15,8 @@ class ShopsTile extends StatefulWidget {
 }
 
 class _ShopsTileState extends State<ShopsTile> {
+  LoggerWrapper logger = LoggerWrapper();
+
   @override
   Widget build(BuildContext context) {
     return ListTile(

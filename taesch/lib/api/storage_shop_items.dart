@@ -46,11 +46,12 @@ class StorageShopItems implements PersistStorage<ShoppingListItem> {
   @override
   Future<List<ShoppingListItem>> read(Map filter) async {
     Future<List<Map<String, Object?>>> query;
-    if(filter.isEmpty) {
+    if (filter.isEmpty) {
       query = _db.query('shopping_items');
     } else {
-      query = _db.query('shopping_items',where: filter.keys.join('=?,'),
-                  whereArgs: filter.values.toList(growable: false));
+      query = _db.query('shopping_items',
+          where: filter.keys.join('=?,'),
+          whereArgs: filter.values.toList(growable: false));
     }
 
     // Query the table for all The ShoppingItems
@@ -72,10 +73,11 @@ class StorageShopItems implements PersistStorage<ShoppingListItem> {
     _db.update('shopping_items', shopItem.toMap(),
         where: 'item_title = ?', whereArgs: [shopItem.title]);
   }
+
   void replace(List<ShoppingListItem> shoppinglist) {
-    _db.transaction((txn) async  {
+    _db.transaction((txn) async {
       await txn.delete('shopping_items');
-          Batch batch = txn.batch();
+      Batch batch = txn.batch();
       for (var item in shoppinglist) {
         batch.insert('shopping_items', item.toMap());
       }

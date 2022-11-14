@@ -35,7 +35,7 @@ class _LoginPageState extends StartingPageState {
           initialValue: "test@test.de",
           key: Key(WidgetKey.emailLoginKey.text),
           validator: (value) {
-            logger.log(level: LogLevel.debug, message: "invalid email validation");
+            logger.log(level: LogLevel.debug, message: "email validation: $value");
             return vm.validateEMail(value)?.message;
           },
           decoration: const InputDecoration(
@@ -50,7 +50,7 @@ class _LoginPageState extends StartingPageState {
           key: Key(WidgetKey.passwordLoginKey.text),
           obscureText: true,
           validator: (value) {
-            logger.log(level: LogLevel.debug, message: "invalid password validation");
+            logger.log(level: LogLevel.debug, message: "password validation: $value");
             return vm.validatePassword(value)?.message;
           },
           decoration: const InputDecoration(
@@ -92,6 +92,8 @@ class _LoginPageState extends StartingPageState {
                     context,
                     MaterialPageRoute(
                         builder: (context) => const SplashPage()));
+              } else {
+                logger.log(level: LogLevel.debug, message: "invalid form");
               }
             },
             child: Text(

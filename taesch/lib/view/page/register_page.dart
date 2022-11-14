@@ -33,7 +33,7 @@ class _RegisterPageState extends StartingPageState {
         child: TextFormField(
           key: Key(WidgetKey.usernameRegisterKey.text),
           validator: (value) {
-            logger.log(level: LogLevel.debug, message: "invalid username validation");
+            logger.log(level: LogLevel.debug, message: "username validation: $value");
             return (vm as RegisterPageVM).validateUsername(value)?.message;
           },
           decoration: const InputDecoration(
@@ -47,7 +47,7 @@ class _RegisterPageState extends StartingPageState {
         child: TextFormField(
           key: Key(WidgetKey.emailRegisterKey.text),
           validator: (value) {
-            logger.log(level: LogLevel.debug, message: "invalid email validation");
+            logger.log(level: LogLevel.debug, message: "email validation: $value");
             return vm.validateEMail(value)?.message;
           },
           decoration: const InputDecoration(
@@ -63,7 +63,7 @@ class _RegisterPageState extends StartingPageState {
           obscureText: true,
           controller: (vm as RegisterPageVM).passwordController,
           validator: (value) {
-            logger.log(level: LogLevel.debug, message: "invalid password validation");
+            logger.log(level: LogLevel.debug, message: "password validation: $value");
             return vm.validatePassword(value)?.message;
           },
           decoration: const InputDecoration(
@@ -78,7 +78,7 @@ class _RegisterPageState extends StartingPageState {
           key: Key(WidgetKey.secondPasswordRegisterKey.text),
           obscureText: true,
           validator: (value) {
-            logger.log(level: LogLevel.debug, message: "invalid password comparison validation");
+            logger.log(level: LogLevel.debug, message: "password comparison validation: $value");
             return (vm as RegisterPageVM).validateSamePassword(value)?.message;
           },
           decoration: const InputDecoration(
@@ -95,6 +95,8 @@ class _RegisterPageState extends StartingPageState {
             logger.log(level: LogLevel.debug, message: "form valid");
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => const SplashPage()));
+          } else {
+            logger.log(level: LogLevel.debug, message: "invalid form");
           }
         },
         child: Text((vm as RegisterPageVM).submitButtonText),

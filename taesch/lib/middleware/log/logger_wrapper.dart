@@ -12,7 +12,7 @@ class LoggerWrapper {
   }
 
   void log({required LogLevel level, required LogMessage logMessage}) {
-    switch(level) {
+    switch (level) {
       case LogLevel.debug:
         _logger!.d(logMessage.message, logMessage.title, logMessage.stackTrace);
         break;
@@ -20,7 +20,8 @@ class LoggerWrapper {
         _logger!.i(logMessage.message, logMessage.title, logMessage.stackTrace);
         break;
       case LogLevel.error:
-        _errorLogger!.e(logMessage.message, logMessage.title, logMessage.stackTrace);
+        _errorLogger!
+            .e(logMessage.message, logMessage.title, logMessage.stackTrace);
         break;
     }
   }

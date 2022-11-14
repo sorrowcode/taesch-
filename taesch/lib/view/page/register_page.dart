@@ -21,9 +21,9 @@ class _RegisterPageState extends StartingPageState {
 
   @override
   List<Widget> bodyElements() {
-    logger.log(level: LogLevel.info, logMessage: LogMessage(
-        message: "entered register page"
-    ));
+    logger.log(
+        level: LogLevel.info,
+        logMessage: LogMessage(message: "entered register page"));
     return [
       Text(
         (vm as RegisterPageVM).title,
@@ -36,9 +36,11 @@ class _RegisterPageState extends StartingPageState {
         child: TextFormField(
           key: Key(WidgetKey.usernameRegisterKey.text),
           validator: (value) {
-            logger.log(level: LogLevel.debug, logMessage: LogMessage(
-                message: "username validation: ${(vm as RegisterPageVM).validateUsername(value)?.message}"
-            ));
+            logger.log(
+                level: LogLevel.debug,
+                logMessage: LogMessage(
+                    message:
+                        "username validation: ${(vm as RegisterPageVM).validateUsername(value)?.message}"));
             return (vm as RegisterPageVM).validateUsername(value)?.message;
           },
           decoration: const InputDecoration(
@@ -52,9 +54,11 @@ class _RegisterPageState extends StartingPageState {
         child: TextFormField(
           key: Key(WidgetKey.emailRegisterKey.text),
           validator: (value) {
-            logger.log(level: LogLevel.debug, logMessage: LogMessage(
-                message: "email validation: ${vm.validateEMail(value)?.message}"
-            ));
+            logger.log(
+                level: LogLevel.debug,
+                logMessage: LogMessage(
+                    message:
+                        "email validation: ${vm.validateEMail(value)?.message}"));
             return vm.validateEMail(value)?.message;
           },
           decoration: const InputDecoration(
@@ -70,9 +74,11 @@ class _RegisterPageState extends StartingPageState {
           obscureText: true,
           controller: (vm as RegisterPageVM).passwordController,
           validator: (value) {
-            logger.log(level: LogLevel.debug, logMessage: LogMessage(
-                message: "password validation: ${vm.validatePassword(value)?.message}"
-            ));
+            logger.log(
+                level: LogLevel.debug,
+                logMessage: LogMessage(
+                    message:
+                        "password validation: ${vm.validatePassword(value)?.message}"));
             return vm.validatePassword(value)?.message;
           },
           decoration: const InputDecoration(
@@ -87,9 +93,11 @@ class _RegisterPageState extends StartingPageState {
           key: Key(WidgetKey.secondPasswordRegisterKey.text),
           obscureText: true,
           validator: (value) {
-            logger.log(level: LogLevel.debug, logMessage: LogMessage(
-                message: "password comparison validation: ${(vm as RegisterPageVM).validateSamePassword(value)?.message}"
-            ));
+            logger.log(
+                level: LogLevel.debug,
+                logMessage: LogMessage(
+                    message:
+                        "password comparison validation: ${(vm as RegisterPageVM).validateSamePassword(value)?.message}"));
             return (vm as RegisterPageVM).validateSamePassword(value)?.message;
           },
           decoration: const InputDecoration(
@@ -101,19 +109,21 @@ class _RegisterPageState extends StartingPageState {
       OutlinedButton(
         key: Key(WidgetKey.submitButtonKey.text),
         onPressed: () {
-          logger.log(level: LogLevel.info, logMessage: LogMessage(
-              message: "${(vm as RegisterPageVM).submitButtonText} pressed"
-          ));
+          logger.log(
+              level: LogLevel.info,
+              logMessage: LogMessage(
+                  message:
+                      "${(vm as RegisterPageVM).submitButtonText} pressed"));
           if (formKey.currentState!.validate()) {
-            logger.log(level: LogLevel.debug, logMessage: LogMessage(
-                message: "form valid"
-            ));
+            logger.log(
+                level: LogLevel.debug,
+                logMessage: LogMessage(message: "form valid"));
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => const SplashPage()));
           } else {
-            logger.log(level: LogLevel.debug, logMessage: LogMessage(
-                message: "invalid form"
-            ));
+            logger.log(
+                level: LogLevel.debug,
+                logMessage: LogMessage(message: "invalid form"));
           }
         },
         child: Text((vm as RegisterPageVM).submitButtonText),

@@ -7,9 +7,11 @@ class QueryException extends IException {
 
   @override
   void logCause(LogLevel level) {
-    logger.log(level: level, logMessage: LogMessage(
-      message: cause,
-      title: toString(),
-    ));
+    logger.log(
+        level: level,
+        logMessage: LogMessage(
+          message: cause,
+          title: toString(),
+        ));
   }
 }

@@ -1,5 +1,1 @@
-enum LogLevel {
-  debug,
-  info,
-  error
-}
+enum LogLevel { debug, info, error }

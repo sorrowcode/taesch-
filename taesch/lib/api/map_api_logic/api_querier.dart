@@ -85,8 +85,9 @@ class APIQuerier {
                 latitude = double.parse(accessedValue);
               } catch (e) {
                 try {
-                  throw QueryException(cause:
-                      "Parsing of accessed latitude index to double failed. Value: $accessedValue");
+                  throw QueryException(
+                      cause:
+                          "Parsing of accessed latitude index to double failed. Value: $accessedValue");
                 } on QueryException catch (f) {
                   f.cause; // <- needs to be logged
                 }
@@ -101,8 +102,9 @@ class APIQuerier {
                 longitude = double.parse(accessedValue);
               } catch (e) {
                 try {
-                  throw QueryException(cause:
-                      "Parsing of accessed longitude index to double failed. Value: $accessedValue");
+                  throw QueryException(
+                      cause:
+                          "Parsing of accessed longitude index to double failed. Value: $accessedValue");
                 } on QueryException catch (f) {
                   f.cause; // <- needs to be logged
                 }
@@ -118,8 +120,9 @@ class APIQuerier {
                 name = accessedValue;
               } catch (e) {
                 try {
-                  throw QueryException(cause:
-                      "Accessing name index failed. Value: $accessedValue");
+                  throw QueryException(
+                      cause:
+                          "Accessing name index failed. Value: $accessedValue");
                 } on QueryException catch (f) {
                   f.cause; // <- needs to be logged
                 }
@@ -133,8 +136,9 @@ class APIQuerier {
                 street = tags[OverpassQueryIndexes.street];
               } catch (e) {
                 try {
-                  throw QueryException(cause:
-                      "Accessing street index failed. Value: $accessedValue");
+                  throw QueryException(
+                      cause:
+                          "Accessing street index failed. Value: $accessedValue");
                 } on QueryException catch (f) {
                   f.cause; // <- needs to be logged
                 }
@@ -148,8 +152,9 @@ class APIQuerier {
                 number = accessedValue;
               } catch (e) {
                 try {
-                  throw QueryException(cause:
-                      "Accessing street-number index failed. Value: $accessedValue");
+                  throw QueryException(
+                      cause:
+                          "Accessing street-number index failed. Value: $accessedValue");
                 } on QueryException catch (f) {
                   f.cause; // <- needs to be logged
                 }

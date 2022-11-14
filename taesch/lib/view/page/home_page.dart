@@ -25,9 +25,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    logger.log(level: LogLevel.info, logMessage: LogMessage(
-        message: "entered HomePage"
-    ));
+    logger.log(
+        level: LogLevel.info,
+        logMessage: LogMessage(message: "entered HomePage"));
     return WillPopScope(
         onWillPop: () async => false,
         child: Scaffold(
@@ -47,9 +47,11 @@ class _HomePageState extends State<HomePage> {
                   ? FloatingActionButton(
                       child: const Icon(Icons.add),
                       onPressed: () {
-                        logger.log(level: LogLevel.info, logMessage: LogMessage(
-                            message: "floating action button add item pressed"
-                        ));
+                        logger.log(
+                            level: LogLevel.info,
+                            logMessage: LogMessage(
+                                message:
+                                    "floating action button add item pressed"));
                         showDialog(
                           context: context,
                           builder: (BuildContext context) => AddItemDialog(),
@@ -73,9 +75,10 @@ class _HomePageState extends State<HomePage> {
         title: Text(page.text),
         onTap: () {
           setState(() {
-            logger.log(level: LogLevel.info, logMessage: LogMessage(
-                message: "tapped on side bar element ${page.text}"
-            ));
+            logger.log(
+                level: LogLevel.info,
+                logMessage: LogMessage(
+                    message: "tapped on side bar element ${page.text}"));
             widget._vm.screenState = page;
             _scaffoldKey.currentState!.closeDrawer();
           });

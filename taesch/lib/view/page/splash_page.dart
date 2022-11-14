@@ -30,9 +30,9 @@ class _SplashPageState extends State<SplashPage> {
 
   @override
   Widget build(BuildContext context) {
-    logger.log(level: LogLevel.info, logMessage: LogMessage(
-        message: "entered splash page"
-    ));
+    logger.log(
+        level: LogLevel.info,
+        logMessage: LogMessage(message: "entered splash page"));
     return Scaffold(
       body: Center(
         child: Container(

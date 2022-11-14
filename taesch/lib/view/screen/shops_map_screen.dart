@@ -9,8 +9,6 @@ import 'package:taesch/model/map_spot.dart';
 import 'package:taesch/model/shop.dart';
 import 'package:taesch/view_model/screen/shops_map_screen_vm.dart';
 
-
-
 class ShopsMapScreen extends StatefulWidget {
   final _vm = ShopsMapScreenVM();
 
@@ -46,9 +44,9 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    logger.log(level: LogLevel.info, logMessage: LogMessage(
-        message: "entered shops map screen"
-    ));
+    logger.log(
+        level: LogLevel.info,
+        logMessage: LogMessage(message: "entered shops map screen"));
 
     // create user position object
     Position position = widget._vm.repository.userPosition;

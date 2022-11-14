@@ -4,6 +4,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:taesch/middleware/log/log_level.dart';
 import 'package:taesch/middleware/log/logger_wrapper.dart';
+import 'package:taesch/model/log_message.dart';
 import 'package:taesch/model/map_spot.dart';
 import 'package:taesch/model/shop.dart';
 import 'package:taesch/view_model/screen/shops_map_screen_vm.dart';
@@ -45,7 +46,9 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    logger.log(level: LogLevel.debug, message: "entered shops map screen");
+    logger.log(level: LogLevel.debug, logMessage: LogMessage(
+        message: "entered shops map screen"
+    ));
 
     // create user position object
     Position position = widget._vm.repository.userPosition;

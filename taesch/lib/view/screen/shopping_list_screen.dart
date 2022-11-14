@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:taesch/middleware/log/log_level.dart';
 import 'package:taesch/middleware/log/logger_wrapper.dart';
+import 'package:taesch/model/log_message.dart';
 import 'package:taesch/view_model/screen/shopping_list_screen_vm.dart';
 
 /// shows the shopping list elements
@@ -18,7 +19,9 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    logger.log(level: LogLevel.debug, message: "entered shopping list screen");
+    logger.log(level: LogLevel.debug, logMessage: LogMessage(
+        message: "entered shopping list screen"
+    ));
     return ValueListenableBuilder<int>(
         valueListenable: widget._vm.repository.shoppingListSize,
         builder: (context, value, child) {
@@ -34,7 +37,9 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
                 child: InkWell(
                   splashColor: Colors.blue.withAlpha(30),
                   onTap: () {
-                    logger.log(level: LogLevel.debug, message: "tapped on ${widget._vm.repository.shoppingListItems[index].title} item");
+                    logger.log(level: LogLevel.debug, logMessage: LogMessage(
+                        message: "tapped on ${widget._vm.repository.shoppingListItems[index].title} item"
+                    ));
                     debugPrint('Card tapped.');
                   },
                   child: SizedBox(

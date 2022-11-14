@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:taesch/middleware/log/log_level.dart';
 import 'package:taesch/middleware/log/logger_wrapper.dart';
+import 'package:taesch/model/log_message.dart';
 import 'package:taesch/model/screen_state.dart';
 import 'package:taesch/view/custom_widget/add_item_dialog.dart';
 import 'package:taesch/view/screen/near_shops_screen.dart';
@@ -24,7 +25,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    logger.log(level: LogLevel.debug, message: "entered HomePage");
+    logger.log(level: LogLevel.debug, logMessage: LogMessage(
+        message: "entered HomePage"
+    ));
     return WillPopScope(
         onWillPop: () async => false,
         child: Scaffold(
@@ -44,7 +47,9 @@ class _HomePageState extends State<HomePage> {
                   ? FloatingActionButton(
                       child: const Icon(Icons.add),
                       onPressed: () {
-                        logger.log(level: LogLevel.debug, message: "floating action button add item pressed");
+                        logger.log(level: LogLevel.debug, logMessage: LogMessage(
+                            message: "floating action button add item pressed"
+                        ));
                         showDialog(
                           context: context,
                           builder: (BuildContext context) => AddItemDialog(),
@@ -68,7 +73,9 @@ class _HomePageState extends State<HomePage> {
         title: Text(page.text),
         onTap: () {
           setState(() {
-            logger.log(level: LogLevel.debug, message: "tapped on side bar element ${page.text}");
+            logger.log(level: LogLevel.debug, logMessage: LogMessage(
+                message: "tapped on side bar element ${page.text}"
+            ));
             widget._vm.screenState = page;
             _scaffoldKey.currentState!.closeDrawer();
           });

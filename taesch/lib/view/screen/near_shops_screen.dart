@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:taesch/middleware/log/log_level.dart';
 import 'package:taesch/middleware/log/logger_wrapper.dart';
+import 'package:taesch/model/log_message.dart';
 import 'package:taesch/view/custom_widget/shops_tile.dart';
 import 'package:taesch/view_model/screen/near_shops_screen_vm.dart';
 
@@ -31,7 +32,9 @@ class _NearShopsScreenState extends State<NearShopsScreen> {
   @override
   Widget build(BuildContext context) {
     //widget._vm.getShops();
-    logger.log(level: LogLevel.debug, message: "entered near shops screen");
+    logger.log(level: LogLevel.debug, logMessage: LogMessage(
+        message: "entered near shops screen"
+    ));
     return Scaffold(
         body: Column(
       children: [
@@ -44,7 +47,9 @@ class _NearShopsScreenState extends State<NearShopsScreen> {
                 TextButton(
                   child: const Text("Search"),
                   onPressed: () {
-                    logger.log(level: LogLevel.debug, message: "search button pressed");
+                    logger.log(level: LogLevel.debug, logMessage: LogMessage(
+                        message: "search button pressed"
+                    ));
                     setState(() {
                       widget._vm.loadShops();
                     });

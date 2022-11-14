@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:taesch/api/repository.dart';
 import 'package:taesch/middleware/log/log_level.dart';
 import 'package:taesch/middleware/log/logger_wrapper.dart';
+import 'package:taesch/model/log_message.dart';
 
 import 'home_page.dart';
 
@@ -29,7 +30,9 @@ class _SplashPageState extends State<SplashPage> {
 
   @override
   Widget build(BuildContext context) {
-    logger.log(level: LogLevel.debug, message: "entered splash page");
+    logger.log(level: LogLevel.debug, logMessage: LogMessage(
+        message: "entered splash page"
+    ));
     return Scaffold(
       body: Center(
         child: Container(

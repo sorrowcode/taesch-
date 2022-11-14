@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:taesch/middleware/log/log_level.dart';
 import 'package:taesch/model/error_case.dart';
 import 'package:taesch/model/widget_key.dart';
 import 'package:taesch/view/page/splash_page.dart';
@@ -19,6 +20,7 @@ class _RegisterPageState extends StartingPageState {
 
   @override
   List<Widget> bodyElements() {
+    logger.log(level: LogLevel.debug, message: "entered register page");
     return [
       Text(
         (vm as RegisterPageVM).title,
@@ -31,6 +33,7 @@ class _RegisterPageState extends StartingPageState {
         child: TextFormField(
           key: Key(WidgetKey.usernameRegisterKey.text),
           validator: (value) {
+            logger.log(level: LogLevel.debug, message: "invalid username validation");
             return (vm as RegisterPageVM).validateUsername(value)?.message;
           },
           decoration: const InputDecoration(
@@ -44,6 +47,7 @@ class _RegisterPageState extends StartingPageState {
         child: TextFormField(
           key: Key(WidgetKey.emailRegisterKey.text),
           validator: (value) {
+            logger.log(level: LogLevel.debug, message: "invalid email validation");
             return vm.validateEMail(value)?.message;
           },
           decoration: const InputDecoration(
@@ -59,6 +63,7 @@ class _RegisterPageState extends StartingPageState {
           obscureText: true,
           controller: (vm as RegisterPageVM).passwordController,
           validator: (value) {
+            logger.log(level: LogLevel.debug, message: "invalid password validation");
             return vm.validatePassword(value)?.message;
           },
           decoration: const InputDecoration(
@@ -73,6 +78,7 @@ class _RegisterPageState extends StartingPageState {
           key: Key(WidgetKey.secondPasswordRegisterKey.text),
           obscureText: true,
           validator: (value) {
+            logger.log(level: LogLevel.debug, message: "invalid password comparison validation");
             return (vm as RegisterPageVM).validateSamePassword(value)?.message;
           },
           decoration: const InputDecoration(
@@ -84,7 +90,9 @@ class _RegisterPageState extends StartingPageState {
       OutlinedButton(
         key: Key(WidgetKey.submitButtonKey.text),
         onPressed: () {
+          logger.log(level: LogLevel.debug, message: "${(vm as RegisterPageVM).submitButtonText} pressed");
           if (formKey.currentState!.validate()) {
+            logger.log(level: LogLevel.debug, message: "form valid");
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => const SplashPage()));
           }

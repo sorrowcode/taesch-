@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:taesch/middleware/log/log_level.dart';
 import 'package:taesch/model/error_case.dart';
 import 'package:taesch/model/widget_key.dart';
 import 'package:taesch/view/page/register_page.dart';
@@ -20,6 +21,7 @@ class _LoginPageState extends StartingPageState {
 
   @override
   List<Widget> bodyElements() {
+    logger.log(level: LogLevel.debug, message: "entered login page");
     return [
       Text(
         (vm as LoginPageVM).title,
@@ -33,6 +35,7 @@ class _LoginPageState extends StartingPageState {
           initialValue: "test@test.de",
           key: Key(WidgetKey.emailLoginKey.text),
           validator: (value) {
+            logger.log(level: LogLevel.debug, message: "invalid email validation");
             return vm.validateEMail(value)?.message;
           },
           decoration: const InputDecoration(
@@ -47,6 +50,7 @@ class _LoginPageState extends StartingPageState {
           key: Key(WidgetKey.passwordLoginKey.text),
           obscureText: true,
           validator: (value) {
+            logger.log(level: LogLevel.debug, message: "invalid password validation");
             return vm.validatePassword(value)?.message;
           },
           decoration: const InputDecoration(
@@ -63,6 +67,7 @@ class _LoginPageState extends StartingPageState {
             ),
             key: Key(WidgetKey.registrationButtonKey.text),
             onPressed: () {
+              logger.log(level: LogLevel.debug, message: "${(vm as LoginPageVM).registrationButtonText} button pressed");
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const RegisterPage()),
@@ -80,7 +85,9 @@ class _LoginPageState extends StartingPageState {
             ),
             key: Key(WidgetKey.loginButtonKey.text),
             onPressed: () {
+              logger.log(level: LogLevel.debug, message: "${(vm as LoginPageVM).loginButtonText} button pressed");
               if (formKey.currentState!.validate()) {
+                logger.log(level: LogLevel.debug, message: "form valid");
                 Navigator.push(
                     context,
                     MaterialPageRoute(

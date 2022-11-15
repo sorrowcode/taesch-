@@ -13,4 +13,8 @@ class Tag {
       // todo: throw exception
     }
   }
+
+  Map<String,dynamic> toMap(){
+    return {'tag_name': tagName, 'priority': _priorityValue};
+  }
 }

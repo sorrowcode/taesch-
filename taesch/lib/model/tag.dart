@@ -3,6 +3,8 @@ class Tag {
   late double _priorityValue;
 
   Tag({required this.tagName});
+  Tag.db({required this.tagName, required double priorityValue})
+  {_priorityValue = priorityValue;}
 
   double get priorityValue => _priorityValue;
 

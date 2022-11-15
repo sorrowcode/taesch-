@@ -281,14 +281,14 @@ void main() {
   });
 
   group('ShoppingItemsDB', () {
-    late PersistStorage<ShoppingListItem> storeage;
+    late PersistStorage<ShoppingListItem> storage;
     setUpAll(() async {
       // Initialize FFI
       sqfliteFfiInit();
       // Change the default factory for unit testing calls for SQFlite
       databaseFactory = databaseFactoryFfi;
 
-      storeage = await StorageShopItems.create();
+      storage = await StorageShopItems.create();
     });
     //setUp(() async {storeage = await StorageShopItems.create();});
 
@@ -304,22 +304,22 @@ void main() {
     var testItem = ShoppingListItem(title: 'TestItem', image: '');
 
     test('Store ShoppingItem',() async {
-      storeage.insert(testItem);
-      expect((await storeage.read({})).toString(), [testItem].toString());
+      storage.insert(testItem);
+      expect((await storage.read({})).toString(), [testItem].toString());
     });
     test('Update ShoppingItem',() async {
       testItem = ShoppingListItem(title: 'TestItem', image: 'abcd');
-      storeage.update(testItem);
-      expect((await storeage.read({})).toString(), [testItem].toString());
+      storage.update(testItem);
+      expect((await storage.read({})).toString(), [testItem].toString());
     });
     test('Delete ShoppingItem',() async {
-      storeage.delete(testItem);
-      expect((await storeage.read({})).toString(), [].toString());
+      storage.delete(testItem);
+      expect((await storage.read({})).toString(), [].toString());
     });
     test('replace complete List', () async {
       testItem = ShoppingListItem(title: 'TestItem', image: 'abef');
-      (storeage as StorageShopItems).replace([testItem]);
-      expect((await storeage.read({})).toString(), [testItem].toString());
+      (storage as StorageShopItems).replace([testItem]);
+      expect((await storage.read({})).toString(), [testItem].toString());
     });
     tearDownAll(() async {
       await databaseFactory.deleteDatabase(join(await getDatabasesPath(), 'shoppinglist_database.db'));

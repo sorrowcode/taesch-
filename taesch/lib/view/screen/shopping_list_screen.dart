@@ -41,15 +41,15 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
                         level: LogLevel.info,
                         logMessage: LogMessage(
                             message:
-                                "tapped on ${widget._vm.repository.shoppingListItems[index].title} item"));
+                                "tapped on ${widget._vm.repository.products[index].name} item"));
                     debugPrint('Card tapped.');
                   },
                   child: SizedBox(
                     width: 100,
                     height: 100,
                     child: Center(
-                        child: Text(widget
-                            ._vm.repository.shoppingListItems[index].title)),
+                        child:
+                            Text(widget._vm.repository.products[index].name)),
                   ),
                 ),
               );

@@ -3,12 +3,14 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:path/path.dart';
-import 'package:taesch/api/storage.dart';
+import 'package:taesch/api/database/sql/dto/product_dto.dart';
+import 'package:taesch/api/database/sql/sql_database.dart';
+
 // import 'package:taesch/api/map_api_logic/geolocation_tools.dart';
 import 'package:taesch/app.dart';
 import 'package:taesch/model/error_case.dart';
 import 'package:taesch/model/screen_state.dart';
-import 'package:taesch/model/shopping_list_item.dart';
+import 'package:taesch/model/product.dart';
 import 'package:taesch/model/widget_key.dart';
 import 'package:taesch/view/page/home_page.dart';
 import 'package:taesch/view/screen/near_shops_screen.dart';
@@ -17,7 +19,7 @@ import 'package:taesch/view/screen/shopping_list_screen.dart';
 import 'package:taesch/view_model/page/login_page_vm.dart';
 import 'package:taesch/view_model/page/register_page_vm.dart';
 import 'package:taesch/view_model/page/starting_page_vm.dart';
-import 'package:taesch/api/storage_shop_items.dart';
+
 
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
@@ -280,8 +282,24 @@ void main() {
     });
   });
 
+  group("testing sqlite database", () {
+    sqfliteFfiInit();
+    databaseFactory = databaseFactoryFfi;
+    var sqlDatabase = SQLDatabase();
+
+    setUp(() async => await sqlDatabase.init());
+
+    test("testing inserting one element", () async {
+      Product testProduct = Product(name: "test product 2", imageUrl: "imageUrl");
+      await sqlDatabase.insertEffectiveProduct(testProduct);
+      var products = await sqlDatabase.getEffectiveProductList();
+    });
+
+    tearDown(() async => databaseFactory.deleteDatabase(join(await getDatabasesPath(), "taesch.db")));
+  });
+/*
   group('ShoppingItemsDB', () {
-    late PersistStorage<ShoppingListItem> storage;
+    late PersistStorage<Product> storage;
     setUpAll(() async {
       // Initialize FFI
       sqfliteFfiInit();
@@ -301,14 +319,14 @@ void main() {
       expect(itemList, [testItem]);
     });*/
 
-    var testItem = ShoppingListItem(title: 'TestItem', image: '');
+    var testItem = Product(title: 'TestItem', image: '');
 
     test('Store ShoppingItem',() async {
       storage.insert(testItem);
       expect((await storage.read({})).toString(), [testItem].toString());
     });
     test('Update ShoppingItem',() async {
-      testItem = ShoppingListItem(title: 'TestItem', image: 'abcd');
+      testItem = Product(title: 'TestItem', image: 'abcd');
       storage.update(testItem);
       expect((await storage.read({})).toString(), [testItem].toString());
     });
@@ -317,7 +335,7 @@ void main() {
       expect((await storage.read({})).toString(), [].toString());
     });
     test('replace complete List', () async {
-      testItem = ShoppingListItem(title: 'TestItem', image: 'abef');
+      testItem = Product(title: 'TestItem', image: 'abef');
       (storage as StorageShopItems).replace([testItem]);
       expect((await storage.read({})).toString(), [testItem].toString());
     });
@@ -325,6 +343,7 @@ void main() {
       await databaseFactory.deleteDatabase(join(await getDatabasesPath(), 'shoppinglist_database.db'));
     });
   });
+     */
 
   
   group('character conversion', () {

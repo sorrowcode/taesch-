@@ -58,10 +58,9 @@ class _AddItemDialogState extends State<AddItemDialog> {
                       level: LogLevel.debug,
                       logMessage: LogMessage(message: "form valid"));
                   setState(() {
-                    widget._vm.repository.shoppingListItems
-                        .add(widget._vm.temp);
+                    widget._vm.repository.products.add(widget._vm.temp);
                     widget._vm.repository.shoppingListSize.value =
-                        widget._vm.repository.shoppingListItems.length;
+                        widget._vm.repository.products.length;
                   });
                   Navigator.of(context).pop();
                 } else {

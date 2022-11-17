@@ -2,23 +2,12 @@ import 'package:taesch/model/action.dart';
 import 'package:taesch/model/product.dart';
 
 abstract class IProductAction implements Action {
-  void insertGeneratedProductList(List<Product> products);
 
-  void insertEffectiveProduct(Product product);
+  Future<void> insertProduct(bool generated, Product product);
 
-  List<Product> getGeneratedProductList();
+  Future<List<Product>> getProductList(bool generated);
 
-  Future<List<Product>> getEffectiveProductList();
+  void deleteProduct(bool generated);
 
-  Product getGeneratedProduct();
-
-  Product getEffectiveProduct();
-
-  void deleteGeneratedProduct();
-
-  void deleteEffectiveProduct();
-
-  void deleteGeneratedProductList();
-
-  void deleteEffectiveProductList();
+  void deleteProductList(bool generated);
 }

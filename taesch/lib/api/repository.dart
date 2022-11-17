@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:taesch/api/database/sql/sql_database.dart';
 import 'package:taesch/api/map_api_logic/geolocation_tools.dart';
 import 'package:taesch/api/map_api_logic/querying_tools.dart';
 import 'package:taesch/model/product.dart';
@@ -14,6 +15,7 @@ class Repository {
   ValueNotifier<int> shoppingListSize = ValueNotifier(0);
   List<Shop> shopsCache = [];
   ValueNotifier<int> shopsCacheSize = ValueNotifier(0);
+  SQLDatabase sqlDatabase = SQLDatabase();
 
   Position userPosition = const Position(
       latitude: 49.1427,
@@ -44,6 +46,9 @@ class Repository {
   bool get isDarkModeEnabled => _isDarkModeEnabled;
 
   Repository._internal() {
+    if (!sqlDatabase.initialized) {
+      sqlDatabase.init();
+    }
     geolocationTools = GeolocationTools(this);
     SharedPreferences.getInstance().then((prefs) => _isDarkModeEnabled =
         prefs.containsKey('dark_mode_enabled')

@@ -8,8 +8,10 @@ import 'package:taesch/model/product_dto_map_data.dart';
 
 class SQLDatabase implements IProductAction {
   late final Database _database;
+  bool initialized = false;
   final String _generatedTable = "shopping_list_generated";
   final String _effectiveTable = "shopping_list_effective";
+
 
   Future<void> init() async {
     WidgetsFlutterBinding.ensureInitialized();
@@ -45,38 +47,23 @@ class SQLDatabase implements IProductAction {
         sql
       );
     });
+    initialized = true;
   }
 
   @override
-  void deleteEffectiveProduct() {
-    // TODO: implement deleteEffectiveProduct
+  void deleteProduct(bool generated) {
+    // TODO: implement deleteProduct
   }
 
   @override
-  void deleteEffectiveProductList() {
-    // TODO: implement deleteEffectiveProductList
+  void deleteProductList(bool generated) {
+    // TODO: implement deleteProductList
   }
 
   @override
-  void deleteGeneratedProduct() {
-    // TODO: implement deleteGeneratedProduct
-  }
-
-  @override
-  void deleteGeneratedProductList() {
-    // TODO: implement deleteGeneratedProductList
-  }
-
-  @override
-  Product getEffectiveProduct() {
-    // TODO: implement getEffectiveProduct
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<List<Product>> getEffectiveProductList() async {
+  Future<List<Product>> getProductList(bool generated) async {
     final db = _database;
-    final List<Map<String, dynamic>> products = await db.query(_effectiveTable);
+    final List<Map<String, dynamic>> products = await db.query(generated ? _generatedTable : _effectiveTable);
     return List.generate(products.length, (index) {
       var dto = ProductDTO.fromMap(map: products[index]);
       dto.toProduct();
@@ -85,29 +72,12 @@ class SQLDatabase implements IProductAction {
   }
 
   @override
-  Product getGeneratedProduct() {
-    // TODO: implement getGeneratedProduct
-    throw UnimplementedError();
-  }
-
-  @override
-  List<Product> getGeneratedProductList() {
-    // TODO: implement getGeneratedProductList
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<void> insertEffectiveProduct(Product product) async {
+  Future<void> insertProduct(bool generated, Product product) async {
     var db = _database;
     var dto = ProductDTO.fromProduct(product: product);
     dto.toMap();
     await db.insert(
-        _effectiveTable,
+        generated ? _generatedTable : _effectiveTable,
         dto.map);
-  }
-
-  @override
-  void insertGeneratedProductList(List<Product> products) {
-    // TODO: implement insertGeneratedProductList
   }
 }

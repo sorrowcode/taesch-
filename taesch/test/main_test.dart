@@ -283,69 +283,23 @@ void main() {
   });
 
   group("testing sqlite database", () {
-    sqfliteFfiInit();
-    databaseFactory = databaseFactoryFfi;
+    sqfliteFfiInit(); // only for testing purposes
+    databaseFactory = databaseFactoryFfi; // only for testing purposes
     var sqlDatabase = SQLDatabase();
 
     setUp(() async => await sqlDatabase.init());
 
-    test("testing inserting one element", () async {
-      Product testProduct = Product(name: "test product 2", imageUrl: "imageUrl");
-      await sqlDatabase.insertEffectiveProduct(testProduct);
-      var products = await sqlDatabase.getEffectiveProductList();
+    test("testing inserting and getting one element", () async {
+      Product testProduct = Product(name: "test product", imageUrl: "imageUrl");
+      await sqlDatabase.insertProduct(false, testProduct);
+      var products = await sqlDatabase.getProductList(false);
+      Product product = products[0];
+      expect(product.name, testProduct.name);
     });
 
     tearDown(() async => databaseFactory.deleteDatabase(join(await getDatabasesPath(), "taesch.db")));
   });
-/*
-  group('ShoppingItemsDB', () {
-    late PersistStorage<Product> storage;
-    setUpAll(() async {
-      // Initialize FFI
-      sqfliteFfiInit();
-      // Change the default factory for unit testing calls for SQFlite
-      databaseFactory = databaseFactoryFfi;
 
-      storage = await StorageShopItems.create();
-    });
-    //setUp(() async {storeage = await StorageShopItems.create();});
-
-    /*test('autoReplace', () async {
-      Repository repo = Repository();
-      storeage = await StorageShopItems.create();
-      var testItem = ShoppingListItem(title: 'AutoReplaceTestItem', image: '');
-      repo.shoppingListItems.add(testItem);
-      var itemList = await storeage.read({});
-      expect(itemList, [testItem]);
-    });*/
-
-    var testItem = Product(title: 'TestItem', image: '');
-
-    test('Store ShoppingItem',() async {
-      storage.insert(testItem);
-      expect((await storage.read({})).toString(), [testItem].toString());
-    });
-    test('Update ShoppingItem',() async {
-      testItem = Product(title: 'TestItem', image: 'abcd');
-      storage.update(testItem);
-      expect((await storage.read({})).toString(), [testItem].toString());
-    });
-    test('Delete ShoppingItem',() async {
-      storage.delete(testItem);
-      expect((await storage.read({})).toString(), [].toString());
-    });
-    test('replace complete List', () async {
-      testItem = Product(title: 'TestItem', image: 'abef');
-      (storage as StorageShopItems).replace([testItem]);
-      expect((await storage.read({})).toString(), [testItem].toString());
-    });
-    tearDownAll(() async {
-      await databaseFactory.deleteDatabase(join(await getDatabasesPath(), 'shoppinglist_database.db'));
-    });
-  });
-     */
-
-  
   group('character conversion', () {
     test('character conversion', () {
       var inputString = utf8.encode(jsonEncode({"test-text":"äöüß"}));

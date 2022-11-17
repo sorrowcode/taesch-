@@ -3,14 +3,14 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:path/path.dart';
-import 'package:taesch/api/database/sql/dto/product_dto.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:taesch/api/database/sql/sql_database.dart';
-
 // import 'package:taesch/api/map_api_logic/geolocation_tools.dart';
 import 'package:taesch/app.dart';
 import 'package:taesch/model/error_case.dart';
-import 'package:taesch/model/screen_state.dart';
 import 'package:taesch/model/product.dart';
+import 'package:taesch/model/screen_state.dart';
 import 'package:taesch/model/widget_key.dart';
 import 'package:taesch/view/page/home_page.dart';
 import 'package:taesch/view/screen/near_shops_screen.dart';
@@ -19,10 +19,6 @@ import 'package:taesch/view/screen/shopping_list_screen.dart';
 import 'package:taesch/view_model/page/login_page_vm.dart';
 import 'package:taesch/view_model/page/register_page_vm.dart';
 import 'package:taesch/view_model/page/starting_page_vm.dart';
-
-
-import 'package:sqflite/sqflite.dart';
-import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 void main() {
   // ui
@@ -283,13 +279,13 @@ void main() {
   });
 
   group("testing sqlite database", () {
-    sqfliteFfiInit(); // only for testing purposes
-    databaseFactory = databaseFactoryFfi; // only for testing purposes
-    var sqlDatabase = SQLDatabase();
-
-    setUp(() async => await sqlDatabase.init());
-
-    test("testing inserting and getting one element", () async {
+    test("testing inserting and getting list", () async {
+      sqfliteFfiInit(); // only for testing purposes
+      databaseFactory = databaseFactoryFfi; // only for testing purposes
+      databaseFactory
+          .deleteDatabase(join(await getDatabasesPath(), "taesch.db"));
+      var sqlDatabase = SQLDatabase();
+      await sqlDatabase.init();
       Product testProduct = Product(name: "test product", imageUrl: "imageUrl");
       await sqlDatabase.insertProduct(false, testProduct);
       var products = await sqlDatabase.getProductList(false);
@@ -297,16 +293,41 @@ void main() {
       expect(product.name, testProduct.name);
     });
 
-    tearDown(() async => databaseFactory.deleteDatabase(join(await getDatabasesPath(), "taesch.db")));
+    test("testing deletion", () async {
+      sqfliteFfiInit(); // only for testing purposes
+      databaseFactory = databaseFactoryFfi; // only for testing purposes
+      databaseFactory
+          .deleteDatabase(join(await getDatabasesPath(), "taesch.db"));
+      var sqlDatabase = SQLDatabase();
+      await sqlDatabase.init();
+      Product testProduct1 =
+          Product(name: "test product 1", imageUrl: "imageUrl");
+      Product testProduct2 =
+          Product(name: "test product 2", imageUrl: "imageUrl");
+      Product testProduct3 =
+          Product(name: "test product 3", imageUrl: "imageUrl");
+      await sqlDatabase.insertProduct(false, testProduct1);
+      await sqlDatabase.insertProduct(false, testProduct2);
+      await sqlDatabase.insertProduct(false, testProduct3);
+      var products = await sqlDatabase.getProductList(false);
+      expect(products.length, 3);
+      await sqlDatabase.deleteProduct(false, testProduct3.name);
+      products = await sqlDatabase.getProductList(false);
+      expect(products.length, 2);
+      await sqlDatabase.deleteProductList(false);
+      products = await sqlDatabase.getProductList(false);
+      expect(products.length, 0);
+    });
   });
 
   group('character conversion', () {
     test('character conversion', () {
-      var inputString = utf8.encode(jsonEncode({"test-text":"äöüß"}));
-      expect(jsonDecode(utf8.decode(inputString.toList())), {"test-text":"äöüß"});
+      var inputString = utf8.encode(jsonEncode({"test-text": "äöüß"}));
+      expect(
+          jsonDecode(utf8.decode(inputString.toList())), {"test-text": "äöüß"});
     });
   });
-  
+
   /* Integration Test - has plugin dependency
 
   group("testing geo-location fetch", () {

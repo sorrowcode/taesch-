@@ -10,7 +10,7 @@ enum ProductDTOMapData {
 
 extension ProductDTOMapDataString on ProductDTOMapData {
   String value() {
-    switch(this) {
+    switch (this) {
       case ProductDTOMapData.name:
         return "name";
       case ProductDTOMapData.imageUrl:

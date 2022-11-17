@@ -12,12 +12,10 @@ class SQLDatabase implements IProductAction {
   final String _generatedTable = "shopping_list_generated";
   final String _effectiveTable = "shopping_list_effective";
 
-
   Future<void> init() async {
     WidgetsFlutterBinding.ensureInitialized();
     _database = await openDatabase(join(await getDatabasesPath(), "taesch.db"),
-        version: 1,
-        onCreate: (db, version) {
+        version: 1, onCreate: (db, version) {
       var name = ProductDTOMapData.name.value();
       var imageURL = ProductDTOMapData.imageUrl.value();
       var quantity = ProductDTOMapData.quantity.value();
@@ -43,27 +41,31 @@ class SQLDatabase implements IProductAction {
           "$sumOfAllWeights DOUBLE PRECISION NOT NULL,"
           "$timesBought INTEGER NOT NULL"
           ");";
-      return db.execute(
-        sql
-      );
+      return db.execute(sql);
     });
     initialized = true;
   }
 
   @override
-  void deleteProduct(bool generated) {
-    // TODO: implement deleteProduct
+  Future<void> deleteProduct(bool generated, String productName) async {
+    final db = _database;
+    await db.delete(generated ? _generatedTable : _effectiveTable,
+        where: "${ProductDTOMapData.name.value()} = ?;", whereArgs: [productName]);
   }
 
   @override
-  void deleteProductList(bool generated) {
-    // TODO: implement deleteProductList
+  Future<void> deleteProductList(bool generated) async {
+    final db = _database;
+    await db.delete(
+      generated ? _generatedTable : _effectiveTable,
+    );
   }
 
   @override
   Future<List<Product>> getProductList(bool generated) async {
     final db = _database;
-    final List<Map<String, dynamic>> products = await db.query(generated ? _generatedTable : _effectiveTable);
+    final List<Map<String, dynamic>> products =
+        await db.query(generated ? _generatedTable : _effectiveTable);
     return List.generate(products.length, (index) {
       var dto = ProductDTO.fromMap(map: products[index]);
       dto.toProduct();
@@ -76,8 +78,6 @@ class SQLDatabase implements IProductAction {
     var db = _database;
     var dto = ProductDTO.fromProduct(product: product);
     dto.toMap();
-    await db.insert(
-        generated ? _generatedTable : _effectiveTable,
-        dto.map);
+    await db.insert(generated ? _generatedTable : _effectiveTable, dto.map);
   }
 }

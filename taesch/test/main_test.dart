@@ -2,11 +2,14 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:path/path.dart';
+import 'package:taesch/api/repository.dart';
 import 'package:taesch/api/storage.dart';
 // import 'package:taesch/api/map_api_logic/geolocation_tools.dart';
 import 'package:taesch/app.dart';
 import 'package:taesch/model/error_case.dart';
+import 'package:taesch/model/query_location.dart';
 import 'package:taesch/model/screen_state.dart';
 import 'package:taesch/model/shopping_list_item.dart';
 import 'package:taesch/model/widget_key.dart';
@@ -332,6 +335,36 @@ void main() {
       var inputString = utf8.encode(jsonEncode({"test-text":"äöüß"}));
       expect(jsonDecode(utf8.decode(inputString.toList())), {"test-text":"äöüß"});
     });
+  });
+
+  group("set dynamic query parameters", (){
+    Repository repository = Repository();
+    test('set search radius', (){
+      int searchRadius = 4438;
+      repository.queries.setSearchRadiusMeters(searchRadius);
+      int radiusSetting = repository.queries.getSearchRadiusMeters();
+      expect(radiusSetting, searchRadius);
+    });
+    test('set position', (){
+      double myLat = 49.1427;
+      Position samplePosition = Position(
+          latitude: myLat,
+          longitude: 0.0,
+          timestamp: null,
+          accuracy: 0.0,
+          altitude: 0.0,
+          heading: 0.0,
+          speed: 0.0,
+          speedAccuracy: 0.0);
+      repository.setPosition(samplePosition);
+      expect(repository.queries.getCustomLocation().latitude, myLat);
+    });
+    test('set search area', (){
+      QueryLocation myLocation = QueryLocation.neckarsulm;
+      repository.queries.setQueryLocation(myLocation);
+      expect(repository.queries.getQueryLocation(), myLocation);
+    });
+    // also attempt query
   });
   
   /* Integration Test - has plugin dependency

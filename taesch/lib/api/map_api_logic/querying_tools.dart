@@ -21,13 +21,25 @@ class OSMQueries {
     _searchRadius = meters;
   }
 
+  int getSearchRadiusMeters(){
+    return _searchRadius;
+  }
+
   void setQueryLocation(QueryLocation queryLocation){
     _fixedLocation = queryLocation;
+  }
+
+  QueryLocation getQueryLocation(){
+    return _fixedLocation;
   }
 
   void setCustomLocation(LatLng position){
     _locationLat = position.latitude;
     _locationLong = position.longitude;
+  }
+
+  LatLng getCustomLocation(){
+    return LatLng(_locationLat, _locationLong);
   }
 
   String osmQueryBuilder() {

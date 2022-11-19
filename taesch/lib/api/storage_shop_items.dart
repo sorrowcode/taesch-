@@ -5,6 +5,7 @@ import 'package:taesch/model/shopping_list_item.dart';
 
 class StorageShopItems implements PersistStorage<ShoppingListItem> {
   late Database _db;
+  static const tableName = 'shopping_items';
 
   StorageShopItems._create() {
     return;
@@ -37,7 +38,7 @@ class StorageShopItems implements PersistStorage<ShoppingListItem> {
   @override
   void delete(ShoppingListItem shopItem) {
     _db.delete(
-      'shopping_items',
+      tableName,
       where: 'item_title = ?',
       whereArgs: [shopItem.title],
     );
@@ -47,9 +48,9 @@ class StorageShopItems implements PersistStorage<ShoppingListItem> {
   Future<List<ShoppingListItem>> read(Map filter) async {
     Future<List<Map<String, Object?>>> query;
     if (filter.isEmpty) {
-      query = _db.query('shopping_items');
+      query = _db.query(tableName);
     } else {
-      query = _db.query('shopping_items',
+      query = _db.query(tableName,
           where: filter.keys.join('=?,'),
           whereArgs: filter.values.toList(growable: false));
     }
@@ -67,16 +68,16 @@ class StorageShopItems implements PersistStorage<ShoppingListItem> {
   }
 
   @override
-
   ///item Title is identifier => don't change
   void update(ShoppingListItem shopItem) {
-    _db.update('shopping_items', shopItem.toMap(),
+    _db.update(tableName, shopItem.toMap(),
         where: 'item_title = ?', whereArgs: [shopItem.title]);
   }
 
+  ///deletes all records writes all presented
   void replace(List<ShoppingListItem> shoppinglist) {
     _db.transaction((txn) async {
-      await txn.delete('shopping_items');
+      await txn.delete(tableName);
       Batch batch = txn.batch();
       for (var item in shoppinglist) {
         batch.insert('shopping_items', item.toMap());
@@ -88,7 +89,7 @@ class StorageShopItems implements PersistStorage<ShoppingListItem> {
   @override
   void insert(ShoppingListItem shopItem) async {
     await _db.insert(
-      'shopping_items',
+      tableName,
       shopItem.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );

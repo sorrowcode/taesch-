@@ -7,6 +7,7 @@ import '../model/tag.dart';
 
 class StorageTags implements PersistStorage<Tag>{
   late Database _db;
+  static const tableName = 'tags';
 
   StorageTags._create() {
     return;
@@ -39,28 +40,38 @@ class StorageTags implements PersistStorage<Tag>{
   @override
   void delete(Tag deleteTag) {
     _db.delete(
-      'tags',
+      tableName,
       where: 'tag_name = ?',
       whereArgs: [deleteTag.tagName],
     );
   }
 
   @override
-  void insert(Tag newTag) async {
+  void insert(Tag newTags) async {
     await _db.insert(
-      'shopping_items',
-      newTag.toMap(),
+      tableName,
+      newTags.toMap(),
       conflictAlgorithm: ConflictAlgorithm.ignore,
     );
+  }
+  void insertMany(List<Tag> newTags) async {
+    var batch = _db.batch();
+    for (var tag in newTags) {
+      batch.insert(
+          tableName,
+          tag.toMap(),
+          conflictAlgorithm: ConflictAlgorithm.ignore);
+    }
+    batch.commit(noResult: true, continueOnError: true);
   }
 
   @override
   Future<List<Tag>> read(Map filter) async {
     Future<List<Map<String, Object?>>> query;
     if (filter.isEmpty) {
-      query = _db.query('shopping_items');
+      query = _db.query(tableName);
     } else {
-      query = _db.query('shopping_items',
+      query = _db.query(tableName,
           where: filter.keys.join('=?,'),
           whereArgs: filter.values.toList(growable: false));
     }
@@ -78,8 +89,19 @@ class StorageTags implements PersistStorage<Tag>{
 
   @override
   void update(Tag updateTag) {
-    _db.update('shopping_items', updateTag.toMap(),
+    _db.update(tableName, updateTag.toMap(),
         where: 'tag_name = ?', whereArgs: [updateTag.tagName]);
+  }
+
+  void updateMany(List<Tag> updateTags){
+    var batch = _db.batch();
+    for (var tag in updateTags) {
+      batch.insert(
+          tableName,
+          tag.toMap(),
+          conflictAlgorithm: ConflictAlgorithm.ignore);
+    }
+    batch.commit(noResult: true, continueOnError: true);
   }
   
 }

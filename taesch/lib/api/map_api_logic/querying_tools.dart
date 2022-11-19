@@ -31,8 +31,25 @@ class OSMQueries {
   }
 
   String osmQueryBuilder() {
-    // zunächst ein Defaultwert. In Zukunft sollen weitere Parameter gesetzt werden können.
-    return query1Heilbronn;
+
+    // logic that assembles the Overpass query
+
+    String query = "";
+    String locationName = _fixedLocation.location;
+    String searchRadius = _searchRadius.toString();
+    String latitude = _locationLat.toString();
+    String longitude = _locationLong.toString();
+
+    query += "data=[out:json][timeout:50];area[name=\"";// <- may alter timeout variable
+    query+=locationName;
+    query+="\"]->.searchArea;(nwr[\"shop\"=\"supermarket\"](around:";
+    query+="$searchRadius,";
+    query+="$latitude,";
+    query+=longitude;
+    query+=")(area.searchArea););out;";
+
+    //return query1Heilbronn;
+    return query;
   }
 }
 

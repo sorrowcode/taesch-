@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:taesch/api/map_api_logic/geolocation_tools.dart';
 import 'package:taesch/api/map_api_logic/querying_tools.dart';
@@ -16,7 +17,7 @@ class Repository {
   List<Shop> shopsCache = [];
   ValueNotifier<int> shopsCacheSize = ValueNotifier(0);
 
-  Position userPosition = const Position(
+  Position _userPosition = const Position(
       latitude: 49.1427,
       longitude: 9.2109,
       timestamp: null,
@@ -25,6 +26,17 @@ class Repository {
       heading: 0.0,
       speed: 0.0,
       speedAccuracy: 0.0); //LatLng(49.1427, 9.2109);
+
+  void setPosition(Position position){
+    _userPosition = position;
+    queries.setCustomLocation(LatLng(
+        position.latitude,
+        position.longitude));
+  }
+
+  Position getUserPosition(){
+    return _userPosition;
+  }
 
   late GeolocationTools geolocationTools; // = GeolocationTools(this);
   MyTools tools = MyTools();

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,8 +10,8 @@ import 'package:taesch/utils/my_tools.dart';
 
 class Repository {
   bool _isDarkModeEnabled = false;
-  final List<Product> _products = [];
-  ValueNotifier<int> shoppingListSize = ValueNotifier(0);
+  //final List<Product> _products = [];
+  //ValueNotifier<int> shoppingListSize = ValueNotifier(0);
   List<Shop> shopsCache = [];
   ValueNotifier<int> shopsCacheSize = ValueNotifier(0);
   SQLDatabase sqlDatabase = SQLDatabase();
@@ -46,17 +45,15 @@ class Repository {
   bool get isDarkModeEnabled => _isDarkModeEnabled;
 
   Repository._internal() {
-    if (!sqlDatabase.initialized) {
-      sqlDatabase.init();
-    }
     geolocationTools = GeolocationTools(this);
+
     SharedPreferences.getInstance().then((prefs) => _isDarkModeEnabled =
         prefs.containsKey('dark_mode_enabled')
             ? prefs.getBool('dark_mode_enabled')!
             : false);
   }
 
-  List<Product> get products => _products;
+  //List<Product> get products => _products;
 
   void fillUpCache(List<Shop> shops) {
     shopsCache = []; // reset

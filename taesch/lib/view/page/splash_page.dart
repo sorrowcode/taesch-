@@ -17,13 +17,26 @@ class SplashPage extends StatefulWidget {
 
 class _SplashPageState extends State<SplashPage> {
   LoggerWrapper logger = LoggerWrapper();
+  Repository repository = Repository();
 
   @override
   void initState() {
-    Repository().geolocationTools.startGeoTimer();
-    Timer(const Duration(seconds: 3), () {
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => HomePage()));
+
+    setState(() {
+      repository.sqlDatabase.init().then((value) {
+        repository.geolocationTools.startGeoTimer();
+        repository.sqlDatabase.getProductList(true).then((value) {
+          Timer(const Duration(seconds: 3), () {
+            Navigator.of(context)
+                .push(MaterialPageRoute(
+                builder: (context) => HomePage(),
+              settings: RouteSettings(
+                arguments: value
+              )
+            ));
+          });
+        });
+      });
     });
     super.initState();
   }

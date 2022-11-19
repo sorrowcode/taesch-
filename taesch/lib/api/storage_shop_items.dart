@@ -1,10 +1,14 @@
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:taesch/api/storage.dart';
+import 'package:taesch/api/storage_tags.dart';
 import 'package:taesch/model/shopping_list_item.dart';
+
+import '../model/tag.dart';
 
 class StorageShopItems implements PersistStorage<ShoppingListItem> {
   late Database _db;
+  late StorageTags _tagsDb;
   static const tableName = 'shopping_items';
 
   StorageShopItems._create() {
@@ -32,6 +36,7 @@ class StorageShopItems implements PersistStorage<ShoppingListItem> {
       // path to perform database upgrades and downgrades.
       version: 1,
     );
+    component._tagsDb = await StorageTags.create();
     return component;
   }
 
@@ -71,19 +76,22 @@ class StorageShopItems implements PersistStorage<ShoppingListItem> {
   ///item Title is identifier => don't change
   void update(ShoppingListItem shopItem) {
     _db.update(tableName, shopItem.toMap(),
-        where: 'item_title = ?', whereArgs: [shopItem.title]);
+        where: 'item_title = ?', whereArgs: [shopItem.title])
+        .then((value) => _tagsDb.updateMany(shopItem.tags));
   }
 
   ///deletes all records writes all presented
   void replace(List<ShoppingListItem> shoppinglist) {
+    var tags = <Tag>{};
     _db.transaction((txn) async {
       await txn.delete(tableName);
       Batch batch = txn.batch();
       for (var item in shoppinglist) {
         batch.insert('shopping_items', item.toMap());
+        tags.addAll(item.tags);
       }
       batch.commit();
-    });
+    }).then((value) => _tagsDb.insertMany(tags.toList()));
   }
 
   @override
@@ -93,5 +101,6 @@ class StorageShopItems implements PersistStorage<ShoppingListItem> {
       shopItem.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
+    _tagsDb.insertMany(shopItem.tags);
   }
 }

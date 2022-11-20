@@ -31,10 +31,12 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     if (init) {
-      var products =
-          ModalRoute.of(context)!.settings.arguments as List<Product>;
+      var products = ModalRoute.of(context)?.settings.arguments;
       init = false;
-      screen = ShoppingListScreen(products: products);
+
+      screen = products == null
+          ? ShoppingListScreen(products: const <Product>[])
+          : ShoppingListScreen(products: (products as List<Product>));
     }
     return WillPopScope(
         onWillPop: () async => false,
@@ -65,7 +67,9 @@ class _HomePageState extends State<HomePage> {
                           builder: (BuildContext context) => AddItemDialog(),
                         );
                         setState(() {
-                          screen = ShoppingListScreen(products: result);
+                          screen = result == null
+                              ? ShoppingListScreen(products: const <Product>[])
+                              : ShoppingListScreen(products: result);
                         });
                       },
                     )

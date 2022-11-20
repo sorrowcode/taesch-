@@ -6,6 +6,7 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:taesch/api/database/sql/sql_database.dart';
+import 'package:taesch/api/repository.dart';
 // import 'package:taesch/api/map_api_logic/geolocation_tools.dart';
 import 'package:taesch/app.dart';
 import 'package:taesch/model/error_case.dart';
@@ -59,8 +60,6 @@ void main() {
       await widgetTester
           .tap(find.byKey(Key(WidgetKey.registrationButtonKey.text)));
       await widgetTester.pumpAndSettle();
-
-      //expect(find.byType(RegisterPage), findsOneWidget); <- tester
 
       await widgetTester.tap(find.byKey(Key(WidgetKey.submitButtonKey.text)));
       await widgetTester.pump();
@@ -175,14 +174,16 @@ void main() {
       await widgetTester.pumpWidget(MaterialApp(
         home: HomePage(),
       ));
-      await widgetTester.tap(find.byType(FloatingActionButton));
-      await widgetTester.pumpAndSettle();
-      await widgetTester.enterText(find.byType(TextFormField), "Test");
-      await widgetTester.pump();
-      await widgetTester.tap(find.widgetWithIcon(TextButton, Icons.check));
-      await widgetTester.pumpAndSettle();
-      expect(find.byType(Card), findsOneWidget);
-      expect(find.text("Test"), findsOneWidget);
+      Repository().sqlDatabase.init().then((value) async {
+        await widgetTester.tap(find.byType(FloatingActionButton));
+        await widgetTester.pumpAndSettle();
+        await widgetTester.enterText(find.byType(TextFormField), "Test");
+        await widgetTester.pump();
+        await widgetTester.tap(find.widgetWithIcon(TextButton, Icons.check));
+        await widgetTester.pumpAndSettle();
+        expect(find.byType(Card), findsOneWidget);
+        expect(find.text("Test"), findsOneWidget);
+      });
     });
   });
 

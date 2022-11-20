@@ -308,7 +308,7 @@ void main() {
       expect((await storeage.read({})).toString(), [testItem].toString());
     });
     test('Update ShoppingItem',() async {
-      testItem = ShoppingListItem(title: 'TestItem', image: 'abcd');
+      testItem = ShoppingListItem.db(id: testItem.id,title: 'TestItem', image: 'abcd', weight: 0);
       storeage.update(testItem);
       expect((await storeage.read({})).toString(), [testItem].toString());
     });

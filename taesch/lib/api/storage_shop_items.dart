@@ -29,7 +29,7 @@ class StorageShopItems implements PersistStorage<ShoppingListItem> {
       onCreate: (db, version) {
         // Run the CREATE TABLE statement on the database.
         return db.execute(
-          'CREATE TABLE shopping_items(id INTEGER PRIMARY KEY, item_title TEXT, image TEXT, weight DOUBLE)',
+          'CREATE TABLE shopping_items(id BLOB PRIMARY KEY, item_title TEXT, image TEXT, weight DOUBLE, tags TEXT)',
         );
       },
       // Set the version. This executes the onCreate function and provides a
@@ -44,8 +44,8 @@ class StorageShopItems implements PersistStorage<ShoppingListItem> {
   void delete(ShoppingListItem shopItem) {
     _db.delete(
       tableName,
-      where: 'item_title = ?',
-      whereArgs: [shopItem.title],
+      where: 'id = ?',
+      whereArgs: [shopItem.id],
     );
   }
 
@@ -65,6 +65,7 @@ class StorageShopItems implements PersistStorage<ShoppingListItem> {
     // Convert the List<Map<String, dynamic> into a List<ShoppingItem>.
     return List.generate(maps.length, (i) {
       return ShoppingListItem.db(
+        id: maps[i]['id'],
         title: maps[i]['item_title'],
         image: maps[i]['image'],
         weight: maps[i]['weight'],
@@ -76,18 +77,18 @@ class StorageShopItems implements PersistStorage<ShoppingListItem> {
   ///item Title is identifier => don't change
   void update(ShoppingListItem shopItem) {
     _db.update(tableName, shopItem.toMap(),
-        where: 'item_title = ?', whereArgs: [shopItem.title])
+        where: 'id = ?', whereArgs: [shopItem.id])
         .then((value) => _tagsDb.updateMany(shopItem.tags));
   }
 
   ///deletes all records writes all presented
-  void replace(List<ShoppingListItem> shoppinglist) {
+  void replace(List<ShoppingListItem> shoppingList) {
     var tags = <Tag>{};
     _db.transaction((txn) async {
       await txn.delete(tableName);
       Batch batch = txn.batch();
-      for (var item in shoppinglist) {
-        batch.insert('shopping_items', item.toMap());
+      for (var item in shoppingList) {
+        batch.insert(tableName, item.toMap());
         tags.addAll(item.tags);
       }
       batch.commit();

@@ -50,8 +50,6 @@ class Repository {
             : false);
   }
 
-  //List<Product> get products => _products;
-
   void fillUpCache(List<Shop> shops) {
     shopsCache = []; // reset
     for (Shop shop in shops) {

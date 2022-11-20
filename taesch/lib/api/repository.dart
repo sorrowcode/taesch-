@@ -9,9 +9,6 @@ import 'package:taesch/utils/my_tools.dart';
 
 class Repository {
   bool _isDarkModeEnabled = false;
-
-  //final List<Product> _products = [];
-  //ValueNotifier<int> shoppingListSize = ValueNotifier(0);
   List<Shop> shopsCache = [];
   ValueNotifier<int> shopsCacheSize = ValueNotifier(0);
   SQLDatabase sqlDatabase = SQLDatabase();

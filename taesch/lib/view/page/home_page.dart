@@ -31,7 +31,8 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     if (init) {
-      var products = ModalRoute.of(context)!.settings.arguments as List<Product>;
+      var products =
+          ModalRoute.of(context)!.settings.arguments as List<Product>;
       init = false;
       screen = ShoppingListScreen(products: products);
     }

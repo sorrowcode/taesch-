@@ -55,8 +55,12 @@ class _AddItemDialogState extends State<AddItemDialog> {
                     logMessage: LogMessage(message: "check button pressed"));
                 if (_formKey.currentState!.validate()) {
                   setState(() {
-                    widget._vm.repository.sqlDatabase.insertProduct(true, widget._vm.temp).then((value) {
-                      widget._vm.repository.sqlDatabase.getProductList(true).then((value) {
+                    widget._vm.repository.sqlDatabase
+                        .insertProduct(true, widget._vm.temp)
+                        .then((value) {
+                      widget._vm.repository.sqlDatabase
+                          .getProductList(true)
+                          .then((value) {
                         logger.log(
                             level: LogLevel.debug,
                             logMessage: LogMessage(message: "form valid"));

@@ -17,9 +17,11 @@ class SQLDatabase implements IProductAction {
   LoggerWrapper logger = LoggerWrapper();
 
   Future<void> init() async {
-    logger.log(level: LogLevel.info, logMessage: LogMessage(
-      message: "sql database init called",
-    ));
+    logger.log(
+        level: LogLevel.info,
+        logMessage: LogMessage(
+          message: "sql database init called",
+        ));
     WidgetsFlutterBinding.ensureInitialized();
     _database = await openDatabase(join(await getDatabasesPath(), "taesch.db"),
         version: 1, onCreate: (db, version) {
@@ -55,19 +57,21 @@ class SQLDatabase implements IProductAction {
 
   @override
   Future<void> deleteProduct(bool generated, String productName) async {
-    logger.log(level: LogLevel.info, logMessage: LogMessage(
-      message: "sql database delete product called"
-    ));
+    logger.log(
+        level: LogLevel.info,
+        logMessage: LogMessage(message: "sql database delete product called"));
     final db = _database;
     await db.delete(generated ? _generatedTable : _effectiveTable,
-        where: "${ProductDTOMapData.name.value()} = ?;", whereArgs: [productName]);
+        where: "${ProductDTOMapData.name.value()} = ?;",
+        whereArgs: [productName]);
   }
 
   @override
   Future<void> deleteProductList(bool generated) async {
-    logger.log(level: LogLevel.info, logMessage: LogMessage(
-        message: "sql database delete product list called"
-    ));
+    logger.log(
+        level: LogLevel.info,
+        logMessage:
+            LogMessage(message: "sql database delete product list called"));
     final db = _database;
     await db.delete(
       generated ? _generatedTable : _effectiveTable,
@@ -76,9 +80,10 @@ class SQLDatabase implements IProductAction {
 
   @override
   Future<List<Product>> getProductList(bool generated) async {
-    logger.log(level: LogLevel.info, logMessage: LogMessage(
-        message: "sql database get product list called"
-    ));
+    logger.log(
+        level: LogLevel.info,
+        logMessage:
+            LogMessage(message: "sql database get product list called"));
     final db = _database;
     final List<Map<String, dynamic>> products =
         await db.query(generated ? _generatedTable : _effectiveTable);
@@ -91,9 +96,9 @@ class SQLDatabase implements IProductAction {
 
   @override
   Future<void> insertProduct(bool generated, Product product) async {
-    logger.log(level: LogLevel.info, logMessage: LogMessage(
-        message: "sql database insert product called"
-    ));
+    logger.log(
+        level: LogLevel.info,
+        logMessage: LogMessage(message: "sql database insert product called"));
     var db = _database;
     var dto = ProductDTO.fromProduct(product: product);
     dto.toMap();

@@ -4,12 +4,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:taesch/api/database/sql/sql_database.dart';
 import 'package:taesch/api/map_api_logic/geolocation_tools.dart';
 import 'package:taesch/api/map_api_logic/querying_tools.dart';
-import 'package:taesch/model/product.dart';
 import 'package:taesch/model/shop.dart';
 import 'package:taesch/utils/my_tools.dart';
 
 class Repository {
   bool _isDarkModeEnabled = false;
+
   //final List<Product> _products = [];
   //ValueNotifier<int> shoppingListSize = ValueNotifier(0);
   List<Shop> shopsCache = [];

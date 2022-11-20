@@ -21,19 +21,14 @@ class _SplashPageState extends State<SplashPage> {
 
   @override
   void initState() {
-
     setState(() {
       repository.sqlDatabase.init().then((value) {
         repository.geolocationTools.startGeoTimer();
         repository.sqlDatabase.getProductList(true).then((value) {
           Timer(const Duration(seconds: 3), () {
-            Navigator.of(context)
-                .push(MaterialPageRoute(
+            Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => HomePage(),
-              settings: RouteSettings(
-                arguments: value
-              )
-            ));
+                settings: RouteSettings(arguments: value)));
           });
         });
       });

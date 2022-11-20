@@ -11,8 +11,6 @@ import 'package:taesch/view/screen/shopping_list_screen.dart';
 import 'package:taesch/view/screen/shops_map_screen.dart';
 import 'package:taesch/view_model/page/home_page_vm.dart';
 
-// todo get list from splash screen
-
 class HomePage extends StatefulWidget {
   final _vm = HomePageVM();
 

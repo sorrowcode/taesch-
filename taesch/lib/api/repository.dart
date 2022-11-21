@@ -1,20 +1,17 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:taesch/api/database/sql/sql_database.dart';
 import 'package:taesch/api/map_api_logic/geolocation_tools.dart';
 import 'package:taesch/api/map_api_logic/querying_tools.dart';
 import 'package:taesch/model/shop.dart';
-import 'package:taesch/model/shopping_list_item.dart';
 import 'package:taesch/utils/my_tools.dart';
 
 class Repository {
-  // late PersistStorage shopItemStorage;
   bool _isDarkModeEnabled = false;
-  final List<ShoppingListItem> _shoppingListItems = [];
-  ValueNotifier<int> shoppingListSize = ValueNotifier(0);
   List<Shop> shopsCache = [];
   ValueNotifier<int> shopsCacheSize = ValueNotifier(0);
+  SQLDatabase sqlDatabase = SQLDatabase();
 
   Position userPosition = const Position(
       latitude: 49.1427,
@@ -46,17 +43,12 @@ class Repository {
 
   Repository._internal() {
     geolocationTools = GeolocationTools(this);
+
     SharedPreferences.getInstance().then((prefs) => _isDarkModeEnabled =
         prefs.containsKey('dark_mode_enabled')
             ? prefs.getBool('dark_mode_enabled')!
             : false);
-    // StorageShopItems.create().then((store) {StorageShopItems shopItemStorage = store;return store;});
-    // .then((store) {
-    //   shoppingListSize.addListener(() {store.replace(shoppingListItems);});
-    // });
   }
-
-  List<ShoppingListItem> get shoppingListItems => _shoppingListItems;
 
   void fillUpCache(List<Shop> shops) {
     shopsCache = []; // reset
@@ -65,21 +57,4 @@ class Repository {
     }
     shopsCacheSize.value = shopsCache.length;
   }
-
-/* todo: delete
-  void fillUpShopCache(List<Shop> shops){
-    shopsCache = []; // reset
-    for (Shop shop in shops){
-      shopsCache.add(shop);
-    }
-    shopsCacheSize.value = shopsCache.length;
-  }
-
-  void fillUpMapSpotCache(List<MapSpot> mapSpots){
-    mapSpotsCache = []; // reset
-    for (MapSpot spot in mapSpots){
-      mapSpotsCache.add(spot);
-    }
-  }
-    */
 }

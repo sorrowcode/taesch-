@@ -54,16 +54,20 @@ class _AddItemDialogState extends State<AddItemDialog> {
                     level: LogLevel.info,
                     logMessage: LogMessage(message: "check button pressed"));
                 if (_formKey.currentState!.validate()) {
-                  logger.log(
-                      level: LogLevel.debug,
-                      logMessage: LogMessage(message: "form valid"));
                   setState(() {
-                    widget._vm.repository.shoppingListItems
-                        .add(widget._vm.temp);
-                    widget._vm.repository.shoppingListSize.value =
-                        widget._vm.repository.shoppingListItems.length;
+                    widget._vm.repository.sqlDatabase
+                        .insertProduct(true, widget._vm.temp)
+                        .then((value) {
+                      widget._vm.repository.sqlDatabase
+                          .getProductList(true)
+                          .then((value) {
+                        logger.log(
+                            level: LogLevel.debug,
+                            logMessage: LogMessage(message: "form valid"));
+                        Navigator.of(context).pop(value);
+                      });
+                    });
                   });
-                  Navigator.of(context).pop();
                 } else {
                   logger.log(
                       level: LogLevel.debug,

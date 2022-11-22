@@ -1,7 +1,7 @@
-import 'package:taesch/model/shopping_list_item.dart';
+import 'package:taesch/model/product.dart';
 
 class Discount {
-  final List<ShoppingListItem> _shoppingListItem = [];
+  final List<Product> _productList = [];
 
-  List<ShoppingListItem> get shoppingListItem => _shoppingListItem;
+  List<Product> get productList => _productList;
 }

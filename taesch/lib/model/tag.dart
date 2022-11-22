@@ -1,16 +1,5 @@
 class Tag {
-  late String tagName;
-  late double _priorityValue;
+  late String name;
 
-  Tag({required this.tagName});
-
-  double get priorityValue => _priorityValue;
-
-  set priorityValue(double value) {
-    if (value < 1 && value > 0) {
-      _priorityValue = value;
-    } else {
-      // todo: throw exception
-    }
-  }
+  Tag({required this.name});
 }

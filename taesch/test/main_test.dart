@@ -1,7 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'package:taesch/api/database/sql/sql_database.dart';
+import 'package:taesch/api/repository.dart';
+// import 'package:taesch/api/map_api_logic/geolocation_tools.dart';
 import 'package:taesch/app.dart';
 import 'package:taesch/model/error_case.dart';
+import 'package:taesch/model/product.dart';
 import 'package:taesch/model/screen_state.dart';
 import 'package:taesch/model/widget_key.dart';
 import 'package:taesch/view/page/home_page.dart';
@@ -51,8 +60,6 @@ void main() {
       await widgetTester
           .tap(find.byKey(Key(WidgetKey.registrationButtonKey.text)));
       await widgetTester.pumpAndSettle();
-
-      //expect(find.byType(RegisterPage), findsOneWidget); <- tester
 
       await widgetTester.tap(find.byKey(Key(WidgetKey.submitButtonKey.text)));
       await widgetTester.pump();
@@ -167,14 +174,16 @@ void main() {
       await widgetTester.pumpWidget(MaterialApp(
         home: HomePage(),
       ));
-      await widgetTester.tap(find.byType(FloatingActionButton));
-      await widgetTester.pumpAndSettle();
-      await widgetTester.enterText(find.byType(TextFormField), "Test");
-      await widgetTester.pump();
-      await widgetTester.tap(find.widgetWithIcon(TextButton, Icons.check));
-      await widgetTester.pumpAndSettle();
-      expect(find.byType(Card), findsOneWidget);
-      expect(find.text("Test"), findsOneWidget);
+      Repository().sqlDatabase.init().then((value) async {
+        await widgetTester.tap(find.byType(FloatingActionButton));
+        await widgetTester.pumpAndSettle();
+        await widgetTester.enterText(find.byType(TextFormField), "Test");
+        await widgetTester.pump();
+        await widgetTester.tap(find.widgetWithIcon(TextButton, Icons.check));
+        await widgetTester.pumpAndSettle();
+        expect(find.byType(Card), findsOneWidget);
+        expect(find.text("Test"), findsOneWidget);
+      });
     });
   });
 
@@ -269,4 +278,71 @@ void main() {
       expect(result, ErrorCase.notSamePassword);
     });
   });
+
+  group("testing sqlite database", () {
+    test("testing inserting and getting list", () async {
+      sqfliteFfiInit(); // only for testing purposes
+      databaseFactory = databaseFactoryFfi; // only for testing purposes
+      databaseFactory
+          .deleteDatabase(join(await getDatabasesPath(), "taesch.db"));
+      var sqlDatabase = SQLDatabase();
+      await sqlDatabase.init();
+      Product testProduct = Product(name: "test product", imageUrl: "imageUrl");
+      await sqlDatabase.insertProduct(false, testProduct);
+      var products = await sqlDatabase.getProductList(false);
+      Product product = products[0];
+      expect(product.name, testProduct.name);
+    });
+
+    test("testing deletion", () async {
+      sqfliteFfiInit(); // only for testing purposes
+      databaseFactory = databaseFactoryFfi; // only for testing purposes
+      databaseFactory
+          .deleteDatabase(join(await getDatabasesPath(), "taesch.db"));
+      var sqlDatabase = SQLDatabase();
+      await sqlDatabase.init();
+      Product testProduct1 =
+          Product(name: "test product 1", imageUrl: "imageUrl");
+      Product testProduct2 =
+          Product(name: "test product 2", imageUrl: "imageUrl");
+      Product testProduct3 =
+          Product(name: "test product 3", imageUrl: "imageUrl");
+      await sqlDatabase.insertProduct(false, testProduct1);
+      await sqlDatabase.insertProduct(false, testProduct2);
+      await sqlDatabase.insertProduct(false, testProduct3);
+      var products = await sqlDatabase.getProductList(false);
+      expect(products.length, 3);
+      await sqlDatabase.deleteProduct(false, testProduct3.name);
+      products = await sqlDatabase.getProductList(false);
+      expect(products.length, 2);
+      await sqlDatabase.deleteProductList(false);
+      products = await sqlDatabase.getProductList(false);
+      expect(products.length, 0);
+    });
+  });
+
+  group('character conversion', () {
+    test('character conversion', () {
+      var inputString = utf8.encode(jsonEncode({"test-text": "äöüß"}));
+      expect(
+          jsonDecode(utf8.decode(inputString.toList())), {"test-text": "äöüß"});
+    });
+  });
+
+  /* Integration Test - has plugin dependency
+
+  group("testing geo-location fetch", () {
+    GeolocationTools tools = GeolocationTools();
+    test("testing fetch duration", () async {
+      WidgetsFlutterBinding.ensureInitialized();
+      DateTime time = DateTime.now();
+      var millisBefore = time.millisecondsSinceEpoch;
+      await tools.getCurrentPosition();
+      var millisNow = time.millisecondsSinceEpoch;
+      int maxSeconds = 30;
+      var totalTime = ((millisNow - millisBefore) / 1000);
+      expect(totalTime < maxSeconds, true);
+    });
+  });
+  */
 }

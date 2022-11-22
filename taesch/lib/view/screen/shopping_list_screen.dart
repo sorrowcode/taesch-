@@ -36,14 +36,18 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
         return Card(
           child: InkWell(
             splashColor: Colors.blue.withAlpha(30),
-            onTap: () {
+            onLongPress: () {
               logger.log(
                   level: LogLevel.info,
                   logMessage: LogMessage(
                       message:
                           "tapped on ${widget._vm.products[index].name} item"));
-              debugPrint('Card tapped.');
-            },
+              widget._vm.repository.sqlDatabase.deleteProduct(true, widget._vm.products[index].name).then((value){
+                setState(() {
+                  widget._vm.products.remove(widget._vm.products[index]);
+                });
+              });
+              },
             child: SizedBox(
               width: 100,
               height: 100,

@@ -52,13 +52,17 @@ class OSMQueries {
     String latitude = _locationLat.toString();
     String longitude = _locationLong.toString();
 
-    query += "data=[out:json][timeout:50];area[name=\"";// <- may alter timeout variable
+    String staticPart1 = "data=[out:json][timeout:50];area[name=\"";// <- may alter timeout variable
+    String staticPart2 = "\"]->.searchArea;(nwr[\"shop\"=\"supermarket\"](around:";
+    String staticPart3 = ")(area.searchArea););out;";
+
+    query+=staticPart1;
     query+=locationName;
-    query+="\"]->.searchArea;(nwr[\"shop\"=\"supermarket\"](around:";
+    query+=staticPart2;
     query+="$searchRadius,";
     query+="$latitude,";
     query+=longitude;
-    query+=")(area.searchArea););out;";
+    query+=staticPart3;
 
     //return query1Heilbronn;
     return query;

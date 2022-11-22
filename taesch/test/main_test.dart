@@ -345,6 +345,18 @@ void main() {
       int radiusSetting = repository.queries.getSearchRadiusMeters();
       expect(radiusSetting, searchRadius);
     });
+    test('set too high search radius', (){
+      int searchRadius = 10000000; // too big
+      repository.queries.setSearchRadiusMeters(searchRadius);
+      int radiusSetting = repository.queries.getSearchRadiusMeters();
+      expect(radiusSetting, repository.queries.maxSearchRadius);
+    });
+    test('set too low search radius', (){
+      int searchRadius = -6; // too low
+      repository.queries.setSearchRadiusMeters(searchRadius);
+      int radiusSetting = repository.queries.getSearchRadiusMeters();
+      expect(radiusSetting, repository.queries.minSearchRadius);
+    });
     test('set position', (){
       double myLat = 49.1427;
       Position samplePosition = Position(

@@ -12,13 +12,22 @@ class OSMQueries {
       "data=[out:json];node[highway=speed_camera](43.46669501043081,-5.708215989569187,43.588927989569186,-5.605835010430813);out%20meta;";
 
   final int queryTimeoutSeconds = 4;
+  final int maxSearchRadius = 10000;
+  final int minSearchRadius = 5;
+
   int _searchRadius = 2000;
   double _locationLat = 0.0;
   double _locationLong = 0.0;
   QueryLocation _fixedLocation = QueryLocation.heilbronn;
 
   void setSearchRadiusMeters(int meters){
-    _searchRadius = meters;
+    int newMeters = meters;
+    if (newMeters>maxSearchRadius){
+      newMeters = maxSearchRadius;
+    }else if (newMeters<minSearchRadius){
+      newMeters = minSearchRadius;
+    }
+    _searchRadius = newMeters;
   }
 
   int getSearchRadiusMeters(){

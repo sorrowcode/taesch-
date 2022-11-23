@@ -21,6 +21,65 @@ class _NearShopsScreenState extends State<NearShopsScreen> {
   List<Widget> _getShopList() {
     widget._vm.loadShops();
     var shopsList = <Widget>[];
+    shopsList.add(Center(
+      child: SizedBox(
+        height: 100,
+        child: Row(
+          children: [
+            Container(
+              width: MediaQuery.of(context).size.width / 1.30,
+              padding: const EdgeInsets.all(10.0),
+              child: TextFormField(
+                onChanged: (value) {
+                  //Do something with the user input.
+                },
+                initialValue: "Heilbronn",
+                decoration: const InputDecoration(
+                  hintText: 'Enter a city',
+                  fillColor: Colors.white,
+                  filled: true,
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide:
+                        BorderSide(color: Color(0xFFcdc1ff), width: 2.0),
+                    borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide:
+                        BorderSide(color: Color(0xFFcdc1ff), width: 3.0),
+                    borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                  ),
+                ),
+              ),
+            ),
+            Container(
+                child: TextButton(
+              style: ButtonStyle(
+                  padding: MaterialStateProperty.all<EdgeInsets>(
+                      const EdgeInsets.all(10)),
+                  backgroundColor:
+                      MaterialStateProperty.all(const Color(0xFFcdc1ff)),
+                  shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                  ))),
+              onPressed: () {
+                logger.log(
+                    level: LogLevel.info,
+                    logMessage: LogMessage(message: "search button pressed"));
+                setState(() {
+                  widget._vm.loadShops();
+                });
+              },
+              child: const Text("Search"),
+            ))
+          ],
+        ),
+      ),
+    ));
     for (int i = 0; i < widget._vm.repository.shopsCache.length; i++) {
       shopsList.add(ShopsTile(
           title: widget._vm.repository.shopsCache[i].name,
@@ -38,35 +97,11 @@ class _NearShopsScreenState extends State<NearShopsScreen> {
     return Scaffold(
         body: Column(
       children: [
-        Center(
-          child: SizedBox(
-            height: 100,
-            child: Column(
-              children: [
-                const Text("Area: Heilbronn", style: TextStyle(fontSize: 25)),
-                TextButton(
-                  child: const Text("Search"),
-                  onPressed: () {
-                    logger.log(
-                        level: LogLevel.info,
-                        logMessage:
-                            LogMessage(message: "search button pressed"));
-                    setState(() {
-                      widget._vm.loadShops();
-                    });
-                  },
-                )
-              ],
-            ),
-          ),
-        ),
         Expanded(
             child: SingleChildScrollView(
           child: ValueListenableBuilder<int>(
               valueListenable: widget._vm.repository.shopsCacheSize,
-              child: Column(
-                children: _getShopList(),
-              ),
+              child: Column(children: _getShopList()),
               builder: (context, value, child) {
                 return Column(
                   children: _getShopList(),

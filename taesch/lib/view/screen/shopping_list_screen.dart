@@ -1,59 +1,61 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:taesch/middleware/log/log_level.dart';
+import 'package:taesch/middleware/log/logger_wrapper.dart';
+import 'package:taesch/model/log_message.dart';
+import 'package:taesch/model/product.dart';
 import 'package:taesch/view_model/screen/shopping_list_screen_vm.dart';
 
 /// shows the shopping list elements
 class ShoppingListScreen extends StatefulWidget {
-  final ShoppingListScreenVM _vm = ShoppingListScreenVM();
+  late final ShoppingListScreenVM _vm;
 
-  ShoppingListScreen({super.key});
+  ShoppingListScreen({super.key, required List<Product> products}) {
+    _vm = ShoppingListScreenVM(products: products);
+  }
 
   @override
   State<StatefulWidget> createState() => _ShoppingListScreenState();
 }
 
 class _ShoppingListScreenState extends State<ShoppingListScreen> {
+  LoggerWrapper logger = LoggerWrapper();
+
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder<int>(
-        valueListenable: widget._vm.repository.shoppingListSize,
-        builder: (context, value, child) {
-          return GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
-              crossAxisCount: 2,
+    logger.log(
+        level: LogLevel.info,
+        logMessage: LogMessage(message: "entered shopping list screen"));
+    return GridView.builder(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisSpacing: 10,
+        mainAxisSpacing: 10,
+        crossAxisCount: 2,
+      ),
+      itemCount: widget._vm.products.length,
+      itemBuilder: (BuildContext context, int index) {
+        return Card(
+          child: InkWell(
+            splashColor: Colors.blue.withAlpha(30),
+            onLongPress: () {
+              logger.log(
+                  level: LogLevel.info,
+                  logMessage: LogMessage(
+                      message:
+                          "tapped on ${widget._vm.products[index].name} item"));
+              widget._vm.repository.sqlDatabase.deleteProduct(true, widget._vm.products[index].name).then((value){
+                setState(() {
+                  widget._vm.products.remove(widget._vm.products[index]);
+                });
+              });
+              },
+            child: SizedBox(
+              width: 100,
+              height: 100,
+              child: Center(child: Text(widget._vm.products[index].name)),
             ),
-            itemCount: value,
-            itemBuilder: (BuildContext context, int index) {
-              return Card(
-                child: InkWell(
-                  splashColor: Colors.blue.withAlpha(30),
-                  onTap: () {
-                    debugPrint('Card tapped.');
-                  },
-                  child: SizedBox(
-                    width: 100,
-                    height: 100,
-                    child: Column(
-                      children: [
-                        Text(widget
-                        ._vm.repository.shoppingListItems[index].title),
-                        ListView.builder(
-                          itemCount: widget
-                              ._vm.repository.shoppingListItems[index].tags.length,
-                          itemBuilder: (BuildContext ctxt, int index) => widget._vm.buildBody(ctxt,index,widget
-                              ._vm.repository.shoppingListItems[index].tags),
-                        )
-                      ],
-                    )
-                  ),
-                ),
-              );
-            },
-          );
-        });
+          ),
+        );
+      },
+    );
   }
 }
-
-

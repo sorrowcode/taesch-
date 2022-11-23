@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:taesch/view/page/login_page.dart';
 
@@ -13,13 +12,13 @@ class App extends StatefulWidget {
   App({super.key});
 
   @override
-  State<StatefulWidget> createState() => _AppState();
+  State<StatefulWidget> createState() => AppState();
 
-  static _AppState? of(BuildContext context) =>
-      context.findAncestorStateOfType<_AppState>();
+  static AppState? of(BuildContext context) =>
+      context.findAncestorStateOfType<AppState>();
 }
 
-class _AppState extends State<App> {
+class AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

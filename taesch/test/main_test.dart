@@ -203,6 +203,21 @@ void main() {
     });
   });
 
+    testWidgets("deleting Product", (widgetTester) async {
+      await widgetTester.pumpWidget(MaterialApp( home: HomePage(),
+      ));
+      Repository().sqlDatabase.init().then((value) async {
+        await widgetTester.tap(find.byType(FloatingActionButton));
+        await widgetTester.pumpAndSettle();
+        await widgetTester.enterText(find.byType(TextFormField), "Test");
+        await widgetTester.pump();
+        await widgetTester.tap(find.widgetWithIcon(TextButton, Icons.check));
+        await widgetTester.pumpAndSettle();
+        await widgetTester.longPress(find.byType(Card));
+        expect(find.byType(Card), findsNothing);
+      });
+    });
+
   // unit
   group("testing email validation", () {
     StartingPageVM vm = LoginPageVM();

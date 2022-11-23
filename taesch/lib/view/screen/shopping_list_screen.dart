@@ -44,11 +44,14 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
                           "tapped on ${widget._vm.products[index].name} item"));
               debugPrint('Card tapped.');
             },
-            child: SizedBox(
-              width: 100,
-              height: 100,
-              child: Center(child: Text(widget._vm.products[index].name)),
-            ),
+            child: Column(children: [
+              SizedBox(
+                width: 100,
+                height: 150,
+                child: Center(child: Text(widget._vm.products[index].name)),
+              ),
+              SizedBox(width: 100, height: 20, child: Text(widget._vm.products[index].tags.map((e) => e.name).toString()),)
+            ])
           ),
         );
       },

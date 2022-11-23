@@ -3,12 +3,15 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:path/path.dart';
-import 'package:taesch/api/storage.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'package:taesch/api/database/sql/sql_database.dart';
+import 'package:taesch/api/repository.dart';
 // import 'package:taesch/api/map_api_logic/geolocation_tools.dart';
 import 'package:taesch/app.dart';
 import 'package:taesch/model/error_case.dart';
+import 'package:taesch/model/product.dart';
 import 'package:taesch/model/screen_state.dart';
-import 'package:taesch/model/shopping_list_item.dart';
 import 'package:taesch/model/widget_key.dart';
 import 'package:taesch/view/page/home_page.dart';
 import 'package:taesch/view/screen/near_shops_screen.dart';
@@ -17,10 +20,6 @@ import 'package:taesch/view/screen/shopping_list_screen.dart';
 import 'package:taesch/view_model/page/login_page_vm.dart';
 import 'package:taesch/view_model/page/register_page_vm.dart';
 import 'package:taesch/view_model/page/starting_page_vm.dart';
-import 'package:taesch/api/storage_shop_items.dart';
-
-import 'package:sqflite/sqflite.dart';
-import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 void main() {
   // ui
@@ -61,8 +60,6 @@ void main() {
       await widgetTester
           .tap(find.byKey(Key(WidgetKey.registrationButtonKey.text)));
       await widgetTester.pumpAndSettle();
-
-      //expect(find.byType(RegisterPage), findsOneWidget); <- tester
 
       await widgetTester.tap(find.byKey(Key(WidgetKey.submitButtonKey.text)));
       await widgetTester.pump();
@@ -177,16 +174,33 @@ void main() {
       await widgetTester.pumpWidget(MaterialApp(
         home: HomePage(),
       ));
-      await widgetTester.tap(find.byType(FloatingActionButton));
-      await widgetTester.pumpAndSettle();
-      await widgetTester.enterText(find.byType(TextFormField), "Test");
-      await widgetTester.pump();
-      await widgetTester.tap(find.widgetWithIcon(TextButton, Icons.check));
-      await widgetTester.pumpAndSettle();
-      expect(find.byType(Card), findsOneWidget);
-      expect(find.text("Test"), findsOneWidget);
+      Repository().sqlDatabase.init().then((value) async {
+        await widgetTester.tap(find.byType(FloatingActionButton));
+        await widgetTester.pumpAndSettle();
+        await widgetTester.enterText(find.byType(TextFormField), "Test");
+        await widgetTester.pump();
+        await widgetTester.tap(find.widgetWithIcon(TextButton, Icons.check));
+        await widgetTester.pumpAndSettle();
+        expect(find.byType(Card), findsOneWidget);
+        expect(find.text("Test"), findsOneWidget);
+      });
     });
   });
+
+    testWidgets("deleting Product", (widgetTester) async {
+      await widgetTester.pumpWidget(MaterialApp( home: HomePage(),
+      ));
+      Repository().sqlDatabase.init().then((value) async {
+        await widgetTester.tap(find.byType(FloatingActionButton));
+        await widgetTester.pumpAndSettle();
+        await widgetTester.enterText(find.byType(TextFormField), "Test");
+        await widgetTester.pump();
+        await widgetTester.tap(find.widgetWithIcon(TextButton, Icons.check));
+        await widgetTester.pumpAndSettle();
+        await widgetTester.longPress(find.byType(Card));
+        expect(find.byType(Card), findsNothing);
+      });
+    });
 
   // unit
   group("testing email validation", () {
@@ -280,60 +294,56 @@ void main() {
     });
   });
 
-  group('ShoppingItemsDB', () {
-    late PersistStorage<ShoppingListItem> storeage;
-    setUpAll(() async {
-      // Initialize FFI
-      sqfliteFfiInit();
-      // Change the default factory for unit testing calls for SQFlite
-      databaseFactory = databaseFactoryFfi;
+  group("testing sqlite database", () {
+    test("testing inserting and getting list", () async {
+      sqfliteFfiInit(); // only for testing purposes
+      databaseFactory = databaseFactoryFfi; // only for testing purposes
+      databaseFactory
+          .deleteDatabase(join(await getDatabasesPath(), "taesch.db"));
+      var sqlDatabase = SQLDatabase();
+      await sqlDatabase.init();
+      Product testProduct = Product(name: "test product", imageUrl: "imageUrl");
+      await sqlDatabase.insertProduct(false, testProduct);
+      var products = await sqlDatabase.getProductList(false);
+      Product product = products[0];
+      expect(product.name, testProduct.name);
+    });
 
-      storeage = await StorageShopItems.create();
-    });
-    //setUp(() async {storeage = await StorageShopItems.create();});
-
-    /*test('autoReplace', () async {
-      Repository repo = Repository();
-      storeage = await StorageShopItems.create();
-      var testItem = ShoppingListItem(title: 'AutoReplaceTestItem', image: '');
-      repo.shoppingListItems.add(testItem);
-      var itemList = await storeage.read({});
-      expect(itemList, [testItem]);
-    });*/
-
-    var testItem = ShoppingListItem(title: 'TestItem', image: '');
-
-    test('Store ShoppingItem',() async {
-      storeage.insert(testItem);
-      expect((await storeage.read({})).toString(), [testItem].toString());
-    });
-    test('Update ShoppingItem',() async {
-      testItem = ShoppingListItem(title: 'TestItem', image: 'abcd');
-      storeage.update(testItem);
-      expect((await storeage.read({})).toString(), [testItem].toString());
-    });
-    test('Delete ShoppingItem',() async {
-      storeage.delete(testItem);
-      expect((await storeage.read({})).toString(), [].toString());
-    });
-    test('replace complete List', () async {
-      testItem = ShoppingListItem(title: 'TestItem', image: 'abef');
-      (storeage as StorageShopItems).replace([testItem]);
-      expect((await storeage.read({})).toString(), [testItem].toString());
-    });
-    tearDownAll(() async {
-      await databaseFactory.deleteDatabase(join(await getDatabasesPath(), 'shoppinglist_database.db'));
+    test("testing deletion", () async {
+      sqfliteFfiInit(); // only for testing purposes
+      databaseFactory = databaseFactoryFfi; // only for testing purposes
+      databaseFactory
+          .deleteDatabase(join(await getDatabasesPath(), "taesch.db"));
+      var sqlDatabase = SQLDatabase();
+      await sqlDatabase.init();
+      Product testProduct1 =
+          Product(name: "test product 1", imageUrl: "imageUrl");
+      Product testProduct2 =
+          Product(name: "test product 2", imageUrl: "imageUrl");
+      Product testProduct3 =
+          Product(name: "test product 3", imageUrl: "imageUrl");
+      await sqlDatabase.insertProduct(false, testProduct1);
+      await sqlDatabase.insertProduct(false, testProduct2);
+      await sqlDatabase.insertProduct(false, testProduct3);
+      var products = await sqlDatabase.getProductList(false);
+      expect(products.length, 3);
+      await sqlDatabase.deleteProduct(false, testProduct3.name);
+      products = await sqlDatabase.getProductList(false);
+      expect(products.length, 2);
+      await sqlDatabase.deleteProductList(false);
+      products = await sqlDatabase.getProductList(false);
+      expect(products.length, 0);
     });
   });
 
-  
   group('character conversion', () {
     test('character conversion', () {
-      var inputString = utf8.encode(jsonEncode({"test-text":"äöüß"}));
-      expect(jsonDecode(utf8.decode(inputString.toList())), {"test-text":"äöüß"});
+      var inputString = utf8.encode(jsonEncode({"test-text": "äöüß"}));
+      expect(
+          jsonDecode(utf8.decode(inputString.toList())), {"test-text": "äöüß"});
     });
   });
-  
+
   /* Integration Test - has plugin dependency
 
   group("testing geo-location fetch", () {

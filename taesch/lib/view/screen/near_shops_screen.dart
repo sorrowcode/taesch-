@@ -56,8 +56,7 @@ class _NearShopsScreenState extends State<NearShopsScreen> {
                 ),
               ),
             ),
-            Container(
-                child: TextButton(
+            TextButton(
               style: ButtonStyle(
                   padding: MaterialStateProperty.all<EdgeInsets>(
                       const EdgeInsets.all(10)),
@@ -75,7 +74,7 @@ class _NearShopsScreenState extends State<NearShopsScreen> {
                 });
               },
               child: const Text("Search"),
-            ))
+            )
           ],
         ),
       ),

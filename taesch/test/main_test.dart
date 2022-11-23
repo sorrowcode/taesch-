@@ -149,7 +149,7 @@ void main() {
       ));
       await widgetTester.tap(find.byType(FloatingActionButton));
       await widgetTester.pumpAndSettle();
-      await widgetTester.enterText(find.byType(TextFormField), "Test");
+      await widgetTester.enterText(find.byType(TextFormField).first, "Test");
       await widgetTester.pump();
       await widgetTester.tap(find.widgetWithIcon(TextButton, Icons.close));
       await widgetTester.pumpAndSettle();
@@ -163,7 +163,7 @@ void main() {
       ));
       await widgetTester.tap(find.byType(FloatingActionButton));
       await widgetTester.pumpAndSettle();
-      await widgetTester.enterText(find.byType(TextFormField), "");
+      await widgetTester.enterText(find.byType(TextFormField).first, "");
       await widgetTester.pump();
       await widgetTester.tap(find.widgetWithIcon(TextButton, Icons.check));
       await widgetTester.pump();
@@ -177,12 +177,28 @@ void main() {
       Repository().sqlDatabase.init().then((value) async {
         await widgetTester.tap(find.byType(FloatingActionButton));
         await widgetTester.pumpAndSettle();
-        await widgetTester.enterText(find.byType(TextFormField), "Test");
+        await widgetTester.enterText(find.byType(TextFormField).first, "Test");
         await widgetTester.pump();
         await widgetTester.tap(find.widgetWithIcon(TextButton, Icons.check));
         await widgetTester.pumpAndSettle();
         expect(find.byType(Card), findsOneWidget);
         expect(find.text("Test"), findsOneWidget);
+      });
+    });
+    testWidgets("testing with Tags", (widgetTester) async {
+      await widgetTester.pumpWidget(MaterialApp(
+        home: HomePage(),
+      ));
+      Repository().sqlDatabase.init().then((value) async {
+        await widgetTester.tap(find.byType(FloatingActionButton));
+        await widgetTester.pumpAndSettle();
+        await widgetTester.enterText(find.byType(TextFormField).first, "Test");
+        await widgetTester.enterText(find.byType(TextFormField).last, "zB-Tag");
+        await widgetTester.pump();
+        await widgetTester.tap(find.widgetWithIcon(TextButton, Icons.check));
+        await widgetTester.pumpAndSettle();
+        expect(find.byType(Card), findsWidgets);
+        expect(find.text("zB-Tag"), findsOneWidget);
       });
     });
   });

@@ -50,7 +50,12 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
                 height: 150,
                 child: Center(child: Text(widget._vm.products[index].name)),
               ),
-              SizedBox(width: 100, height: 20, child: Text(widget._vm.products[index].tags.map((e) => e.name).toString()),)
+              SizedBox(
+                width: 100,
+                height: 20,
+                child: Text(widget._vm.products[index]
+                    .tags.map((e) => e.name).toString()),
+              ),
             ])
           ),
         );

@@ -5,7 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:path/path.dart';
 
-import 'package:taesch/api/storage.dart';
+// import 'package:taesch/api/storage.dart';
 import 'package:taesch/model/error_case.dart';
 import 'package:taesch/model/query_location.dart';
 
@@ -15,7 +15,6 @@ import 'package:taesch/api/database/sql/sql_database.dart';
 import 'package:taesch/api/repository.dart';
 // import 'package:taesch/api/map_api_logic/geolocation_tools.dart';
 import 'package:taesch/app.dart';
-import 'package:taesch/model/error_case.dart';
 import 'package:taesch/model/product.dart';
 
 import 'package:taesch/model/screen_state.dart';

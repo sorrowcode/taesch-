@@ -4,6 +4,7 @@ import 'package:taesch/middleware/log/logger_wrapper.dart';
 import 'package:taesch/model/log_message.dart';
 import 'package:taesch/model/product.dart';
 import 'package:taesch/model/screen_state.dart';
+import 'package:taesch/model/widget_key.dart';
 import 'package:taesch/view/custom_widget/add_item_dialog.dart';
 import 'package:taesch/view/screen/near_shops_screen.dart';
 import 'package:taesch/view/screen/settings_screen.dart';
@@ -85,6 +86,9 @@ class _HomePageState extends State<HomePage> {
     ));
     for (var page in ScreenState.values) {
       elements.add(ListTile(
+        key: page == ScreenState.shoppingList
+            ? Key(WidgetKey.shoppingListScreenListTile.text)
+            : null,
         title: Text(page.text),
         onTap: () {
           logger.log(

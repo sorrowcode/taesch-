@@ -111,7 +111,7 @@ void main() async {
   group("testing home page functionality", () {
     group("testing add shopping list item functionality", () {
       testWidgets("testing open editing pop up", (widgetTester) async {
-        await widgetTester.pumpWidget(MaterialApp(
+        await widgetTester.pumpWidget(const MaterialApp(
           home: HomePage(),
         ));
         var floatingActionButton = find.byType(FloatingActionButton);
@@ -122,7 +122,7 @@ void main() async {
       });
 
       testWidgets("testing cancel", (widgetTester) async {
-        await widgetTester.pumpWidget(MaterialApp(
+        await widgetTester.pumpWidget(const MaterialApp(
           home: HomePage(),
         ));
         await widgetTester.tap(find.byType(FloatingActionButton));
@@ -136,7 +136,7 @@ void main() async {
       });
 
       testWidgets("testing no/invalid input", (widgetTester) async {
-        await widgetTester.pumpWidget(MaterialApp(
+        await widgetTester.pumpWidget(const MaterialApp(
           home: HomePage(),
         ));
         await widgetTester.tap(find.byType(FloatingActionButton));
@@ -149,7 +149,7 @@ void main() async {
       });
 
       testWidgets("testing with valid input", (widgetTester) async {
-        await widgetTester.pumpWidget(MaterialApp(
+        await widgetTester.pumpWidget(const MaterialApp(
           home: HomePage(),
         ));
         Repository().sqlDatabase.init().then((value) async {
@@ -166,7 +166,7 @@ void main() async {
     });
 
     testWidgets("deleting Product", (widgetTester) async {
-      await widgetTester.pumpWidget(MaterialApp(
+      await widgetTester.pumpWidget(const MaterialApp(
         home: HomePage(),
       ));
       Repository().sqlDatabase.init().then((value) async {

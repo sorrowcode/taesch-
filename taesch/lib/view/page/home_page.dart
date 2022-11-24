@@ -33,7 +33,6 @@ class _HomePageState extends State<HomePage> {
       screen = products == null
           ? ShoppingListScreen(products: const <Product>[])
           : ShoppingListScreen(products: (products as List<Product>));
-
     }
     return WillPopScope(
         onWillPop: () async => false,
@@ -49,28 +48,27 @@ class _HomePageState extends State<HomePage> {
               children: _setupSideBarElements(),
             ),
           ),
-          floatingActionButton:
-              _vm.screenState == ScreenState.shoppingList
-                  ? FloatingActionButton(
-                      child: const Icon(Icons.add),
-                      onPressed: () async {
-                        logger.log(
-                            level: LogLevel.info,
-                            logMessage: LogMessage(
-                                message:
-                                    "floating action button add item pressed"));
-                        var result = await showDialog(
-                          context: context,
-                          builder: (BuildContext context) => AddItemDialog(),
-                        );
-                        setState(() {
-                          screen = result == null
-                              ? ShoppingListScreen(products: const <Product>[])
-                              : ShoppingListScreen(products: result);
-                        });
-                      },
-                    )
-                  : null,
+          floatingActionButton: _vm.screenState == ScreenState.shoppingList
+              ? FloatingActionButton(
+                  child: const Icon(Icons.add),
+                  onPressed: () async {
+                    logger.log(
+                        level: LogLevel.info,
+                        logMessage: LogMessage(
+                            message:
+                                "floating action button add item pressed"));
+                    var result = await showDialog(
+                      context: context,
+                      builder: (BuildContext context) => AddItemDialog(),
+                    );
+                    setState(() {
+                      screen = result == null
+                          ? ShoppingListScreen(products: const <Product>[])
+                          : ShoppingListScreen(products: result);
+                    });
+                  },
+                )
+              : null,
         ));
   }
 

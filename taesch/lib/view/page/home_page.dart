@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:taesch/middleware/log/log_level.dart';
 import 'package:taesch/middleware/log/logger_wrapper.dart';
 import 'package:taesch/model/log_message.dart';
+import 'package:taesch/model/product.dart';
 import 'package:taesch/model/screen_state.dart';
 import 'package:taesch/view/custom_widget/add_item_dialog.dart';
 import 'package:taesch/view/screen/near_shops_screen.dart';
@@ -22,12 +23,19 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   LoggerWrapper logger = LoggerWrapper();
+  late Widget screen;
+  bool init = true;
 
   @override
   Widget build(BuildContext context) {
-    logger.log(
-        level: LogLevel.info,
-        logMessage: LogMessage(message: "entered HomePage"));
+    if (init) {
+      var products = ModalRoute.of(context)?.settings.arguments;
+      init = false;
+
+      screen = products == null
+          ? ShoppingListScreen(products: const <Product>[])
+          : ShoppingListScreen(products: (products as List<Product>));
+    }
     return WillPopScope(
         onWillPop: () async => false,
         child: Scaffold(
@@ -35,7 +43,7 @@ class _HomePageState extends State<HomePage> {
           appBar: AppBar(
             title: Text(widget._vm.screenState.text),
           ),
-          body: _getCurrentScreen(),
+          body: screen,
           drawer: Drawer(
             child: ListView(
               padding: EdgeInsets.zero,
@@ -46,16 +54,21 @@ class _HomePageState extends State<HomePage> {
               widget._vm.screenState == ScreenState.shoppingList
                   ? FloatingActionButton(
                       child: const Icon(Icons.add),
-                      onPressed: () {
+                      onPressed: () async {
                         logger.log(
                             level: LogLevel.info,
                             logMessage: LogMessage(
                                 message:
                                     "floating action button add item pressed"));
-                        showDialog(
+                        var result = await showDialog(
                           context: context,
                           builder: (BuildContext context) => AddItemDialog(),
                         );
+                        setState(() {
+                          screen = result == null
+                              ? ShoppingListScreen(products: const <Product>[])
+                              : ShoppingListScreen(products: result);
+                        });
                       },
                     )
                   : null,
@@ -74,14 +87,15 @@ class _HomePageState extends State<HomePage> {
       elements.add(ListTile(
         title: Text(page.text),
         onTap: () {
+          logger.log(
+              level: LogLevel.info,
+              logMessage: LogMessage(
+                  message: "tapped on side bar element ${page.text}"));
           setState(() {
-            logger.log(
-                level: LogLevel.info,
-                logMessage: LogMessage(
-                    message: "tapped on side bar element ${page.text}"));
             widget._vm.screenState = page;
-            _scaffoldKey.currentState!.closeDrawer();
           });
+          _getCurrentScreen();
+          _scaffoldKey.currentState!.closeDrawer();
         },
       ));
     }
@@ -89,16 +103,22 @@ class _HomePageState extends State<HomePage> {
   }
 
   /// sets up screen that changes when a different screen is selected
-  Widget _getCurrentScreen() {
+  void _getCurrentScreen() {
     switch (widget._vm.screenState) {
       case ScreenState.shoppingList:
-        return ShoppingListScreen();
+        widget._vm.repository.sqlDatabase.getProductList(true).then((value) {
+          screen = ShoppingListScreen(products: value);
+        });
+        break;
       case ScreenState.nearShops:
-        return NearShopsScreen();
+        screen = NearShopsScreen();
+        break;
       case ScreenState.settings:
-        return SettingsScreen();
+        screen = SettingsScreen();
+        break;
       case ScreenState.shopsMap:
-        return ShopsMapScreen();
+        screen = ShopsMapScreen();
+        break;
     }
   }
 }

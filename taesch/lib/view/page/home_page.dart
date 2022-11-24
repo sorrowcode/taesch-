@@ -13,9 +13,7 @@ import 'package:taesch/view/screen/shops_map_screen.dart';
 import 'package:taesch/view_model/page/home_page_vm.dart';
 
 class HomePage extends StatefulWidget {
-  final _vm = HomePageVM();
-
-  HomePage({super.key});
+  const HomePage({super.key});
 
   @override
   State<StatefulWidget> createState() => _HomePageState();
@@ -25,24 +23,24 @@ class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   LoggerWrapper logger = LoggerWrapper();
   late Widget screen;
-  bool init = true;
+  final _vm = HomePageVM();
 
   @override
   Widget build(BuildContext context) {
-    if (init) {
+    if (_vm.init) {
       var products = ModalRoute.of(context)?.settings.arguments;
-      init = false;
-
+      _vm.init = false;
       screen = products == null
           ? ShoppingListScreen(products: const <Product>[])
           : ShoppingListScreen(products: (products as List<Product>));
+
     }
     return WillPopScope(
         onWillPop: () async => false,
         child: Scaffold(
           key: _scaffoldKey,
           appBar: AppBar(
-            title: Text(widget._vm.screenState.text),
+            title: Text(_vm.screenState.text),
           ),
           body: screen,
           drawer: Drawer(
@@ -52,7 +50,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           floatingActionButton:
-              widget._vm.screenState == ScreenState.shoppingList
+              _vm.screenState == ScreenState.shoppingList
                   ? FloatingActionButton(
                       child: const Icon(Icons.add),
                       onPressed: () async {
@@ -96,9 +94,9 @@ class _HomePageState extends State<HomePage> {
               logMessage: LogMessage(
                   message: "tapped on side bar element ${page.text}"));
           setState(() {
-            widget._vm.screenState = page;
+            _vm.screenState = page;
+            _getCurrentScreen();
           });
-          _getCurrentScreen();
           _scaffoldKey.currentState!.closeDrawer();
         },
       ));
@@ -108,9 +106,9 @@ class _HomePageState extends State<HomePage> {
 
   /// sets up screen that changes when a different screen is selected
   void _getCurrentScreen() {
-    switch (widget._vm.screenState) {
+    switch (_vm.screenState) {
       case ScreenState.shoppingList:
-        widget._vm.repository.sqlDatabase.getProductList(true).then((value) {
+        _vm.repository.sqlDatabase.getProductList(true).then((value) {
           screen = ShoppingListScreen(products: value);
         });
         break;

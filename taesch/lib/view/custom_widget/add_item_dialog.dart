@@ -31,7 +31,8 @@ class _AddItemDialogState extends State<AddItemDialog> {
       if (tagEditController.text.endsWith(' ')||tagEditController.text.endsWith(',')) {
         tagEditController.text = tagEditController.text.substring(0,tagEditController.text.length-1),//cutts the last character
         widget._vm.tags.add(Tag(name: tagEditController.text)),
-        tagEditController.text = ''
+        tagEditController.text = '',
+        setState(() {})
       }
     });
 
@@ -65,9 +66,8 @@ class _AddItemDialogState extends State<AddItemDialog> {
                   hintText: widget._vm.tagFormHint),
                 controller: tagEditController,
               ),
-              Row(
-                children: widget._vm.tags.map((e) => Text(e.name)).toList()
-              )
+              // widget._vm.tags.map((e) => Text(e.name)).toList()
+              Row(children: widget._vm.tags.map((e) => Text(e.name)).toList(),)
             ],
           ),
         ),

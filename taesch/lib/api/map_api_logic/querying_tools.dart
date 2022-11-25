@@ -60,13 +60,9 @@ class OSMQueries {
     String latitude = _locationLat.toString();
     String longitude = _locationLong.toString();
 
-    var query =
-            "data=[out:json][timeout:50];area[name=\"$locationName\"]->.searchArea;"
+    return "data=[out:json][timeout:50];area[name=\"$locationName\"]->.searchArea;"
             "(nwr[\"shop\"=\"supermarket\"](around:$searchRadius,$latitude,$longitude)"
             "(area.searchArea););out;";
-
-    //return query1Heilbronn;
-    return query;
   }
 }
 

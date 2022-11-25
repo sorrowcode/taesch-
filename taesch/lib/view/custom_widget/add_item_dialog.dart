@@ -5,6 +5,7 @@ import 'package:taesch/middleware/log/log_level.dart';
 import 'package:taesch/middleware/log/logger_wrapper.dart';
 import 'package:taesch/model/error_case.dart';
 import 'package:taesch/model/log_message.dart';
+import 'package:taesch/model/tag.dart';
 import 'package:taesch/view_model/custom_widget/add_item_dialog_vm.dart';
 
 class AddItemDialog extends StatefulWidget {
@@ -25,6 +26,15 @@ class _AddItemDialogState extends State<AddItemDialog> {
     logger.log(
         level: LogLevel.info,
         logMessage: LogMessage(message: "entered add item dialog"));
+    var tagEditController = TextEditingController();
+    tagEditController.addListener(() => {
+      if (tagEditController.text.endsWith(' ')||tagEditController.text.endsWith(',')) {
+        tagEditController.text = tagEditController.text.substring(0,tagEditController.text.length-1),//cutts the last character
+        widget._vm.tags.add(Tag(name: tagEditController.text)),
+        tagEditController.text = ''
+      }
+    });
+
     return AlertDialog(
         title: Text(widget._vm.title),
         content: Form(
@@ -52,7 +62,12 @@ class _AddItemDialogState extends State<AddItemDialog> {
                 },
                 decoration: InputDecoration(
                   border: const OutlineInputBorder(),
-                  hintText: widget._vm.tagFormHint))
+                  hintText: widget._vm.tagFormHint),
+                controller: tagEditController,
+              ),
+              Row(
+                children: widget._vm.tags.map((e) => Text(e.name)).toList()
+              )
             ],
           ),
         ),

@@ -20,11 +20,7 @@ class AddItemDialogVM {
     return null;
   }
   validateTags(String? value) {
-    if (value == null || value.isEmpty) {
-      return;
-    } else {
-      temp.tags.addAll(value.split(', ').map((e) => Tag(name: e)));
-    }
+    temp.tags = tags;
     return null;
   }
 }

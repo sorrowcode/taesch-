@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:taesch/middleware/log/log_level.dart';
 import 'package:taesch/middleware/log/logger_wrapper.dart';
@@ -58,7 +56,6 @@ class _AddItemDialogState extends State<AddItemDialog> {
                       hintText: widget._vm.textFormHint)),
               TextFormField(
                 validator: (value) {
-                  log('what is the Value' + value.toString());
                   return widget._vm.validateTags(value);
                 },
                 decoration: InputDecoration(
@@ -79,7 +76,6 @@ class _AddItemDialogState extends State<AddItemDialog> {
                     level: LogLevel.info,
                     logMessage: LogMessage(message: "check button pressed"));
                 if (_formKey.currentState!.validate()) {
-                  log(widget._vm.temp.toString() +'afterValidation');
                   setState(() {
                     widget._vm.repository.sqlDatabase
                         .insertProduct(true, widget._vm.temp!)

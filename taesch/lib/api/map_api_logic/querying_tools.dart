@@ -20,39 +20,38 @@ class OSMQueries {
   double _locationLong = 0.0;
   QueryLocation _fixedLocation = QueryLocation.heilbronn;
 
-  void setSearchRadiusMeters(int meters){
+  void setSearchRadiusMeters(int meters) {
     int newMeters = meters;
-    if (newMeters>maxSearchRadius){
+    if (newMeters > maxSearchRadius) {
       newMeters = maxSearchRadius;
-    }else if (newMeters<minSearchRadius){
+    } else if (newMeters < minSearchRadius) {
       newMeters = minSearchRadius;
     }
     _searchRadius = newMeters;
   }
 
-  int getSearchRadiusMeters(){
+  int getSearchRadiusMeters() {
     return _searchRadius;
   }
 
-  void setQueryLocation(QueryLocation queryLocation){
+  void setQueryLocation(QueryLocation queryLocation) {
     _fixedLocation = queryLocation;
   }
 
-  QueryLocation getQueryLocation(){
+  QueryLocation getQueryLocation() {
     return _fixedLocation;
   }
 
-  void setCustomLocation(LatLng position){
+  void setCustomLocation(LatLng position) {
     _locationLat = position.latitude;
     _locationLong = position.longitude;
   }
 
-  LatLng getCustomLocation(){
+  LatLng getCustomLocation() {
     return LatLng(_locationLat, _locationLong);
   }
 
   String osmQueryBuilder() {
-
     // logic that assembles the Overpass query
 
     String locationName = _fixedLocation.location;
@@ -61,8 +60,8 @@ class OSMQueries {
     String longitude = _locationLong.toString();
 
     return "data=[out:json][timeout:50];area[name=\"$locationName\"]->.searchArea;"
-            "(nwr[\"shop\"=\"supermarket\"](around:$searchRadius,$latitude,$longitude)"
-            "(area.searchArea););out;";
+        "(nwr[\"shop\"=\"supermarket\"](around:$searchRadius,$latitude,$longitude)"
+        "(area.searchArea););out;";
   }
 }
 

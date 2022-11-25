@@ -82,7 +82,7 @@ class _AddItemDialogState extends State<AddItemDialog> {
                   log(widget._vm.temp.toString() +'afterValidation');
                   setState(() {
                     widget._vm.repository.sqlDatabase
-                        .insertProduct(true, widget._vm.temp)
+                        .insertProduct(true, widget._vm.temp!)
                         .then((value) {
                       widget._vm.repository.sqlDatabase
                           .getProductList(true)

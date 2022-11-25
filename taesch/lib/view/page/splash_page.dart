@@ -27,7 +27,7 @@ class _SplashPageState extends State<SplashPage> {
         repository.sqlDatabase.getProductList(true).then((value) {
           Timer(const Duration(seconds: 3), () {
             Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => HomePage(),
+                builder: (context) => const HomePage(),
                 settings: RouteSettings(arguments: value)));
           });
         });

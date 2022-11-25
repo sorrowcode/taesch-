@@ -7,7 +7,7 @@ class AddItemDialogVM {
   final String title = 'Add Item to Shopping List';
   final String textFormHint = 'Enter Item';
   final String tagFormHint = 'tags (comma separated)';
-  late Product temp;
+  Product? temp;
   List<Tag> tags = [];
   var repository = Repository();
 
@@ -20,7 +20,7 @@ class AddItemDialogVM {
     return null;
   }
   validateTags(String? value) {
-    temp.tags = tags;
+    temp?.tags = tags;
     return null;
   }
 }

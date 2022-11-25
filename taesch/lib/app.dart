@@ -77,7 +77,12 @@ class AppState extends State<App> {
           ),
           appBarTheme: const AppBarTheme(
             backgroundColor: Color(0xFF7371FC),
-          )),
+          ),
+          listTileTheme: const ListTileThemeData(
+              tileColor: Color(0xFFf5efff),
+          )
+      ),
+
       home: const LoginPage(),
     );
   }

@@ -24,14 +24,12 @@ class Repository {
       speed: 0.0,
       speedAccuracy: 0.0); //LatLng(49.1427, 9.2109);
 
-  void setPosition(Position position){
+  void setPosition(Position position) {
     _userPosition = position;
-    queries.setCustomLocation(LatLng(
-        position.latitude,
-        position.longitude));
+    queries.setCustomLocation(LatLng(position.latitude, position.longitude));
   }
 
-  Position getUserPosition(){
+  Position getUserPosition() {
     return _userPosition;
   }
 

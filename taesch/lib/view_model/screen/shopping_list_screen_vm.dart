@@ -6,5 +6,6 @@ import 'package:taesch/view/screen/shopping_list_screen.dart';
 class ShoppingListScreenVM {
   List<Product> products;
   Repository repository = Repository();
+
   ShoppingListScreenVM({required this.products});
 }

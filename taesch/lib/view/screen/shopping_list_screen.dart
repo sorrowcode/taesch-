@@ -42,12 +42,14 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
                   logMessage: LogMessage(
                       message:
                           "tapped on ${widget._vm.products[index].name} item"));
-              widget._vm.repository.sqlDatabase.deleteProduct(true, widget._vm.products[index].name).then((value){
+              widget._vm.repository.sqlDatabase
+                  .deleteProduct(true, widget._vm.products[index].name)
+                  .then((value) {
                 setState(() {
                   widget._vm.products.remove(widget._vm.products[index]);
                 });
               });
-              },
+            },
             child: SizedBox(
               width: 100,
               height: 100,

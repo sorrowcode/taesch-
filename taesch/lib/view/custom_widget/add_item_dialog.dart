@@ -63,8 +63,10 @@ class _AddItemDialogState extends State<AddItemDialog> {
                   hintText: widget._vm.tagFormHint),
                 controller: tagEditController,
               ),
-              // widget._vm.tags.map((e) => Text(e.name)).toList()
-              Row(children: widget._vm.tags.map((e) => IconButton(onPressed: ()=>{widget._vm.tags.remove(e),setState((){})},icon: Text(e.name))).toList(),)
+              // widget._vm.tags.map((e) => Text(e.name)).toList()<vdhjavdjhh
+              Wrap(children: widget._vm.tags.map((e) =>
+                  TextButton( onPressed: ()=>{setState((){widget._vm.tags.remove(e);})},child:
+                    Text(e.name))).toList(),)
             ],
           ),
         ),

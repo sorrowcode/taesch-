@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:taesch/middleware/log/logger_wrapper.dart';
 import 'package:taesch/view_model/custom_widget/shops_tile_vm.dart';
 
+import '../../middleware/log/log_level.dart';
+import '../../model/log_message.dart';
+
 class ShopsTile extends StatefulWidget {
   final ShopsTileVM _vm = ShopsTileVM();
 
@@ -22,11 +25,17 @@ class _ShopsTileState extends State<ShopsTile> {
     return Container(
         padding: const EdgeInsets.all(8.0),
         child: ListTile(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30.0)),
-            tileColor: Theme.of(context).listTileTheme.tileColor,
-            leading: const Icon(Icons.shopping_cart),
-            title: Text(widget._vm.title),
-            subtitle: Text(widget._vm.address)));
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+          tileColor: Theme.of(context).listTileTheme.tileColor,
+          leading: const Icon(Icons.shopping_cart),
+          title: Text(widget._vm.title),
+          subtitle: Text(widget._vm.address),
+          onTap: () {
+            logger.log(
+                level: LogLevel.info,
+                logMessage: LogMessage(message: "Taped on: ${widget._vm.title}" ));
+          },
+        ));
   }
 }

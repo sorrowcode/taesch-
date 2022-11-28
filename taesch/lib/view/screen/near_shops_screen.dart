@@ -83,6 +83,7 @@ class _NearShopsScreenState extends State<NearShopsScreen> {
       shopsList.add(ShopsTile(
           title: widget._vm.repository.shopsCache[i].name,
           address: widget._vm.repository.shopsCache[i].address));
+          
     }
     return shopsList;
   }

@@ -26,8 +26,7 @@ class _AddItemDialogState extends State<AddItemDialog> {
     var tagEditController = TextEditingController();
     tagEditController.addListener(() => {
       if (widget._vm.tagValidator(tagEditController.text)) {
-        tagEditController.text = '',
-        setState(() {})
+        setState(() {tagEditController.text = '';})
       }
     });
 

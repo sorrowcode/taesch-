@@ -8,6 +8,7 @@ import 'package:taesch/view/screen/near_shops_screen.dart';
 class NearShopsScreenVM {
   final APIQuerier _apiQuerier = APIQuerier();
   var repository = Repository();
+  var isMap = false;
 
   void loadShops() {
     _apiQuerier.makeHTTPRequest();

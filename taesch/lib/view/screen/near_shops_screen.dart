@@ -3,7 +3,9 @@ import 'package:taesch/middleware/log/log_level.dart';
 import 'package:taesch/middleware/log/logger_wrapper.dart';
 import 'package:taesch/model/log_message.dart';
 import 'package:taesch/view/custom_widget/shops_tile.dart';
+import 'package:taesch/view/screen/shops_map_screen.dart';
 import 'package:taesch/view_model/screen/near_shops_screen_vm.dart';
+
 
 /// shows the shops which are near to the own location
 class NearShopsScreen extends StatefulWidget {
@@ -82,19 +84,28 @@ class _NearShopsScreenState extends State<NearShopsScreen> {
     for (int i = 0; i < widget._vm.repository.shopsCache.length; i++) {
       shopsList.add(ShopsTile(
           title: widget._vm.repository.shopsCache[i].name,
-          address: widget._vm.repository.shopsCache[i].address));
-          
+          address: widget._vm.repository.shopsCache[i].address,
+          callBack: () {
+            logger.log(
+                level: LogLevel.info,
+                logMessage: LogMessage(message: "Taped On: ${widget._vm.repository.shopsCache[i].name}"));
+            setState(() {
+              widget._vm.isMap = true;
+            });
+          },
+      ));
     }
     return shopsList;
   }
 
   @override
   Widget build(BuildContext context) {
+
     //widget._vm.getShops();
     logger.log(
         level: LogLevel.info,
         logMessage: LogMessage(message: "entered near shops screen"));
-    return Scaffold(
+    return widget._vm.isMap ? ShopsMapScreen() : Scaffold(
         body: Column(
       children: [
         Expanded(

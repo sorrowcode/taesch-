@@ -28,7 +28,7 @@ class _AddItemDialogState extends State<AddItemDialog> {
     tagEditController.addListener(() => {
       if (tagEditController.text.endsWith(' ')||tagEditController.text.endsWith(',')) {
         tagEditController.text = tagEditController.text.substring(0,tagEditController.text.length-1),//cutts the last character
-        widget._vm.tags.add(Tag(name: tagEditController.text)),
+        widget._vm.tags.insert(0, Tag(name: tagEditController.text)),
         tagEditController.text = '',
         setState(() {})
       }
@@ -64,9 +64,12 @@ class _AddItemDialogState extends State<AddItemDialog> {
                 controller: tagEditController,
               ),
               // widget._vm.tags.map((e) => Text(e.name)).toList()<vdhjavdjhh
-              Wrap(children: widget._vm.tags.map((e) =>
-                  TextButton( onPressed: ()=>{setState((){widget._vm.tags.remove(e);})},child:
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Wrap(children: widget._vm.tags.map((e) =>
+                    TextButton( onPressed: ()=>{setState((){widget._vm.tags.remove(e);})},child:
                     Text(e.name))).toList(),)
+              )
             ],
           ),
         ),

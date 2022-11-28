@@ -37,7 +37,7 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
                         child: Icon(Icons.location_on),
 
                     )*/
-          builder: (ctx) => const Icon(Icons.location_on)));
+          builder: (ctx) => const Icon(Icons.location_on,color: Colors.black54)));
     }
     return markers;
   }
@@ -76,9 +76,16 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
                       Marker(
                           point: LatLng(position.latitude, position.longitude),
                           builder: (ctx) => GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                              },
                               child: const Icon(
-                                  Icons.my_location) //const FlutterLogo(),
+                                  Icons.my_location_outlined,
+                                  shadows: [BoxShadow(
+                                    blurRadius: 20.0,
+                                    color: Colors.blue,
+                                  ),],
+                                  size: 30,
+                                  color: Colors.blue) //const FlutterLogo(),
                               ))
                     ] +
                     _getMarkersFromSpot(mapSpots),

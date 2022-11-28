@@ -83,7 +83,9 @@ class _AppState extends State<App> {
               ),
               appBarTheme: const AppBarTheme(
                 backgroundColor: Color(0xFF7371FC),
-              )),
+              ),
+
+          ),
           home: const LoginPage(),
         ),
       ),

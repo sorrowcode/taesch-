@@ -28,11 +28,11 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
           point: LatLng(mapSpot.lat, mapSpot.long),
           builder: (ctx) => GestureDetector(
                         onTap: () {
-                            /*ScaffoldMessenger.of(ctx).showSnackBar(const SnackBar(
-                                content: Text('Tapped on blue FlutterLogo Marker'),
+                            ScaffoldMessenger.of(ctx).showSnackBar(const SnackBar(
+                                content: Text('Tapped on Marker'),
                                 )
-                            );*/
-                            print("Tapped on marker.");
+                            );
+                            //print("Tapped on marker.");
                         },
                         child: const Icon(Icons.location_on),
 

@@ -23,4 +23,13 @@ class AddItemDialogVM {
     temp?.tags = tags;
     return null;
   }
+
+  bool tagValidator(String value) {
+    if (value.endsWith(' ')||value.endsWith(',')) {
+      value = value.substring(0,value.length-1);//cutts the last character
+      tags.insert(0, Tag(name: value));
+      return true;
+    }
+    return false;
+  }
 }

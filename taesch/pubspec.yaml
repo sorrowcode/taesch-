@@ -53,9 +53,11 @@ dependencies:
       # das Paket flutter_map wird im Rahmen der BSD-3 Lizenz genutzt todo
 
 dev_dependencies:
+  flutter_launcher_icons: ^0.11.0
+  flutter_lints: ^2.0.1
   flutter_test:
     sdk: flutter
-  flutter_launcher_icons: "^0.11.0"
+
 
 flutter_icons:
   android: true

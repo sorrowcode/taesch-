@@ -21,6 +21,9 @@ class AddItemDialogVM {
   }
   validateTags(String? value) {
     temp?.tags = tags;
+    if (value==null||value=='')return null;
+    var match = RegExp(r'[a-zA-Z]+').stringMatch(value);
+    match != null ? temp?.tags.add(Tag(name: match)):null;
     return null;
   }
 

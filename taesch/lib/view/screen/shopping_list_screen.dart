@@ -49,12 +49,20 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
                   widget._vm.products.remove(widget._vm.products[index]);
                 });
               });
-            },
-            child: SizedBox(
-              width: 100,
-              height: 100,
-              child: Center(child: Text(widget._vm.products[index].name)),
-            ),
+              },
+            child: Column(children: [
+              SizedBox(
+                width: 100,
+                height: 150,
+                child: Center(child: Text(widget._vm.products[index].name)),
+              ),
+              SizedBox(
+                width: 100,
+                height: 20,
+                child: Text(widget._vm.products[index]
+                    .tags.map((e) => e.name).toString()),
+              ),
+            ])
           ),
         );
       },

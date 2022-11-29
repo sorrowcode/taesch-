@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
@@ -20,26 +22,40 @@ class ShopsMapScreen extends StatefulWidget {
 
 class _ShopsMapScreenState extends State<ShopsMapScreen> {
   LoggerWrapper logger = LoggerWrapper();
+  bool _showStuff = false;
 
   List<Marker> _getMarkersFromSpot(List<MapSpot> mapSpots) {
     List<Marker> markers = [];
     for (MapSpot mapSpot in mapSpots) {
       markers.add(Marker(
+          width: 200,
           point: LatLng(mapSpot.lat, mapSpot.long),
-          /*builder: (ctx) => GestureDetector(
+          builder: (ctx) => GestureDetector(
                         onTap: () {
                             ScaffoldMessenger.of(ctx).showSnackBar(const SnackBar(
                                 content: Text('Tapped on Marker'),
                                 )
                             );
 
+                            setState(() {
+                              _showStuff = !_showStuff;
+                            });
                             //print("Tapped on marker.");
                         },
-                        child: const Icon(Icons.location_on),
+                        //child: const Icon(Icons.location_on),
+            child: Wrap(
+              //mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    _showStuff? "Get Directions" : "show something else",
+                  ),
+                  const Icon(Icons.location_on)
+                ]
+            ),
 
-                    )*/
+                    )
           //builder: (ctx) => const Icon(Icons.location_on)
-        builder: (ctx) => Container(
+        /*builder: (ctx) => Container(
             //alignment: Alignment.bottomCenter,
           width: 200,
             child: Wrap(
@@ -51,7 +67,7 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
                   Icon(Icons.location_on)
                 ]
             )
-        )
+        )*/
       )
       );
     }

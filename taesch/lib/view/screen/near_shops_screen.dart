@@ -90,6 +90,7 @@ class _NearShopsScreenState extends State<NearShopsScreen> {
                 level: LogLevel.info,
                 logMessage: LogMessage(message: "Taped On: ${widget._vm.repository.shopsCache[i].name}"));
             setState(() {
+              widget._vm.selectedShop = widget._vm.repository.shopsCache[i];
               widget._vm.isMap = true;
             });
           },
@@ -105,7 +106,7 @@ class _NearShopsScreenState extends State<NearShopsScreen> {
     logger.log(
         level: LogLevel.info,
         logMessage: LogMessage(message: "entered near shops screen"));
-    return widget._vm.isMap ? ShopsMapScreen() : Scaffold(
+    return widget._vm.isMap ? ShopsMapScreen.fromNearScreen(widget._vm.selectedShop) : Scaffold(
         body: Column(
       children: [
         Expanded(

@@ -27,9 +27,27 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
 
   List<Marker> _getMarkersFromSpot(List<MapSpot> mapSpots) {
     List<Marker> markers = [];
-    for (MapSpot mapSpot in mapSpots) {
+    if(widget._vm.shop == null){
+      for (MapSpot mapSpot in mapSpots) {
+        markers.add(Marker(
+            point: LatLng(mapSpot.lat, mapSpot.long),
+            /*builder: (ctx) => GestureDetector(
+                        onTap: () {
+                            /*ScaffoldMessenger.of(ctx).showSnackBar(const SnackBar(
+                                content: Text('Tapped on blue FlutterLogo Marker'),
+                                )
+                            );*/
+                            print("Tapped on marker.");
+                        },
+                        child: Icon(Icons.location_on),
+
+                    )*/
+            builder: (ctx) => const Icon(Icons.location_on,color: Colors.black54)));
+      }
+    }
+    else{
       markers.add(Marker(
-          point: LatLng(mapSpot.lat, mapSpot.long),
+          point: LatLng(widget._vm.shop!.mapSpot.lat, widget._vm.shop!.mapSpot.long),
           /*builder: (ctx) => GestureDetector(
                         onTap: () {
                             /*ScaffoldMessenger.of(ctx).showSnackBar(const SnackBar(
@@ -41,8 +59,9 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
                         child: Icon(Icons.location_on),
 
                     )*/
-          builder: (ctx) => const Icon(Icons.location_on,color: Colors.black54)));
+          builder: (ctx) => const Icon(Icons.location_on,color: Colors.red)));
     }
+
     return markers;
   }
 

@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:taesch/api/repository.dart';
 import 'package:taesch/model/error_case.dart';
 import 'package:taesch/model/product.dart';
@@ -8,7 +10,7 @@ class AddItemDialogVM {
   final String textFormHint = 'Enter Item';
   final String tagFormHint = 'tags (comma separated)';
   Product? temp;
-  List<Tag> tags = [];
+  HashSet<Tag> tags = HashSet(equals: (e,m)=>e.name == m.name, hashCode: (e)=>e.name.hashCode);
   var repository = Repository();
 
   ErrorCase? validateShoppingListItem(String? value) {
@@ -20,7 +22,7 @@ class AddItemDialogVM {
     return null;
   }
   validateTags(String? value) {
-    temp?.tags = tags;
+    temp?.tags = tags.toList();
     if (value==null||value=='')return null;
     var match = RegExp(r'[a-zA-Z]+').stringMatch(value);
     match != null ? temp?.tags.add(Tag(name: match)):null;
@@ -31,7 +33,7 @@ class AddItemDialogVM {
     var match = RegExp(r'[a-zA-Z]+[,\s]').stringMatch(value);
     if (match != null) {
       match = match.substring(0,match.length-1);//cutts the last character
-      tags.insert(0, Tag(name: match));
+      tags.add(Tag(name: match));
       return true;
     }
     return false;

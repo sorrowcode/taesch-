@@ -23,22 +23,38 @@ class ShopsMapScreen extends StatefulWidget {
 class _ShopsMapScreenState extends State<ShopsMapScreen> {
   LoggerWrapper logger = LoggerWrapper();
   bool _showStuff = false;
+  int _onTapId = 0;
 
   List<Marker> _getMarkersFromSpot(List<MapSpot> mapSpots) {
     List<Marker> markers = [];
+    int idCounter=0;
     for (MapSpot mapSpot in mapSpots) {
+      idCounter++;
+      int markerID = idCounter;
+      Text markerDescriptor = const Text("");
+
+      if (_onTapId == markerID){
+        markerDescriptor = const Text("tapped on me");
+      }else{
+        //markerDescriptor = const Text("");
+      }
+
       markers.add(Marker(
           width: 200,
+          key: ValueKey(markerID),
           point: LatLng(mapSpot.lat, mapSpot.long),
           builder: (ctx) => GestureDetector(
                         onTap: () {
-                            ScaffoldMessenger.of(ctx).showSnackBar(const SnackBar(
+                            /*ScaffoldMessenger.of(ctx).showSnackBar(const SnackBar(
                                 content: Text('Tapped on Marker'),
                                 )
-                            );
+                            );*/
 
                             setState(() {
-                              _showStuff = !_showStuff;
+                              // show information only for this marker
+                              _onTapId = markerID;
+                              //widget._vm.repository.lastMapTapId = markerID;
+                              print("id : "+markerID.toString());
                             });
                             //print("Tapped on marker.");
                         },
@@ -46,9 +62,10 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
             child: Wrap(
               //mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
+                  markerDescriptor,
+                  /*Text(
                     _showStuff? "Get Directions" : "show something else",
-                  ),
+                  ),*/
                   const Icon(Icons.location_on)
                 ]
             ),

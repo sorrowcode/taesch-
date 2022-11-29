@@ -25,9 +25,10 @@ class AddItemDialogVM {
   }
 
   bool tagValidator(String value) {
-    if (value.endsWith(' ')||value.endsWith(',')) {
-      value = value.substring(0,value.length-1);//cutts the last character
-      tags.insert(0, Tag(name: value));
+    var match = RegExp(r'[a-zA-Z]+[,\s]').stringMatch(value);
+    if (match != null) {
+      match = match.substring(0,match.length-1);//cutts the last character
+      tags.insert(0, Tag(name: match));
       return true;
     }
     return false;

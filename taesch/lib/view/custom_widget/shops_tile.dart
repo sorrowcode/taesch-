@@ -19,10 +19,14 @@ class _ShopsTileState extends State<ShopsTile> {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: const Icon(Icons.shopping_cart_rounded),
-      title: Text(widget._vm.title),
-      subtitle: Text(widget._vm.address),
-    );
+    return Container(
+        padding: const EdgeInsets.all(8.0),
+        child: ListTile(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30.0)),
+            tileColor: Theme.of(context).listTileTheme.tileColor,
+            leading: const Icon(Icons.shopping_cart),
+            title: Text(widget._vm.title),
+            subtitle: Text(widget._vm.address)));
   }
 }

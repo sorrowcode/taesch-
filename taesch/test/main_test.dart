@@ -128,12 +128,12 @@ void main() async {
       ));
       await widgetTester.tap(find.byType(FloatingActionButton));
       await widgetTester.pumpAndSettle();
-      await widgetTester.enterText(find.byType(TextFormField).first, "Test");
+      await widgetTester.enterText(find.byType(TextFormField).first, "Canceled");
       await widgetTester.pump();
       await widgetTester.tap(find.widgetWithIcon(TextButton, Icons.close));
       await widgetTester.pumpAndSettle();
       expect(find.byType(Card), findsNothing);
-      expect(find.text("Test"), findsNothing);
+      expect(find.text("Canceled"), findsNothing);
     });
 
     testWidgets("testing no/invalid input", (widgetTester) async {

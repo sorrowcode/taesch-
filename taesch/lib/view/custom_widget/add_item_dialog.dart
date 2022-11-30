@@ -108,7 +108,7 @@ class _AddItemDialogState extends State<AddItemDialog> {
                   .then((value) {
                 logger.log(
                     level: LogLevel.debug,
-                    logMessage: LogMessage(message: "form valid"));
+                    logMessage: LogMessage(message: "form canceled"));
                 Navigator.of(context).pop(value);
               });
             },

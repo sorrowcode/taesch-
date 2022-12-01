@@ -103,15 +103,15 @@ class _AddItemDialogState extends State<AddItemDialog> {
               logger.log(
                   level: LogLevel.debug,
                   logMessage: LogMessage(message: "pressed close button"));
-              widget._vm.repository.sqlDatabase
+              /*widget._vm.repository.sqlDatabase
                   .getProductList(true)
                   .then((value) {
                 logger.log(
                     level: LogLevel.debug,
-                    logMessage: LogMessage(message: "form canceled"));
-                Navigator.of(context).pop(value);
-              });
-            },
+                    logMessage: LogMessage(message: "form canceled"));*/
+              Navigator.of(context).pop();
+            }
+
           )
         ]);
   }

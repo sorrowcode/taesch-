@@ -7,9 +7,8 @@ import 'package:taesch/view_model/screen/settings_screen_vm.dart';
 
 /// shows the shopping list elements
 class SettingsScreen extends StatefulWidget {
-  final SettingsScreenVM _vm = SettingsScreenVM();
 
-  SettingsScreen({super.key});
+  const SettingsScreen({super.key});
 
   @override
   State<StatefulWidget> createState() => _SettingsScreenState();
@@ -17,6 +16,7 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   LoggerWrapper logger = LoggerWrapper();
+  final SettingsScreenVM _vm = SettingsScreenVM();
 
   @override
   Widget build(BuildContext context) {
@@ -24,14 +24,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
         level: LogLevel.info,
         logMessage: LogMessage(message: "entered settings screen"));
     return SwitchListTile(
-      title: Text(widget._vm.switchTitle),
+      title: Text(_vm.switchTitle),
       value: ThemeController.of(context).darkTheme,
       onChanged: (bool value) {
         logger.log(
             level: LogLevel.info,
             logMessage: LogMessage(
                 message:
-                    "switched ${widget._vm.switchTitle} button to $value"));
+                    "switched ${_vm.switchTitle} button to $value"));
         setState(() {
           ThemeController.of(context).darkTheme = value;
         });

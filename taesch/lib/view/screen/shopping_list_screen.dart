@@ -7,10 +7,10 @@ import 'package:taesch/view_model/screen/shopping_list_screen_vm.dart';
 
 /// shows the shopping list elements
 class ShoppingListScreen extends StatefulWidget {
-  late final ShoppingListScreenVM _vm;
+  late final List<Product> _products;
 
   ShoppingListScreen({super.key, required List<Product> products}) {
-    _vm = ShoppingListScreenVM(products: products);
+    _products = products;
   }
 
   @override
@@ -19,6 +19,11 @@ class ShoppingListScreen extends StatefulWidget {
 
 class _ShoppingListScreenState extends State<ShoppingListScreen> {
   LoggerWrapper logger = LoggerWrapper();
+  late final ShoppingListScreenVM _vm;
+
+  _ShoppingListScreenState() {
+    _vm = ShoppingListScreenVM(products: widget._products);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +36,7 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
         mainAxisSpacing: 10,
         crossAxisCount: 2,
       ),
-      itemCount: widget._vm.products.length,
+      itemCount: _vm.products.length,
       itemBuilder: (BuildContext context, int index) {
         return Card(
           child: InkWell(
@@ -41,12 +46,12 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
                   level: LogLevel.info,
                   logMessage: LogMessage(
                       message:
-                          "tapped on ${widget._vm.products[index].name} item"));
-              widget._vm.repository.sqlDatabase
-                  .deleteProduct(true, widget._vm.products[index].name)
+                          "tapped on ${_vm.products[index].name} item"));
+              _vm.repository.sqlDatabase
+                  .deleteProduct(true, _vm.products[index].name)
                   .then((value) {
                 setState(() {
-                  widget._vm.products.remove(widget._vm.products[index]);
+                  _vm.products.remove(_vm.products[index]);
                 });
               });
               },
@@ -54,12 +59,12 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
               SizedBox(
                 width: 100,
                 height: 150,
-                child: Center(child: Text(widget._vm.products[index].name)),
+                child: Center(child: Text(_vm.products[index].name)),
               ),
               SizedBox(
                 width: 100,
                 height: 20,
-                child: Text(widget._vm.products[index]
+                child: Text(_vm.products[index]
                     .tags.map((e) => e.name).toString()),
               ),
             ])

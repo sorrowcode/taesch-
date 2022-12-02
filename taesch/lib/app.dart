@@ -9,7 +9,6 @@ import 'view_model/app_vm.dart';
 ///
 /// all configuration happens here
 class App extends StatefulWidget {
-  final _vm = AppVM();
   late final ThemeController _controller;
 
   App({super.key, required ThemeController controller}) {
@@ -21,6 +20,8 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
+  final _vm = AppVM();
+
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
@@ -28,7 +29,7 @@ class _AppState extends State<App> {
       builder: (context, _) => ThemeControllerProvider(
         controller: widget._controller,
         child: MaterialApp(
-          title: widget._vm.appTitle,
+          title: _vm.appTitle,
           themeMode: _mode(),
           darkTheme: ThemeData(
               scaffoldBackgroundColor: const Color(0xFF6a687a),

@@ -10,9 +10,8 @@ import 'package:taesch/model/shop.dart';
 import 'package:taesch/view_model/screen/shops_map_screen_vm.dart';
 
 class ShopsMapScreen extends StatefulWidget {
-  final _vm = ShopsMapScreenVM();
 
-  ShopsMapScreen({super.key});
+  const ShopsMapScreen({super.key});
 
   @override
   State<StatefulWidget> createState() => _ShopsMapScreenState();
@@ -20,6 +19,7 @@ class ShopsMapScreen extends StatefulWidget {
 
 class _ShopsMapScreenState extends State<ShopsMapScreen> {
   LoggerWrapper logger = LoggerWrapper();
+  final _vm = ShopsMapScreenVM();
 
   List<Marker> _getMarkersFromSpot(List<MapSpot> mapSpots) {
     List<Marker> markers = [];
@@ -49,11 +49,11 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
         logMessage: LogMessage(message: "entered shops map screen"));
 
     // create user position object
-    Position position = widget._vm.repository.getUserPosition();
+    Position position = _vm.repository.getUserPosition();
 
     // fetch MapSpots from each Shop
     List<MapSpot> mapSpots = [];
-    for (Shop shop in widget._vm.repository.shopsCache) {
+    for (Shop shop in _vm.repository.shopsCache) {
       mapSpots.add(shop.mapSpot);
     }
 

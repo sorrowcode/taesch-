@@ -7,7 +7,6 @@ import 'package:taesch/view_model/screen/settings_screen_vm.dart';
 
 /// shows the shopping list elements
 class SettingsScreen extends StatefulWidget {
-
   const SettingsScreen({super.key});
 
   @override
@@ -30,8 +29,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         logger.log(
             level: LogLevel.info,
             logMessage: LogMessage(
-                message:
-                    "switched ${_vm.switchTitle} button to $value"));
+                message: "switched ${_vm.switchTitle} button to $value"));
         setState(() {
           ThemeController.of(context).darkTheme = value;
         });

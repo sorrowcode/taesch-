@@ -10,7 +10,6 @@ import 'package:taesch/model/shop.dart';
 import 'package:taesch/view_model/screen/shops_map_screen_vm.dart';
 
 class ShopsMapScreen extends StatefulWidget {
-
   const ShopsMapScreen({super.key});
 
   @override

@@ -10,7 +10,8 @@ class AddItemDialogVM {
   final String textFormHint = 'Enter Item';
   final String tagFormHint = 'tags (comma separated)';
   Product? temp;
-  HashSet<Tag> tags = HashSet(equals: (e,m)=>e.name == m.name, hashCode: (e)=>e.name.hashCode);
+  HashSet<Tag> tags = HashSet(
+      equals: (e, m) => e.name == m.name, hashCode: (e) => e.name.hashCode);
   var repository = Repository();
 
   ErrorCase? validateShoppingListItem(String? value) {
@@ -21,18 +22,19 @@ class AddItemDialogVM {
     }
     return null;
   }
+
   validateTags(String? value) {
     temp?.tags = tags.toList();
-    if (value==null||value=='')return null;
+    if (value == null || value == '') return null;
     var match = RegExp(r'[a-zA-Z]+').stringMatch(value);
-    match != null ? temp?.tags.add(Tag(name: match)):null;
+    match != null ? temp?.tags.add(Tag(name: match)) : null;
     return null;
   }
 
   bool tagValidator(String value) {
     var match = RegExp(r'[a-zA-Z]+[,\s]').stringMatch(value);
     if (match != null) {
-      match = match.substring(0,match.length-1);//cutts the last character
+      match = match.substring(0, match.length - 1); //cutts the last character
       tags.add(Tag(name: match));
       return true;
     }

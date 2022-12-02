@@ -7,7 +7,6 @@ import 'package:taesch/view_model/screen/near_shops_screen_vm.dart';
 
 /// shows the shops which are near to the own location
 class NearShopsScreen extends StatefulWidget {
-
   const NearShopsScreen({super.key});
 
   @override

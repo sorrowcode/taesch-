@@ -6,7 +6,6 @@ import 'package:taesch/model/log_message.dart';
 import 'package:taesch/view_model/custom_widget/add_item_dialog_vm.dart';
 
 class AddItemDialog extends StatefulWidget {
-
   const AddItemDialog({super.key});
 
   @override
@@ -25,10 +24,13 @@ class _AddItemDialogState extends State<AddItemDialog> {
         logMessage: LogMessage(message: "entered add item dialog"));
     var tagEditController = TextEditingController();
     tagEditController.addListener(() => {
-      if (_vm.tagValidator(tagEditController.text)) {
-        setState(() {tagEditController.text = '';})
-      }
-    });
+          if (_vm.tagValidator(tagEditController.text))
+            {
+              setState(() {
+                tagEditController.text = '';
+              })
+            }
+        });
 
     return AlertDialog(
         title: Text(_vm.title),
@@ -55,17 +57,24 @@ class _AddItemDialogState extends State<AddItemDialog> {
                   return _vm.validateTags(value);
                 },
                 decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
-                  hintText: _vm.tagFormHint),
+                    border: const OutlineInputBorder(),
+                    hintText: _vm.tagFormHint),
                 controller: tagEditController,
               ),
               // widget._vm.tags.map((e) => Text(e.name)).toList()<vdhjavdjhh
               SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Wrap(children: _vm.tags.map((e) =>
-                    TextButton( onPressed: ()=>{setState((){_vm.tags.remove(e);})},child:
-                    Text(e.name))).toList(),)
-              )
+                  scrollDirection: Axis.horizontal,
+                  child: Wrap(
+                    children: _vm.tags
+                        .map((e) => TextButton(
+                            onPressed: () => {
+                                  setState(() {
+                                    _vm.tags.remove(e);
+                                  })
+                                },
+                            child: Text(e.name)))
+                        .toList(),
+                  ))
             ],
           ),
         ),

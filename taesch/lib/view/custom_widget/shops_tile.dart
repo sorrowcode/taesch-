@@ -3,11 +3,10 @@ import 'package:taesch/middleware/log/logger_wrapper.dart';
 import 'package:taesch/view_model/custom_widget/shops_tile_vm.dart';
 
 class ShopsTile extends StatefulWidget {
-
   late final String _title;
   late final String _address;
 
-  ShopsTile({super.key, required String title, required String address}){
+  ShopsTile({super.key, required String title, required String address}) {
     _title = title;
     _address = address;
   }

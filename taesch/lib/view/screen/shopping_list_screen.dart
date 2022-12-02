@@ -40,35 +40,33 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
       itemBuilder: (BuildContext context, int index) {
         return Card(
           child: InkWell(
-            splashColor: Colors.blue.withAlpha(30),
-            onLongPress: () {
-              logger.log(
-                  level: LogLevel.info,
-                  logMessage: LogMessage(
-                      message:
-                          "tapped on ${_vm.products[index].name} item"));
-              _vm.repository.sqlDatabase
-                  .deleteProduct(true, _vm.products[index].name)
-                  .then((value) {
-                setState(() {
-                  _vm.products.remove(_vm.products[index]);
+              splashColor: Colors.blue.withAlpha(30),
+              onLongPress: () {
+                logger.log(
+                    level: LogLevel.info,
+                    logMessage: LogMessage(
+                        message: "tapped on ${_vm.products[index].name} item"));
+                _vm.repository.sqlDatabase
+                    .deleteProduct(true, _vm.products[index].name)
+                    .then((value) {
+                  setState(() {
+                    _vm.products.remove(_vm.products[index]);
+                  });
                 });
-              });
               },
-            child: Column(children: [
-              SizedBox(
-                width: 100,
-                height: 150,
-                child: Center(child: Text(_vm.products[index].name)),
-              ),
-              SizedBox(
-                width: 100,
-                height: 20,
-                child: Text(_vm.products[index]
-                    .tags.map((e) => e.name).toString()),
-              ),
-            ])
-          ),
+              child: Column(children: [
+                SizedBox(
+                  width: 100,
+                  height: 150,
+                  child: Center(child: Text(_vm.products[index].name)),
+                ),
+                SizedBox(
+                  width: 100,
+                  height: 20,
+                  child: Text(
+                      _vm.products[index].tags.map((e) => e.name).toString()),
+                ),
+              ])),
         );
       },
     );

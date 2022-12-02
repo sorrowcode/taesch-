@@ -59,7 +59,7 @@ class _HomePageState extends State<HomePage> {
                                 "floating action button add item pressed"));
                     var result = await showDialog(
                       context: context,
-                      builder: (BuildContext context) => AddItemDialog(),
+                      builder: (BuildContext context) => const AddItemDialog(),
                     );
                     setState(() {
                       screen = result == null
@@ -111,13 +111,13 @@ class _HomePageState extends State<HomePage> {
         });
         break;
       case ScreenState.nearShops:
-        screen = NearShopsScreen();
+        screen = const NearShopsScreen();
         break;
       case ScreenState.settings:
-        screen = SettingsScreen();
+        screen = const SettingsScreen();
         break;
       case ScreenState.shopsMap:
-        screen = ShopsMapScreen();
+        screen = const ShopsMapScreen();
         break;
     }
   }

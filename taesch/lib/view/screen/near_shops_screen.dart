@@ -7,19 +7,19 @@ import 'package:taesch/view_model/screen/near_shops_screen_vm.dart';
 
 /// shows the shops which are near to the own location
 class NearShopsScreen extends StatefulWidget {
-  final _vm = NearShopsScreenVM();
 
-  NearShopsScreen({super.key});
+  const NearShopsScreen({super.key});
 
   @override
   State<StatefulWidget> createState() => _NearShopsScreenState();
 }
 
 class _NearShopsScreenState extends State<NearShopsScreen> {
+  final _vm = NearShopsScreenVM();
   LoggerWrapper logger = LoggerWrapper();
 
   List<Widget> _getShopList() {
-    widget._vm.loadShops();
+    _vm.loadShops();
     var shopsList = <Widget>[];
     shopsList.add(Center(
       child: SizedBox(
@@ -70,7 +70,7 @@ class _NearShopsScreenState extends State<NearShopsScreen> {
                     level: LogLevel.info,
                     logMessage: LogMessage(message: "search button pressed"));
                 setState(() {
-                  widget._vm.loadShops();
+                  _vm.loadShops();
                 });
               },
               child: const Text("Search"),
@@ -79,10 +79,10 @@ class _NearShopsScreenState extends State<NearShopsScreen> {
         ),
       ),
     ));
-    for (int i = 0; i < widget._vm.repository.shopsCache.length; i++) {
+    for (int i = 0; i < _vm.repository.shopsCache.length; i++) {
       shopsList.add(ShopsTile(
-          title: widget._vm.repository.shopsCache[i].name,
-          address: widget._vm.repository.shopsCache[i].address));
+          title: _vm.repository.shopsCache[i].name,
+          address: _vm.repository.shopsCache[i].address));
     }
     return shopsList;
   }
@@ -99,7 +99,7 @@ class _NearShopsScreenState extends State<NearShopsScreen> {
         Expanded(
             child: SingleChildScrollView(
           child: ValueListenableBuilder<int>(
-              valueListenable: widget._vm.repository.shopsCacheSize,
+              valueListenable: _vm.repository.shopsCacheSize,
               child: Column(children: _getShopList()),
               builder: (context, value, child) {
                 return Column(

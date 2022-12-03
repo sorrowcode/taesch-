@@ -24,13 +24,13 @@ class AddItemDialogVM {
   validateTags(String? value) {
     temp?.tags = tags.toList();
     if (value==null||value=='')return null;
-    var match = RegExp(r'[a-zA-Z]+').stringMatch(value);
+    var match = RegExp(r'[a-zA-Z0-9äöüßÄÖÜ]+',unicode: true).stringMatch(value);
     match != null ? temp?.tags.add(Tag(name: match)):null;
     return null;
   }
 
   bool tagValidator(String value) {
-    var match = RegExp(r'[a-zA-Z]+[,\s]').stringMatch(value);
+    var match = RegExp(r'[a-zA-Z0-9äöüßÄÖÜ]+[,\s]').stringMatch(value);
     if (match != null) {
       match = match.substring(0,match.length-1);//cutts the last character
       tags.add(Tag(name: match));

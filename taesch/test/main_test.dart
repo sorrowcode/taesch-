@@ -123,17 +123,19 @@ void main() async {
       });
 
     testWidgets("testing cancel", (widgetTester) async {
-      await widgetTester.pumpWidget(const MaterialApp(
-        home: HomePage(),
-      ));
-      await widgetTester.tap(find.byType(FloatingActionButton));
-      await widgetTester.pumpAndSettle();
-      await widgetTester.enterText(find.byType(TextFormField).first, "Test");
-      await widgetTester.pump();
-      await widgetTester.tap(find.widgetWithIcon(TextButton, Icons.close));
-      await widgetTester.pumpAndSettle();
-      expect(find.byType(Card), findsNothing);
-      expect(find.text("Test"), findsNothing);
+      Repository().sqlDatabase.init().then((value) async {
+        await widgetTester.pumpWidget(const MaterialApp(
+          home: HomePage(),
+        ));
+        await widgetTester.tap(find.byType(FloatingActionButton));
+        await widgetTester.pumpAndSettle();
+        await widgetTester.enterText(find.byType(TextFormField).first, "Test");
+        await widgetTester.pump();
+        await widgetTester.tap(find.widgetWithIcon(TextButton, Icons.close));
+        await widgetTester.pumpAndSettle();
+        expect(find.byType(Card), findsNothing);
+        expect(find.text("Test"), findsNothing);
+      });
     });
 
     testWidgets("testing no/invalid input", (widgetTester) async {

@@ -48,6 +48,7 @@ class _HomePageState extends State<HomePage> {
               children: _setupSideBarElements(),
             ),
           ),
+          floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
           floatingActionButton: _vm.screenState == ScreenState.shoppingList
               ? FloatingActionButton(
                   child: const Icon(Icons.add),

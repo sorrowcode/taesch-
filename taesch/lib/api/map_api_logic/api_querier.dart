@@ -25,49 +25,52 @@ class APIQuerier {
   Map<String, dynamic> _jsonMapData = {};
 
   Future<void> makeHTTPRequest() async {
-    try {
-      // build http request and set timeout
-      Response resp = await get(
-              Uri.parse(_apiUrl + repository.queries.osmQueryBuilder()))
-          .timeout(Duration(seconds: repository.queries.queryTimeoutSeconds));
-      print("got response");
+      try {
+        // build http request and set timeout
+        Response resp = await get(
+            Uri.parse(_apiUrl + repository.queries.osmQueryBuilder()))
+            .timeout(Duration(milliseconds: 1000*repository.queries.queryTimeoutSeconds));
+         //print("got response");
 
-      if (resp.statusCode == 200) {
-        // If the server did return a 200 OK response,
-        // then parse the JSON.
-        _jsonMapData = jsonDecode(utf8.decode(resp.body.codeUnits));
-        print(_jsonMapData.toString());
+        if (resp.statusCode == 200) {
+          // If the server did return a 200 OK response,
+          // then parse the JSON.
+          _jsonMapData = jsonDecode(utf8.decode(resp.body.codeUnits));
+          //print(_jsonMapData.toString());
 
-        /*try {
+          /*try {
           // List<MapSpot> spots = extractJSONData();
         } catch (e) {
           //print("Couldn't extract json data.");
         }*/
 
-        //print("Done processing response.");
+          //print("Done processing response.");
 
-        //MyTools.spawnIsolate(GeolocationTools.getCurrentPosition);
-        return;
-      } else {
-        // If the server did not return a 200 OK response,
-        // then throw an exception.
-        // throw Exception('Error on sending http request.');
+          //MyTools.spawnIsolate(GeolocationTools.getCurrentPosition);
+          return;
+        } else {
+          // If the server did not return a 200 OK response,
+          // then throw an exception.
+          // throw Exception('Error on sending http request.');
+          logger.log(
+              level: LogLevel.error,
+              logMessage: LogMessage(
+                  message: "Error on sending http request. Did not receive a 200 OK response.")
+          );
+        }
+      } on TimeoutException catch (e) {
+        //print("Timeout for http request.");
         logger.log(
             level: LogLevel.error,
-            logMessage: LogMessage(message: "Error on sending http request. Did not receive a 200 OK response.")
+            logMessage: LogMessage(
+                message: "Timeout for HTTP Geo-request:\n${e.toString()}")
         );
       }
-    } on TimeoutException catch (e) {
-      //print("Timeout for http request.");
+      on Exception catch (e) {
         logger.log(
             level: LogLevel.error,
-            logMessage: LogMessage(message: "Timeout for HTTP Geo-request:\n${e.toString()}")
-        );
-      }
-      on Exception catch (e){
-        logger.log(
-            level: LogLevel.error,
-            logMessage: LogMessage(message: "A different exception:\n${e.toString()}")
+            logMessage: LogMessage(
+                message: "A different exception:\n${e.toString()}")
         );
       }
   }

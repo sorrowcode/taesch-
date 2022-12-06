@@ -10,6 +10,7 @@ import 'package:taesch/utils/my_tools.dart';
 
 class Repository {
   bool _isDarkModeEnabled = false;
+  bool requestingQueryHTTP = false;
   List<Shop> shopsCache = [];
   ValueNotifier<int> shopsCacheSize = ValueNotifier(0);
   SQLDatabase sqlDatabase = SQLDatabase();
@@ -23,6 +24,8 @@ class Repository {
       heading: 0.0,
       speed: 0.0,
       speedAccuracy: 0.0); //LatLng(49.1427, 9.2109);
+
+  late Position lastWorkingPosition = _userPosition;
 
   void setPosition(Position position) {
     _userPosition = position;

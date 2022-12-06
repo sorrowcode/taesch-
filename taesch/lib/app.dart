@@ -37,67 +37,8 @@ class _AppState extends State<App> {
         child: MaterialApp(
           title: widget._vm.appTitle,
           themeMode: _mode(),
-          darkTheme: ThemeData(
-              scaffoldBackgroundColor: const Color(0xFF6a687a),
-              colorScheme: ColorScheme.fromSwatch()
-                  .copyWith(
-                    primary: const Color(0xFF2c3d55),
-                    secondary: const Color(0xFF6a687a),
-                  )
-                  .copyWith(
-                      secondary: const Color(0xFF6a687a),
-                      brightness: Brightness.dark),
-              buttonTheme: ButtonThemeData(
-                colorScheme: ColorScheme.fromSwatch().copyWith(
-                  primary: const Color(0xFF2c3d55),
-                  secondary: const Color(0xFF6a687a),
-                ),
-              ),
-              floatingActionButtonTheme: const FloatingActionButtonThemeData(
-                backgroundColor: Color(0xFF2c3d55),
-              ),
-              textTheme: const TextTheme(
-                  button: TextStyle(
-                color: Colors.white,
-                fontSize: 20,
-              )),
-              appBarTheme: const AppBarTheme(
-                backgroundColor: Color(0xFF2c3d55),
-              )),
-          theme: ThemeData(
-            brightness: Brightness.light,
-            scaffoldBackgroundColor: b,//const Color(0xFFf5efff),
-            colorScheme: ColorScheme.fromSwatch().copyWith(
-              primary: a,//const Color(0xFF7371FC),
-              secondary: const Color(0xFFf5efff),
-            ),
-            buttonTheme: ButtonThemeData(
-              colorScheme: ColorScheme.fromSwatch().copyWith(
-                primary: const Color(0xFF7371FC),
-                secondary: const Color(0xFFa594f9),
-              ),
-            ),
-            floatingActionButtonTheme: FloatingActionButtonThemeData(
-              backgroundColor: g,//Color(0xFF7371FC),
-            ),
-            textTheme: const TextTheme(
-                button: TextStyle(
-              color: Colors.white,
-              fontSize: 20,
-            )),
-            drawerTheme: DrawerThemeData(
-              backgroundColor: b//Color(0xFFf5efff),
-            ),
-            appBarTheme: AppBarTheme(
-              backgroundColor: a,//Color(0xFF7371FC),
-            ),
-            listTileTheme: const ListTileThemeData(
-              style: ListTileStyle.list,
-            ),
-            cardTheme: CardTheme(
-              color: d,
-            ),
-          ),
+          darkTheme: ThemeData(),
+          theme: ThemeData(),
           home: const LoginPage(),
         ),
       ),

@@ -35,7 +35,7 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
       itemBuilder: (BuildContext context, int index) {
         return Card(
           child: InkWell(
-            splashColor: Colors.blue.withAlpha(30),
+            //splashColor: Colors.blue.withAlpha(30),
             onLongPress: () {
               logger.log(
                   level: LogLevel.info,
@@ -54,7 +54,8 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
               SizedBox(
                 width: 100,
                 height: 150,
-                child: Center(child: Text(widget._vm.products[index].name)),
+                child: Center(child: Text(widget._vm.products[index].name)
+                ),
               ),
               SizedBox(
                 width: 100,

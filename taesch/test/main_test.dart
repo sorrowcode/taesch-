@@ -12,13 +12,16 @@ import 'package:taesch/api/repository.dart';
 import 'package:taesch/app.dart';
 import 'package:taesch/logic/theme_controller.dart';
 import 'package:taesch/model/error_case.dart';
+import 'package:taesch/model/map_spot.dart';
 import 'package:taesch/model/product.dart';
 import 'package:taesch/model/query_location.dart';
+import 'package:taesch/model/shop.dart';
 import 'package:taesch/model/widget_key.dart';
 import 'package:taesch/view/page/home_page.dart';
 import 'package:taesch/view_model/page/login_page_vm.dart';
 import 'package:taesch/view_model/page/register_page_vm.dart';
 import 'package:taesch/view_model/page/starting_page_vm.dart';
+import 'package:taesch/view_model/screen/near_shops_screen_vm.dart';
 
 void main() async {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -365,6 +368,37 @@ void main() async {
       expect(repository.queries.getQueryLocation(), myLocation);
     });
     // also attempt query
+  });
+
+  group("api-queries and geo-position", () {
+    Repository repository = Repository();
+    NearShopsScreenVM nscvm = NearShopsScreenVM();
+    Position newPosition = const Position(
+        latitude: 0.0,
+        longitude: 0.0,
+        timestamp: null,
+        accuracy: 0.0,
+        altitude: 0.0,
+        heading: 0.0,
+        speed: 0.0,
+        speedAccuracy: 0.0);
+
+    test('fallback to last valid position', (){
+      Position currentPosition = repository.lastWorkingPosition;
+      repository.setPosition(newPosition);
+      nscvm.loadShops();
+      expect(repository.lastWorkingPosition, currentPosition);
+    });
+    test('verify shops cache', (){
+      List<Shop> shopList = [
+        Shop(spot: MapSpot("GameStop", 3, 2, "Strasse 1")),
+        Shop(spot: MapSpot("Sao Francisco da Nossa Senhora de Jesus amado filho, do sul", -45, 8, "Rua 2")),
+      ];
+      repository.fillUpCache(shopList);
+      repository.setPosition(newPosition);
+      nscvm.loadShops();
+      expect(repository.shopsCache, shopList);
+    });
   });
 
   /* Integration Test - has plugin dependency

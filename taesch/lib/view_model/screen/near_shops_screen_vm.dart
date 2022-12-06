@@ -17,7 +17,7 @@ class NearShopsScreenVM {
       int repeatTimes = 4, count = 0;
       repository.requestingQueryHTTP = true;
 
-      while (extractedDataEmpty || count<repeatTimes) {
+      while (extractedDataEmpty && count<repeatTimes) {
         //print("request http");
         await _apiQuerier.makeHTTPRequest();
         //print("await finished");

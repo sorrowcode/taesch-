@@ -45,6 +45,7 @@ dependencies:
   test:
   sqflite_common_ffi:
   connectivity_plus: ^3.0.2
+  app_settings: ^4.1.8
 
 #dependency_overrides:
   #flutter_map:

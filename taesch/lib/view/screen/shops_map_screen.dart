@@ -28,7 +28,7 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
     for (MapSpot mapSpot in mapSpots) {
       idCounter++;
       int markerID = idCounter;
-      Text markerDescriptor = const Text("");
+      Text markerDescriptor = const Text("\n");
 
       if (_onTapId == markerID){
         markerDescriptor = Text("${mapSpot.name}\n${mapSpot.address}");
@@ -48,15 +48,15 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
                 _onTapId = markerID;
               });
             },
-
             child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  markerDescriptor,
-                  const Center(
-                      child: Icon(Icons.location_on)
-                  )
-                ]
+              mainAxisAlignment: MainAxisAlignment.center,
+              //verticalDirection: VerticalDirection.up,
+              children: [
+                markerDescriptor,
+                const Center(
+                    child: Icon(Icons.location_on)
+                )
+              ]
             ),
           )
       )

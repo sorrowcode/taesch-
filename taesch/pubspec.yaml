@@ -44,6 +44,7 @@ dependencies:
   latlong2: ^0.8.1 # <-- used in conjunction with flutter_map
   test:
   sqflite_common_ffi:
+  connectivity_plus: ^3.0.2
 
 #dependency_overrides:
   #flutter_map:

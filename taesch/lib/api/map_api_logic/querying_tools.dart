@@ -11,7 +11,7 @@ class OSMQueries {
   final String queryTestHighspeedCameras =
       "data=[out:json];node[highway=speed_camera](43.46669501043081,-5.708215989569187,43.588927989569186,-5.605835010430813);out%20meta;";
 
-  final int queryTimeoutSeconds = 4;
+  final int queryTimeoutSeconds = 40;
   final int maxSearchRadius = 10000;
   final int minSearchRadius = 5;
 

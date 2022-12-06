@@ -9,8 +9,10 @@ class NearShopsScreenVM {
   final APIQuerier _apiQuerier = APIQuerier();
   var repository = Repository();
 
-  void loadShops() {
-    _apiQuerier.makeHTTPRequest();
+  void loadShops() async{
+    print("request http");
+    await _apiQuerier.makeHTTPRequest();
+    print("await finished");
     var extractedData = _apiQuerier.extractJSONData();
     List<Shop> shops = [];
     for (MapSpot spot in extractedData) {

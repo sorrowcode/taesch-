@@ -18,8 +18,8 @@ class NearShopsScreen extends StatefulWidget {
 class _NearShopsScreenState extends State<NearShopsScreen> {
   LoggerWrapper logger = LoggerWrapper();
 
-  List<Widget> _getShopList() {
-    widget._vm.loadShops();
+  List<Widget>  _getShopList() {
+    //widget._vm.loadShops();
     var shopsList = <Widget>[];
     shopsList.add(Center(
       child: SizedBox(

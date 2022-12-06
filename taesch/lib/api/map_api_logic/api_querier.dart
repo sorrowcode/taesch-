@@ -7,13 +7,19 @@ import 'package:http/http.dart';
 import 'package:taesch/api/map_api_logic/overpass_query_indexes.dart';
 import 'package:taesch/api/repository.dart';
 import 'package:taesch/exceptions/custom/query_exceptions.dart';
+import 'package:taesch/middleware/log/log_level.dart';
+import 'package:taesch/middleware/log/logger_wrapper.dart';
+import 'package:taesch/model/log_message.dart';
 import 'package:taesch/model/map_spot.dart';
+
+
 // import 'package:taesch/utils/my_tools.dart';
 
 // import 'geolocation_tools.dart';
 // import 'querying_tools.dart';
 
 class APIQuerier {
+  LoggerWrapper logger = LoggerWrapper();
   final Repository repository = Repository();
   final String _apiUrl = 'http://overpass-api.de//api/interpreter?';
   Map<String, dynamic> _jsonMapData = {};
@@ -24,11 +30,13 @@ class APIQuerier {
       Response resp = await get(
               Uri.parse(_apiUrl + repository.queries.osmQueryBuilder()))
           .timeout(Duration(seconds: repository.queries.queryTimeoutSeconds));
+      print("got response");
 
       if (resp.statusCode == 200) {
         // If the server did return a 200 OK response,
         // then parse the JSON.
         _jsonMapData = jsonDecode(utf8.decode(resp.body.codeUnits));
+        print(_jsonMapData.toString());
 
         /*try {
           // List<MapSpot> spots = extractJSONData();
@@ -43,12 +51,25 @@ class APIQuerier {
       } else {
         // If the server did not return a 200 OK response,
         // then throw an exception.
-        throw Exception('Error on sending http request.');
+        // throw Exception('Error on sending http request.');
+        logger.log(
+            level: LogLevel.error,
+            logMessage: LogMessage(message: "Error on sending http request. Did not receive a 200 OK response.")
+        );
       }
     } on TimeoutException catch (e) {
       //print("Timeout for http request.");
-      e.toString(); // <- needs to be logged
-    }
+        logger.log(
+            level: LogLevel.error,
+            logMessage: LogMessage(message: "Timeout for HTTP Geo-request:\n${e.toString()}")
+        );
+      }
+      on Exception catch (e){
+        logger.log(
+            level: LogLevel.error,
+            logMessage: LogMessage(message: "A different exception:\n${e.toString()}")
+        );
+      }
   }
 
   List<MapSpot> extractJSONData() {

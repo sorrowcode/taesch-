@@ -30,19 +30,19 @@ class APIQuerier {
         Response resp = await get(
             Uri.parse(_apiUrl + repository.queries.osmQueryBuilder()))
             .timeout(Duration(milliseconds: 1000*repository.queries.queryTimeoutSeconds));
-         print("got response");
+         //print("got response");
 
         if (resp.statusCode == 200) {
           // If the server did return a 200 OK response,
           // then parse the JSON.
           _jsonMapData = jsonDecode(utf8.decode(resp.body.codeUnits));
-          print(_jsonMapData.toString());
+          //print(_jsonMapData.toString());
 
           /*try {
           // List<MapSpot> spots = extractJSONData();
-        } catch (e) {
+          } catch (e) {
           //print("Couldn't extract json data.");
-        }*/
+          }*/
 
           //print("Done processing response.");
 
@@ -76,7 +76,6 @@ class APIQuerier {
   }
 
   List<MapSpot> extractJSONData() {
-    print("am being called");
     List<MapSpot> spotList = [];
 
     try {
@@ -116,7 +115,11 @@ class APIQuerier {
                       cause:
                           "Parsing of accessed latitude index to double failed. Value: $accessedValue");
                 } on QueryException catch (f) {
-                  f.cause; // <- needs to be logged
+                  logger.log(
+                      level: LogLevel.error,
+                      logMessage: LogMessage(
+                          message: f.cause)
+                  );
                 }
               }
 
@@ -133,7 +136,11 @@ class APIQuerier {
                       cause:
                           "Parsing of accessed longitude index to double failed. Value: $accessedValue");
                 } on QueryException catch (f) {
-                  f.cause; // <- needs to be logged
+                  logger.log(
+                      level: LogLevel.error,
+                      logMessage: LogMessage(
+                          message: f.cause)
+                  );
                 }
               }
 
@@ -192,28 +199,50 @@ class APIQuerier {
                       cause:
                           "Accessing street-number index failed. Value: $accessedValue");
                 } on QueryException catch (f) {
-                  f.cause; // <- needs to be logged
+                  logger.log(
+                      level: LogLevel.error,
+                      logMessage: LogMessage(
+                          message: f.cause)
+                  );
                 }
               }
 
               MapSpot mapSpot =
                   MapSpot(name, longitude, latitude, "$street, $number");
               spotList.add(mapSpot);
+
+              // it seems like the JSON-response itself is capped to a maximum number of values
+              // for this reason (probably) one isn't able to access all the information (like lat, long)
+              // and sometimes it just isn't in the response body at all (even if it's only a few elements)
+
             } catch (e) {
-              e.toString(); // <- needs to be logged
+              logger.log(
+                  level: LogLevel.error,
+                  logMessage: LogMessage(
+                      message: "Something has gone wrong during extraction of JSON-data:\n${e.toString()}")
+              );
             }
           } catch (e) {
-            //print("Mistake on accessing or assigning elements-entry.");
-            e.toString();
+            logger.log(
+                level: LogLevel.error,
+                logMessage: LogMessage(
+                    message: "Mistake on accessing or assigning elements-entry:\n${e.toString()}")
+            );
           }
         }
       } catch (e) {
-        //print("JSON conversion to list failed.");
-        e.toString();
+        logger.log(
+            level: LogLevel.error,
+            logMessage: LogMessage(
+                message: "JSON conversion to list failed:\n${e.toString()}")
+        );
       }
     } catch (e) {
-      //print("The specified key does not exist.");
-      e.toString();
+      logger.log(
+          level: LogLevel.error,
+          logMessage: LogMessage(
+              message: "The specified key does not exist:\n${e.toString()}")
+      );
     }
     //dataList.add();
     return spotList;

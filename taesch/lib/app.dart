@@ -23,13 +23,12 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
-    var a = const Color(0xFF8672A5);
-    var b = const Color(0xFFFFFFFF);
-    var c = const Color(0xFFEEB1B1);
-    var d = const Color(0xFFD1C2D9);
-    var e = const Color(0xFF515389);
-    var f = const Color(0xFF545454);
-    var g = const Color(0xFFD6356A);
+    var a = const Color(0xFF12263A);
+    var b = const Color(0xFF06BCC1);
+    var c = const Color(0xFFC5D8D1);
+    var d = const Color(0xFFF4D1AE);
+    var e = const Color(0xFFF4EDEA);
+    var f = const Color(0xFF000000);
     return AnimatedBuilder(
       animation: widget._controller,
       builder: (context, _) => ThemeControllerProvider(
@@ -38,7 +37,47 @@ class _AppState extends State<App> {
           title: widget._vm.appTitle,
           themeMode: _mode(),
           darkTheme: ThemeData(),
-          theme: ThemeData(),
+          theme: ThemeData(
+            brightness: Brightness.light,
+            scaffoldBackgroundColor: e,
+            primaryColor: a,
+            textButtonTheme: TextButtonThemeData(
+              style: ButtonStyle(
+                backgroundColor: MaterialStatePropertyAll(a),
+              ),
+            ),
+            floatingActionButtonTheme: FloatingActionButtonThemeData(
+              backgroundColor: c,
+              foregroundColor: a,
+            ),
+            textTheme: TextTheme(
+              displayMedium: TextStyle(
+                color: a,
+              ),
+              headlineSmall: TextStyle(
+                color: a,
+              ),
+              titleLarge: TextStyle(
+                color: e
+              ),
+              titleMedium: TextStyle(
+                color: a,
+              ),
+              titleSmall: TextStyle(
+                color: a,
+              ),
+              labelLarge: TextStyle(
+                color: e,
+              ),
+            ),
+            appBarTheme: AppBarTheme(
+              backgroundColor: a,
+              titleTextStyle: Theme.of(context).textTheme.titleLarge,
+            ),
+            drawerTheme: DrawerThemeData(
+              backgroundColor: e,
+            ),
+          ),
           home: const LoginPage(),
         ),
       ),

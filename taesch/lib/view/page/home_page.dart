@@ -39,7 +39,8 @@ class _HomePageState extends State<HomePage> {
         child: Scaffold(
           key: _scaffoldKey,
           appBar: AppBar(
-            title: Text(_vm.screenState.text),
+            title: Text(
+                _vm.screenState.text,style: Theme.of(context).textTheme.titleLarge,),
           ),
           body: screen,
           drawer: Drawer(
@@ -77,7 +78,7 @@ class _HomePageState extends State<HomePage> {
     var elements = <Widget>[];
     elements.add(DrawerHeader(
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.primary,
+        color: Theme.of(context).primaryColor,
       ),
       child: const Text(''),
     ));

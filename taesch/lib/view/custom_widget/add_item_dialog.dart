@@ -31,7 +31,7 @@ class _AddItemDialogState extends State<AddItemDialog> {
     });
 
     return AlertDialog(
-        title: Text(widget._vm.title),
+        title: Text(widget._vm.title, ),
         content: Form(
           key: _formKey,
           child: Column(

@@ -138,6 +138,60 @@ void main() async {
       });
     });
 
+    testWidgets(("creating Tags"), (widgetTester) async{
+      await widgetTester.pumpWidget(const MaterialApp(
+        home: HomePage(),
+      ));
+      Repository().sqlDatabase.init().then((value) async{
+        await widgetTester.tap(find.byType(FloatingActionButton));
+        await widgetTester.pumpAndSettle();
+        await widgetTester.enterText(find.byType(TextFormField).first, "Apfel");
+        await widgetTester.pump();
+        await widgetTester.enterText(find.byType(TextFormField).last, "4,");
+        await widgetTester.pump();
+        await widgetTester.tap(find.widgetWithIcon(TextButton, Icons.check));
+        await widgetTester.pump();
+        expect(find.byType(Card), findsOneWidget);
+      });
+    });
+
+      testWidgets(("creating Tags and deleting Card"), (widgetTester) async{
+        await widgetTester.pumpWidget(const MaterialApp(
+          home: HomePage(),
+        ));
+        Repository().sqlDatabase.init().then((value) async{
+          await widgetTester.tap(find.byType(FloatingActionButton));
+          await widgetTester.pumpAndSettle();
+          await widgetTester.enterText(find.byType(TextFormField).first, "Apfel");
+          await widgetTester.pump();
+          await widgetTester.enterText(find.byType(TextFormField).last, "4,");
+          await widgetTester.pump();
+          await widgetTester.tap(find.widgetWithIcon(TextButton, Icons.close));
+          await widgetTester.pump();
+          await widgetTester.longPress(find.byType(Card));
+          expect(find.byType(Card), findsNothing);
+        });
+      });
+
+      testWidgets(("creating Tags and dismiss"), (widgetTester) async{
+        await widgetTester.pumpWidget(const MaterialApp(
+          home: HomePage(),
+        ));
+        Repository().sqlDatabase.init().then((value) async{
+          await widgetTester.tap(find.byType(FloatingActionButton));
+          await widgetTester.pumpAndSettle();
+          await widgetTester.enterText(find.byType(TextFormField).first, "Apfel");
+          await widgetTester.pump();
+          await widgetTester.enterText(find.byType(TextFormField).last, "4,");
+          await widgetTester.pump();
+          await widgetTester.tap(find.widgetWithIcon(TextButton, Icons.close));
+          await widgetTester.pump();
+          expect(find.byType(Card), findsNothing);
+        });
+      });
+
+
+
     testWidgets("testing no/invalid input", (widgetTester) async {
       await widgetTester.pumpWidget(const MaterialApp(
         home: HomePage(),

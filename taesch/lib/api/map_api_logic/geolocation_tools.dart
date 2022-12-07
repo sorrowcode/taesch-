@@ -1,4 +1,3 @@
-//import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:geolocator/geolocator.dart';
@@ -35,9 +34,6 @@ class GeolocationTools {
         try {
           Position position = await positionFuture;
 
-          // on success locating the user, return the position
-          // print("Position: \nlat: "+position.latitude.toString()+"\nlong: "+position.longitude.toString()); // <- log
-
           // update position in Repository
           repository.setPosition(position);
         } on TimeoutException catch (e) {
@@ -62,7 +58,6 @@ class GeolocationTools {
 
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      // snackbar
       logger.log(
           level: LogLevel.info,
           logMessage: LogMessage(

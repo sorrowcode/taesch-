@@ -27,7 +27,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
       body: Column(
         children: [
 
-          // ursprünglich war es nur "return SwitchListTile(...)"
           SwitchListTile(
               title: Text(widget._vm.switchTitle),
               value: ThemeController.of(context).darkTheme,
@@ -132,6 +131,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     );
                   },
                   icon: const Icon(Icons.help_outline)
+
               ),
             ),
           )

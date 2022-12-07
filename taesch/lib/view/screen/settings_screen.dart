@@ -96,8 +96,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 }
 
               }
-              setState((){}); // because the switch is set based on the .geoLocationPermGranted() property,
+
+              // because the switch is set based on the .geoLocationPermGranted() property,
               // setState() ensures that the switch will be in the right position, after reloading the screen
+              setState((){
+                if(gt.geoLocationPermissionIsPermanentlyDenied() && gt.geoLocationPermissionGranted()){
+                  // should not be the case
+                  gt.denyGeoLocationPermission();
+                }
+              });
 
             },
             secondary: const Icon(Icons.location_on),

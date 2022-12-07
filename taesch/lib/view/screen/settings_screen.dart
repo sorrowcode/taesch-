@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:taesch/logic/theme_controller.dart';
 import 'package:taesch/middleware/log/log_level.dart';
@@ -80,8 +79,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       builder: (ctx) => AlertDialog(
                           title: const Text("Location Permanently Denied"),
                           content: const Text("You have permanently denied the usage of the GPS services.\n"
-                              "In order to allow the app to use them, you have to manually go to your phone\'s \n"
-                              "Settings -> Apps -> \'täsch\' -> Permissions and allow the permission for "
+                              "In order to allow the app to use them, you have to manually go to your phone's \n"
+                              "Settings -> Apps -> 'täsch' -> Permissions and allow the permission for "
                               "the usage of your location. Thanks ;)"),
 
                           actions: [
@@ -117,8 +116,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             title: const Text("Help on Location Service"),
                             content: Text("If you can't toggle the ${widget._vm.permissionSwitchTitle} option, it might be because "
                                 "you have permanently denied the usage of the GPS services.\n"
-                                "In order to allow the app to use them, you need to manually go to your phone\'s \n"
-                                "Settings -> Apps -> \'täsch\' -> Permissions \nand allow the permission for "
+                                "In order to allow the app to use them, you need to manually go to your phone's \n"
+                                "Settings -> Apps -> 'täsch' -> Permissions \nand allow the permission for "
                                 "the usage of your location. Thanks ;)"),
 
                             actions: [

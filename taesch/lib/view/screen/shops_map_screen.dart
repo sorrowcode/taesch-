@@ -120,6 +120,14 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
                         ],
                       ),
                     ),
+                    actions: [
+                      TextButton(
+                          onPressed: (){
+                            Navigator.pop(ctx);
+                          },
+                          child: const Text("Close")
+                      )
+                    ],
 
                   )
               );

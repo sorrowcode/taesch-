@@ -30,13 +30,13 @@ class APIQuerier {
         Response resp = await get(
             Uri.parse(_apiUrl + repository.queries.osmQueryBuilder()))
             .timeout(Duration(milliseconds: 1000*repository.queries.queryTimeoutSeconds));
-         //print("got response");
+         print("got response");
 
         if (resp.statusCode == 200) {
           // If the server did return a 200 OK response,
           // then parse the JSON.
           _jsonMapData = jsonDecode(utf8.decode(resp.body.codeUnits));
-          //print(_jsonMapData.toString());
+          print(_jsonMapData.toString());
 
           /*try {
           // List<MapSpot> spots = extractJSONData();
@@ -76,6 +76,7 @@ class APIQuerier {
   }
 
   List<MapSpot> extractJSONData() {
+    print("am being called");
     List<MapSpot> spotList = [];
 
     try {
@@ -84,9 +85,11 @@ class APIQuerier {
       var elementList = _jsonMapData[elements];
 
       try {
+
         // Einträge extrahieren - data[elements]
         List<dynamic> elementContents =
             repository.tools.getElements(list: elementList);
+
         // int clength = elementContents.length<15 ? elementContents.length : 15;
         int clength = elementContents.length;
         for (int i = 0; i < clength; i++) {
@@ -148,7 +151,12 @@ class APIQuerier {
                       cause:
                           "Accessing name index failed. Value: $accessedValue");
                 } on QueryException catch (f) {
-                  f.cause; // <- needs to be logged
+                  //f.cause; // <- needs to be logged
+                  logger.log(
+                      level: LogLevel.error,
+                      logMessage: LogMessage(
+                          message: f.cause)
+                  );
                 }
               }
 
@@ -156,15 +164,19 @@ class APIQuerier {
               accessedValue = noValue;
               try {
                 accessedValue =
-                    tags[OverpassQueryIndexes.street]; //.toString();
-                street = tags[OverpassQueryIndexes.street];
+                    tags[OverpassQueryIndexes.street.identifier]; //.toString();
+                street = accessedValue;
               } catch (e) {
                 try {
                   throw QueryException(
                       cause:
                           "Accessing street index failed. Value: $accessedValue");
                 } on QueryException catch (f) {
-                  f.cause; // <- needs to be logged
+                  logger.log(
+                      level: LogLevel.error,
+                      logMessage: LogMessage(
+                          message: f.cause)
+                  );
                 }
               }
 
@@ -172,7 +184,7 @@ class APIQuerier {
               accessedValue = noValue;
               try {
                 accessedValue =
-                    tags[OverpassQueryIndexes.houseNumber]; //.toString
+                    tags[OverpassQueryIndexes.houseNumber.identifier]; //.toString
                 number = accessedValue;
               } catch (e) {
                 try {

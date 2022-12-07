@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:taesch/logic/theme_controller.dart';
 import 'package:taesch/middleware/log/log_level.dart';
@@ -74,14 +75,66 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   }
                 }else{
                   // pop-up
+                  showDialog(
+                      context: context,
+                      builder: (ctx) => AlertDialog(
+                          title: const Text("Location Permanently Denied"),
+                          content: const Text("You have permanently denied the usage of the GPS services.\n"
+                              "In order to allow the app to use them, you have to manually go to your phone\'s \n"
+                              "Settings -> Apps -> \'täsch\' -> Permissions and allow the permission for "
+                              "the usage of your location. Thanks ;)"),
+
+                          actions: [
+                            TextButton(
+                                onPressed: (){
+                                  Navigator.pop(ctx);
+                                },
+                                child: const Text("OK")
+                            )
+                          ]
+                      )
+                  );
                   // don't allow toggle
                 }
+
               }
               setState((){}); // because the switch is set based on the .geoLocationPermGranted() property,
               // setState() ensures that the switch will be in the right position, after reloading the screen
 
             },
-            secondary: const Icon(Icons.remove_from_queue_rounded),
+            secondary: const Icon(Icons.location_on),
+          ),
+
+          Container(
+            padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: IconButton(
+                  onPressed: (){
+                    showDialog(
+                        context: context,
+                        builder: (ctx) => AlertDialog(
+                            title: const Text("Help on Location Service"),
+                            content: Text("If you can't toggle the ${widget._vm.permissionSwitchTitle} option, it might be because "
+                                "you have permanently denied the usage of the GPS services.\n"
+                                "In order to allow the app to use them, you need to manually go to your phone\'s \n"
+                                "Settings -> Apps -> \'täsch\' -> Permissions \nand allow the permission for "
+                                "the usage of your location. Thanks ;)"),
+
+                            actions: [
+                              TextButton(
+                                  onPressed: (){
+                                    Navigator.pop(ctx);
+                                  },
+                                  child: const Text("OK")
+                              )
+                            ]
+                        )
+                    );
+                  },
+                  icon: const Icon(Icons.help_outline)
+              ),
+            ),
           )
 
         ],

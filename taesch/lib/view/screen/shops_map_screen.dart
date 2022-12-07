@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
@@ -28,10 +30,13 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
     for (MapSpot mapSpot in mapSpots) {
       idCounter++;
       int markerID = idCounter;
-      Text markerDescriptor = const Text("\n");
+      Text markerDescriptor = const Text("");
 
       if (_onTapId == markerID){
-        markerDescriptor = Text("${mapSpot.name}\n${mapSpot.address}");
+        markerDescriptor = Text(
+            mapSpot.name, //\n${mapSpot.address}
+            style: const TextStyle(fontWeight: FontWeight.bold)
+        );
       }else{
         //markerDescriptor = const Text("");
       }
@@ -137,8 +142,10 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
               //verticalDirection: VerticalDirection.up,
               children: [
                 markerDescriptor,
-                const Center(
-                    child: Icon(Icons.location_on)
+                Center(
+                    child: Icon(Icons.location_on,
+                    color: Colors.black.withOpacity((_onTapId==markerID)?1.0:0.26)
+                    )
                 )
               ]
             ),

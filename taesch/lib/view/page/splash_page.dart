@@ -23,6 +23,7 @@ class _SplashPageState extends State<SplashPage> {
   void initState() {
     setState(() {
       repository.sqlDatabase.init().then((value) {
+        repository.geolocationTools.handleLocationPermission();// is a Future, but no need to await the result, as timer checks for permission continuously
         repository.geolocationTools.startGeoTimer();
         repository.sqlDatabase.getProductList(true).then((value) {
           Timer(const Duration(seconds: 3), () {

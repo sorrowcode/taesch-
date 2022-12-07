@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
@@ -55,6 +53,14 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
             },
 
             onLongPress: (){
+
+              if (_onTapId!=markerID){
+                // gleiches Verhalten wie onTap()
+                setState(() {
+                  _onTapId = markerID;
+                });
+              }
+
               showDialog(
                   context: ctx,
                   builder: (ctx) => AlertDialog(

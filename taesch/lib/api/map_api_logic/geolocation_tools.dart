@@ -116,6 +116,18 @@ class GeolocationTools {
     return;
   }
 
+  bool geoLocationPermissionGranted(){
+    return _geolocatorPermissionIsSet;
+  }
+
+  bool geoLocationPermissionIsPermanentlyDenied(){
+    return _permamnentlyDenied;
+  }
+
+  void denyGeoLocationPermission(){
+    _geolocatorPermissionIsSet = false;
+  }
+
   void startGeoTimer() {
     Timer.periodic(Duration(seconds: locationTimerPause), (timer) async {
       //print(timer.tick);

@@ -11,12 +11,17 @@ class GeolocationTools {
   Repository repository;
   final int locateTimeout = 20; // <-- measured delay, for precise location
   final int locationTimerPause = 10;
+  bool _geolocatorPermissionIsSet = false;
   LoggerWrapper logger = LoggerWrapper();
 
   GeolocationTools(this.repository);
 
+  /*
+  * Rather than returning an actual Position, this method already sets the Position
+  * in Repository, from where it can be accessed at any time.
+  */
   Future<void> getCurrentPosition() async {
-    if (_geolocatorPermissionIsSet()) {
+    if (_geolocatorPermissionIsSet) {
       // return lat and long
       try {
         // instantiate Future
@@ -36,6 +41,7 @@ class GeolocationTools {
           repository.setPosition(position);
         } on TimeoutException catch (e) {
           // print("Too long to get location."); // error message
+          // es waere nervig alle 20s (timeout) eine Exception zu werfen
           e.toString();
         }
       } catch (e) {
@@ -47,15 +53,8 @@ class GeolocationTools {
     }
   }
 
-  bool _geolocatorPermissionIsSet() {
-    // check wether Geolocator has the permission
-    // work with timeouts
-    // Future<LocationPermission> permission = Geolocator.requestPermission();
-    return false;
-  }
-
   // might also be a method to be manually called from settings
-  Future<bool> handleLocationPermission() async {
+  Future<void> handleLocationPermission() async {
     bool serviceEnabled;
     LocationPermission permission;
 
@@ -67,21 +66,28 @@ class GeolocationTools {
           logMessage: LogMessage(
               message: "Location services are disabled. Please enable the services.")// <-- maybe show a pop-up
       );
-      return false;
+      //return false;
     }
 
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission != LocationPermission.denied && permission != LocationPermission.deniedForever) {
-        return true;
+        logger.log(
+            level: LogLevel.info,
+            logMessage: LogMessage(
+                message: "Geolocator is permitted.")
+        );
+        _geolocatorPermissionIsSet = true;
+        //return true;
       } else {
         logger.log(
             level: LogLevel.info,
             logMessage: LogMessage(
                 message: "Location permissions are denied.")
         );
-        return false;
+        _geolocatorPermissionIsSet = false;
+        //return false;
       }
     }
 
@@ -91,7 +97,8 @@ class GeolocationTools {
           logMessage: LogMessage(
               message: "Location permissions are permanently denied, we cannot request permissions.")
       );
-      return false;
+      _geolocatorPermissionIsSet = false;
+      //return false;
     }
 
     logger.log(
@@ -99,7 +106,8 @@ class GeolocationTools {
         logMessage: LogMessage(
             message: "Geolocator is permitted.")
     );
-    return true;
+    _geolocatorPermissionIsSet = true;
+    //return true;
   }
 
   void startGeoTimer() {
@@ -112,6 +120,7 @@ class GeolocationTools {
         print('Cancel timer');
         timer.cancel();
       }*/
+
     });
   }
 }

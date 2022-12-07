@@ -12,6 +12,7 @@ class GeolocationTools {
   final int locateTimeout = 20; // <-- measured delay, for precise location
   final int locationTimerPause = 10;
   bool _geolocatorPermissionIsSet = false;
+  bool _permamnentlyDenied = false;
   LoggerWrapper logger = LoggerWrapper();
 
   GeolocationTools(this.repository);
@@ -49,6 +50,7 @@ class GeolocationTools {
         e.toString();
       }
     } else {
+      if (_permamnentlyDenied){}
       // return some default position, or NULL
     }
   }
@@ -66,12 +68,12 @@ class GeolocationTools {
           logMessage: LogMessage(
               message: "Location services are disabled. Please enable the services.")// <-- maybe show a pop-up
       );
-      //return false;
+      return;
     }
 
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
+      permission = await Geolocator.requestPermission(); // <-- check again
       if (permission != LocationPermission.denied && permission != LocationPermission.deniedForever) {
         logger.log(
             level: LogLevel.info,
@@ -79,7 +81,9 @@ class GeolocationTools {
                 message: "Geolocator is permitted.")
         );
         _geolocatorPermissionIsSet = true;
-        //return true;
+        _permamnentlyDenied = false;
+        return;
+
       } else {
         logger.log(
             level: LogLevel.info,
@@ -87,7 +91,7 @@ class GeolocationTools {
                 message: "Location permissions are denied.")
         );
         _geolocatorPermissionIsSet = false;
-        //return false;
+        return;
       }
     }
 
@@ -98,7 +102,8 @@ class GeolocationTools {
               message: "Location permissions are permanently denied, we cannot request permissions.")
       );
       _geolocatorPermissionIsSet = false;
-      //return false;
+      _permamnentlyDenied = true;
+      return;
     }
 
     logger.log(
@@ -107,7 +112,8 @@ class GeolocationTools {
             message: "Geolocator is permitted.")
     );
     _geolocatorPermissionIsSet = true;
-    //return true;
+    _permamnentlyDenied = false;
+    return;
   }
 
   void startGeoTimer() {

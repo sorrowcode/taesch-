@@ -46,6 +46,22 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
       }
     }
     else{
+      for (MapSpot mapSpot in mapSpots) {
+        markers.add(Marker(
+            point: LatLng(mapSpot.lat, mapSpot.long),
+            /*builder: (ctx) => GestureDetector(
+                        onTap: () {
+                            /*ScaffoldMessenger.of(ctx).showSnackBar(const SnackBar(
+                                content: Text('Tapped on blue FlutterLogo Marker'),
+                                )
+                            );*/
+                            print("Tapped on marker.");
+                        },
+                        child: Icon(Icons.location_on),
+
+                    )*/
+            builder: (ctx) => const Icon(Icons.location_on,color: Colors.black54)));
+      }
       markers.add(Marker(
           point: LatLng(widget._vm.shop!.mapSpot.lat, widget._vm.shop!.mapSpot.long),
           /*builder: (ctx) => GestureDetector(

@@ -6,6 +6,8 @@ import 'package:taesch/view/custom_widget/shops_tile.dart';
 import 'package:taesch/view/screen/shops_map_screen.dart';
 import 'package:taesch/view_model/screen/near_shops_screen_vm.dart';
 
+import '../../model/widget_key.dart';
+
 
 /// shows the shops which are near to the own location
 class NearShopsScreen extends StatefulWidget {
@@ -59,6 +61,7 @@ class _NearShopsScreenState extends State<NearShopsScreen> {
               ),
             ),
             TextButton(
+              key: Key(WidgetKey.searchButtonKey.text),
               style: ButtonStyle(
                   padding: MaterialStateProperty.all<EdgeInsets>(
                       const EdgeInsets.all(10)),

@@ -28,6 +28,45 @@ void main() async {
   final themeController = ThemeController(prefs);
 
   // ui
+  group("testing near shop page functionality", () {
+    testWidgets("testing with no input", (widgetTester) async {
+
+      await widgetTester.tap(find.byType(TextButton));
+      await widgetTester.pump();
+
+
+    });
+
+    
+  });
+
+  group("testing near shop page functionality", () {
+  testWidgets("testing near shop screen", (widgetTester) async {
+    await widgetTester.pumpWidget(const MaterialApp(
+      home: HomePage(),
+    ));
+
+    expect(find.byIcon(Icons.menu), findsOneWidget);
+    await widgetTester.tap(find.byIcon(Icons.menu));
+    await widgetTester.pump();
+    expect(find.text('Near Shops'), findsOneWidget);
+    await widgetTester.ensureVisible(find.text('Near Shops'));
+    await widgetTester.tap(find.text('Near Shops'));
+    await widgetTester.pumpAndSettle();
+
+    // find near shops by text
+    //tap
+    //pump
+    //expect(find.key(Search)
+    //tap search
+    //pump
+    //expect(listtiles)
+    //tap first list
+    //pump
+    //expect find by type icon marker
+
+  });
+  });
   group("testing login page functionality", () {
     testWidgets("testing with no input", (widgetTester) async {
       await widgetTester.pumpWidget(App(
@@ -384,6 +423,10 @@ void main() async {
     });
     // also attempt query
   });
+
+
+
+
 
   /* Integration Test - has plugin dependency
 

@@ -23,12 +23,18 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
+    //light
     var a = const Color(0xFF12263A);
     var b = const Color(0xFF06BCC1);
     var c = const Color(0xFFC5D8D1);
     var d = const Color(0xFFF4D1AE);
     var e = const Color(0xFFF4EDEA);
-    var f = const Color(0xFF000000);
+    // dark
+    var z = const Color(0xFF1A1423);
+    var y = const Color(0xFF372549);
+    var x = const Color(0xFF774C60);
+    var w = const Color(0xFFB75D69);
+    var v = const Color(0xFFEACDC2);
     return AnimatedBuilder(
       animation: widget._controller,
       builder: (context, _) => ThemeControllerProvider(
@@ -36,7 +42,55 @@ class _AppState extends State<App> {
         child: MaterialApp(
           title: widget._vm.appTitle,
           themeMode: _mode(),
-          darkTheme: ThemeData(),
+          darkTheme: ThemeData(
+            brightness: Brightness.light,
+            scaffoldBackgroundColor: y,
+            primaryColor: z,
+            textButtonTheme: TextButtonThemeData(
+              style: ButtonStyle(
+                backgroundColor: MaterialStatePropertyAll(w),
+              ),
+            ),
+            floatingActionButtonTheme: FloatingActionButtonThemeData(
+              backgroundColor: w,
+              foregroundColor: z,
+            ),
+            textTheme: TextTheme(
+              displayMedium: TextStyle(
+                color: a,
+              ),
+              headlineSmall: TextStyle(
+                color: a,
+              ),
+              titleLarge: TextStyle(
+                  color: e
+              ),
+              titleMedium: TextStyle(
+                color: a,
+              ),
+              titleSmall: TextStyle(
+                color: a,
+              ),
+              labelLarge: TextStyle(
+                color: a,
+              ),
+            ),
+            appBarTheme: AppBarTheme(
+              backgroundColor: a,
+              titleTextStyle: Theme.of(context).textTheme.titleLarge,
+            ),
+            drawerTheme: DrawerThemeData(
+              backgroundColor: e,
+            ),
+            cardColor: d,
+            iconTheme: IconThemeData(
+              color: a,
+            ),
+            dialogTheme: DialogTheme(
+              backgroundColor: e,
+              titleTextStyle: Theme.of(context).textTheme.headlineSmall,
+            ),
+          ),
           theme: ThemeData(
             brightness: Brightness.light,
             scaffoldBackgroundColor: e,

@@ -13,11 +13,6 @@ import 'package:taesch/model/log_message.dart';
 import 'package:taesch/model/map_spot.dart';
 
 
-// import 'package:taesch/utils/my_tools.dart';
-
-// import 'geolocation_tools.dart';
-// import 'querying_tools.dart';
-
 class APIQuerier {
   LoggerWrapper logger = LoggerWrapper();
   final Repository repository = Repository();
@@ -26,32 +21,23 @@ class APIQuerier {
 
   Future<void> makeHTTPRequest() async {
       try {
+
         // build http request and set timeout
         Response resp = await get(
             Uri.parse(_apiUrl + repository.queries.osmQueryBuilder()))
             .timeout(Duration(milliseconds: 1000*repository.queries.queryTimeoutSeconds));
-         //print("got response");
 
         if (resp.statusCode == 200) {
           // If the server did return a 200 OK response,
           // then parse the JSON.
           _jsonMapData = jsonDecode(utf8.decode(resp.body.codeUnits));
-          //print(_jsonMapData.toString());
-
-          /*try {
-          // List<MapSpot> spots = extractJSONData();
-          } catch (e) {
-          //print("Couldn't extract json data.");
-          }*/
-
-          //print("Done processing response.");
-
           //MyTools.spawnIsolate(GeolocationTools.getCurrentPosition);
+
           return;
+
         } else {
           // If the server did not return a 200 OK response,
           // then throw an exception.
-          // throw Exception('Error on sending http request.');
           logger.log(
               level: LogLevel.error,
               logMessage: LogMessage(
@@ -59,7 +45,6 @@ class APIQuerier {
           );
         }
       } on TimeoutException catch (e) {
-        //print("Timeout for http request.");
         logger.log(
             level: LogLevel.error,
             logMessage: LogMessage(
@@ -89,12 +74,13 @@ class APIQuerier {
         List<dynamic> elementContents =
             repository.tools.getElements(list: elementList);
 
-        // int clength = elementContents.length<15 ? elementContents.length : 15;
+        // alternative loop: "int clength = elementContents.length<15 ? elementContents.length : 15;"
+        // would cap number of elements to be displayed
         int clength = elementContents.length;
         for (int i = 0; i < clength; i++) {
+
           try {
             // jeden Eintrag auslesen - data[elements][3]
-            // List<dynamic> entryContents = MyTools.getElements(list: elementContents[i]);
             var entries = elementContents[i];
 
             // neues MapSpot-Objekt instanziieren - data[elements][3][name]
@@ -150,7 +136,7 @@ class APIQuerier {
               accessedValue = noValue;
               try {
                 accessedValue =
-                    tags[OverpassQueryIndexes.name.identifier]; //.toString()
+                    tags[OverpassQueryIndexes.name.identifier]; //.toString() not needed
                 name = accessedValue;
               } catch (e) {
                 try {
@@ -158,7 +144,6 @@ class APIQuerier {
                       cause:
                           "Accessing name index failed. Value: $accessedValue");
                 } on QueryException catch (f) {
-                  //f.cause; // <- needs to be logged
                   logger.log(
                       level: LogLevel.error,
                       logMessage: LogMessage(
@@ -171,7 +156,7 @@ class APIQuerier {
               accessedValue = noValue;
               try {
                 accessedValue =
-                    tags[OverpassQueryIndexes.street.identifier]; //.toString();
+                    tags[OverpassQueryIndexes.street.identifier]; //.toString(); not needed
                 street = accessedValue;
               } catch (e) {
                 try {
@@ -191,7 +176,7 @@ class APIQuerier {
               accessedValue = noValue;
               try {
                 accessedValue =
-                    tags[OverpassQueryIndexes.houseNumber.identifier]; //.toString
+                    tags[OverpassQueryIndexes.houseNumber.identifier]; //.toString not needed
                 number = accessedValue;
               } catch (e) {
                 try {
@@ -244,7 +229,7 @@ class APIQuerier {
               message: "The specified key does not exist:\n${e.toString()}")
       );
     }
-    //dataList.add();
+
     return spotList;
   }
 }

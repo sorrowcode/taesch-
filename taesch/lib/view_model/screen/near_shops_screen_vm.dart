@@ -18,9 +18,7 @@ class NearShopsScreenVM {
       repository.requestingQueryHTTP = true;
 
       while (extractedDataEmpty && count<repeatTimes) {
-        //print("request http");
         await _apiQuerier.makeHTTPRequest();
-        //print("await finished");
         var extractedData = _apiQuerier.extractJSONData();
 
         if(extractedData.isNotEmpty) {
@@ -30,8 +28,6 @@ class NearShopsScreenVM {
             shops.add(Shop(spot: spot));
           }
           repository.fillUpCache(shops);
-          //repository.fillUpShopCache(shops); todo: delete
-          //repository.fillUpMapSpotCache(extractedData);
           repository.lastWorkingPosition = repository.getUserPosition();
         }else{
           repository.setPosition(repository.lastWorkingPosition);

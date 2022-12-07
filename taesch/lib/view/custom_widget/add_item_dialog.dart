@@ -71,7 +71,7 @@ class _AddItemDialogState extends State<AddItemDialog> {
         ),
         actions: <Widget>[
           TextButton(
-              child: const Icon(Icons.check),
+              child: Icon(Icons.check, color: Theme.of(context).primaryColor,),
               onPressed: () {
                 logger.log(
                     level: LogLevel.info,
@@ -98,7 +98,7 @@ class _AddItemDialogState extends State<AddItemDialog> {
                 }
               }),
           TextButton(
-            child: const Icon(Icons.close),
+            child: Icon(Icons.close, color: Theme.of(context).primaryColor,),
             onPressed: () {
               logger.log(
                   level: LogLevel.debug,

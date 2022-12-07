@@ -43,7 +43,7 @@ class _AppState extends State<App> {
             primaryColor: a,
             textButtonTheme: TextButtonThemeData(
               style: ButtonStyle(
-                backgroundColor: MaterialStatePropertyAll(a),
+                backgroundColor: MaterialStatePropertyAll(d),
               ),
             ),
             floatingActionButtonTheme: FloatingActionButtonThemeData(
@@ -67,7 +67,7 @@ class _AppState extends State<App> {
                 color: a,
               ),
               labelLarge: TextStyle(
-                color: e,
+                color: a,
               ),
             ),
             appBarTheme: AppBarTheme(
@@ -76,6 +76,14 @@ class _AppState extends State<App> {
             ),
             drawerTheme: DrawerThemeData(
               backgroundColor: e,
+            ),
+            cardColor: d,
+            iconTheme: IconThemeData(
+              color: a,
+            ),
+            dialogTheme: DialogTheme(
+              backgroundColor: e,
+              titleTextStyle: Theme.of(context).textTheme.headlineSmall,
             ),
           ),
           home: const LoginPage(),

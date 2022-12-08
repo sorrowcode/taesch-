@@ -7,9 +7,11 @@ class TypeException extends IException {
 
   @override
   void logCause() {
-    logger.log(level: LogLevel.error, logMessage: LogMessage(
-      message: cause,
-      title: toString(),
-    ));
+    logger.log(
+        level: LogLevel.error,
+        logMessage: LogMessage(
+          message: cause,
+          title: toString(),
+        ));
   }
 }

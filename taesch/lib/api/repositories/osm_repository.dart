@@ -6,7 +6,7 @@ import 'package:taesch/model/repository_type.dart';
 class OSMRepository extends Repo {
   OSMRepository({required super.actions}) {
     type = RepositoryType.osm;
-    if (actions is !OSMActions) {
+    if (actions is! OSMActions) {
       throw TypeException(cause: "initialized to wrong type");
     }
   }

@@ -4,10 +4,9 @@ import 'package:taesch/model/repo.dart';
 import 'package:taesch/model/repository_type.dart';
 
 class FirebaseRepository extends Repo {
-
   FirebaseRepository({required super.actions}) {
     type = RepositoryType.firebase;
-    if (actions is !FirebaseActions) {
+    if (actions is! FirebaseActions) {
       throw TypeException(cause: "initialized to wrong type");
     }
   }

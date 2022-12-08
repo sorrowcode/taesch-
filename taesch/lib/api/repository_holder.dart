@@ -1,7 +1,7 @@
 import 'dart:collection';
 
-import 'package:taesch/api/repositories/sql_repository.dart';
 import 'package:taesch/api/implementation/sql_database.dart';
+import 'package:taesch/api/repositories/sql_repository.dart';
 import 'package:taesch/model/repo.dart';
 import 'package:taesch/model/repository_type.dart';
 
@@ -16,20 +16,22 @@ class RepositoryHolder {
 
   RepositoryHolder._internal() {
     for (RepositoryType type in RepositoryType.values) {
-      switch(type) {
+      switch (type) {
         case RepositoryType.sql:
           _repositories[type] = SQLRepository(actions: SQLDatabase());
           break;
         case RepositoryType.osm:
-          _repositories[type] = SQLRepository(actions: SQLDatabase()); //todo adjust
+          _repositories[type] =
+              SQLRepository(actions: SQLDatabase()); //todo adjust
           break;
         case RepositoryType.firebase:
-          _repositories[type] = SQLRepository(actions: SQLDatabase()); //todo adjust
+          _repositories[type] =
+              SQLRepository(actions: SQLDatabase()); //todo adjust
           break;
       }
     }
   }
-  
+
   Repo? getRepositoryByType(RepositoryType type) {
     return _repositories[type];
   }

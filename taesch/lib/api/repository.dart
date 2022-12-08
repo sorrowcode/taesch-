@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:taesch/api/implementation/sql_database.dart';
 import 'package:taesch/api/map_api_logic/geolocation_tools.dart';
 import 'package:taesch/api/map_api_logic/querying_tools.dart';
-import 'package:taesch/api/implementation/sql_database.dart';
 import 'package:taesch/model/shop.dart';
 import 'package:taesch/utils/my_tools.dart';
 

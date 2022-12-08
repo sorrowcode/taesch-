@@ -27,7 +27,8 @@ class _LoginPageState extends StartingPageState {
         logMessage: LogMessage(message: "entered login page"));
     return [
       Container(
-        margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height/30),
+        margin:
+            EdgeInsets.only(bottom: MediaQuery.of(context).size.height / 30),
         child: Text(
           (vm as LoginPageVM).title,
           style: Theme.of(context).textTheme.displayMedium,

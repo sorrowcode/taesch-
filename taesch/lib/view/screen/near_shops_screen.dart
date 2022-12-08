@@ -60,8 +60,8 @@ class _NearShopsScreenState extends State<NearShopsScreen> {
               style: ButtonStyle(
                   padding: MaterialStateProperty.all<EdgeInsets>(
                       const EdgeInsets.all(10)),
-                  backgroundColor:
-                      MaterialStateProperty.all(Theme.of(context).secondaryHeaderColor),
+                  backgroundColor: MaterialStateProperty.all(
+                      Theme.of(context).secondaryHeaderColor),
                   shape: MaterialStateProperty.all(RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),
                   ))),
@@ -73,7 +73,10 @@ class _NearShopsScreenState extends State<NearShopsScreen> {
                   widget._vm.loadShops();
                 });
               },
-              child: Text("Search", style: Theme.of(context).textTheme.titleSmall,),
+              child: Text(
+                "Search",
+                style: Theme.of(context).textTheme.titleSmall,
+              ),
             )
           ],
         ),

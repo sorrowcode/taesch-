@@ -37,7 +37,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ThemeController.of(context).darkTheme = value;
         });
       },
-      secondary: Icon(Icons.sunny, color: Theme.of(context).iconTheme.color,),
+      secondary: Icon(
+        Icons.sunny,
+        color: Theme.of(context).iconTheme.color,
+      ),
     );
   }
 }

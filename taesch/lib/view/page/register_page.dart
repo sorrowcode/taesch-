@@ -124,8 +124,10 @@ class _RegisterPageState extends StartingPageState {
                 logMessage: LogMessage(message: "invalid form"));
           }
         },
-        child: Text((vm as RegisterPageVM).submitButtonText,
-        style: Theme.of(context).textTheme.labelLarge,),
+        child: Text(
+          (vm as RegisterPageVM).submitButtonText,
+          style: Theme.of(context).textTheme.labelLarge,
+        ),
       ),
     ];
   }

@@ -40,7 +40,9 @@ class _HomePageState extends State<HomePage> {
           key: _scaffoldKey,
           appBar: AppBar(
             title: Text(
-                _vm.screenState.text,style: Theme.of(context).textTheme.titleLarge,),
+              _vm.screenState.text,
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
           ),
           body: screen,
           drawer: Drawer(
@@ -49,7 +51,8 @@ class _HomePageState extends State<HomePage> {
               children: _setupSideBarElements(),
             ),
           ),
-          floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerFloat,
           floatingActionButton: _vm.screenState == ScreenState.shoppingList
               ? FloatingActionButton(
                   child: const Icon(Icons.add),

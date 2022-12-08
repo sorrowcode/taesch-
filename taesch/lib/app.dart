@@ -25,7 +25,6 @@ class _AppState extends State<App> {
   Widget build(BuildContext context) {
     //light
     var a = const Color(0xFF12263A);
-    var b = const Color(0xFF06BCC1);
     var c = const Color(0xFFC5D8D1);
     var d = const Color(0xFFF4D1AE);
     var e = const Color(0xFFF4EDEA);
@@ -64,7 +63,7 @@ class _AppState extends State<App> {
                 color: v,
               ),
               titleLarge: TextStyle(
-                  color: e,
+                color: e,
               ),
               titleMedium: TextStyle(
                 color: v,
@@ -123,9 +122,7 @@ class _AppState extends State<App> {
               headlineSmall: TextStyle(
                 color: a,
               ),
-              titleLarge: TextStyle(
-                color: e
-              ),
+              titleLarge: TextStyle(color: e),
               titleMedium: TextStyle(
                 color: a,
               ),

@@ -8,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:taesch/api/repository.dart';
-import 'package:taesch/api/sql/sql_database.dart';
+import 'package:taesch/api/implementation/sql_database.dart';
 import 'package:taesch/app.dart';
 import 'package:taesch/logic/theme_controller.dart';
 import 'package:taesch/model/error_case.dart';

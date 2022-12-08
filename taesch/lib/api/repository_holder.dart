@@ -1,7 +1,7 @@
 import 'dart:collection';
 
 import 'package:taesch/api/repositories/sql_repository.dart';
-import 'package:taesch/api/sql/sql_database.dart';
+import 'package:taesch/api/implementation/sql_database.dart';
 import 'package:taesch/model/repo.dart';
 import 'package:taesch/model/repository_type.dart';
 

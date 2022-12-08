@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:taesch/api/definitions/sql_actions.dart';
-import 'package:taesch/api/dto/product_dto.dart';
+import 'package:taesch/api/actions/sql_actions.dart';
 import 'package:taesch/middleware/log/log_level.dart';
 import 'package:taesch/middleware/log/logger_wrapper.dart';
+import 'package:taesch/model/dto/product_dto.dart';
 import 'package:taesch/model/log_message.dart';
 import 'package:taesch/model/product.dart';
 import 'package:taesch/model/product_dto_map_data.dart';

@@ -1,3 +1,3 @@
 enum RepositoryType {
-  sql, queryAPI, firebase
+  sql, osm, firebase
 }

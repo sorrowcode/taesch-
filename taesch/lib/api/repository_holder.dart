@@ -20,7 +20,7 @@ class RepositoryHolder {
         case RepositoryType.sql:
           _repositories[type] = SQLRepository(actions: SQLDatabase());
           break;
-        case RepositoryType.queryAPI:
+        case RepositoryType.osm:
           _repositories[type] = SQLRepository(actions: SQLDatabase()); //todo adjust
           break;
         case RepositoryType.firebase:

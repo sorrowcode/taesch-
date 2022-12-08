@@ -1,4 +1,4 @@
-import 'package:taesch/model/actions.dart';
+import 'package:taesch/api/actions/actions.dart';
 import 'package:taesch/model/product.dart';
 
 abstract class SQLActions implements Actions {

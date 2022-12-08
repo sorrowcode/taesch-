@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:geolocator/geolocator.dart';
@@ -29,6 +28,7 @@ void main() async {
 
   // ui
   group("testing login page functionality", () {
+
     testWidgets("testing with no input", (widgetTester) async {
       await widgetTester.pumpWidget(App(
         controller: themeController,

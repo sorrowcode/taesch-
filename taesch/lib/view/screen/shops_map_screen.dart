@@ -8,6 +8,7 @@ import 'package:taesch/model/log_message.dart';
 import 'package:taesch/model/map_spot.dart';
 import 'package:taesch/model/shop.dart';
 import 'package:taesch/view_model/screen/shops_map_screen_vm.dart';
+import 'package:taesch/model/widget_key.dart';
 
 class ShopsMapScreen extends StatefulWidget {
   final _vm = ShopsMapScreenVM();
@@ -63,6 +64,7 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
             builder: (ctx) => const Icon(Icons.location_on,color: Colors.black54)));
       }
       markers.add(Marker(
+          key: Key(WidgetKey.redMarkerKey.text),
           point: LatLng(widget._vm.shop!.mapSpot.lat, widget._vm.shop!.mapSpot.long),
           /*builder: (ctx) => GestureDetector(
                         onTap: () {

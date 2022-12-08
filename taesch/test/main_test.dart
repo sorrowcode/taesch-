@@ -48,25 +48,19 @@ void main() async {
 
     expect(find.byIcon(Icons.menu), findsOneWidget);
     await widgetTester.tap(find.byIcon(Icons.menu));
-    await widgetTester.pump();
-    expect(find.text('Near Shops'), findsOneWidget);
-    await widgetTester.ensureVisible(find.text('Near Shops'));
-    await widgetTester.tap(find.text('Near Shops'));
     await widgetTester.pumpAndSettle();
-
-    // find near shops by text
-    //tap
-    //pump
-    //expect(find.key(Search)
-    //tap search
-    //pump
-    //expect(listtiles)
-    //tap first list
-    //pump
-    //expect find by type icon marker
+    expect(find.text('Near Shops'), findsOneWidget);
+    await widgetTester.tap(find.text("Near Shops"));
+    await widgetTester.pumpAndSettle();
+    expect(find.text('Search'), findsOneWidget);
+    expect(find.byType(ListTile), findsOneWidget);
+    await widgetTester.tap(find.byType(ListTile));
+    await widgetTester.pumpAndSettle();
+    expect(find.byKey(Key(WidgetKey.redMarkerKey.text)), findsOneWidget);
 
   });
   });
+
   group("testing login page functionality", () {
     testWidgets("testing with no input", (widgetTester) async {
       await widgetTester.pumpWidget(App(

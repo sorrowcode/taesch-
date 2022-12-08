@@ -1,3 +1,5 @@
+
+
 /// enumeration for tracking the screen
 enum ScreenState { shoppingList, nearShops, settings, shopsMap }
 
@@ -15,4 +17,5 @@ extension ScreenString on ScreenState {
         return "Map";
     }
   }
+
 }

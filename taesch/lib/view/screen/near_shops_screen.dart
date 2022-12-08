@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:taesch/middleware/log/log_level.dart';
 import 'package:taesch/middleware/log/logger_wrapper.dart';
 import 'package:taesch/model/log_message.dart';
+import 'package:taesch/model/widget_key.dart';
 import 'package:taesch/view/custom_widget/shops_tile.dart';
 import 'package:taesch/view/screen/shops_map_screen.dart';
 import 'package:taesch/view_model/screen/near_shops_screen_vm.dart';
 
-import '../../model/widget_key.dart';
 
 
 /// shows the shops which are near to the own location
@@ -23,7 +23,7 @@ class _NearShopsScreenState extends State<NearShopsScreen> {
   LoggerWrapper logger = LoggerWrapper();
 
   List<Widget> _getShopList() {
-    widget._vm.loadShops();
+    //widget._vm.loadShops();
     var shopsList = <Widget>[];
     shopsList.add(Center(
       child: SizedBox(

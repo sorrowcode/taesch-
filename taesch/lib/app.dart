@@ -43,9 +43,10 @@ class _AppState extends State<App> {
           title: widget._vm.appTitle,
           themeMode: _mode(),
           darkTheme: ThemeData(
-            brightness: Brightness.light,
+            brightness: Brightness.dark,
             scaffoldBackgroundColor: y,
-            primaryColor: z,
+            primaryColor: x,
+            secondaryHeaderColor: d,
             textButtonTheme: TextButtonThemeData(
               style: ButtonStyle(
                 backgroundColor: MaterialStatePropertyAll(w),
@@ -57,44 +58,55 @@ class _AppState extends State<App> {
             ),
             textTheme: TextTheme(
               displayMedium: TextStyle(
-                color: a,
+                color: v,
               ),
               headlineSmall: TextStyle(
-                color: a,
+                color: v,
               ),
               titleLarge: TextStyle(
-                  color: e
+                  color: e,
               ),
               titleMedium: TextStyle(
-                color: a,
+                color: v,
               ),
               titleSmall: TextStyle(
-                color: a,
+                color: v,
               ),
               labelLarge: TextStyle(
-                color: a,
+                color: v,
               ),
             ),
             appBarTheme: AppBarTheme(
-              backgroundColor: a,
+              backgroundColor: z,
               titleTextStyle: Theme.of(context).textTheme.titleLarge,
             ),
             drawerTheme: DrawerThemeData(
-              backgroundColor: e,
+              backgroundColor: z,
             ),
-            cardColor: d,
+            cardColor: x,
             iconTheme: IconThemeData(
-              color: a,
+              color: w,
             ),
             dialogTheme: DialogTheme(
               backgroundColor: e,
               titleTextStyle: Theme.of(context).textTheme.headlineSmall,
+            ),
+            listTileTheme: ListTileThemeData(
+              style: ListTileStyle.drawer,
+              textColor: v,
+              tileColor: y,
+            ),
+            dividerTheme: DividerThemeData(
+              color: x,
+              space: 10.0,
+              thickness: 3.0,
             ),
           ),
           theme: ThemeData(
             brightness: Brightness.light,
             scaffoldBackgroundColor: e,
             primaryColor: a,
+            secondaryHeaderColor: d,
             textButtonTheme: TextButtonThemeData(
               style: ButtonStyle(
                 backgroundColor: MaterialStatePropertyAll(d),
@@ -129,7 +141,7 @@ class _AppState extends State<App> {
               titleTextStyle: Theme.of(context).textTheme.titleLarge,
             ),
             drawerTheme: DrawerThemeData(
-              backgroundColor: e,
+              backgroundColor: d,
             ),
             cardColor: d,
             iconTheme: IconThemeData(
@@ -138,6 +150,16 @@ class _AppState extends State<App> {
             dialogTheme: DialogTheme(
               backgroundColor: e,
               titleTextStyle: Theme.of(context).textTheme.headlineSmall,
+            ),
+            listTileTheme: ListTileThemeData(
+              style: ListTileStyle.drawer,
+              textColor: a,
+              tileColor: d,
+            ),
+            dividerTheme: DividerThemeData(
+              color: a,
+              space: 10.0,
+              thickness: 3.0,
             ),
           ),
           home: const LoginPage(),

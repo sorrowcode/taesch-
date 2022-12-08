@@ -100,6 +100,7 @@ class _HomePageState extends State<HomePage> {
           _scaffoldKey.currentState!.closeDrawer();
         },
       ));
+      elements.add(const Divider());
     }
     return elements;
   }

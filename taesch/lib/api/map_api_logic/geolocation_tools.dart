@@ -29,7 +29,7 @@ class GeolocationTools {
           // print("Position: \nlat: "+position.latitude.toString()+"\nlong: "+position.longitude.toString()); // <- log
 
           // update position in Repository
-          repository.userPosition = position;
+          repository.setPosition(position);
         } on TimeoutException catch (e) {
           // print("Too long to get location."); // error message
           e.toString();

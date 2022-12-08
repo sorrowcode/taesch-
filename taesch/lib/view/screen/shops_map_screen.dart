@@ -169,7 +169,7 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
         logMessage: LogMessage(message: "entered shops map screen"));
 
     // create user position object
-    Position position = widget._vm.repository.userPosition;
+    Position position = widget._vm.repository.getUserPosition();
 
     // fetch MapSpots from each Shop
     List<MapSpot> mapSpots = [];

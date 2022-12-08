@@ -2,31 +2,37 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:path/path.dart';
-import 'package:taesch/api/storage.dart';
-// import 'package:taesch/api/map_api_logic/geolocation_tools.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'package:taesch/api/database/sql/sql_database.dart';
+import 'package:taesch/api/repository.dart';
 import 'package:taesch/app.dart';
+import 'package:taesch/logic/theme_controller.dart';
 import 'package:taesch/model/error_case.dart';
-import 'package:taesch/model/screen_state.dart';
-import 'package:taesch/model/shopping_list_item.dart';
+import 'package:taesch/model/product.dart';
+import 'package:taesch/model/query_location.dart';
 import 'package:taesch/model/widget_key.dart';
 import 'package:taesch/view/page/home_page.dart';
-import 'package:taesch/view/screen/near_shops_screen.dart';
-import 'package:taesch/view/screen/settings_screen.dart';
-import 'package:taesch/view/screen/shopping_list_screen.dart';
 import 'package:taesch/view_model/page/login_page_vm.dart';
 import 'package:taesch/view_model/page/register_page_vm.dart';
 import 'package:taesch/view_model/page/starting_page_vm.dart';
-import 'package:taesch/api/storage_shop_items.dart';
 
-import 'package:sqflite/sqflite.dart';
-import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+void main() async {
+  TestWidgetsFlutterBinding.ensureInitialized();
+  final prefs = await SharedPreferences.getInstance();
 
-void main() {
+  // create new theme controller, which will get the currently selected from shared preferences
+  final themeController = ThemeController(prefs);
+
   // ui
   group("testing login page functionality", () {
     testWidgets("testing with no input", (widgetTester) async {
-      await widgetTester.pumpWidget(App());
+      await widgetTester.pumpWidget(App(
+        controller: themeController,
+      ));
       expect(find.text("Login"), findsAtLeastNWidgets(2));
       await widgetTester.enterText(
           find.byKey(Key(WidgetKey.emailLoginKey.text)), "");
@@ -41,7 +47,9 @@ void main() {
     });
 
     testWidgets("testing with invalid input", (widgetTester) async {
-      await widgetTester.pumpWidget(App());
+      await widgetTester.pumpWidget(App(
+        controller: themeController,
+      ));
       await widgetTester.enterText(
           find.byKey(Key(WidgetKey.emailLoginKey.text)), "johndoe");
       await widgetTester.pump();
@@ -57,12 +65,12 @@ void main() {
 
   group("testing register page functionality", () {
     testWidgets("testing with no values", (widgetTester) async {
-      await widgetTester.pumpWidget(App());
+      await widgetTester.pumpWidget(App(
+        controller: themeController,
+      ));
       await widgetTester
           .tap(find.byKey(Key(WidgetKey.registrationButtonKey.text)));
       await widgetTester.pumpAndSettle();
-
-      //expect(find.byType(RegisterPage), findsOneWidget); <- tester
 
       await widgetTester.tap(find.byKey(Key(WidgetKey.submitButtonKey.text)));
       await widgetTester.pump();
@@ -73,7 +81,9 @@ void main() {
     });
 
     testWidgets("testing with invalid values", (widgetTester) async {
-      await widgetTester.pumpWidget(App());
+      await widgetTester.pumpWidget(App(
+        controller: themeController,
+      ));
       await widgetTester
           .tap(find.byKey(Key(WidgetKey.registrationButtonKey.text)));
       await widgetTester.pumpAndSettle();
@@ -100,73 +110,95 @@ void main() {
   });
 
   group("testing home page functionality", () {
-    testWidgets('testing navigation of the side bar', (widgetTester) async {
-      var key = GlobalKey<ScaffoldState>();
-      // building the root of the application
-      await widgetTester.pumpWidget(MaterialApp(
-        home: HomePage(
-          key: key,
-        ),
-      ));
-      // checking in which page we are
-      expect(find.byType(ShoppingListScreen), findsOneWidget);
-      expect(find.byType(NearShopsScreen), findsNothing);
-      // finding the button for the drawer
-
-      var findMenuButton = find.byIcon(Icons.menu);
-      expect(findMenuButton, findsOneWidget);
-
-      // tapping the button which should make the drawer visible
-      await widgetTester.ensureVisible(findMenuButton);
-      await widgetTester.tap(findMenuButton);
-      await widgetTester.pumpAndSettle();
-      // checking if drawer made list tiles visible
-      expect(find.byType(ListTile), findsAtLeastNWidgets(3));
-
-      var findNearShopsListTile = find.text(ScreenState.settings.text);
-      expect(findNearShopsListTile, findsAtLeastNWidgets(1));
-
-      // tapping on list tile to switch page
-      await widgetTester.tap(findNearShopsListTile);
-      await widgetTester.pumpAndSettle();
-      // checking if page was switched
-      expect(find.byType(SettingsScreen), findsOneWidget);
-    });
-  });
-
-  group("testing add shopping list item functionality", () {
-    testWidgets("testing open editing pop up", (widgetTester) async {
-      await widgetTester.pumpWidget(MaterialApp(
-        home: HomePage(),
-      ));
-      var floatingActionButton = find.byType(FloatingActionButton);
-      expect(floatingActionButton, findsOneWidget);
-      await widgetTester.tap(floatingActionButton);
-      await widgetTester.pumpAndSettle();
-      expect(find.byType(AlertDialog), findsOneWidget);
-    });
+    group("testing add shopping list item functionality", () {
+      testWidgets("testing open editing pop up", (widgetTester) async {
+        await widgetTester.pumpWidget(const MaterialApp(
+          home: HomePage(),
+        ));
+        var floatingActionButton = find.byType(FloatingActionButton);
+        expect(floatingActionButton, findsOneWidget);
+        await widgetTester.tap(floatingActionButton);
+        await widgetTester.pumpAndSettle();
+        expect(find.byType(AlertDialog), findsOneWidget);
+      });
 
     testWidgets("testing cancel", (widgetTester) async {
-      await widgetTester.pumpWidget(MaterialApp(
-        home: HomePage(),
-      ));
-      await widgetTester.tap(find.byType(FloatingActionButton));
-      await widgetTester.pumpAndSettle();
-      await widgetTester.enterText(find.byType(TextFormField), "Test");
-      await widgetTester.pump();
-      await widgetTester.tap(find.widgetWithIcon(TextButton, Icons.close));
-      await widgetTester.pumpAndSettle();
-      expect(find.byType(Card), findsNothing);
-      expect(find.text("Test"), findsNothing);
+      Repository().sqlDatabase.init().then((value) async {
+        await widgetTester.pumpWidget(const MaterialApp(
+          home: HomePage(),
+        ));
+        await widgetTester.tap(find.byType(FloatingActionButton));
+        await widgetTester.pumpAndSettle();
+        await widgetTester.enterText(find.byType(TextFormField).first, "Test");
+        await widgetTester.pump();
+        await widgetTester.tap(find.widgetWithIcon(TextButton, Icons.close));
+        await widgetTester.pumpAndSettle();
+        expect(find.byType(Card), findsNothing);
+        expect(find.text("Test"), findsNothing);
+      });
     });
 
+    testWidgets(("creating Tags"), (widgetTester) async{
+      await widgetTester.pumpWidget(const MaterialApp(
+        home: HomePage(),
+      ));
+      Repository().sqlDatabase.init().then((value) async{
+        await widgetTester.tap(find.byType(FloatingActionButton));
+        await widgetTester.pumpAndSettle();
+        await widgetTester.enterText(find.byType(TextFormField).first, "Apfel");
+        await widgetTester.pump();
+        await widgetTester.enterText(find.byType(TextFormField).last, "4,");
+        await widgetTester.pump();
+        await widgetTester.tap(find.widgetWithIcon(TextButton, Icons.check));
+        await widgetTester.pump();
+        expect(find.byType(Card), findsOneWidget);
+      });
+    });
+
+      testWidgets(("creating Tags and deleting Card"), (widgetTester) async{
+        await widgetTester.pumpWidget(const MaterialApp(
+          home: HomePage(),
+        ));
+        Repository().sqlDatabase.init().then((value) async{
+          await widgetTester.tap(find.byType(FloatingActionButton));
+          await widgetTester.pumpAndSettle();
+          await widgetTester.enterText(find.byType(TextFormField).first, "Apfel");
+          await widgetTester.pump();
+          await widgetTester.enterText(find.byType(TextFormField).last, "4,");
+          await widgetTester.pump();
+          await widgetTester.tap(find.widgetWithIcon(TextButton, Icons.close));
+          await widgetTester.pump();
+          await widgetTester.longPress(find.byType(Card));
+          expect(find.byType(Card), findsNothing);
+        });
+      });
+
+      testWidgets(("creating Tags and dismiss"), (widgetTester) async{
+        await widgetTester.pumpWidget(const MaterialApp(
+          home: HomePage(),
+        ));
+        Repository().sqlDatabase.init().then((value) async{
+          await widgetTester.tap(find.byType(FloatingActionButton));
+          await widgetTester.pumpAndSettle();
+          await widgetTester.enterText(find.byType(TextFormField).first, "Apfel");
+          await widgetTester.pump();
+          await widgetTester.enterText(find.byType(TextFormField).last, "4,");
+          await widgetTester.pump();
+          await widgetTester.tap(find.widgetWithIcon(TextButton, Icons.close));
+          await widgetTester.pump();
+          expect(find.byType(Card), findsNothing);
+        });
+      });
+
+
+
     testWidgets("testing no/invalid input", (widgetTester) async {
-      await widgetTester.pumpWidget(MaterialApp(
+      await widgetTester.pumpWidget(const MaterialApp(
         home: HomePage(),
       ));
       await widgetTester.tap(find.byType(FloatingActionButton));
       await widgetTester.pumpAndSettle();
-      await widgetTester.enterText(find.byType(TextFormField), "");
+      await widgetTester.enterText(find.byType(TextFormField).first, "");
       await widgetTester.pump();
       await widgetTester.tap(find.widgetWithIcon(TextButton, Icons.check));
       await widgetTester.pump();
@@ -174,17 +206,52 @@ void main() {
     });
 
     testWidgets("testing with valid input", (widgetTester) async {
-      await widgetTester.pumpWidget(MaterialApp(
+      await widgetTester.pumpWidget(const MaterialApp(
         home: HomePage(),
       ));
-      await widgetTester.tap(find.byType(FloatingActionButton));
-      await widgetTester.pumpAndSettle();
-      await widgetTester.enterText(find.byType(TextFormField), "Test");
-      await widgetTester.pump();
-      await widgetTester.tap(find.widgetWithIcon(TextButton, Icons.check));
-      await widgetTester.pumpAndSettle();
-      expect(find.byType(Card), findsOneWidget);
-      expect(find.text("Test"), findsOneWidget);
+      Repository().sqlDatabase.init().then((value) async {
+        await widgetTester.tap(find.byType(FloatingActionButton));
+        await widgetTester.pumpAndSettle();
+        await widgetTester.enterText(find.byType(TextFormField).first, "Test");
+        await widgetTester.pump();
+        await widgetTester.tap(find.widgetWithIcon(TextButton, Icons.check));
+        await widgetTester.pumpAndSettle();
+        expect(find.byType(Card), findsOneWidget);
+        expect(find.text("Test"), findsOneWidget);
+      });
+    });
+    testWidgets("testing with Tags", (widgetTester) async {
+      await widgetTester.pumpWidget(const MaterialApp(
+        home: HomePage(),
+      ));
+      Repository().sqlDatabase.init().then((value) async {
+        await widgetTester.tap(find.byType(FloatingActionButton));
+        await widgetTester.pumpAndSettle();
+        await widgetTester.enterText(find.byType(TextFormField).first, "Test");
+        await widgetTester.enterText(find.byType(TextFormField).last, "zB-Tag");
+        await widgetTester.pump();
+        await widgetTester.tap(find.widgetWithIcon(TextButton, Icons.check));
+        await widgetTester.pumpAndSettle();
+        expect(find.byType(Card), findsWidgets);
+        expect(find.text("zB-Tag"), findsOneWidget);
+      });
+    });
+  });
+
+    testWidgets("deleting Product", (widgetTester) async {
+      await widgetTester.pumpWidget(const MaterialApp(
+        home: HomePage(),
+      ));
+      Repository().sqlDatabase.init().then((value) async {
+        await widgetTester.tap(find.byType(FloatingActionButton));
+        await widgetTester.pumpAndSettle();
+        await widgetTester.enterText(find.byType(TextFormField), "Test");
+        await widgetTester.pump();
+        await widgetTester.tap(find.widgetWithIcon(TextButton, Icons.check));
+        await widgetTester.pumpAndSettle();
+        await widgetTester.longPress(find.byType(Card));
+        expect(find.byType(Card), findsNothing);
+      });
     });
   });
 
@@ -280,60 +347,98 @@ void main() {
     });
   });
 
-  group('ShoppingItemsDB', () {
-    late PersistStorage<ShoppingListItem> storeage;
-    setUpAll(() async {
-      // Initialize FFI
-      sqfliteFfiInit();
-      // Change the default factory for unit testing calls for SQFlite
-      databaseFactory = databaseFactoryFfi;
+  group("testing sqlite database", () {
+    test("testing inserting and getting list", () async {
+      sqfliteFfiInit(); // only for testing purposes
+      databaseFactory = databaseFactoryFfi; // only for testing purposes
+      databaseFactory
+          .deleteDatabase(join(await getDatabasesPath(), "taesch.db"));
+      var sqlDatabase = SQLDatabase();
+      await sqlDatabase.init();
+      Product testProduct = Product(name: "test product", imageUrl: "imageUrl");
+      await sqlDatabase.insertProduct(false, testProduct);
+      var products = await sqlDatabase.getProductList(false);
+      Product product = products[0];
+      expect(product.name, testProduct.name);
+    });
 
-      storeage = await StorageShopItems.create();
-    });
-    //setUp(() async {storeage = await StorageShopItems.create();});
-
-    /*test('autoReplace', () async {
-      Repository repo = Repository();
-      storeage = await StorageShopItems.create();
-      var testItem = ShoppingListItem(title: 'AutoReplaceTestItem', image: '');
-      repo.shoppingListItems.add(testItem);
-      var itemList = await storeage.read({});
-      expect(itemList, [testItem]);
-    });*/
-
-    var testItem = ShoppingListItem(title: 'TestItem', image: '');
-
-    test('Store ShoppingItem',() async {
-      storeage.insert(testItem);
-      expect((await storeage.read({})).toString(), [testItem].toString());
-    });
-    test('Update ShoppingItem',() async {
-      testItem = ShoppingListItem(title: 'TestItem', image: 'abcd');
-      storeage.update(testItem);
-      expect((await storeage.read({})).toString(), [testItem].toString());
-    });
-    test('Delete ShoppingItem',() async {
-      storeage.delete(testItem);
-      expect((await storeage.read({})).toString(), [].toString());
-    });
-    test('replace complete List', () async {
-      testItem = ShoppingListItem(title: 'TestItem', image: 'abef');
-      (storeage as StorageShopItems).replace([testItem]);
-      expect((await storeage.read({})).toString(), [testItem].toString());
-    });
-    tearDownAll(() async {
-      await databaseFactory.deleteDatabase(join(await getDatabasesPath(), 'shoppinglist_database.db'));
+    test("testing deletion", () async {
+      sqfliteFfiInit(); // only for testing purposes
+      databaseFactory = databaseFactoryFfi; // only for testing purposes
+      databaseFactory
+          .deleteDatabase(join(await getDatabasesPath(), "taesch.db"));
+      var sqlDatabase = SQLDatabase();
+      await sqlDatabase.init();
+      Product testProduct1 =
+          Product(name: "test product 1", imageUrl: "imageUrl");
+      Product testProduct2 =
+          Product(name: "test product 2", imageUrl: "imageUrl");
+      Product testProduct3 =
+          Product(name: "test product 3", imageUrl: "imageUrl");
+      await sqlDatabase.insertProduct(false, testProduct1);
+      await sqlDatabase.insertProduct(false, testProduct2);
+      await sqlDatabase.insertProduct(false, testProduct3);
+      var products = await sqlDatabase.getProductList(false);
+      expect(products.length, 3);
+      await sqlDatabase.deleteProduct(false, testProduct3.name);
+      products = await sqlDatabase.getProductList(false);
+      expect(products.length, 2);
+      await sqlDatabase.deleteProductList(false);
+      products = await sqlDatabase.getProductList(false);
+      expect(products.length, 0);
     });
   });
 
-  
   group('character conversion', () {
     test('character conversion', () {
-      var inputString = utf8.encode(jsonEncode({"test-text":"äöüß"}));
-      expect(jsonDecode(utf8.decode(inputString.toList())), {"test-text":"äöüß"});
+      var inputString = utf8.encode(jsonEncode({"test-text": "äöüß"}));
+      expect(
+          jsonDecode(utf8.decode(inputString.toList())), {"test-text": "äöüß"});
     });
   });
-  
+
+  group("set dynamic query parameters", () {
+    Repository repository = Repository();
+    test('set search radius', () {
+      int searchRadius = 4438;
+      repository.queries.setSearchRadiusMeters(searchRadius);
+      int radiusSetting = repository.queries.getSearchRadiusMeters();
+      expect(radiusSetting, searchRadius);
+    });
+    test('set too high search radius', () {
+      int searchRadius = 10000000; // too big
+      repository.queries.setSearchRadiusMeters(searchRadius);
+      int radiusSetting = repository.queries.getSearchRadiusMeters();
+      expect(radiusSetting, repository.queries.maxSearchRadius);
+    });
+    test('set too low search radius', () {
+      int searchRadius = -6; // too low
+      repository.queries.setSearchRadiusMeters(searchRadius);
+      int radiusSetting = repository.queries.getSearchRadiusMeters();
+      expect(radiusSetting, repository.queries.minSearchRadius);
+    });
+    test('set position', () {
+      double myLat = 49.1427;
+      Position samplePosition = Position(
+          latitude: myLat,
+          longitude: 0.0,
+          timestamp: null,
+          accuracy: 0.0,
+          altitude: 0.0,
+          heading: 0.0,
+          speed: 0.0,
+          speedAccuracy: 0.0);
+      repository.setPosition(samplePosition);
+      expect(repository.queries.getCustomLocation().latitude, myLat);
+    });
+    test('set search area', () {
+      QueryLocation myLocation = QueryLocation.neckarsulm;
+      repository.queries.setQueryLocation(myLocation);
+      expect(repository.queries.getQueryLocation(), myLocation);
+    });
+    // also attempt query
+  });
+
   /* Integration Test - has plugin dependency
 
   group("testing geo-location fetch", () {

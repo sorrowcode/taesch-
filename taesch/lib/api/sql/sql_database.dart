@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:taesch/api/database/action_interfaces/i_product_action.dart';
-import 'package:taesch/api/database/sql/dto/product_dto.dart';
+import 'package:taesch/api/definitions/sql_actions.dart';
+import 'package:taesch/api/dto/product_dto.dart';
 import 'package:taesch/middleware/log/log_level.dart';
 import 'package:taesch/middleware/log/logger_wrapper.dart';
 import 'package:taesch/model/log_message.dart';
 import 'package:taesch/model/product.dart';
 import 'package:taesch/model/product_dto_map_data.dart';
 
-class SQLDatabase implements IProductAction {
+class SQLDatabase implements SQLActions {
   late final Database _database;
   bool initialized = false;
   final String _generatedTable = "shopping_list_generated";
   final String _effectiveTable = "shopping_list_effective";
   LoggerWrapper logger = LoggerWrapper();
 
+  @override
   Future<void> init() async {
     logger.log(
         level: LogLevel.info,

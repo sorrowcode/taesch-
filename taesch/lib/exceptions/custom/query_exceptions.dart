@@ -6,9 +6,9 @@ class QueryException extends IException {
   QueryException({required super.cause});
 
   @override
-  void logCause(LogLevel level) {
+  void logCause() {
     logger.log(
-        level: level,
+        level: LogLevel.error,
         logMessage: LogMessage(
           message: cause,
           title: toString(),

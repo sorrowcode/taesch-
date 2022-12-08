@@ -7,7 +7,7 @@ import 'package:taesch/middleware/log/logger_wrapper.dart';
 import 'package:taesch/model/dto/product_dto.dart';
 import 'package:taesch/model/log_message.dart';
 import 'package:taesch/model/product.dart';
-import 'package:taesch/model/product_dto_map_data.dart';
+import 'package:taesch/api/mapper/product_dto_map_data.dart';
 
 class SQLDatabase implements SQLActions {
   late final Database _database;

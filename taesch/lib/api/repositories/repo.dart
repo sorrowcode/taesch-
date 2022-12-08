@@ -1,5 +1,6 @@
 import 'package:taesch/api/actions/actions.dart';
-import 'package:taesch/model/repository_type.dart';
+import 'package:taesch/api/repositories/repository_type.dart';
+
 
 abstract class Repo {
   final Actions actions;

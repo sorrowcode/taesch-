@@ -2,8 +2,9 @@ import 'dart:collection';
 
 import 'package:taesch/api/implementation/sql_database.dart';
 import 'package:taesch/api/repositories/sql_repository.dart';
-import 'package:taesch/model/repo.dart';
-import 'package:taesch/model/repository_type.dart';
+import 'package:taesch/api/repositories/repo.dart';
+
+import 'repositories/repository_type.dart';
 
 class RepositoryHolder {
   late final HashMap<RepositoryType, Repo> _repositories;

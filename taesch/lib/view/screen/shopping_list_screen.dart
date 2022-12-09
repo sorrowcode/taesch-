@@ -35,7 +35,6 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
       itemBuilder: (BuildContext context, int index) {
         return Card(
           child: InkWell(
-              //splashColor: Colors.blue.withAlpha(30),
               onLongPress: () {
                 logger.log(
                     level: LogLevel.info,

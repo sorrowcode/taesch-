@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:taesch/middleware/log/log_level.dart';
 import 'package:taesch/middleware/log/logger_wrapper.dart';
 import 'package:taesch/model/log_message.dart';
+import 'package:taesch/model/widget_key.dart';
 import 'package:taesch/view/custom_widget/shops_tile.dart';
+import 'package:taesch/view/screen/shops_map_screen.dart';
 import 'package:taesch/view_model/screen/near_shops_screen_vm.dart';
 
 /// shows the shops which are near to the own location
@@ -19,7 +21,7 @@ class _NearShopsScreenState extends State<NearShopsScreen> {
   LoggerWrapper logger = LoggerWrapper();
 
   List<Widget> _getShopList() {
-    widget._vm.loadShops();
+    //widget._vm.loadShops();
     var shopsList = <Widget>[];
     shopsList.add(Center(
       child: SizedBox(
@@ -57,6 +59,7 @@ class _NearShopsScreenState extends State<NearShopsScreen> {
               ),
             ),
             TextButton(
+              key: Key(WidgetKey.searchButtonKey.text),
               style: ButtonStyle(
                   padding: MaterialStateProperty.all<EdgeInsets>(
                       const EdgeInsets.all(10)),
@@ -84,8 +87,20 @@ class _NearShopsScreenState extends State<NearShopsScreen> {
     ));
     for (int i = 0; i < widget._vm.repository.shopsCache.length; i++) {
       shopsList.add(ShopsTile(
-          title: widget._vm.repository.shopsCache[i].name,
-          address: widget._vm.repository.shopsCache[i].address));
+        title: widget._vm.repository.shopsCache[i].name,
+        address: widget._vm.repository.shopsCache[i].address,
+        callBack: () {
+          logger.log(
+              level: LogLevel.info,
+              logMessage: LogMessage(
+                  message:
+                      "Taped On: ${widget._vm.repository.shopsCache[i].name}"));
+          setState(() {
+            widget._vm.selectedShop = widget._vm.repository.shopsCache[i];
+            widget._vm.isMap = true;
+          });
+        },
+      ));
     }
     return shopsList;
   }
@@ -96,21 +111,23 @@ class _NearShopsScreenState extends State<NearShopsScreen> {
     logger.log(
         level: LogLevel.info,
         logMessage: LogMessage(message: "entered near shops screen"));
-    return Scaffold(
-        body: Column(
-      children: [
-        Expanded(
-            child: SingleChildScrollView(
-          child: ValueListenableBuilder<int>(
-              valueListenable: widget._vm.repository.shopsCacheSize,
-              child: Column(children: _getShopList()),
-              builder: (context, value, child) {
-                return Column(
-                  children: _getShopList(),
-                );
-              }),
-        ))
-      ],
-    ));
+    return widget._vm.isMap
+        ? ShopsMapScreen.fromNearScreen(widget._vm.selectedShop)
+        : Scaffold(
+            body: Column(
+            children: [
+              Expanded(
+                  child: SingleChildScrollView(
+                child: ValueListenableBuilder<int>(
+                    valueListenable: widget._vm.repository.shopsCacheSize,
+                    child: Column(children: _getShopList()),
+                    builder: (context, value, child) {
+                      return Column(
+                        children: _getShopList(),
+                      );
+                    }),
+              ))
+            ],
+          ));
   }
 }

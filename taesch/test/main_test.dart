@@ -21,6 +21,7 @@ import 'package:taesch/view_model/page/register_page_vm.dart';
 import 'package:taesch/view_model/page/starting_page_vm.dart';
 
 void main() async {
+
   TestWidgetsFlutterBinding.ensureInitialized();
   final prefs = await SharedPreferences.getInstance();
 
@@ -28,6 +29,33 @@ void main() async {
   final themeController = ThemeController(prefs);
 
   // ui
+
+  group("testing near shop page functionality", () {
+    /*
+    setUp(() {
+      HttpOverrides.global = null;
+    });
+    */
+
+    testWidgets("testing near shop screen", (widgetTester) async {
+      await widgetTester.pumpWidget(const MaterialApp(
+        home: HomePage(),
+      ));
+
+      expect(find.byIcon(Icons.menu), findsOneWidget);
+      await widgetTester.tap(find.byIcon(Icons.menu));
+      await widgetTester.pumpAndSettle();
+      expect(find.text('Near Shops'), findsOneWidget);
+      await widgetTester.tap(find.text("Near Shops"));
+      await widgetTester.pumpAndSettle();
+      expect(find.text('Search'), findsOneWidget);
+      expect(find.byType(ListTile), findsOneWidget);
+      await widgetTester.tap(find.byType(ListTile));
+      await widgetTester.pumpAndSettle();
+      expect(find.byKey(Key(WidgetKey.redMarkerKey.text)), findsOneWidget);
+    });
+  });
+
   group("testing login page functionality", () {
     testWidgets("testing with no input", (widgetTester) async {
       await widgetTester.pumpWidget(App(
@@ -127,6 +155,40 @@ void main() async {
           await widgetTester.pumpWidget(const MaterialApp(
             home: HomePage(),
           ));
+          await widgetTester.tap(find.byType(FloatingActionButton));
+          await widgetTester.pumpAndSettle();
+          await widgetTester.enterText(
+              find.byType(TextFormField).first, "Test");
+          await widgetTester.pump();
+          await widgetTester.tap(find.widgetWithIcon(TextButton, Icons.close));
+          await widgetTester.pumpAndSettle();
+          expect(find.byType(Card), findsNothing);
+          expect(find.text("Test"), findsNothing);
+        });
+      });
+
+    testWidgets(("creating Tags"), (widgetTester) async{
+      await widgetTester.pumpWidget(const MaterialApp(
+        home: HomePage(),
+      ));
+      Repository().sqlDatabase.init().then((value) async{
+        await widgetTester.tap(find.byType(FloatingActionButton));
+        await widgetTester.pumpAndSettle();
+        await widgetTester.enterText(find.byType(TextFormField).first, "Apfel");
+        await widgetTester.pump();
+        await widgetTester.enterText(find.byType(TextFormField).last, "4,");
+        await widgetTester.pump();
+        await widgetTester.tap(find.widgetWithIcon(TextButton, Icons.check));
+        await widgetTester.pump();
+        expect(find.byType(Card), findsOneWidget);
+      });
+    });
+
+      testWidgets(("creating Tags and deleting Card"), (widgetTester) async{
+        await widgetTester.pumpWidget(const MaterialApp(
+          home: HomePage(),
+        ));
+        Repository().sqlDatabase.init().then((value) async{
           await widgetTester.tap(find.byType(FloatingActionButton));
           await widgetTester.pumpAndSettle();
           await widgetTester.enterText(

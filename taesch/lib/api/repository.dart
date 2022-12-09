@@ -8,9 +8,14 @@ import 'package:taesch/api/map_api_logic/querying_tools.dart';
 import 'package:taesch/model/shop.dart';
 import 'package:taesch/utils/my_tools.dart';
 
+import '../model/map_spot.dart';
+
 class Repository {
+  String nearShopsScreenTitle = "Near Shops";
   bool _isDarkModeEnabled = false;
-  List<Shop> shopsCache = [];
+  List<Shop> shopsCache = [
+    Shop(spot: MapSpot("test", 49.0, 9.2, "Teststraße 1"))
+  ];
   ValueNotifier<int> shopsCacheSize = ValueNotifier(0);
   SQLDatabase sqlDatabase = SQLDatabase();
 

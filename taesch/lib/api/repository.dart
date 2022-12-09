@@ -13,7 +13,7 @@ class Repository {
   String nearShopsScreenTitle = "Near Shops";
   bool _isDarkModeEnabled = false;
   List<Shop> shopsCache = [
-    Shop(spot: MapSpot("test", 49.0, 9.2, "Teststraße 1"))
+    //Shop(spot: MapSpot("test", 49.0, 9.2, "Teststraße 1"))
   ];
   ValueNotifier<int> shopsCacheSize = ValueNotifier(0);
   SQLDatabase sqlDatabase = SQLDatabase();

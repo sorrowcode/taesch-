@@ -1,6 +1,8 @@
 import 'dart:collection';
 
 import 'package:taesch/api/implementation/sql_database.dart';
+import 'package:taesch/api/repositories/firebase_repository.dart';
+import 'package:taesch/api/repositories/osm_repository.dart';
 import 'package:taesch/api/repositories/sql_repository.dart';
 import 'package:taesch/api/repositories/repo.dart';
 
@@ -26,11 +28,11 @@ class RepositoryHolder {
           break;
         case RepositoryType.osm:
           _repositories[type] =
-              SQLRepository(actions: OSM());
+              OSMRepository(actions: OSM());
           break;
         case RepositoryType.firebase:
           _repositories[type] =
-              SQLRepository(actions: FirebaseWrapper());
+              FirebaseRepository(actions: FirebaseWrapper());
           break;
       }
     }

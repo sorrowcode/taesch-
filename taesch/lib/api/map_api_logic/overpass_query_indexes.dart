@@ -4,6 +4,7 @@ enum OverpassQueryIndexes {
   longitude,
   street,
   houseNumber,
+  postcode,
 }
 
 extension OverpassQueryJSONIndexesValues on OverpassQueryIndexes {
@@ -19,6 +20,8 @@ extension OverpassQueryJSONIndexesValues on OverpassQueryIndexes {
         return "addr:street";
       case OverpassQueryIndexes.houseNumber:
         return "addr:housenumber";
+      case OverpassQueryIndexes.postcode:
+        return "addr:postcode";
     }
   }
 }

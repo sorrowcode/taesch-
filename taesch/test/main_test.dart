@@ -28,17 +28,6 @@ void main() async {
   final themeController = ThemeController(prefs);
 
   // ui
-  group("testing near shop page functionality", () {
-    testWidgets("testing with no input", (widgetTester) async {
-
-      await widgetTester.tap(find.byType(TextButton));
-      await widgetTester.pump();
-
-
-    });
-
-    
-  });
 
   group("testing near shop page functionality", () {
   testWidgets("testing near shop screen", (widgetTester) async {

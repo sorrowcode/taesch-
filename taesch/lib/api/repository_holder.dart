@@ -18,6 +18,7 @@ class RepositoryHolder {
   }
 
   RepositoryHolder._internal() {
+    _repositories = HashMap();
     for (RepositoryType type in RepositoryType.values) {
       switch (type) {
         case RepositoryType.sql:
@@ -29,7 +30,7 @@ class RepositoryHolder {
           break;
         case RepositoryType.firebase:
           _repositories[type] =
-              SQLRepository(actions: FirebaseWrapper()); //todo adjust
+              SQLRepository(actions: FirebaseWrapper());
           break;
       }
     }

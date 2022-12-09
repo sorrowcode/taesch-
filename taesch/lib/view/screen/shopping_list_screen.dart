@@ -35,35 +35,35 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
       itemBuilder: (BuildContext context, int index) {
         return Card(
           child: InkWell(
-            splashColor: Colors.blue.withAlpha(30),
-            onLongPress: () {
-              logger.log(
-                  level: LogLevel.info,
-                  logMessage: LogMessage(
-                      message:
-                          "tapped on ${widget._vm.products[index].name} item"));
-              widget._vm.repository.sqlDatabase
-                  .deleteProduct(true, widget._vm.products[index].name)
-                  .then((value) {
-                setState(() {
-                  widget._vm.products.remove(widget._vm.products[index]);
+              splashColor: Colors.blue.withAlpha(30),
+              onLongPress: () {
+                logger.log(
+                    level: LogLevel.info,
+                    logMessage: LogMessage(
+                        message:
+                            "tapped on ${widget._vm.products[index].name} item"));
+                widget._vm.repository.sqlDatabase
+                    .deleteProduct(true, widget._vm.products[index].name)
+                    .then((value) {
+                  setState(() {
+                    widget._vm.products.remove(widget._vm.products[index]);
+                  });
                 });
-              });
               },
-            child: Column(children: [
-              SizedBox(
-                width: 100,
-                height: 150,
-                child: Center(child: Text(widget._vm.products[index].name)),
-              ),
-              SizedBox(
-                width: 100,
-                height: 20,
-                child: Text(widget._vm.products[index]
-                    .tags.map((e) => e.name).toString()),
-              ),
-            ])
-          ),
+              child: Column(children: [
+                SizedBox(
+                  width: 100,
+                  height: 150,
+                  child: Center(child: Text(widget._vm.products[index].name)),
+                ),
+                SizedBox(
+                  width: 100,
+                  height: 20,
+                  child: Text(widget._vm.products[index].tags
+                      .map((e) => e.name)
+                      .toString()),
+                ),
+              ])),
         );
       },
     );

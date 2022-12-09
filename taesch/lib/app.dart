@@ -58,33 +58,32 @@ class _AppState extends State<App> {
                 backgroundColor: Color(0xFF2c3d55),
               )),
           theme: ThemeData(
-              brightness: Brightness.light,
-              scaffoldBackgroundColor: const Color(0xFFf5efff),
+            brightness: Brightness.light,
+            scaffoldBackgroundColor: const Color(0xFFf5efff),
+            colorScheme: ColorScheme.fromSwatch().copyWith(
+              primary: const Color(0xFF7371FC),
+              secondary: const Color(0xFFf5efff),
+            ),
+            buttonTheme: ButtonThemeData(
               colorScheme: ColorScheme.fromSwatch().copyWith(
                 primary: const Color(0xFF7371FC),
-                secondary: const Color(0xFFf5efff),
+                secondary: const Color(0xFFa594f9),
               ),
-              buttonTheme: ButtonThemeData(
-                colorScheme: ColorScheme.fromSwatch().copyWith(
-                  primary: const Color(0xFF7371FC),
-                  secondary: const Color(0xFFa594f9),
-                ),
-              ),
-              floatingActionButtonTheme: const FloatingActionButtonThemeData(
-                backgroundColor: Color(0xFF7371FC),
-              ),
-              textTheme: const TextTheme(
-                  button: TextStyle(
-                color: Colors.white,
-                fontSize: 20,
-              )),
-              drawerTheme: const DrawerThemeData(
-                backgroundColor: Color(0xFFf5efff),
-              ),
-              appBarTheme: const AppBarTheme(
-                backgroundColor: Color(0xFF7371FC),
-              ),
-
+            ),
+            floatingActionButtonTheme: const FloatingActionButtonThemeData(
+              backgroundColor: Color(0xFF7371FC),
+            ),
+            textTheme: const TextTheme(
+                button: TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+            )),
+            drawerTheme: const DrawerThemeData(
+              backgroundColor: Color(0xFFf5efff),
+            ),
+            appBarTheme: const AppBarTheme(
+              backgroundColor: Color(0xFF7371FC),
+            ),
           ),
           home: const LoginPage(),
         ),

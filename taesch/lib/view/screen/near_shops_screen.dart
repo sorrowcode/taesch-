@@ -7,8 +7,6 @@ import 'package:taesch/view/custom_widget/shops_tile.dart';
 import 'package:taesch/view/screen/shops_map_screen.dart';
 import 'package:taesch/view_model/screen/near_shops_screen_vm.dart';
 
-
-
 /// shows the shops which are near to the own location
 class NearShopsScreen extends StatefulWidget {
   final _vm = NearShopsScreenVM();
@@ -86,17 +84,19 @@ class _NearShopsScreenState extends State<NearShopsScreen> {
     ));
     for (int i = 0; i < widget._vm.repository.shopsCache.length; i++) {
       shopsList.add(ShopsTile(
-          title: widget._vm.repository.shopsCache[i].name,
-          address: widget._vm.repository.shopsCache[i].address,
-          callBack: () {
-            logger.log(
-                level: LogLevel.info,
-                logMessage: LogMessage(message: "Taped On: ${widget._vm.repository.shopsCache[i].name}"));
-            setState(() {
-              widget._vm.selectedShop = widget._vm.repository.shopsCache[i];
-              widget._vm.isMap = true;
-            });
-          },
+        title: widget._vm.repository.shopsCache[i].name,
+        address: widget._vm.repository.shopsCache[i].address,
+        callBack: () {
+          logger.log(
+              level: LogLevel.info,
+              logMessage: LogMessage(
+                  message:
+                      "Taped On: ${widget._vm.repository.shopsCache[i].name}"));
+          setState(() {
+            widget._vm.selectedShop = widget._vm.repository.shopsCache[i];
+            widget._vm.isMap = true;
+          });
+        },
       ));
     }
     return shopsList;
@@ -104,26 +104,27 @@ class _NearShopsScreenState extends State<NearShopsScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     //widget._vm.getShops();
     logger.log(
         level: LogLevel.info,
         logMessage: LogMessage(message: "entered near shops screen"));
-    return widget._vm.isMap ? ShopsMapScreen.fromNearScreen(widget._vm.selectedShop) : Scaffold(
-        body: Column(
-      children: [
-        Expanded(
-            child: SingleChildScrollView(
-          child: ValueListenableBuilder<int>(
-              valueListenable: widget._vm.repository.shopsCacheSize,
-              child: Column(children: _getShopList()),
-              builder: (context, value, child) {
-                return Column(
-                  children: _getShopList(),
-                );
-              }),
-        ))
-      ],
-    ));
+    return widget._vm.isMap
+        ? ShopsMapScreen.fromNearScreen(widget._vm.selectedShop)
+        : Scaffold(
+            body: Column(
+            children: [
+              Expanded(
+                  child: SingleChildScrollView(
+                child: ValueListenableBuilder<int>(
+                    valueListenable: widget._vm.repository.shopsCacheSize,
+                    child: Column(children: _getShopList()),
+                    builder: (context, value, child) {
+                      return Column(
+                        children: _getShopList(),
+                      );
+                    }),
+              ))
+            ],
+          ));
   }
 }

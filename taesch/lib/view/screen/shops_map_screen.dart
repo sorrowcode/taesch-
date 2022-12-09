@@ -7,15 +7,15 @@ import 'package:taesch/middleware/log/logger_wrapper.dart';
 import 'package:taesch/model/log_message.dart';
 import 'package:taesch/model/map_spot.dart';
 import 'package:taesch/model/shop.dart';
-import 'package:taesch/view_model/screen/shops_map_screen_vm.dart';
 import 'package:taesch/model/widget_key.dart';
+import 'package:taesch/view_model/screen/shops_map_screen_vm.dart';
 
 class ShopsMapScreen extends StatefulWidget {
   final _vm = ShopsMapScreenVM();
 
   ShopsMapScreen({super.key});
 
-  ShopsMapScreen.fromNearScreen(Shop selectedShop, {super.key}){
+  ShopsMapScreen.fromNearScreen(Shop selectedShop, {super.key}) {
     _vm.shop = selectedShop;
   }
 
@@ -28,7 +28,7 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
 
   List<Marker> _getMarkersFromSpot(List<MapSpot> mapSpots) {
     List<Marker> markers = [];
-    if(widget._vm.shop == null){
+    if (widget._vm.shop == null) {
       for (MapSpot mapSpot in mapSpots) {
         markers.add(Marker(
             point: LatLng(mapSpot.lat, mapSpot.long),
@@ -43,10 +43,10 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
                         child: Icon(Icons.location_on),
 
                     )*/
-            builder: (ctx) => const Icon(Icons.location_on,color: Colors.black54)));
+            builder: (ctx) =>
+                const Icon(Icons.location_on, color: Colors.black54)));
       }
-    }
-    else{
+    } else {
       for (MapSpot mapSpot in mapSpots) {
         markers.add(Marker(
             point: LatLng(mapSpot.lat, mapSpot.long),
@@ -61,11 +61,13 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
                         child: Icon(Icons.location_on),
 
                     )*/
-            builder: (ctx) => const Icon(Icons.location_on,color: Colors.black54)));
+            builder: (ctx) =>
+                const Icon(Icons.location_on, color: Colors.black54)));
       }
       markers.add(Marker(
           key: Key(WidgetKey.redMarkerKey.text),
-          point: LatLng(widget._vm.shop!.mapSpot.lat, widget._vm.shop!.mapSpot.long),
+          point: LatLng(
+              widget._vm.shop!.mapSpot.lat, widget._vm.shop!.mapSpot.long),
           /*builder: (ctx) => GestureDetector(
                         onTap: () {
                             /*ScaffoldMessenger.of(ctx).showSnackBar(const SnackBar(
@@ -77,7 +79,7 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
                         child: Icon(Icons.location_on),
 
                     )*/
-          builder: (ctx) => const Icon(Icons.location_on,color: Colors.red)));
+          builder: (ctx) => const Icon(Icons.location_on, color: Colors.red)));
     }
 
     return markers;
@@ -88,7 +90,7 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
     logger.log(
         level: LogLevel.info,
         logMessage: LogMessage(message: "entered shops map screen"));
-    if(widget._vm.shop == null){
+    if (widget._vm.shop == null) {
       // create user position object
       Position position = widget._vm.repository.getUserPosition();
 
@@ -114,21 +116,22 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
                 ),
                 MarkerLayer(
                   markers: [
-                    Marker(
-                        point: LatLng(position.latitude, position.longitude),
-                        builder: (ctx) => GestureDetector(
-                            onTap: () {
-                            },
-                            child: const Icon(
-                                Icons.my_location_outlined,
-                                shadows: [BoxShadow(
-                                  blurRadius: 20.0,
-                                  color: Colors.blue,
-                                ),],
-                                size: 30,
-                                color: Colors.blue) //const FlutterLogo(),
-                        ))
-                  ] +
+                        Marker(
+                            point:
+                                LatLng(position.latitude, position.longitude),
+                            builder: (ctx) => GestureDetector(
+                                onTap: () {},
+                                child: const Icon(Icons.my_location_outlined,
+                                    shadows: [
+                                      BoxShadow(
+                                        blurRadius: 20.0,
+                                        color: Colors.blue,
+                                      ),
+                                    ],
+                                    size: 30,
+                                    color: Colors.blue) //const FlutterLogo(),
+                                ))
+                      ] +
                       _getMarkersFromSpot(mapSpots),
                 )
               ],
@@ -136,8 +139,7 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
           ),
         ),
       );
-    }
-    else{
+    } else {
       // create user position object
       Position position = widget._vm.repository.getUserPosition();
 
@@ -153,7 +155,8 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
           child: SizedBox(
             child: FlutterMap(
               options: MapOptions(
-                center: LatLng(widget._vm.shop!.mapSpot.lat, widget._vm.shop!.mapSpot.long),
+                center: LatLng(widget._vm.shop!.mapSpot.lat,
+                    widget._vm.shop!.mapSpot.long),
                 zoom: 13,
               ),
               children: [
@@ -163,21 +166,22 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
                 ),
                 MarkerLayer(
                   markers: [
-                    Marker(
-                        point: LatLng(position.latitude, position.longitude),
-                        builder: (ctx) => GestureDetector(
-                            onTap: () {
-                            },
-                            child: const Icon(
-                                Icons.my_location_outlined,
-                                shadows: [BoxShadow(
-                                  blurRadius: 20.0,
-                                  color: Colors.blue,
-                                ),],
-                                size: 30,
-                                color: Colors.blue) //const FlutterLogo(),
-                        ))
-                  ] +
+                        Marker(
+                            point:
+                                LatLng(position.latitude, position.longitude),
+                            builder: (ctx) => GestureDetector(
+                                onTap: () {},
+                                child: const Icon(Icons.my_location_outlined,
+                                    shadows: [
+                                      BoxShadow(
+                                        blurRadius: 20.0,
+                                        color: Colors.blue,
+                                      ),
+                                    ],
+                                    size: 30,
+                                    color: Colors.blue) //const FlutterLogo(),
+                                ))
+                      ] +
                       _getMarkersFromSpot(mapSpots),
                 )
               ],

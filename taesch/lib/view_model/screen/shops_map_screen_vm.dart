@@ -4,5 +4,4 @@ import 'package:taesch/model/shop.dart';
 class ShopsMapScreenVM {
   Repository repository = Repository();
   Shop? shop;
-
 }

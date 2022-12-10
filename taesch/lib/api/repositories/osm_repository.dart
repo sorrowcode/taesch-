@@ -22,7 +22,7 @@ class OSMRepository extends Repo {
 
   OSMRepository({required OSMActions super.actions}) {
     type = RepositoryType.osm;
-    startGeoTimer();
+    //startGeoTimer();
   }
 
   OSMActions get osmActions => actions as OSMActions;

@@ -7,7 +7,8 @@ import 'package:taesch/view/screen/shopping_list_screen.dart';
 /// vm for [ShoppingListScreen]
 class ShoppingListScreenVM {
   List<Product> products;
-  SQLRepository sqlRepository = (RepositoryHolder().getRepositoryByType(RepositoryType.sql) as SQLRepository);
+  SQLRepository sqlRepository = (RepositoryHolder()
+      .getRepositoryByType(RepositoryType.sql) as SQLRepository);
 
   ShoppingListScreenVM({required this.products});
 }

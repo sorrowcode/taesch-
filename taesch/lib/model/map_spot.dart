@@ -6,5 +6,11 @@ class MapSpot {
   final int postcode;
   final String houseNumber;
 
-  MapSpot({required this.name, required this.long, required this.lat, required this.street, required this.houseNumber, required this.postcode});
+  MapSpot(
+      {required this.name,
+      required this.long,
+      required this.lat,
+      required this.street,
+      required this.houseNumber,
+      required this.postcode});
 }

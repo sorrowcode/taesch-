@@ -1,6 +1,5 @@
 import 'package:taesch/api/actions/firebase_actions.dart';
-import 'package:taesch/exceptions/custom/type_exception.dart';
-import 'package:taesch/api/repositories/repo.dart';
+import 'package:taesch/api/repositories/repository.dart';
 
 import 'repository_type.dart';
 

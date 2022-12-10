@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:taesch/api/repository_holder.dart';
 import 'package:taesch/logic/theme_controller.dart';
 import 'package:taesch/logic/theme_controller_provider.dart';
 import 'package:taesch/view/page/login_page.dart';

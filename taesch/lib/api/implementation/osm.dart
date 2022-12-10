@@ -3,16 +3,12 @@ import 'dart:convert';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart';
 import 'package:taesch/api/actions/osm_actions.dart';
-import 'package:taesch/api/repositories/osm_repository.dart';
-import 'package:taesch/api/repositories/repository_type.dart';
-import 'package:taesch/api/repository_holder.dart';
 import 'package:taesch/model/map_spot.dart';
 import 'package:taesch/model/shop.dart';
 
 import 'overpass_query_index.dart';
 
 class OSM implements OSMActions {
-
   late final String _apiUrl;
 
   @override
@@ -23,26 +19,40 @@ class OSM implements OSMActions {
   @override
   Future<List<Shop>> getNearShops(int searchRadius, Position position) async {
     List<Shop> shops = [];
-    Response response = await get(
-        Uri.parse("${_apiUrl}data=[out:json][timeout:50];"
+    Response response = await get(Uri.parse(
+            "${_apiUrl}data=[out:json][timeout:50];"
             "(node[\"shop\"=\"supermarket\"](around:$searchRadius,${position.latitude},${position.longitude})"
             ";);out;"))
         .timeout(const Duration(seconds: 4));
     if (response.statusCode == 200) {
-      Map<String, dynamic> responseBodyRaw = jsonDecode(utf8.decode(response.body.codeUnits));
+      Map<String, dynamic> responseBodyRaw =
+          jsonDecode(utf8.decode(response.body.codeUnits));
       List<dynamic> nodes = responseBodyRaw["elements"];
       for (dynamic node in nodes) {
         var test = node as Map<String, dynamic>;
         var data = test["tags"];
         var shopData = data as Map<String, dynamic>;
-        Shop shop = Shop(spot: MapSpot(
-            name: shopData[OverpassQueryIndex.name.identifier],
-            lat: data[OverpassQueryIndex.latitude.identifier] == null ? 0 : double.parse(data[OverpassQueryIndex.latitude.identifier].toString()),
-            long: data[OverpassQueryIndex.longitude.identifier] == null ? 0 : double.parse(data[OverpassQueryIndex.longitude.identifier].toString()),
-            street: shopData[OverpassQueryIndex.street.identifier] ?? "noinfo",
-            houseNumber: shopData[OverpassQueryIndex.houseNumber.identifier] ?? "noinfo",
-            postcode: shopData[OverpassQueryIndex.postcode.identifier] == null ? 0 : int.parse(shopData[OverpassQueryIndex.postcode.identifier].toString())
-        ));
+        Shop shop = Shop(
+            spot: MapSpot(
+                name: shopData[OverpassQueryIndex.name.identifier],
+                lat: data[OverpassQueryIndex.latitude.identifier] == null
+                    ? 0
+                    : double.parse(data[OverpassQueryIndex.latitude.identifier]
+                        .toString()),
+                long: data[OverpassQueryIndex.longitude.identifier] == null
+                    ? 0
+                    : double.parse(data[OverpassQueryIndex.longitude.identifier]
+                        .toString()),
+                street:
+                    shopData[OverpassQueryIndex.street.identifier] ?? "noinfo",
+                houseNumber:
+                    shopData[OverpassQueryIndex.houseNumber.identifier] ??
+                        "noinfo",
+                postcode: shopData[OverpassQueryIndex.postcode.identifier] ==
+                        null
+                    ? 0
+                    : int.parse(shopData[OverpassQueryIndex.postcode.identifier]
+                        .toString())));
         //print(shop.name);
         shops.add(shop);
       }
@@ -54,7 +64,7 @@ class OSM implements OSMActions {
   @override
   Future<Position> getCurrentPosition() async {
     Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high,
+      desiredAccuracy: LocationAccuracy.high,
     );
     return position;
   }

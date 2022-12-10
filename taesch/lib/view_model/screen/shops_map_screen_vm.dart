@@ -5,5 +5,6 @@ import 'package:taesch/model/shop.dart';
 
 class ShopsMapScreenVM {
   Shop? shop;
-  OSMRepository osmRepository = (RepositoryHolder().getRepositoryByType(RepositoryType.osm) as OSMRepository);
+  OSMRepository osmRepository = (RepositoryHolder()
+      .getRepositoryByType(RepositoryType.osm) as OSMRepository);
 }

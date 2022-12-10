@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:taesch/api/repositories/repository_type.dart';
 import 'package:taesch/middleware/log/log_level.dart';
 import 'package:taesch/middleware/log/logger_wrapper.dart';
 import 'package:taesch/model/log_message.dart';
@@ -73,15 +72,19 @@ class _NearShopsScreenState extends State<NearShopsScreen> {
                 logger.log(
                     level: LogLevel.info,
                     logMessage: LogMessage(message: "search button pressed"));
-                  widget._vm.osmRepository.osmActions.getNearShops(2000, widget._vm.osmRepository.userPosition).then((value) {
-                    logger.log(level: LogLevel.debug, logMessage: LogMessage(
-                      message: "$value",
-                    ));
-                    setState(() {
-                      widget._vm.shops = value;
-                      widget._vm.osmRepository.cache = value;
-                    });
+                widget._vm.osmRepository.osmActions
+                    .getNearShops(2000, widget._vm.osmRepository.userPosition)
+                    .then((value) {
+                  logger.log(
+                      level: LogLevel.debug,
+                      logMessage: LogMessage(
+                        message: "$value",
+                      ));
+                  setState(() {
+                    widget._vm.shops = value;
+                    widget._vm.osmRepository.cache = value;
                   });
+                });
               },
               child: const Text("Search"),
             )
@@ -96,9 +99,8 @@ class _NearShopsScreenState extends State<NearShopsScreen> {
         callBack: () {
           logger.log(
               level: LogLevel.info,
-              logMessage: LogMessage(
-                  message:
-                      "Taped On: ${widget._vm.shops[i].name}"));
+              logMessage:
+                  LogMessage(message: "Taped On: ${widget._vm.shops[i].name}"));
           setState(() {
             widget._vm.selectedShop = widget._vm.shops[i];
             widget._vm.isMap = true;
@@ -122,8 +124,8 @@ class _NearShopsScreenState extends State<NearShopsScreen> {
             children: [
               Expanded(
                   child: ListView(
-                    children: _getShopList(),
-                  ))
+                children: _getShopList(),
+              ))
             ],
           ));
   }

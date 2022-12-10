@@ -14,7 +14,8 @@ class AddItemDialogVM {
   Product? temp;
   HashSet<Tag> tags = HashSet(
       equals: (e, m) => e.name == m.name, hashCode: (e) => e.name.hashCode);
-  SQLRepository sqlRepository = (RepositoryHolder().getRepositoryByType(RepositoryType.sql) as SQLRepository);
+  SQLRepository sqlRepository = (RepositoryHolder()
+      .getRepositoryByType(RepositoryType.sql) as SQLRepository);
 
   ErrorCase? validateShoppingListItem(String? value) {
     if (value == null || value.isEmpty) {

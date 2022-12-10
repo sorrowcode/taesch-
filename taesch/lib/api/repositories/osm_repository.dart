@@ -1,17 +1,16 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:taesch/api/actions/osm_actions.dart';
+import 'package:taesch/api/repositories/repository.dart';
 import 'package:taesch/api/repositories/repository_type.dart';
-import 'package:taesch/api/repositories/repo.dart';
 import 'package:taesch/model/shop.dart';
 
 class OSMRepository extends Repo {
-
   List<Shop> cache = [];
 
-  Position userPosition = const Position(latitude: 49.1427,
+  Position userPosition = const Position(
+      latitude: 49.1427,
       longitude: 9.2109,
       timestamp: null,
       accuracy: 0.0,

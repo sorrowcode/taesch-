@@ -6,5 +6,6 @@ import 'package:taesch/model/screen_state.dart';
 class HomePageVM {
   late ScreenState screenState = ScreenState.shoppingList;
   bool init = true;
-  SQLRepository sqlRepository = (RepositoryHolder().getRepositoryByType(RepositoryType.sql) as SQLRepository);
+  SQLRepository sqlRepository = (RepositoryHolder()
+      .getRepositoryByType(RepositoryType.sql) as SQLRepository);
 }

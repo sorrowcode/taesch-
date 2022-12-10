@@ -1,16 +1,46 @@
 # taesch
+Comfort Shopping
 
-A new Flutter project.
+<img src="https://github.com/sorrowcode/taesch-/blob/developer/taesch/assets/logo.png?raw=true" width=20% height=20%>
+
+taesch makes your shopping easier. taesch learns from your previous shopping in a supermarket and proposes you the next items to put in your bag.
 
 ## Getting Started
+Prerequisite installed git & the Flutter SDK
 
-This project is a starting point for a Flutter application.
+Clone the project
+```bash
+  git clone https://github.com/sorrowcode/taesch-
+```
 
-A few resources to get you started if this is your first Flutter project:
+Go to the project directory
+```bash
+  cd taesch-/taesch
+```
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Install dependencies
+```bash
+  flutter pub get
+```
 
+Build debug build
+```bash
+  flutter run
+```
+
+Build release build
+```bash
+  flutter run --release
+```
+
+## Running Tests
+To run tests, run the following command
+```bash
+  flutter test
+```
+
+
+## Flutter Development
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.

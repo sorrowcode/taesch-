@@ -17,7 +17,7 @@ class ConnectionAlert extends AlertDialog {
       content: Text(_vm.contentText),
       actions: [
         TextButton(
-          onPressed: () => _vm.openSettings(),
+          onPressed: () { _vm.openSettings(); Navigator.of(context).pop();},
           child: Text('Settings'))
       ],
     );

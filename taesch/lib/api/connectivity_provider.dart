@@ -12,6 +12,9 @@ class ConnectivityProvider with ChangeNotifier {
 
   ConnectivityProvider() {
     Connectivity connectivity = Connectivity();
+    _isOnline = false;
+    _isGpsOnline = false;
+
 
     Geolocator.getServiceStatusStream().listen((ServiceStatus gpsStatus) {
       if (gpsStatus == ServiceStatus.disabled) {

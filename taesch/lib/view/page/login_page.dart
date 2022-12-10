@@ -18,10 +18,16 @@ class LoginPage extends StartingPage {
 class _LoginPageState extends StartingPageState {
   _LoginPageState() {
     vm = LoginPageVM();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if(!(vm as LoginPageVM).connection.isOnline){
+        (vm as LoginPageVM).showAlertDialog(context);
+      }
+    });
   }
 
   @override
   List<Widget> bodyElements() {
+
     logger.log(
         level: LogLevel.info,
         logMessage: LogMessage(message: "entered login page"));

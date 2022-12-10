@@ -1,5 +1,6 @@
 import 'dart:collection';
 
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:taesch/api/implementation/sql_database.dart';
 import 'package:taesch/api/repositories/firebase_repository.dart';
 import 'package:taesch/api/repositories/osm_repository.dart';
@@ -12,6 +13,7 @@ import 'repositories/repository_type.dart';
 
 class RepositoryHolder {
   late final HashMap<RepositoryType, Repo> _repositories;
+  bool _isDarkModeEnabled = false;
 
   static final RepositoryHolder _singleton = RepositoryHolder._internal();
 
@@ -21,6 +23,11 @@ class RepositoryHolder {
 
   RepositoryHolder._internal() {
     _repositories = HashMap();
+    SharedPreferences.getInstance().then((prefs) => _isDarkModeEnabled =
+    prefs.containsKey('dark_mode_enabled')
+        ? prefs.getBool('dark_mode_enabled')!
+        : false);
+
     for (RepositoryType type in RepositoryType.values) {
       switch (type) {
         case RepositoryType.sql:

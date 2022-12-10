@@ -14,11 +14,11 @@ class SQLDatabase implements SQLActions {
   bool initialized = false;
   final String _generatedTable = "shopping_list_generated";
   final String _effectiveTable = "shopping_list_effective";
-  LoggerWrapper logger = LoggerWrapper();
+  final LoggerWrapper _logger = LoggerWrapper();
 
   @override
   Future<void> init() async {
-    logger.log(
+    _logger.log(
         level: LogLevel.info,
         logMessage: LogMessage(
           message: "sql database init called",
@@ -51,14 +51,15 @@ class SQLDatabase implements SQLActions {
           "$sumOfAllWeights DOUBLE PRECISION NOT NULL,"
           "$timesBought INTEGER NOT NULL"
           ");";
+      initialized = true;
       return db.execute(sql);
     });
-    initialized = true;
+
   }
 
   @override
   Future<void> deleteProduct(bool generated, String productName) async {
-    logger.log(
+    _logger.log(
         level: LogLevel.info,
         logMessage: LogMessage(message: "sql database delete product called"));
     final db = _database;
@@ -69,7 +70,7 @@ class SQLDatabase implements SQLActions {
 
   @override
   Future<void> deleteProductList(bool generated) async {
-    logger.log(
+    _logger.log(
         level: LogLevel.info,
         logMessage:
             LogMessage(message: "sql database delete product list called"));
@@ -81,7 +82,7 @@ class SQLDatabase implements SQLActions {
 
   @override
   Future<List<Product>> getProductList(bool generated) async {
-    logger.log(
+    _logger.log(
         level: LogLevel.info,
         logMessage:
             LogMessage(message: "sql database get product list called"));
@@ -97,7 +98,7 @@ class SQLDatabase implements SQLActions {
 
   @override
   Future<void> insertProduct(bool generated, Product product) async {
-    logger.log(
+    _logger.log(
         level: LogLevel.info,
         logMessage: LogMessage(message: "sql database insert product called"));
     var db = _database;

@@ -1,6 +1,8 @@
 import 'dart:collection';
 
-import 'package:taesch/api/repository.dart';
+import 'package:taesch/api/repositories/repository_type.dart';
+import 'package:taesch/api/repositories/sql_repository.dart';
+import 'package:taesch/api/repository_holder.dart';
 import 'package:taesch/model/error_case.dart';
 import 'package:taesch/model/product.dart';
 import 'package:taesch/model/tag.dart';
@@ -12,7 +14,7 @@ class AddItemDialogVM {
   Product? temp;
   HashSet<Tag> tags = HashSet(
       equals: (e, m) => e.name == m.name, hashCode: (e) => e.name.hashCode);
-  var repository = Repository();
+  SQLRepository sqlRepository = (RepositoryHolder().getRepositoryByType(RepositoryType.sql) as SQLRepository);
 
   ErrorCase? validateShoppingListItem(String? value) {
     if (value == null || value.isEmpty) {

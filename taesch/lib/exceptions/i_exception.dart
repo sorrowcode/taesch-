@@ -1,4 +1,3 @@
-import 'package:taesch/middleware/log/log_level.dart';
 import 'package:taesch/middleware/log/logger_wrapper.dart';
 
 abstract class IException implements Exception {
@@ -7,5 +6,5 @@ abstract class IException implements Exception {
 
   IException({required this.cause});
 
-  void logCause(LogLevel level);
+  void logCause();
 }

@@ -92,11 +92,11 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
         logMessage: LogMessage(message: "entered shops map screen"));
     if (widget._vm.shop == null) {
       // create user position object
-      Position position = widget._vm.repository.getUserPosition();
+      Position position = widget._vm.osmRepository.userPosition;
 
       // fetch MapSpots from each Shop
       List<MapSpot> mapSpots = [];
-      for (Shop shop in widget._vm.repository.shopsCache) {
+      for (Shop shop in widget._vm.osmRepository.cache) {
         mapSpots.add(shop.mapSpot);
       }
 
@@ -141,11 +141,11 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
       );
     } else {
       // create user position object
-      Position position = widget._vm.repository.getUserPosition();
+      Position position = widget._vm.osmRepository.userPosition;
 
       // fetch MapSpots from each Shop
       List<MapSpot> mapSpots = [];
-      for (Shop shop in widget._vm.repository.shopsCache) {
+      for (Shop shop in widget._vm.osmRepository.cache) {
         mapSpots.add(shop.mapSpot);
       }
 

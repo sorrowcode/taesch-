@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:taesch/api/repository.dart';
+import 'package:taesch/api/repositories/repository_type.dart';
+import 'package:taesch/api/repositories/sql_repository.dart';
+import 'package:taesch/api/repository_holder.dart';
 import 'package:taesch/middleware/log/log_level.dart';
 import 'package:taesch/middleware/log/logger_wrapper.dart';
 import 'package:taesch/model/log_message.dart';
@@ -17,22 +19,22 @@ class SplashPage extends StatefulWidget {
 
 class _SplashPageState extends State<SplashPage> {
   LoggerWrapper logger = LoggerWrapper();
-  Repository repository = Repository();
 
   @override
   void initState() {
     setState(() {
-      repository.sqlDatabase.init().then((value) {
-        repository.geolocationTools.startGeoTimer();
-        repository.sqlDatabase.getProductList(true).then((value) {
-          Timer(const Duration(seconds: 3), () {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => const HomePage(),
-                settings: RouteSettings(arguments: value)));
-          });
+      var sqlRepository = (RepositoryHolder()
+          .getRepositoryByType(RepositoryType.sql) as SQLRepository);
+
+      sqlRepository.sqlActions.getProductList(true).then((value) {
+        Timer(const Duration(seconds: 3), () {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => const HomePage(),
+              settings: RouteSettings(arguments: value)));
         });
       });
     });
+
     super.initState();
   }
 

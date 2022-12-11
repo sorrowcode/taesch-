@@ -42,7 +42,7 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
                     logMessage: LogMessage(
                         message:
                             "tapped on ${widget._vm.products[index].name} item"));
-                widget._vm.repository.sqlDatabase
+                widget._vm.sqlRepository.sqlActions
                     .deleteProduct(true, widget._vm.products[index].name)
                     .then((value) {
                   setState(() {
@@ -50,20 +50,29 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
                   });
                 });
               },
-            child: Column(children: [
-              SizedBox(
-                width: 100,
-                height: 125,
-                child: Center(child: Text(widget._vm.products[index].name, style: const TextStyle(fontSize: 25),)),
-              ),
-              SizedBox(
-                width: 100,
-                height: 50,
-                child: Text(widget._vm.products[index]
-                    .tags.map((e) => e.name).join(' , ').replaceAll('[', '').replaceAll(']', ''), textAlign: TextAlign.center,),
-              ),
-            ])
-          ),
+              child: Column(children: [
+                SizedBox(
+                  width: 100,
+                  height: 125,
+                  child: Center(
+                      child: Text(
+                    widget._vm.products[index].name,
+                    style: const TextStyle(fontSize: 25),
+                  )),
+                ),
+                SizedBox(
+                  width: 100,
+                  height: 50,
+                  child: Text(
+                    widget._vm.products[index].tags
+                        .map((e) => e.name)
+                        .join(' , ')
+                        .replaceAll('[', '')
+                        .replaceAll(']', ''),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ])),
         );
       },
     );

@@ -12,6 +12,8 @@ import 'package:taesch/view/screen/shopping_list_screen.dart';
 import 'package:taesch/view/screen/shops_map_screen.dart';
 import 'package:taesch/view_model/page/home_page_vm.dart';
 
+import '../screen/shopping_list_templates_screen.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -118,6 +120,11 @@ class _HomePageState extends State<HomePage> {
         break;
       case ScreenState.shopsMap:
         screen = ShopsMapScreen();
+        break;
+      case ScreenState.shoppingListTemplates:
+        _vm.sqlRepository.sqlActions.getProductList(true).then((value) {
+          screen = ShoppingListTemplatesScreen(products: value);
+        });
         break;
     }
   }

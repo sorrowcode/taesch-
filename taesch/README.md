@@ -1,46 +1,54 @@
 # taesch
-Comfort Shopping
+Komfortables einkaufen
 
 <img src="https://github.com/sorrowcode/taesch-/blob/developer/taesch/assets/logo.png?raw=true" width=20% height=20%>
 
-taesch makes your shopping easier. taesch learns from your previous shopping in a supermarket and proposes you the next items to put in your bag.
+taesch mach das Einkaufen einfacher. taesch lernt aus ihrem Einkaufsverhalten in einem Supermarkt und giebt tipps für die reihenfolge.
 
 ## Getting Started
-Prerequisite installed git & the Flutter SDK
+Vorbedingung
+- [git](https://git-scm.com/)
+- [Flutter SDK](https://docs.flutter.dev/development/tools/sdk/releases)
+- [Docker](https://www.docker.com/)
+- Apple Mac Gerät (für IOS)
 
-Clone the project
+Zur Entwickung in Flutter eignet sich gut [Android Studio](https://developer.android.com/studio)
+
+
+Klonen des Projektes
 ```bash
   git clone https://github.com/sorrowcode/taesch-
 ```
 
-Go to the project directory
+Code ordner betreten
 ```bash
   cd taesch-/taesch
 ```
 
-Install dependencies
+Installieren der Abhängigkeiten
 ```bash
   flutter pub get
 ```
 
-Build debug build
+Ein debug Paket erstellen
 ```bash
   flutter run
 ```
 
-Build release build
+Ein Auslieferungspaket erstellen
 ```bash
   flutter run --release
 ```
 
-## Running Tests
-To run tests, run the following command
+## Tests durchführen
+Um Locale Tests auszuführen
 ```bash
-  flutter test
+  docker build .
 ```
 
 
-## Flutter Development
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+## Flutter Entwicklung
+Für Hilfe in dent Einstig in Flutter, sehen sie sich dir
+[online documentation](https://docs.flutter.dev/) an,
+diese Bietet Anleitungen, Beispiele, hilfe für Mobile Anwendungen und eine komplette API-Dokumentation.

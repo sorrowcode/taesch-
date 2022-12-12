@@ -72,8 +72,18 @@ class _NearShopsScreenState extends State<NearShopsScreen> {
                 logger.log(
                     level: LogLevel.info,
                     logMessage: LogMessage(message: "search button pressed"));
-                setState(() {
-                  widget._vm.loadShops();
+                widget._vm.osmRepository.osmActions
+                    .getNearShops(2000, widget._vm.osmRepository.userPosition)
+                    .then((value) {
+                  logger.log(
+                      level: LogLevel.debug,
+                      logMessage: LogMessage(
+                        message: "$value",
+                      ));
+                  setState(() {
+                    widget._vm.shops = value;
+                    widget._vm.osmRepository.cache = value;
+                  });
                 });
               },
               child: Text(
@@ -85,18 +95,17 @@ class _NearShopsScreenState extends State<NearShopsScreen> {
         ),
       ),
     ));
-    for (int i = 0; i < widget._vm.repository.shopsCache.length; i++) {
+    for (int i = 0; i < widget._vm.shops.length; i++) {
       shopsList.add(ShopsTile(
-        title: widget._vm.repository.shopsCache[i].name,
-        address: widget._vm.repository.shopsCache[i].address,
+        title: widget._vm.shops[i].name,
+        address: widget._vm.shops[i].address,
         callBack: () {
           logger.log(
               level: LogLevel.info,
-              logMessage: LogMessage(
-                  message:
-                      "Taped On: ${widget._vm.repository.shopsCache[i].name}"));
+              logMessage:
+                  LogMessage(message: "Taped On: ${widget._vm.shops[i].name}"));
           setState(() {
-            widget._vm.selectedShop = widget._vm.repository.shopsCache[i];
+            widget._vm.selectedShop = widget._vm.shops[i];
             widget._vm.isMap = true;
           });
         },
@@ -117,15 +126,8 @@ class _NearShopsScreenState extends State<NearShopsScreen> {
             body: Column(
             children: [
               Expanded(
-                  child: SingleChildScrollView(
-                child: ValueListenableBuilder<int>(
-                    valueListenable: widget._vm.repository.shopsCacheSize,
-                    child: Column(children: _getShopList()),
-                    builder: (context, value, child) {
-                      return Column(
-                        children: _getShopList(),
-                      );
-                    }),
+                  child: ListView(
+                children: _getShopList(),
               ))
             ],
           ));

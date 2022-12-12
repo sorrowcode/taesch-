@@ -41,7 +41,7 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
                     logMessage: LogMessage(
                         message:
                             "tapped on ${widget._vm.products[index].name} item"));
-                widget._vm.repository.sqlDatabase
+                widget._vm.sqlRepository.sqlActions
                     .deleteProduct(true, widget._vm.products[index].name)
                     .then((value) {
                   setState(() {

@@ -1,7 +1,7 @@
-import 'package:taesch/model/action.dart';
+import 'package:taesch/api/actions/actions.dart';
 import 'package:taesch/model/product.dart';
 
-abstract class IProductAction implements Action {
+abstract class SQLActions implements Actions {
   Future<void> insertProduct(bool generated, Product product);
 
   Future<List<Product>> getProductList(bool generated);

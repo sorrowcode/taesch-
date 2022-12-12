@@ -93,10 +93,10 @@ class _AddItemDialogState extends State<AddItemDialog> {
                     logMessage: LogMessage(message: "check button pressed"));
                 if (_formKey.currentState!.validate()) {
                   setState(() {
-                    widget._vm.repository.sqlDatabase
+                    widget._vm.sqlRepository.sqlActions
                         .insertProduct(true, widget._vm.temp!)
                         .then((value) {
-                      widget._vm.repository.sqlDatabase
+                      widget._vm.sqlRepository.sqlActions
                           .getProductList(true)
                           .then((value) {
                         logger.log(
@@ -121,7 +121,7 @@ class _AddItemDialogState extends State<AddItemDialog> {
               logger.log(
                   level: LogLevel.debug,
                   logMessage: LogMessage(message: "pressed close button"));
-              widget._vm.repository.sqlDatabase
+              widget._vm.sqlRepository.sqlActions
                   .getProductList(true)
                   .then((value) {
                 Navigator.of(context).pop(value);

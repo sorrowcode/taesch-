@@ -112,7 +112,7 @@ class _HomePageState extends State<HomePage> {
   void _getCurrentScreen() {
     switch (_vm.screenState) {
       case ScreenState.shoppingList:
-        _vm.repository.sqlDatabase.getProductList(true).then((value) {
+        _vm.sqlRepository.sqlActions.getProductList(true).then((value) {
           screen = ShoppingListScreen(products: value);
         });
         break;

@@ -25,8 +25,7 @@ class ConnectivityProvider with ChangeNotifier {
         notifyListeners();
       }
     });
-
-    connectivity.onConnectivityChanged.listen((result) {
+    connectivity.checkConnectivity().then((result) {
       if (result == ConnectivityResult.none) {
         _isOnline = false;
         notifyListeners();

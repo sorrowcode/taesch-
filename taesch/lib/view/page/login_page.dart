@@ -19,9 +19,11 @@ class _LoginPageState extends StartingPageState {
   _LoginPageState() {
     vm = LoginPageVM();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if(!(vm as LoginPageVM).connection.isOnline){
-        (vm as LoginPageVM).showAlertDialog(context);
-      }
+      (vm as LoginPageVM).connection.addListener(() {
+        if(!(vm as LoginPageVM).connection.isOnline){
+          (vm as LoginPageVM).showAlertDialog(context);
+        }
+      });
     });
   }
 

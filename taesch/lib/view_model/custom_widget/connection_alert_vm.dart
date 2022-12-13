@@ -11,7 +11,7 @@ class ConnectionAlertVM {
 
   String get titleText {
 
-    return 'No Connection to${!_connection.isOnline?'Internet':'GPS'}';
+    return 'No Connection to ${!_connection.isOnline ? ' the Internet' : ' GPS'}';
   }
 
   String get contentText {

@@ -44,7 +44,7 @@ class _AppState extends State<App> {
           darkTheme: ThemeData(
             brightness: Brightness.dark,
             scaffoldBackgroundColor: y,
-            primaryColor: x,
+            primaryColor: z,
             secondaryHeaderColor: d,
             textButtonTheme: TextButtonThemeData(
               style: ButtonStyle(
@@ -80,7 +80,7 @@ class _AppState extends State<App> {
               titleTextStyle: Theme.of(context).textTheme.titleLarge,
             ),
             drawerTheme: DrawerThemeData(
-              backgroundColor: z,
+              backgroundColor: y,
             ),
             cardColor: x,
             iconTheme: IconThemeData(

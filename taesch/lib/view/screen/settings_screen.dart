@@ -3,11 +3,13 @@ import 'package:taesch/logic/theme_controller.dart';
 import 'package:taesch/middleware/log/log_level.dart';
 import 'package:taesch/middleware/log/logger_wrapper.dart';
 import 'package:taesch/model/log_message.dart';
+import 'package:taesch/view_model/custom_widget/permission_dialog_vm.dart';
 import 'package:taesch/view_model/screen/settings_screen_vm.dart';
 
 /// shows the shopping list elements
 class SettingsScreen extends StatefulWidget {
   final SettingsScreenVM _vm = SettingsScreenVM();
+  final PermissionDialogVM _dialogVM = PermissionDialogVM();
 
   SettingsScreen({super.key});
 
@@ -73,7 +75,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   }
                 }else{
                   // pop-up
-                  showDialog(
+                  widget._dialogVM.showGeolocationPermissionDialog(
+                      context,
+                      "Location Permanently Denied",
+                      "You have permanently denied the usage of the GPS services.\n"
+                          "In order to allow the app to use them, you have to manually go to your phone's \n"
+                          "Settings -> Apps -> 'täsch' -> Permissions and allow the permission for "
+                          "the usage of your location. Thanks ;)"
+                  );
+
+                  /*showDialog(
                       context: context,
                       builder: (ctx) => AlertDialog(
                           title: const Text("Location Permanently Denied"),
@@ -91,7 +102,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             )
                           ]
                       )
-                  );
+                  );*/
                   // don't allow toggle
                 }
 
@@ -116,7 +127,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
               alignment: Alignment.centerRight,
               child: IconButton(
                   onPressed: (){
-                    showDialog(
+
+                    widget._dialogVM.showGeolocationPermissionDialog(
+                        context,
+                        "Help on Location Service",
+                        "If you can't toggle the ${widget._vm.permissionSwitchTitle} option, it might be because "
+                            "you have permanently denied the usage of the GPS services.\n"
+                            "In order to allow the app to use them, you need to manually go to your phone's \n"
+                            "Settings -> Apps -> 'täsch' -> Permissions \nand allow the permission for "
+                            "the usage of your location. Thanks ;)");
+
+                    /*showDialog(
                         context: context,
                         builder: (ctx) => AlertDialog(
                             title: const Text("Help on Location Service"),
@@ -135,7 +156,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               )
                             ]
                         )
-                    );
+                    );*/
                   },
                   icon: const Icon(Icons.help_outline)
 

@@ -84,25 +84,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           "the usage of your location. Thanks ;)"
                   );
 
-                  /*showDialog(
-                      context: context,
-                      builder: (ctx) => AlertDialog(
-                          title: const Text("Location Permanently Denied"),
-                          content: const Text("You have permanently denied the usage of the GPS services.\n"
-                              "In order to allow the app to use them, you have to manually go to your phone's \n"
-                              "Settings -> Apps -> 'täsch' -> Permissions and allow the permission for "
-                              "the usage of your location. Thanks ;)"),
-
-                          actions: [
-                            TextButton(
-                                onPressed: (){
-                                  Navigator.pop(ctx);
-                                },
-                                child: const Text("OK")
-                            )
-                          ]
-                      )
-                  );*/
                   // don't allow toggle
                 }
 
@@ -137,26 +118,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             "Settings -> Apps -> 'täsch' -> Permissions \nand allow the permission for "
                             "the usage of your location. Thanks ;)");
 
-                    /*showDialog(
-                        context: context,
-                        builder: (ctx) => AlertDialog(
-                            title: const Text("Help on Location Service"),
-                            content: Text("If you can't toggle the ${widget._vm.permissionSwitchTitle} option, it might be because "
-                                "you have permanently denied the usage of the GPS services.\n"
-                                "In order to allow the app to use them, you need to manually go to your phone's \n"
-                                "Settings -> Apps -> 'täsch' -> Permissions \nand allow the permission for "
-                                "the usage of your location. Thanks ;)"),
-
-                            actions: [
-                              TextButton(
-                                  onPressed: (){
-                                    Navigator.pop(ctx);
-                                  },
-                                  child: const Text("OK")
-                              )
-                            ]
-                        )
-                    );*/
                   },
                   icon: const Icon(Icons.help_outline)
 

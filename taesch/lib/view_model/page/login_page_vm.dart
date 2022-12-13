@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:taesch/view/custom_widget/connection_alert.dart';
 import 'package:taesch/view_model/page/starting_page_vm.dart';

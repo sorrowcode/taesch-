@@ -8,7 +8,6 @@ class ConnectionAlert extends AlertDialog {
 
   ConnectionAlert({super.key});
 
-
   @override
   Widget build(BuildContext context) {
 
@@ -18,7 +17,7 @@ class ConnectionAlert extends AlertDialog {
       actions: [
         TextButton(
           onPressed: () { _vm.openSettings(); Navigator.of(context).pop();},
-          child: Text('Settings'))
+          child: Text(_vm.settingButtonText))
       ],
     );
   }

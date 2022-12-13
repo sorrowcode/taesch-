@@ -4,13 +4,13 @@ import 'package:taesch/api/connectivity_provider.dart';
 
 class ConnectionAlertVM {
   late ConnectivityProvider _connection;
+  String settingButtonText = 'Settings';
 
   ConnectionAlertVM(){
     _connection = ConnectivityProvider();
   }
 
   String get titleText {
-
     return 'No Connection to ${!_connection.isOnline ? ' the Internet' : ' GPS'}';
   }
 

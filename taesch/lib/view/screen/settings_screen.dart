@@ -73,6 +73,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   if (!gt.geoLocationPermissionGranted()){
                     // don't allow toggle
                   }
+                  if (!gt.geolocationServicesEnabled()){
+                    // pop-up
+                    widget._dialogVM.showGeolocationPermissionDialog(
+                        context,
+                        "Location Services are disabled",
+                        "Please go to your phone's settings and enable the Location Services.");
+                  }
                 }else{
                   // pop-up
                   widget._dialogVM.showGeolocationPermissionDialog(

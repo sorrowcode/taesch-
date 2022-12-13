@@ -7,9 +7,10 @@ import 'package:taesch/middleware/log/logger_wrapper.dart';
 import 'package:taesch/model/log_message.dart';
 
 class GeolocationTools {
-  Repository repository;
+  Repository repository; // <-- must not initialize here. As Repository also initializes GeolocationTools, this would result in an infinite mutual initialization -> stack overflow
   final int locateTimeout = 20; // <-- measured delay, for precise location
   final int locationTimerPause = 10;
+  bool _geolocatorServicesEnabled = true;
   bool _geolocatorPermissionIsSet = false;
   bool _permamnentlyDenied = false;
   LoggerWrapper logger = LoggerWrapper();
@@ -63,6 +64,7 @@ class GeolocationTools {
           logMessage: LogMessage(
               message: "Location services are disabled. Please enable the services.")// <-- maybe show a pop-up
       );
+      _geolocatorServicesEnabled = false;
       return;
     }
 
@@ -77,6 +79,7 @@ class GeolocationTools {
         );
         _geolocatorPermissionIsSet = true;
         _permamnentlyDenied = false;
+        _geolocatorServicesEnabled = true;
         return;
 
       } else {
@@ -109,6 +112,10 @@ class GeolocationTools {
     _geolocatorPermissionIsSet = true;
     _permamnentlyDenied = false;
     return;
+  }
+
+  bool geolocationServicesEnabled(){
+    return _geolocatorServicesEnabled;
   }
 
   bool geoLocationPermissionGranted(){

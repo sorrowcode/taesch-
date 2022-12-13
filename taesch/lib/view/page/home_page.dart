@@ -10,7 +10,9 @@ import 'package:taesch/view/screen/near_shops_screen.dart';
 import 'package:taesch/view/screen/settings_screen.dart';
 import 'package:taesch/view/screen/shopping_list_screen.dart';
 import 'package:taesch/view/screen/shops_map_screen.dart';
+import 'package:taesch/view_model/custom_widget/permission_dialog_vm.dart';
 import 'package:taesch/view_model/page/home_page_vm.dart';
+import 'dart:async';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -24,10 +26,21 @@ class _HomePageState extends State<HomePage> {
   LoggerWrapper logger = LoggerWrapper();
   late Widget screen;
   final _vm = HomePageVM();
+  final PermissionDialogVM _dialogVM = PermissionDialogVM();
 
   @override
   Widget build(BuildContext context) {
     if (_vm.init) {
+
+      Timer(const Duration(seconds: 2), () {
+        if (!_vm.repository.geolocationTools.geolocationServicesEnabled()) {
+          _dialogVM.showGeolocationPermissionDialog(
+              context,
+              "Location Services are disabled",
+              "Please go to your phone's settings and enable the Location Services.");
+        }
+      });
+
       var products = ModalRoute.of(context)?.settings.arguments;
       _vm.init = false;
       screen = products == null

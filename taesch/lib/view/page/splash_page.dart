@@ -25,12 +25,14 @@ class _SplashPageState extends State<SplashPage> {
       repository.sqlDatabase.init().then((value) {
         repository.geolocationTools.startGeoTimer();
         repository.sqlDatabase.getProductList(true).then((value) {
-          Timer(const Duration(seconds: 3), () {
-            repository.geolocationTools.handleLocationPermission();// is a Future, but no need to await the result, as GeoTimer checks for permission continuously
+
+          Timer(const Duration(seconds: 3), (){
+            repository.geolocationTools.handleLocationPermission();
             Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => const HomePage(),
                 settings: RouteSettings(arguments: value)));
           });
+
         });
       });
     });

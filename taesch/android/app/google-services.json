@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "115260950286",
+    "project_id": "taesch-a5b34",
+    "storage_bucket": "taesch-a5b34.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:115260950286:android:61b86ac29bcce88425b95f",
+        "android_client_info": {
+          "package_name": "com.taesch.taesch"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "115260950286-t0277tnfdt1r4i6b94sra3131bduh1vg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDf_HvDV8rrT8rjzddhKA5osfqbjnxcx4I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "115260950286-t0277tnfdt1r4i6b94sra3131bduh1vg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

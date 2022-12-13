@@ -49,12 +49,20 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
                   widget._vm.products.remove(widget._vm.products[index]);
                 });
               });
-            },
-            child: SizedBox(
-              width: 100,
-              height: 100,
-              child: Center(child: Text(widget._vm.products[index].name)),
-            ),
+              },
+            child: Column(children: [
+              SizedBox(
+                width: 100,
+                height: 125,
+                child: Center(child: Text(widget._vm.products[index].name, style: const TextStyle(fontSize: 25),)),
+              ),
+              SizedBox(
+                width: 100,
+                height: 50,
+                child: Text(widget._vm.products[index]
+                    .tags.map((e) => e.name).join(' , ').replaceAll('[', '').replaceAll(']', ''), textAlign: TextAlign.center,),
+              ),
+            ])
           ),
         );
       },

@@ -32,6 +32,7 @@ void main() async {
 
   // ui
   group("testing login page functionality", () {
+
     testWidgets("testing with no input", (widgetTester) async {
       await widgetTester.pumpWidget(App(
         controller: themeController,
@@ -125,49 +126,121 @@ void main() async {
         expect(find.byType(AlertDialog), findsOneWidget);
       });
 
-      testWidgets("testing cancel", (widgetTester) async {
+    testWidgets("testing cancel", (widgetTester) async {
+      Repository().sqlDatabase.init().then((value) async {
         await widgetTester.pumpWidget(const MaterialApp(
           home: HomePage(),
         ));
         await widgetTester.tap(find.byType(FloatingActionButton));
         await widgetTester.pumpAndSettle();
-        await widgetTester.enterText(find.byType(TextFormField), "Test");
+        await widgetTester.enterText(find.byType(TextFormField).first, "Test");
         await widgetTester.pump();
         await widgetTester.tap(find.widgetWithIcon(TextButton, Icons.close));
         await widgetTester.pumpAndSettle();
         expect(find.byType(Card), findsNothing);
         expect(find.text("Test"), findsNothing);
       });
+    });
 
-      testWidgets("testing no/invalid input", (widgetTester) async {
-        await widgetTester.pumpWidget(const MaterialApp(
-          home: HomePage(),
-        ));
+    testWidgets(("creating Tags"), (widgetTester) async{
+      await widgetTester.pumpWidget(const MaterialApp(
+        home: HomePage(),
+      ));
+      Repository().sqlDatabase.init().then((value) async{
         await widgetTester.tap(find.byType(FloatingActionButton));
         await widgetTester.pumpAndSettle();
-        await widgetTester.enterText(find.byType(TextFormField), "");
+        await widgetTester.enterText(find.byType(TextFormField).first, "Apfel");
+        await widgetTester.pump();
+        await widgetTester.enterText(find.byType(TextFormField).last, "4,");
         await widgetTester.pump();
         await widgetTester.tap(find.widgetWithIcon(TextButton, Icons.check));
         await widgetTester.pump();
-        expect(find.text(ErrorCase.emptyField.message), findsOneWidget);
+        expect(find.byType(Card), findsOneWidget);
       });
+    });
 
-      testWidgets("testing with valid input", (widgetTester) async {
+      testWidgets(("creating Tags and deleting Card"), (widgetTester) async{
         await widgetTester.pumpWidget(const MaterialApp(
           home: HomePage(),
         ));
-        Repository().sqlDatabase.init().then((value) async {
+        Repository().sqlDatabase.init().then((value) async{
           await widgetTester.tap(find.byType(FloatingActionButton));
           await widgetTester.pumpAndSettle();
-          await widgetTester.enterText(find.byType(TextFormField), "Test");
+          await widgetTester.enterText(find.byType(TextFormField).first, "Apfel");
           await widgetTester.pump();
-          await widgetTester.tap(find.widgetWithIcon(TextButton, Icons.check));
-          await widgetTester.pumpAndSettle();
-          expect(find.byType(Card), findsOneWidget);
-          expect(find.text("Test"), findsOneWidget);
+          await widgetTester.enterText(find.byType(TextFormField).last, "4,");
+          await widgetTester.pump();
+          await widgetTester.tap(find.widgetWithIcon(TextButton, Icons.close));
+          await widgetTester.pump();
+          await widgetTester.longPress(find.byType(Card));
+          expect(find.byType(Card), findsNothing);
         });
       });
+
+      testWidgets(("creating Tags and dismiss"), (widgetTester) async{
+        await widgetTester.pumpWidget(const MaterialApp(
+          home: HomePage(),
+        ));
+        Repository().sqlDatabase.init().then((value) async{
+          await widgetTester.tap(find.byType(FloatingActionButton));
+          await widgetTester.pumpAndSettle();
+          await widgetTester.enterText(find.byType(TextFormField).first, "Apfel");
+          await widgetTester.pump();
+          await widgetTester.enterText(find.byType(TextFormField).last, "4,");
+          await widgetTester.pump();
+          await widgetTester.tap(find.widgetWithIcon(TextButton, Icons.close));
+          await widgetTester.pump();
+          expect(find.byType(Card), findsNothing);
+        });
+      });
+
+
+
+    testWidgets("testing no/invalid input", (widgetTester) async {
+      await widgetTester.pumpWidget(const MaterialApp(
+        home: HomePage(),
+      ));
+      await widgetTester.tap(find.byType(FloatingActionButton));
+      await widgetTester.pumpAndSettle();
+      await widgetTester.enterText(find.byType(TextFormField).first, "");
+      await widgetTester.pump();
+      await widgetTester.tap(find.widgetWithIcon(TextButton, Icons.check));
+      await widgetTester.pump();
+      expect(find.text(ErrorCase.emptyField.message), findsOneWidget);
     });
+
+    testWidgets("testing with valid input", (widgetTester) async {
+      await widgetTester.pumpWidget(const MaterialApp(
+        home: HomePage(),
+      ));
+      Repository().sqlDatabase.init().then((value) async {
+        await widgetTester.tap(find.byType(FloatingActionButton));
+        await widgetTester.pumpAndSettle();
+        await widgetTester.enterText(find.byType(TextFormField).first, "Test");
+        await widgetTester.pump();
+        await widgetTester.tap(find.widgetWithIcon(TextButton, Icons.check));
+        await widgetTester.pumpAndSettle();
+        expect(find.byType(Card), findsOneWidget);
+        expect(find.text("Test"), findsOneWidget);
+      });
+    });
+    testWidgets("testing with Tags", (widgetTester) async {
+      await widgetTester.pumpWidget(const MaterialApp(
+        home: HomePage(),
+      ));
+      Repository().sqlDatabase.init().then((value) async {
+        await widgetTester.tap(find.byType(FloatingActionButton));
+        await widgetTester.pumpAndSettle();
+        await widgetTester.enterText(find.byType(TextFormField).first, "Test");
+        await widgetTester.enterText(find.byType(TextFormField).last, "zB-Tag");
+        await widgetTester.pump();
+        await widgetTester.tap(find.widgetWithIcon(TextButton, Icons.check));
+        await widgetTester.pumpAndSettle();
+        expect(find.byType(Card), findsWidgets);
+        expect(find.text("zB-Tag"), findsOneWidget);
+      });
+    });
+  });
 
     testWidgets("deleting Product", (widgetTester) async {
       await widgetTester.pumpWidget(const MaterialApp(

@@ -35,13 +35,12 @@ class OSM implements OSMActions {
         Shop shop = Shop(
             spot: MapSpot(
                 name: shopData[OverpassQueryIndex.name.identifier],
-                lat: data[OverpassQueryIndex.latitude.identifier] == null
+                lat: test[OverpassQueryIndex.latitude.identifier] == null
                     ? 0
-                    : double.parse(data[OverpassQueryIndex.latitude.identifier]
-                        .toString()),
-                long: data[OverpassQueryIndex.longitude.identifier] == null
+                    : double.parse(test[OverpassQueryIndex.latitude.identifier].toString()),
+                long: test[OverpassQueryIndex.longitude.identifier] == null
                     ? 0
-                    : double.parse(data[OverpassQueryIndex.longitude.identifier]
+                    : double.parse(test[OverpassQueryIndex.longitude.identifier]
                         .toString()),
                 street:
                     shopData[OverpassQueryIndex.street.identifier] ?? "noinfo",
@@ -53,7 +52,6 @@ class OSM implements OSMActions {
                     ? 0
                     : int.parse(shopData[OverpassQueryIndex.postcode.identifier]
                         .toString())));
-        //print(shop.name);
         shops.add(shop);
       }
     }

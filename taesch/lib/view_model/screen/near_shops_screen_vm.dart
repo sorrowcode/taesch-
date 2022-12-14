@@ -8,9 +8,6 @@ import 'package:taesch/view/screen/near_shops_screen.dart';
 class NearShopsScreenVM {
   var isMap = false;
   late Shop selectedShop;
-  List<Shop> shops = [
-    /*Shop(spot: MapSpot(name: "test", lat: 49.0, long: 9.2, street: "Teststraße", houseNumber: "1", postcode: 11111))*/
-  ];
   OSMRepository osmRepository = (RepositoryHolder()
       .getRepositoryByType(RepositoryType.osm) as OSMRepository);
 }

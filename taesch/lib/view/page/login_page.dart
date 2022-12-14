@@ -21,7 +21,14 @@ class _LoginPageState extends StartingPageState {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       (vm as LoginPageVM).connection.addListener(() {
         if(!(vm as LoginPageVM).connection.isOnline){
-          (vm as LoginPageVM).showAlertDialog(context);
+          setState(() {
+            (vm as LoginPageVM).isOnline = false;
+            (vm as LoginPageVM).showAlertDialog(context);
+          });
+        } else {
+          setState(() {
+            (vm as LoginPageVM).isOnline = true;
+          });
         }
       });
     });
@@ -40,9 +47,14 @@ class _LoginPageState extends StartingPageState {
           fontSize: 40,
         ),
       ),
+      (vm as LoginPageVM).isOnline ?
+        const SizedBox.shrink()
+          :
+        Text((vm as LoginPageVM).notOnlineString ,style: TextStyle(color: Theme.of(context).errorColor)),
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
         child: TextFormField(
+          enabled: (vm as LoginPageVM).isOnline,
           initialValue: "test@test.de",
           key: Key(WidgetKey.emailLoginKey.text),
           validator: (value) {
@@ -61,6 +73,7 @@ class _LoginPageState extends StartingPageState {
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
         child: TextFormField(
+          enabled: (vm as LoginPageVM).isOnline,
           initialValue: "123TesT§",
           key: Key(WidgetKey.passwordLoginKey.text),
           obscureText: true,
@@ -83,9 +96,10 @@ class _LoginPageState extends StartingPageState {
           TextButton(
             style: OutlinedButton.styleFrom(
               backgroundColor: Theme.of(context).colorScheme.primary,
+              disabledBackgroundColor: Theme.of(context).disabledColor
             ),
             key: Key(WidgetKey.registrationButtonKey.text),
-            onPressed: () {
+            onPressed: !(vm as LoginPageVM).isOnline? null: () {
               logger.log(
                   level: LogLevel.info,
                   logMessage: LogMessage(
@@ -105,9 +119,10 @@ class _LoginPageState extends StartingPageState {
             style: OutlinedButton.styleFrom(
               backgroundColor:
                   Theme.of(context).buttonTheme.colorScheme?.primary,
+                disabledBackgroundColor: Theme.of(context).disabledColor
             ),
             key: Key(WidgetKey.loginButtonKey.text),
-            onPressed: () {
+            onPressed: !(vm as LoginPageVM).isOnline? null: () {
               logger.log(
                   level: LogLevel.info,
                   logMessage: LogMessage(

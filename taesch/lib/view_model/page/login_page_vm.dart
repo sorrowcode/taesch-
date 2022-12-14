@@ -10,7 +10,15 @@ class LoginPageVM extends StartingPageVM {
   static const String passwordHint = "password";
   String registrationButtonText = "Register";
   String loginButtonText = "Login";
+  String notOnlineString = 'enable Network connection to use this app';
   var connection = ConnectivityProvider();
+  bool isOnline = false;
+
+  StartingPageVM(){
+    connection.addListener(() {
+      isOnline = connection.isOnline;
+    });
+  }
 
   showAlertDialog(BuildContext context){
     showDialog(context: context, builder: (BuildContext context)=>ConnectionAlert());

@@ -19,20 +19,25 @@ class ConnectivityProvider with ChangeNotifier {
     Geolocator.getServiceStatusStream().listen((ServiceStatus gpsStatus) {
       if (gpsStatus == ServiceStatus.disabled) {
         _isGpsOnline = false;
-        notifyListeners();
       } else {
         _isGpsOnline = true;
-        notifyListeners();
       }
+      notifyListeners();
     });
-    connectivity.checkConnectivity().then((result) {
-      if (result == ConnectivityResult.none) {
-        _isOnline = false;
-        notifyListeners();
-      } else {
-        _isOnline = true;
-        notifyListeners();
-      }
+    connectivity.checkConnectivity().then((result) {// init
+      _isOnline = _connectivityCheck(result);
+      notifyListeners();
     });
+    connectivity.onConnectivityChanged.listen((result) {// change
+      _isOnline = _connectivityCheck(result);
+      notifyListeners();
+    });
+  }
+  bool _connectivityCheck(result){
+    if (result == ConnectivityResult.none) {
+      return false;
+    } else {
+      return true;
+    }
   }
 }

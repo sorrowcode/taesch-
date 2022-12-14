@@ -14,7 +14,7 @@ class LoginPageVM extends StartingPageVM {
   var connection = ConnectivityProvider();
   bool isOnline = false;
 
-  StartingPageVM(){
+  LoginPageVM(){
     connection.addListener(() {
       isOnline = connection.isOnline;
     });

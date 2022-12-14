@@ -8,5 +8,5 @@ class FirebaseRepository extends Repo {
     type = RepositoryType.firebase;
   }
 
-  FirebaseActions get sqlActions => actions as FirebaseActions;
+  FirebaseActions get firebaseActions => actions as FirebaseActions;
 }

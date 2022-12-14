@@ -62,8 +62,8 @@ class _NearShopsScreenState extends State<NearShopsScreen> {
               style: ButtonStyle(
                   padding: MaterialStateProperty.all<EdgeInsets>(
                       const EdgeInsets.all(10)),
-                  backgroundColor:
-                      MaterialStateProperty.all(const Color(0xFFcdc1ff)),
+                  backgroundColor: MaterialStateProperty.all(
+                      Theme.of(context).secondaryHeaderColor),
                   shape: MaterialStateProperty.all(RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),
                   ))),
@@ -79,7 +79,10 @@ class _NearShopsScreenState extends State<NearShopsScreen> {
                   });
                 });
               },
-              child: const Text("Search"),
+              child: Text(
+                "Search",
+                style: Theme.of(context).textTheme.titleSmall,
+              ),
             )
           ],
         ),

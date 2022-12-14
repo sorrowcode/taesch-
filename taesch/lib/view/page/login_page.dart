@@ -32,10 +32,12 @@ class _LoginPageState extends StartingPageState {
         level: LogLevel.info,
         logMessage: LogMessage(message: "entered login page"));
     return [
-      Text(
-        (vm as LoginPageVM).title,
-        style: const TextStyle(
-          fontSize: 40,
+      Container(
+        margin:
+            EdgeInsets.only(bottom: MediaQuery.of(context).size.height / 30),
+        child: Text(
+          (vm as LoginPageVM).title,
+          style: Theme.of(context).textTheme.displayMedium,
         ),
       ),
       Padding(
@@ -81,9 +83,6 @@ class _LoginPageState extends StartingPageState {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           TextButton(
-            style: OutlinedButton.styleFrom(
-              backgroundColor: Theme.of(context).colorScheme.primary,
-            ),
             key: Key(WidgetKey.registrationButtonKey.text),
             onPressed: () {
               logger.log(
@@ -97,15 +96,12 @@ class _LoginPageState extends StartingPageState {
               );
             },
             child: Text(
+              style: Theme.of(context).textTheme.labelLarge,
               (vm as LoginPageVM).registrationButtonText,
-              style: Theme.of(context).textTheme.button,
             ),
           ),
           TextButton(
-            style: OutlinedButton.styleFrom(
-              backgroundColor:
-                  Theme.of(context).buttonTheme.colorScheme?.primary,
-            ),
+            //style: OutlinedButton.styleFrom(),
             key: Key(WidgetKey.loginButtonKey.text),
             onPressed: () async {
               logger.log(
@@ -137,8 +133,8 @@ class _LoginPageState extends StartingPageState {
               }
             },
             child: Text(
+              style: Theme.of(context).textTheme.labelLarge,
               (vm as LoginPageVM).loginButtonText,
-              style: Theme.of(context).textTheme.button,
             ),
           )
         ],

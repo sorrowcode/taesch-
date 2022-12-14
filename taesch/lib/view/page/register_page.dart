@@ -29,9 +29,7 @@ class _RegisterPageState extends StartingPageState {
     return [
       Text(
         (vm as RegisterPageVM).title,
-        style: const TextStyle(
-          fontSize: 40,
-        ),
+        style: Theme.of(context).textTheme.displayMedium,
       ),
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
@@ -109,7 +107,7 @@ class _RegisterPageState extends StartingPageState {
           ),
         ),
       ),
-      OutlinedButton(
+      TextButton(
         key: Key(WidgetKey.submitButtonKey.text),
         onPressed: () async {
           logger.log(
@@ -131,7 +129,10 @@ class _RegisterPageState extends StartingPageState {
                 logMessage: LogMessage(message: "invalid form"));
           }
         },
-        child: Text((vm as RegisterPageVM).submitButtonText),
+        child: Text(
+          (vm as RegisterPageVM).submitButtonText,
+          style: Theme.of(context).textTheme.labelLarge,
+        ),
       ),
     ];
   }

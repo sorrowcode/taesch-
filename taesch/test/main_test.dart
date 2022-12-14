@@ -128,7 +128,7 @@ void main() async {
       await widgetTester.enterText(
           find.byKey(Key(WidgetKey.secondPasswordRegisterKey.text)), "b");
       await widgetTester.pump();
-      await widgetTester.tap(find.byType(OutlinedButton));
+      await widgetTester.tap(find.byType(TextButton));
       await widgetTester.pump();
 
       expect(find.text(ErrorCase.invalidUsername.message), findsOneWidget);

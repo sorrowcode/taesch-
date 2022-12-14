@@ -34,7 +34,9 @@ class _AddItemDialogState extends State<AddItemDialog> {
         });
 
     return AlertDialog(
-        title: Text(widget._vm.title),
+        title: Text(
+          widget._vm.title,
+        ),
         content: Form(
           key: _formKey,
           child: Column(
@@ -81,7 +83,10 @@ class _AddItemDialogState extends State<AddItemDialog> {
         ),
         actions: <Widget>[
           TextButton(
-              child: const Icon(Icons.check),
+              child: Icon(
+                Icons.check,
+                color: Theme.of(context).primaryColor,
+              ),
               onPressed: () {
                 logger.log(
                     level: LogLevel.info,
@@ -108,7 +113,10 @@ class _AddItemDialogState extends State<AddItemDialog> {
                 }
               }),
           TextButton(
-            child: const Icon(Icons.close),
+            child: Icon(
+              Icons.close,
+              color: Theme.of(context).primaryColor,
+            ),
             onPressed: () {
               logger.log(
                   level: LogLevel.debug,

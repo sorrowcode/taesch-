@@ -2,9 +2,10 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ "35-automatisches-testing" ]
+    branches: 
+        - "**"
   pull_request:
-    branches: [ "35-automatisches-testing", "developer", "main" ]
+    branches: [ "developer", "main" ]
 
 jobs:
 

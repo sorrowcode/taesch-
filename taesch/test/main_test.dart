@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:path/path.dart';
@@ -18,11 +17,9 @@ import 'package:taesch/model/query_location.dart';
 import 'package:taesch/model/shop.dart';
 import 'package:taesch/model/widget_key.dart';
 import 'package:taesch/view/page/home_page.dart';
-import 'package:taesch/view/screen/near_shops_screen.dart';
 import 'package:taesch/view_model/page/login_page_vm.dart';
 import 'package:taesch/view_model/page/register_page_vm.dart';
 import 'package:taesch/view_model/page/starting_page_vm.dart';
-import 'package:taesch/view_model/screen/shops_map_screen_vm.dart';
 
 void main() async {
   TestWidgetsFlutterBinding.ensureInitialized();

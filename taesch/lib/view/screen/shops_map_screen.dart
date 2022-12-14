@@ -7,6 +7,7 @@ import 'package:taesch/middleware/log/logger_wrapper.dart';
 import 'package:taesch/model/log_message.dart';
 import 'package:taesch/model/map_spot.dart';
 import 'package:taesch/model/shop.dart';
+import 'package:taesch/view_model/custom_widget/marker_long_tap_dialog_vm.dart';
 import 'package:taesch/view_model/screen/shops_map_screen_vm.dart';
 
 class ShopsMapScreen extends StatefulWidget {
@@ -61,88 +62,7 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
                   _onTapId = markerID;
                 });
               }
-
-              showDialog(
-                  context: ctx,
-                  builder: (ctx) => AlertDialog(
-                    title: Text(mapSpot.name),
-                    content: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          RichText(
-                            text: const TextSpan(
-                                  style: TextStyle(color: Colors.black), //apply style to all
-                                  children: [
-                                    TextSpan(text: 'Street:', style: TextStyle(fontWeight: FontWeight.bold)),
-                                    TextSpan(text: ' some street name'),
-                                    TextSpan(text: "\n")
-                                  ]
-                              )
-                          ),
-                          RichText(
-                              text: const TextSpan(
-                                  style: TextStyle(color: Colors.black), //apply style to all
-                                  children: [
-                                    TextSpan(text: 'Number:', style: TextStyle(fontWeight: FontWeight.bold)),
-                                    TextSpan(text: ' 17'),
-                                    TextSpan(text: "\n")
-                                  ]
-                              )
-                          ),
-                          RichText(
-                              text: const TextSpan(
-                                  style: TextStyle(color: Colors.black), //apply style to all
-                                  children: [
-                                    TextSpan(text: 'Distance to you:', style: TextStyle(fontWeight: FontWeight.bold)),
-                                    TextSpan(text: ' 44m'),
-                                    TextSpan(text: "\n")
-                                  ]
-                              )
-                          ),
-                          RichText(
-                              text: const TextSpan(
-                                  style: TextStyle(color: Colors.black), //apply style to all
-                                  children: [
-                                    TextSpan(text: 'Öffnungszeiten:', style: TextStyle(fontWeight: FontWeight.bold)),
-                                    TextSpan(text: ' 8:00 - 19:30 Uhr'),
-                                    TextSpan(text: "\n")
-                                  ]
-                              )
-                          ),
-                          RichText(
-                              text: const TextSpan(
-                                  style: TextStyle(color: Colors.black), //apply style to all
-                                  children: [
-                                    TextSpan(text: 'Toilette:', style: TextStyle(fontWeight: FontWeight.bold)),
-                                    TextSpan(text: ' Nein'),
-                                    TextSpan(text: "\n")
-                                  ]
-                              )
-                          ),
-                          RichText(
-                              text: const TextSpan(
-                                  style: TextStyle(color: Colors.black), //apply style to all
-                                  children: [
-                                    TextSpan(text: 'Parkplatz:', style: TextStyle(fontWeight: FontWeight.bold)),
-                                    TextSpan(text: ' Ja'),
-                                    TextSpan(text: "\n")
-                                  ]
-                              )
-                          ),
-                        ],
-                      ),
-                    ),
-                    actions: [
-                      TextButton(
-                          onPressed: (){
-                            Navigator.pop(ctx);
-                          },
-                          child: const Text("Close")
-                      )
-                    ],
-
-                  )
-              );
+              MarkerLongTapDialogVM().showPupUpDialog(context, mapSpot.name);
             },
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

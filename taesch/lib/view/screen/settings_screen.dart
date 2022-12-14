@@ -26,6 +26,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return SwitchListTile(
       title: Text(widget._vm.switchTitle),
       value: ThemeController.of(context).darkTheme,
+      activeColor: Theme.of(context).secondaryHeaderColor,
       onChanged: (bool value) {
         logger.log(
             level: LogLevel.info,
@@ -36,7 +37,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ThemeController.of(context).darkTheme = value;
         });
       },
-      secondary: const Icon(Icons.sunny),
+      secondary: Icon(
+        Icons.sunny,
+        color: Theme.of(context).iconTheme.color,
+      ),
     );
   }
 }

@@ -45,6 +45,7 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
           key: ValueKey(markerID),
           point: LatLng(mapSpot.lat, mapSpot.long),
           builder: (ctx) => GestureDetector(
+            key: Key(markerID.toString()),
             onTap: () {
               setState(() {
                 // show information only for this marker
@@ -187,7 +188,9 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
               zoom: 13,
             ),
             children: [
-              TileLayer(
+              widget._vm.repository.testing?
+              const Text("This is a test.")
+              :TileLayer(
                 urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                 userAgentPackageName: 'dev.fleaflet.flutter_map.example',
               ),

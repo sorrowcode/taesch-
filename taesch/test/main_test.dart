@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:path/path.dart';
@@ -11,13 +12,17 @@ import 'package:taesch/api/repository.dart';
 import 'package:taesch/app.dart';
 import 'package:taesch/logic/theme_controller.dart';
 import 'package:taesch/model/error_case.dart';
+import 'package:taesch/model/map_spot.dart';
 import 'package:taesch/model/product.dart';
 import 'package:taesch/model/query_location.dart';
+import 'package:taesch/model/shop.dart';
 import 'package:taesch/model/widget_key.dart';
 import 'package:taesch/view/page/home_page.dart';
+import 'package:taesch/view/screen/near_shops_screen.dart';
 import 'package:taesch/view_model/page/login_page_vm.dart';
 import 'package:taesch/view_model/page/register_page_vm.dart';
 import 'package:taesch/view_model/page/starting_page_vm.dart';
+import 'package:taesch/view_model/screen/shops_map_screen_vm.dart';
 
 void main() async {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -253,6 +258,67 @@ void main() async {
         expect(find.byType(Card), findsNothing);
       });
     });
+  });
+
+  // geschrieben nach der Vorlage von Franz
+  group("marker information tap tests", (){
+
+    const homePage = HomePage();
+    var repository = Repository();
+    repository.testing = true;
+
+    String name = "Im sexy and I know it";
+    double long = 49.0;
+    double lat = 9.0;
+    // ist ungefaehr Heilbronn
+    String address = "Pokemon League, 4";
+    repository.fillUpCache([Shop(spot: MapSpot(name, long, lat, address))]);
+
+    repository.setPosition(Position(
+        latitude: lat,
+        longitude: long,
+        timestamp: null,
+        accuracy: 0.0,
+        altitude: 0.0,
+        heading: 0.0,
+        speed: 0.0,
+        speedAccuracy: 0.0)
+    );
+
+    testWidgets("short tap", (widgetTester) async{
+      await widgetTester.pumpWidget(const MaterialApp(
+        home: homePage,
+      ));
+      expect(find.byIcon(Icons.menu), findsOneWidget);
+      await widgetTester.tap(find.byIcon(Icons.menu));
+      await widgetTester.pumpAndSettle();
+      repository.fillUpCache([Shop(spot: MapSpot(name, long, lat, address))]);
+      expect(find.text('Map'), findsOneWidget);
+      await widgetTester.tap(find.text("Map"));
+      await widgetTester.pumpAndSettle();
+      expect(find.byKey(const Key("1")), findsAtLeastNWidgets(1));
+      await widgetTester.tap(find.byKey(const Key("1")));
+      await widgetTester.pumpAndSettle();
+      expect(find.text(name), findsOneWidget);
+    });
+
+    testWidgets("long tap", (widgetTester) async{
+      await widgetTester.pumpWidget(const MaterialApp(
+        home: homePage,
+      ));
+      expect(find.byIcon(Icons.menu), findsOneWidget);
+      await widgetTester.tap(find.byIcon(Icons.menu));
+      await widgetTester.pumpAndSettle();
+      repository.fillUpCache([Shop(spot: MapSpot(name, long, lat, address))]);
+      expect(find.text('Map'), findsOneWidget);
+      await widgetTester.tap(find.text("Map"));
+      await widgetTester.pumpAndSettle();
+      expect(find.byKey(const Key("1")), findsAtLeastNWidgets(1));
+      await widgetTester.longPress(find.byKey(const Key("1")));
+      await widgetTester.pumpAndSettle();
+      expect(find.byType(TextButton), findsOneWidget);
+    });
+    
   });
 
   // unit

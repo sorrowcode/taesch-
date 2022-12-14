@@ -13,6 +13,7 @@ class Repository {
   List<Shop> shopsCache = [];
   ValueNotifier<int> shopsCacheSize = ValueNotifier(0);
   SQLDatabase sqlDatabase = SQLDatabase();
+  bool testing = false;
 
   Position _userPosition = const Position(
       latitude: 49.1427,

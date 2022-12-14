@@ -74,6 +74,9 @@ class _AppState extends State<App> {
               labelLarge: TextStyle(
                 color: v,
               ),
+              bodyLarge: TextStyle(
+                color: z,
+              )
             ),
             appBarTheme: AppBarTheme(
               backgroundColor: z,
@@ -87,8 +90,9 @@ class _AppState extends State<App> {
               color: w,
             ),
             dialogTheme: DialogTheme(
-              backgroundColor: e,
-              titleTextStyle: Theme.of(context).textTheme.headlineSmall,
+              backgroundColor: z,
+              //titleTextStyle: Theme.of(context).textTheme.headlineSmall,
+              //contentTextStyle: Theme.of(context).textTheme.bodyLarge,
             ),
             listTileTheme: ListTileThemeData(
               style: ListTileStyle.drawer,

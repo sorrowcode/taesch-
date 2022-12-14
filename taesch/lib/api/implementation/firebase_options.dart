@@ -63,7 +63,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '115260950286',
     projectId: 'taesch-a5b34',
     storageBucket: 'taesch-a5b34.appspot.com',
-    iosClientId: '115260950286-lvhqvt72g02uhsk081n7t9063hhtjut5.apps.googleusercontent.com',
+    iosClientId:
+        '115260950286-lvhqvt72g02uhsk081n7t9063hhtjut5.apps.googleusercontent.com',
     iosBundleId: 'com.taesch.taesch',
   );
 }

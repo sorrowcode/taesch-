@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:taesch/middleware/log/log_level.dart';
 import 'package:taesch/middleware/log/logger_wrapper.dart';
@@ -29,8 +28,8 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
   void initState() {
     setState(() {
       widget._vm.shopsMarker.add(Marker(
-          point:
-          LatLng(widget._vm.osmRepository.userPosition.latitude, widget._vm.osmRepository.userPosition.longitude),
+          point: LatLng(widget._vm.osmRepository.userPosition.latitude,
+              widget._vm.osmRepository.userPosition.longitude),
           builder: (ctx) => GestureDetector(
               onTap: () {},
               child: const Icon(Icons.my_location_outlined,
@@ -42,32 +41,11 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
                   ],
                   size: 30,
                   color: Colors.blue) //const FlutterLogo(),
-          )));
+              )));
       if (widget._vm.shop == null) {
         for (Shop shop in widget._vm.osmRepository.cache) {
-
-            widget._vm.shopsMarker.add(Marker(
-                point: LatLng(shop.mapSpot.lat, shop.mapSpot.long),
-                /*builder: (ctx) => GestureDetector(
-                        onTap: () {
-                            /*ScaffoldMessenger.of(ctx).showSnackBar(const SnackBar(
-                                content: Text('Tapped on blue FlutterLogo Marker'),
-                                )
-                            );*/
-                            print("Tapped on marker.");
-                        },
-                        child: Icon(Icons.location_on),
-
-                    )*/
-                builder: (ctx) =>
-                const Icon(Icons.location_on, color: Colors.black54)));
-        }
-      } else {
-
           widget._vm.shopsMarker.add(Marker(
-              key: Key(WidgetKey.redMarkerKey.text),
-              point: LatLng(
-                  widget._vm.shop!.mapSpot.lat, widget._vm.shop!.mapSpot.long),
+              point: LatLng(shop.mapSpot.lat, shop.mapSpot.long),
               /*builder: (ctx) => GestureDetector(
                         onTap: () {
                             /*ScaffoldMessenger.of(ctx).showSnackBar(const SnackBar(
@@ -79,7 +57,27 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
                         child: Icon(Icons.location_on),
 
                     )*/
-              builder: (ctx) => const Icon(Icons.location_on, color: Colors.red)));
+              builder: (ctx) =>
+                  const Icon(Icons.location_on, color: Colors.black54)));
+        }
+      } else {
+        widget._vm.shopsMarker.add(Marker(
+            key: Key(WidgetKey.redMarkerKey.text),
+            point: LatLng(
+                widget._vm.shop!.mapSpot.lat, widget._vm.shop!.mapSpot.long),
+            /*builder: (ctx) => GestureDetector(
+                        onTap: () {
+                            /*ScaffoldMessenger.of(ctx).showSnackBar(const SnackBar(
+                                content: Text('Tapped on blue FlutterLogo Marker'),
+                                )
+                            );*/
+                            print("Tapped on marker.");
+                        },
+                        child: Icon(Icons.location_on),
+
+                    )*/
+            builder: (ctx) =>
+                const Icon(Icons.location_on, color: Colors.red)));
       }
     });
     super.initState();
@@ -95,7 +93,11 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
         child: SizedBox(
           child: FlutterMap(
             options: MapOptions(
-              center: widget._vm.shop == null ? LatLng(widget._vm.osmRepository.userPosition.latitude, widget._vm.osmRepository.userPosition.longitude) : LatLng(widget._vm.shop!.mapSpot.lat, widget._vm.shop!.mapSpot.long),
+              center: widget._vm.shop == null
+                  ? LatLng(widget._vm.osmRepository.userPosition.latitude,
+                      widget._vm.osmRepository.userPosition.longitude)
+                  : LatLng(widget._vm.shop!.mapSpot.lat,
+                      widget._vm.shop!.mapSpot.long),
               zoom: 13,
             ),
             children: [

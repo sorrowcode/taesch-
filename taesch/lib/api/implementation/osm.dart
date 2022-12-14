@@ -37,7 +37,8 @@ class OSM implements OSMActions {
                 name: shopData[OverpassQueryIndex.name.identifier],
                 lat: test[OverpassQueryIndex.latitude.identifier] == null
                     ? 0
-                    : double.parse(test[OverpassQueryIndex.latitude.identifier].toString()),
+                    : double.parse(test[OverpassQueryIndex.latitude.identifier]
+                        .toString()),
                 long: test[OverpassQueryIndex.longitude.identifier] == null
                     ? 0
                     : double.parse(test[OverpassQueryIndex.longitude.identifier]

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:taesch/middleware/log/log_level.dart';
 import 'package:taesch/middleware/log/logger_wrapper.dart';
 import 'package:taesch/model/log_message.dart';
-import 'package:taesch/model/shop.dart';
 import 'package:taesch/model/widget_key.dart';
 import 'package:taesch/view/custom_widget/shops_tile.dart';
 import 'package:taesch/view/screen/shops_map_screen.dart';
@@ -93,8 +92,9 @@ class _NearShopsScreenState extends State<NearShopsScreen> {
         callBack: () {
           logger.log(
               level: LogLevel.info,
-              logMessage:
-                  LogMessage(message: "Taped On: ${widget._vm.osmRepository.cache[i].name}"));
+              logMessage: LogMessage(
+                  message:
+                      "Taped On: ${widget._vm.osmRepository.cache[i].name}"));
           setState(() {
             widget._vm.selectedShop = widget._vm.osmRepository.cache[i];
             widget._vm.isMap = true;

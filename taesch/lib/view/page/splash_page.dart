@@ -40,14 +40,25 @@ class _SplashPageState extends State<SplashPage> {
             });
           });
         } on TimeoutException {
-          osmRepository.osmActions.getNearShops(2000, osmRepository.userPosition).then((shops) {
-            osmRepository.cache = shops;
-            Timer(const Duration(seconds: 3), () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const HomePage(),
-                  settings: RouteSettings(arguments: products)));
+          try {
+            osmRepository.osmActions.getNearShops(2000, osmRepository.userPosition).then((shops) {
+              osmRepository.cache = shops;
+              Timer(const Duration(seconds: 3), () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const HomePage(),
+                    settings: RouteSettings(arguments: products)));
+              });
             });
-          });
+          } on TimeoutException {
+            osmRepository.osmActions.getNearShops(2000, osmRepository.userPosition).then((shops) {
+              osmRepository.cache = shops;
+              Timer(const Duration(seconds: 3), () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const HomePage(),
+                    settings: RouteSettings(arguments: products)));
+              });
+            });
+          }
         }
       });
     });

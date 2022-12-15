@@ -52,6 +52,12 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
               point: LatLng(shop.mapSpot.lat, shop.mapSpot.long),
               builder: (ctx) => GestureDetector(
                     onLongPress: () {
+                      if (widget._vm.lastID != 0) {
+                        setBlack(widget._vm.lastID, widget._vm.lastShop);
+                      }
+                      setRed(id, shop);
+                      widget._vm.lastShop = shop;
+                      widget._vm.lastID = id;
                       var dialog = MarkerLongTapDialog();
                       dialog.showPupUpDialog(context, shop);
                     },
@@ -62,7 +68,7 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
                             );*/
                       print("Tapped on marker $id");
                       if (widget._vm.lastID != 0) {
-                        setBlack(widget._vm.lastID, widget._vm.shop!);
+                        setBlack(widget._vm.lastID, widget._vm.lastShop);
                       }
                       setRed(id, shop);
                       setState(() {
@@ -142,6 +148,10 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
               point: LatLng(temp.point.latitude, temp.point.longitude),
               builder: (ctx) => GestureDetector(
                 onLongPress: () {
+                  setBlack(widget._vm.lastID, widget._vm.lastShop);
+                  setRed(id, shop);
+                  widget._vm.lastID = id;
+                  widget._vm.lastShop = shop;
                   var dialog = MarkerLongTapDialog();
                   dialog.showPupUpDialog(context, shop);
                 },
@@ -151,7 +161,7 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
                                 )
                             );*/
                       print("Tapped on marker $id");
-                      setBlack(widget._vm.lastID, widget._vm.lastShop!);
+                      setBlack(widget._vm.lastID, widget._vm.lastShop);
                       setRed(id, shop);
                       widget._vm.lastID = id;
                       widget._vm.lastShop = shop;
@@ -174,6 +184,10 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
               point: LatLng(temp.point.latitude, temp.point.longitude),
               builder: (ctx) => GestureDetector(
                     onLongPress: () {
+                      setBlack(widget._vm.lastID, widget._vm.lastShop);
+                      setRed(id, shop);
+                      widget._vm.lastID = id;
+                      widget._vm.lastShop = shop;
                       var dialog = MarkerLongTapDialog();
                       dialog.showPupUpDialog(context, shop);
                     },
@@ -183,10 +197,11 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
                                 )
                             );*/
                       print("Tapped on marker $id");
-                      setBlack(widget._vm.lastID, widget._vm.lastShop!);
+
+                      setBlack(widget._vm.lastID, widget._vm.lastShop);
                       setRed(id, shop);
-                      widget._vm.lastID = id;
                       widget._vm.lastShop = shop;
+                      widget._vm.lastID = id;
                     },
                     child: const Icon(
                       Icons.location_on,

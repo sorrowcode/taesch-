@@ -14,12 +14,6 @@ class LoginPageVM extends StartingPageVM {
   var connection = ConnectivityProvider();
   bool isOnline = false;
 
-  LoginPageVM(){
-    connection.addListener(() {
-      isOnline = connection.isOnline;
-    });
-  }
-
   showAlertDialog(BuildContext context){
     showDialog(context: context, builder: (BuildContext context)=>ConnectionAlert());
   }

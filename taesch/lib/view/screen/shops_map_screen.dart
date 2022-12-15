@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:taesch/middleware/log/log_level.dart';
 import 'package:taesch/middleware/log/logger_wrapper.dart';
 import 'package:taesch/model/log_message.dart';
-import 'package:taesch/model/map_spot.dart';
 import 'package:taesch/model/shop.dart';
-import 'package:taesch/view_model/custom_widget/marker_long_tap_dialog_vm.dart';
+import 'package:taesch/model/widget_key.dart';
 import 'package:taesch/view_model/screen/shops_map_screen_vm.dart';
 
 class ShopsMapScreen extends StatefulWidget {
   final _vm = ShopsMapScreenVM();
 
-  ShopsMapScreen({super.key});
+  ShopsMapScreen({super.key}) {
+    _vm.shop = null;
+  }
+
+  ShopsMapScreen.fromNearScreen(Shop selectedShop, {super.key}) {
+    _vm.shop = selectedShop;
+  }
 
   @override
   State<StatefulWidget> createState() => _ShopsMapScreenState();
@@ -21,66 +25,74 @@ class ShopsMapScreen extends StatefulWidget {
 
 class _ShopsMapScreenState extends State<ShopsMapScreen> {
   LoggerWrapper logger = LoggerWrapper();
-  int _onTapId = 0;
 
-  List<Marker> _getMarkersFromSpot(List<MapSpot> mapSpots) {
-    List<Marker> markers = [];
-    int idCounter=0;
-    for (MapSpot mapSpot in mapSpots) {
-      idCounter++;
-      int markerID = idCounter;
-      Text markerDescriptor = const Text("");
-
-      if (_onTapId == markerID){
-        markerDescriptor = Text(
-            mapSpot.name, //\n${mapSpot.address}
-            style: const TextStyle(fontWeight: FontWeight.bold)
-        );
-      }else{
-        //markerDescriptor = const Text("");
-      }
-
-      markers.add(Marker(
-          width: 200,
-          height: 300,
-          key: ValueKey(markerID),
-          point: LatLng(mapSpot.lat, mapSpot.long),
+  @override
+  void initState() {
+    setState(() {
+      widget._vm.shopsMarker.add(Marker(
+          point: LatLng(widget._vm.osmRepository.userPosition.latitude,
+              widget._vm.osmRepository.userPosition.longitude),
           builder: (ctx) => GestureDetector(
-            key: Key(markerID.toString()),
-            onTap: () {
-              setState(() {
-                // show information only for this marker
-                _onTapId = markerID;
-              });
-            },
+              onTap: () {},
+              child: const Icon(Icons.my_location_outlined,
+                  shadows: [
+                    BoxShadow(
+                      blurRadius: 20.0,
+                      color: Colors.blue,
+                    ),
+                  ],
+                  size: 30,
+                  color: Colors.blue) //const FlutterLogo(),
+              )));
+      if (widget._vm.shop == null) {
+        for (Shop shop in widget._vm.osmRepository.cache) {
+          int id = widget._vm.idCounter;
+          widget._vm.shopsMarker.add(Marker(
+              point: LatLng(shop.mapSpot.lat, shop.mapSpot.long),
+              builder: (ctx) => GestureDetector(
+                    onTap: () {
+                      /*ScaffoldMessenger.of(ctx).showSnackBar(const SnackBar(
+                                content: Text('Tapped on blue FlutterLogo Marker'),
+                                )
+                            );*/
+                      print("Tapped on marker $id");
+                      if (widget._vm.lastID != 0) {
+                        setBlack(widget._vm.lastID);
+                      }
 
-            onLongPress: (){
+                      setRed(id);
+                      setState(() {
+                        widget._vm.lastID = id;
+                      });
+                    },
+                    child: const Icon(
+                      Icons.location_on,
+                      color: Colors.black54,
+                    ),
+                  )));
+          widget._vm.idCounter++;
+        }
+      } else {
+        widget._vm.shopsMarker.add(Marker(
+            key: Key(WidgetKey.redMarkerKey.text),
+            point: LatLng(
+                widget._vm.shop!.mapSpot.lat, widget._vm.shop!.mapSpot.long),
+            /*builder: (ctx) => GestureDetector(
+                        onTap: () {
+                            /*ScaffoldMessenger.of(ctx).showSnackBar(const SnackBar(
+                                content: Text('Tapped on blue FlutterLogo Marker'),
+                                )
+                            );*/
+                            print("Tapped on marker.");
+                        },
+                        child: Icon(Icons.location_on),
 
-              if (_onTapId!=markerID){
-                // gleiches Verhalten wie onTap()
-                setState(() {
-                  _onTapId = markerID;
-                });
-              }
-              MarkerLongTapDialogVM().showPupUpDialog(context, mapSpot.name);
-            },
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              //verticalDirection: VerticalDirection.up,
-              children: [
-                markerDescriptor,
-                Center(
-                    child: Icon(Icons.location_on,
-                    color: Colors.black.withOpacity((_onTapId==markerID)?1.0:0.26)
-                    )
-                )
-              ]
-            ),
-          )
-      )
-      );
-    }
-    return markers;
+                    )*/
+            builder: (ctx) =>
+                const Icon(Icons.location_on, color: Colors.red)));
+      }
+    });
+    super.initState();
   }
 
   @override
@@ -88,48 +100,84 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
     logger.log(
         level: LogLevel.info,
         logMessage: LogMessage(message: "entered shops map screen"));
-
-    // create user position object
-    Position position = widget._vm.repository.getUserPosition();
-
-    // fetch MapSpots from each Shop
-    List<MapSpot> mapSpots = [];
-    for (Shop shop in widget._vm.repository.shopsCache) {
-      mapSpots.add(shop.mapSpot);
-    }
-
-    // taken from the example code of https://github.com/fleaflet/flutter_map/blob/master/example/lib/pages/moving_markers.dart
     return Scaffold(
       body: Center(
         child: SizedBox(
           child: FlutterMap(
             options: MapOptions(
-              center: LatLng(position.latitude, position.longitude),
+              center: widget._vm.shop == null
+                  ? LatLng(widget._vm.osmRepository.userPosition.latitude,
+                      widget._vm.osmRepository.userPosition.longitude)
+                  : LatLng(widget._vm.shop!.mapSpot.lat,
+                      widget._vm.shop!.mapSpot.long),
               zoom: 13,
             ),
             children: [
-              widget._vm.repository.testing?
-              const Text("This is a test.")
-              :TileLayer(
+              TileLayer(
                 urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                 userAgentPackageName: 'dev.fleaflet.flutter_map.example',
               ),
               MarkerLayer(
-                markers: [
-                      Marker(
-                          point: LatLng(position.latitude, position.longitude),
-                          builder: (ctx) => GestureDetector(
-                              onTap: () {},
-                              child: const Icon(
-                                  Icons.my_location) //const FlutterLogo(),
-                              ))
-                    ] +
-                    _getMarkersFromSpot(mapSpots),
+                markers: widget._vm.shopsMarker,
               )
             ],
           ),
         ),
       ),
     );
+  }
+
+  void setBlack(int id) {
+    setState(() {
+      Marker temp = widget._vm.shopsMarker.elementAt(id);
+      widget._vm.shopsMarker.removeAt(id);
+      widget._vm.shopsMarker.insert(
+          id,
+          Marker(
+              point: LatLng(temp.point.latitude, temp.point.longitude),
+              builder: (ctx) => GestureDetector(
+                    onTap: () {
+                      /*ScaffoldMessenger.of(ctx).showSnackBar(const SnackBar(
+                                content: Text('Tapped on blue FlutterLogo Marker'),
+                                )
+                            );*/
+                      print("Tapped on marker $id");
+                      setBlack(widget._vm.lastID);
+                      setRed(id);
+                      widget._vm.lastID = id;
+                    },
+                    child: const Icon(
+                      Icons.location_on,
+                      color: Colors.black54,
+                    ),
+                  )));
+    });
+  }
+
+  void setRed(int id) {
+    setState(() {
+      Marker temp = widget._vm.shopsMarker.elementAt(id);
+      widget._vm.shopsMarker.removeAt(id);
+      widget._vm.shopsMarker.insert(
+          id,
+          Marker(
+              point: LatLng(temp.point.latitude, temp.point.longitude),
+              builder: (ctx) => GestureDetector(
+                    onTap: () {
+                      /*ScaffoldMessenger.of(ctx).showSnackBar(const SnackBar(
+                                content: Text('Tapped on blue FlutterLogo Marker'),
+                                )
+                            );*/
+                      print("Tapped on marker $id");
+                      setBlack(widget._vm.lastID);
+                      setRed(id);
+                      widget._vm.lastID = id;
+                    },
+                    child: const Icon(
+                      Icons.location_on,
+                      color: Colors.red,
+                    ),
+                  )));
+    });
   }
 }

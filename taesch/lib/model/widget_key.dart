@@ -9,6 +9,8 @@ enum WidgetKey {
   secondPasswordRegisterKey,
   submitButtonKey,
   shoppingListScreenListTile,
+  searchButtonKey,
+  redMarkerKey
 }
 
 extension KeyText on WidgetKey {

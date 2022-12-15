@@ -39,7 +39,10 @@ class _HomePageState extends State<HomePage> {
         child: Scaffold(
           key: _scaffoldKey,
           appBar: AppBar(
-            title: Text(_vm.screenState.text),
+            title: Text(
+              _vm.screenState.text,
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
           ),
           body: screen,
           drawer: Drawer(
@@ -48,6 +51,8 @@ class _HomePageState extends State<HomePage> {
               children: _setupSideBarElements(),
             ),
           ),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerFloat,
           floatingActionButton: _vm.screenState == ScreenState.shoppingList
               ? FloatingActionButton(
                   child: const Icon(Icons.add),
@@ -76,7 +81,7 @@ class _HomePageState extends State<HomePage> {
     var elements = <Widget>[];
     elements.add(DrawerHeader(
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.primary,
+        color: Theme.of(context).primaryColor,
       ),
       child: const Text(''),
     ));
@@ -98,6 +103,7 @@ class _HomePageState extends State<HomePage> {
           _scaffoldKey.currentState!.closeDrawer();
         },
       ));
+      elements.add(const Divider());
     }
     return elements;
   }
@@ -106,7 +112,7 @@ class _HomePageState extends State<HomePage> {
   void _getCurrentScreen() {
     switch (_vm.screenState) {
       case ScreenState.shoppingList:
-        _vm.repository.sqlDatabase.getProductList(true).then((value) {
+        _vm.sqlRepository.sqlActions.getProductList(true).then((value) {
           screen = ShoppingListScreen(products: value);
         });
         break;

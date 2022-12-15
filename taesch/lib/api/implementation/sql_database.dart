@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:taesch/api/database/action_interfaces/i_product_action.dart';
-import 'package:taesch/api/database/sql/dto/product_dto.dart';
+import 'package:taesch/api/actions/sql_actions.dart';
+import 'package:taesch/api/mapper/product_dto_map_data.dart';
 import 'package:taesch/middleware/log/log_level.dart';
 import 'package:taesch/middleware/log/logger_wrapper.dart';
+import 'package:taesch/model/dto/product_dto.dart';
 import 'package:taesch/model/log_message.dart';
 import 'package:taesch/model/product.dart';
-import 'package:taesch/model/product_dto_map_data.dart';
 
-class SQLDatabase implements IProductAction {
+class SQLDatabase implements SQLActions {
   late final Database _database;
   bool initialized = false;
   final String _generatedTable = "shopping_list_generated";
   final String _effectiveTable = "shopping_list_effective";
-  LoggerWrapper logger = LoggerWrapper();
+  final LoggerWrapper _logger = LoggerWrapper();
 
+  @override
   Future<void> init() async {
-    logger.log(
+    _logger.log(
         level: LogLevel.info,
         logMessage: LogMessage(
           message: "sql database init called",
@@ -50,14 +51,14 @@ class SQLDatabase implements IProductAction {
           "$sumOfAllWeights DOUBLE PRECISION NOT NULL,"
           "$timesBought INTEGER NOT NULL"
           ");";
+      initialized = true;
       return db.execute(sql);
     });
-    initialized = true;
   }
 
   @override
   Future<void> deleteProduct(bool generated, String productName) async {
-    logger.log(
+    _logger.log(
         level: LogLevel.info,
         logMessage: LogMessage(message: "sql database delete product called"));
     final db = _database;
@@ -68,7 +69,7 @@ class SQLDatabase implements IProductAction {
 
   @override
   Future<void> deleteProductList(bool generated) async {
-    logger.log(
+    _logger.log(
         level: LogLevel.info,
         logMessage:
             LogMessage(message: "sql database delete product list called"));
@@ -80,7 +81,7 @@ class SQLDatabase implements IProductAction {
 
   @override
   Future<List<Product>> getProductList(bool generated) async {
-    logger.log(
+    _logger.log(
         level: LogLevel.info,
         logMessage:
             LogMessage(message: "sql database get product list called"));
@@ -96,7 +97,7 @@ class SQLDatabase implements IProductAction {
 
   @override
   Future<void> insertProduct(bool generated, Product product) async {
-    logger.log(
+    _logger.log(
         level: LogLevel.info,
         logMessage: LogMessage(message: "sql database insert product called"));
     var db = _database;

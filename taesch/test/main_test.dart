@@ -10,7 +10,7 @@ import 'package:taesch/api/repositories/repository_type.dart';
 import 'package:taesch/api/repositories/sql_repository.dart';
 import 'package:taesch/api/repository_holder.dart';
 import 'package:taesch/app.dart';
-import 'package:taesch/logic/theme_controller.dart';
+import 'package:taesch/controller/theme_controller.dart';
 import 'package:taesch/model/error_case.dart';
 import 'package:taesch/model/product.dart';
 import 'package:taesch/model/widget_key.dart';
@@ -521,23 +521,4 @@ void main() async {
           jsonDecode(utf8.decode(inputString.toList())), {"test-text": "äöüß"});
     });
   });
-
-  group("set dynamic query parameters", () {});
-
-  /* Integration Test - has plugin dependency
-
-  group("testing geo-location fetch", () {
-    GeolocationTools tools = GeolocationTools();
-    test("testing fetch duration", () async {
-      WidgetsFlutterBinding.ensureInitialized();
-      DateTime time = DateTime.now();
-      var millisBefore = time.millisecondsSinceEpoch;
-      await tools.getCurrentPosition();
-      var millisNow = time.millisecondsSinceEpoch;
-      int maxSeconds = 30;
-      var totalTime = ((millisNow - millisBefore) / 1000);
-      expect(totalTime < maxSeconds, true);
-    });
-  });
-  */
 }

@@ -13,5 +13,7 @@ class Shop {
 
   String get address => _spot.street;
 
+  String get houseNumber => _spot.houseNumber;
+
   MapSpot get mapSpot => _spot;
 }

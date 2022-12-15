@@ -6,6 +6,7 @@ import 'package:taesch/middleware/log/logger_wrapper.dart';
 import 'package:taesch/model/log_message.dart';
 import 'package:taesch/model/shop.dart';
 import 'package:taesch/model/widget_key.dart';
+import 'package:taesch/view/custom_widget/marker_long_tap_dialog.dart';
 import 'package:taesch/view_model/screen/shops_map_screen_vm.dart';
 
 class ShopsMapScreen extends StatefulWidget {
@@ -50,6 +51,10 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
           widget._vm.shopsMarker.add(Marker(
               point: LatLng(shop.mapSpot.lat, shop.mapSpot.long),
               builder: (ctx) => GestureDetector(
+                    onLongPress: () {
+                      var dialog = MarkerLongTapDialog();
+                      dialog.showPupUpDialog(context, shop);
+                    },
                     onTap: () {
                       /*ScaffoldMessenger.of(ctx).showSnackBar(const SnackBar(
                                 content: Text('Tapped on blue FlutterLogo Marker'),
@@ -57,12 +62,12 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
                             );*/
                       print("Tapped on marker $id");
                       if (widget._vm.lastID != 0) {
-                        setBlack(widget._vm.lastID);
+                        setBlack(widget._vm.lastID, widget._vm.shop!);
                       }
-
-                      setRed(id);
+                      setRed(id, shop);
                       setState(() {
                         widget._vm.lastID = id;
+                        widget._vm.lastShop = shop;
                       });
                     },
                     child: const Icon(
@@ -127,7 +132,7 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
     );
   }
 
-  void setBlack(int id) {
+  void setBlack(int id, Shop shop) {
     setState(() {
       Marker temp = widget._vm.shopsMarker.elementAt(id);
       widget._vm.shopsMarker.removeAt(id);
@@ -136,15 +141,20 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
           Marker(
               point: LatLng(temp.point.latitude, temp.point.longitude),
               builder: (ctx) => GestureDetector(
+                onLongPress: () {
+                  var dialog = MarkerLongTapDialog();
+                  dialog.showPupUpDialog(context, shop);
+                },
                     onTap: () {
                       /*ScaffoldMessenger.of(ctx).showSnackBar(const SnackBar(
                                 content: Text('Tapped on blue FlutterLogo Marker'),
                                 )
                             );*/
                       print("Tapped on marker $id");
-                      setBlack(widget._vm.lastID);
-                      setRed(id);
+                      setBlack(widget._vm.lastID, widget._vm.lastShop!);
+                      setRed(id, shop);
                       widget._vm.lastID = id;
+                      widget._vm.lastShop = shop;
                     },
                     child: const Icon(
                       Icons.location_on,
@@ -154,7 +164,7 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
     });
   }
 
-  void setRed(int id) {
+  void setRed(int id, Shop shop) {
     setState(() {
       Marker temp = widget._vm.shopsMarker.elementAt(id);
       widget._vm.shopsMarker.removeAt(id);
@@ -163,15 +173,20 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
           Marker(
               point: LatLng(temp.point.latitude, temp.point.longitude),
               builder: (ctx) => GestureDetector(
+                    onLongPress: () {
+                      var dialog = MarkerLongTapDialog();
+                      dialog.showPupUpDialog(context, shop);
+                    },
                     onTap: () {
                       /*ScaffoldMessenger.of(ctx).showSnackBar(const SnackBar(
                                 content: Text('Tapped on blue FlutterLogo Marker'),
                                 )
                             );*/
                       print("Tapped on marker $id");
-                      setBlack(widget._vm.lastID);
-                      setRed(id);
+                      setBlack(widget._vm.lastID, widget._vm.lastShop!);
+                      setRed(id, shop);
                       widget._vm.lastID = id;
+                      widget._vm.lastShop = shop;
                     },
                     child: const Icon(
                       Icons.location_on,

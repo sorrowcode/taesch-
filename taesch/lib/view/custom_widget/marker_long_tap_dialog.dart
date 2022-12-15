@@ -1,35 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:taesch/model/shop.dart';
 
 class MarkerLongTapDialog {
-  void showPupUpDialog(BuildContext context, String title) {
+  void showPupUpDialog(BuildContext context, Shop shop) {
     showDialog(
         context: context,
         builder: (ctx) => AlertDialog(
-                title: Text(title),
+                title: Text(shop.name),
                 content: SingleChildScrollView(
                   child: Column(
                     children: [
                       RichText(
-                          text: const TextSpan(
+                          text: TextSpan(
                               style: TextStyle(color: Colors.black),
                               //apply style to all
                               children: [
-                            TextSpan(
+                            const TextSpan(
                                 text: 'Street:',
                                 style: TextStyle(fontWeight: FontWeight.bold)),
-                            TextSpan(text: ' some street name'),
-                            TextSpan(text: "\n")
+                            TextSpan(text: shop.address),
+                            const TextSpan(text: "\n")
                           ])),
                       RichText(
-                          text: const TextSpan(
-                              style: TextStyle(color: Colors.black),
+                          text: TextSpan(
+                              style: const TextStyle(color: Colors.black),
                               //apply style to all
                               children: [
-                            TextSpan(
+                            const TextSpan(
                                 text: 'Number:',
                                 style: TextStyle(fontWeight: FontWeight.bold)),
-                            TextSpan(text: ' 17'),
-                            TextSpan(text: "\n")
+                            TextSpan(text: shop.houseNumber),
+                            const TextSpan(text: "\n")
                           ])),
                       RichText(
                           text: const TextSpan(
@@ -39,7 +40,7 @@ class MarkerLongTapDialog {
                             TextSpan(
                                 text: 'Distance to you:',
                                 style: TextStyle(fontWeight: FontWeight.bold)),
-                            TextSpan(text: ' 44m'),
+                            TextSpan(text: ' distance in m'),
                             TextSpan(text: "\n")
                           ])),
                       RichText(
@@ -51,28 +52,6 @@ class MarkerLongTapDialog {
                                 text: 'Öffnungszeiten:',
                                 style: TextStyle(fontWeight: FontWeight.bold)),
                             TextSpan(text: ' 8:00 - 19:30 Uhr'),
-                            TextSpan(text: "\n")
-                          ])),
-                      RichText(
-                          text: const TextSpan(
-                              style: TextStyle(color: Colors.black),
-                              //apply style to all
-                              children: [
-                            TextSpan(
-                                text: 'Toilette:',
-                                style: TextStyle(fontWeight: FontWeight.bold)),
-                            TextSpan(text: ' Nein'),
-                            TextSpan(text: "\n")
-                          ])),
-                      RichText(
-                          text: const TextSpan(
-                              style: TextStyle(color: Colors.black),
-                              //apply style to all
-                              children: [
-                            TextSpan(
-                                text: 'Parkplatz:',
-                                style: TextStyle(fontWeight: FontWeight.bold)),
-                            TextSpan(text: ' Ja'),
                             TextSpan(text: "\n")
                           ])),
                     ],

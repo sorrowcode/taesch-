@@ -11,4 +11,5 @@ class ShopsMapScreenVM {
   List<Marker> shopsMarker = [];
   int idCounter = 1;
   int lastID = 0;
+  Shop? lastShop;
 }

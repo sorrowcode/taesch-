@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:taesch/middleware/log/log_level.dart';
 import 'package:taesch/model/error_case.dart';
@@ -16,6 +18,10 @@ class LoginPage extends StartingPage {
 }
 
 class _LoginPageState extends StartingPageState {
+
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
   _LoginPageState() {
     vm = LoginPageVM();
   }
@@ -37,8 +43,8 @@ class _LoginPageState extends StartingPageState {
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
         child: TextFormField(
-          //style: Theme.of(context).textTheme.bodyLarge,
-          initialValue: "test@test.de",
+          //initialValue: "test@test.de",
+          controller: _emailController,
           key: Key(WidgetKey.emailLoginKey.text),
           validator: (value) {
             logger.log(
@@ -56,8 +62,8 @@ class _LoginPageState extends StartingPageState {
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
         child: TextFormField(
-          //style: Theme.of(context).textTheme.bodyLarge,
-          initialValue: "123TesT§",
+          //initialValue: "123TesT§",
+          controller: _passwordController,
           key: Key(WidgetKey.passwordLoginKey.text),
           obscureText: true,
           validator: (value) {
@@ -97,7 +103,7 @@ class _LoginPageState extends StartingPageState {
           TextButton(
             //style: OutlinedButton.styleFrom(),
             key: Key(WidgetKey.loginButtonKey.text),
-            onPressed: () {
+            onPressed: () async {
               logger.log(
                   level: LogLevel.info,
                   logMessage: LogMessage(
@@ -107,10 +113,19 @@ class _LoginPageState extends StartingPageState {
                 logger.log(
                     level: LogLevel.debug,
                     logMessage: LogMessage(message: "form valid"));
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const SplashPage()));
+                try {
+                  FirebaseAuth.instance.signInWithEmailAndPassword(email: _emailController.text, password: _passwordController.text).then((value) {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const SplashPage()));
+                  });
+                } on FirebaseException catch (_, e) {
+                  await showDialog(context: context, builder: (context) => const AlertDialog(
+                    title: Text("wrong credentials"),
+                    content: Text("your email or your password are invalid"),
+                  ));
+                }
               } else {
                 logger.log(
                     level: LogLevel.debug,

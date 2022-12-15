@@ -27,7 +27,6 @@ void main() async {
   final themeController = ThemeController(prefs);
 
   // ui
-
   group("testing near shop page functionality", () {
     /*
     setUp(() {

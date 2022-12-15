@@ -82,7 +82,7 @@ class _AppState extends State<App> {
               titleTextStyle: Theme.of(context).textTheme.titleLarge,
             ),
             drawerTheme: DrawerThemeData(
-              backgroundColor: y,
+              backgroundColor: z,
             ),
             cardColor: x,
             iconTheme: IconThemeData(
@@ -96,10 +96,10 @@ class _AppState extends State<App> {
             listTileTheme: ListTileThemeData(
               style: ListTileStyle.drawer,
               textColor: v,
-              tileColor: y,
+              tileColor: z,
             ),
             dividerTheme: DividerThemeData(
-              color: x,
+              color: w,
               space: 10.0,
               thickness: 3.0,
             ),

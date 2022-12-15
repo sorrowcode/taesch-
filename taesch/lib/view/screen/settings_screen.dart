@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:taesch/logic/theme_controller.dart';
+import 'package:taesch/controller/theme_controller.dart';
 import 'package:taesch/middleware/log/log_level.dart';
 import 'package:taesch/middleware/log/logger_wrapper.dart';
 import 'package:taesch/model/log_message.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:taesch/logic/theme_controller.dart';
-import 'package:taesch/logic/theme_controller_provider.dart';
+import 'package:taesch/controller/theme_controller.dart';
+import 'package:taesch/controller/theme_controller_provider.dart';
 import 'package:taesch/view/page/login_page.dart';
 
 import 'view_model/app_vm.dart';

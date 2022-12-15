@@ -12,7 +12,6 @@ import 'package:taesch/api/repository_holder.dart';
 import 'package:taesch/app.dart';
 import 'package:taesch/logic/theme_controller.dart';
 import 'package:taesch/model/error_case.dart';
-import 'package:taesch/model/map_spot.dart';
 import 'package:taesch/model/product.dart';
 import 'package:taesch/model/widget_key.dart';
 import 'package:taesch/view/page/home_page.dart';

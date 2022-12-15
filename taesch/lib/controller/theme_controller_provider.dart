@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:taesch/logic/theme_controller.dart';
+import 'package:taesch/controller/theme_controller.dart';
 
 class ThemeControllerProvider extends InheritedWidget {
   final ThemeController controller;

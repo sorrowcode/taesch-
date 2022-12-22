@@ -12,12 +12,12 @@ class ShopsMapScreenVM {
   List<Marker> shopsMarker = [];
   int idCounter = 1;
   int lastID = 0;
-  Shop lastShop = Shop(spot: MapSpot(
-    name: "dummy",
-    long: 0,
-    lat: 0,
-    street: "dummy",
-    houseNumber: "0",
-    postcode: 0
-  ));
+  Shop lastShop = Shop(
+      spot: MapSpot(
+          name: "dummy",
+          long: 0,
+          lat: 0,
+          street: "dummy",
+          houseNumber: "0",
+          postcode: 0));
 }

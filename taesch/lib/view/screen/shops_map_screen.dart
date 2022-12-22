@@ -66,7 +66,6 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
                                 content: Text('Tapped on blue FlutterLogo Marker'),
                                 )
                             );*/
-                      print("Tapped on marker $id");
                       if (widget._vm.lastID != 0) {
                         setBlack(widget._vm.lastID, widget._vm.lastShop);
                       }
@@ -147,20 +146,19 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
           Marker(
               point: LatLng(temp.point.latitude, temp.point.longitude),
               builder: (ctx) => GestureDetector(
-                onLongPress: () {
-                  setBlack(widget._vm.lastID, widget._vm.lastShop);
-                  setRed(id, shop);
-                  widget._vm.lastID = id;
-                  widget._vm.lastShop = shop;
-                  var dialog = MarkerLongTapDialog();
-                  dialog.showPupUpDialog(context, shop);
-                },
+                    onLongPress: () {
+                      setBlack(widget._vm.lastID, widget._vm.lastShop);
+                      setRed(id, shop);
+                      widget._vm.lastID = id;
+                      widget._vm.lastShop = shop;
+                      var dialog = MarkerLongTapDialog();
+                      dialog.showPupUpDialog(context, shop);
+                    },
                     onTap: () {
                       /*ScaffoldMessenger.of(ctx).showSnackBar(const SnackBar(
                                 content: Text('Tapped on blue FlutterLogo Marker'),
                                 )
                             );*/
-                      print("Tapped on marker $id");
                       setBlack(widget._vm.lastID, widget._vm.lastShop);
                       setRed(id, shop);
                       widget._vm.lastID = id;
@@ -196,7 +194,6 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
                                 content: Text('Tapped on blue FlutterLogo Marker'),
                                 )
                             );*/
-                      print("Tapped on marker $id");
 
                       setBlack(widget._vm.lastID, widget._vm.lastShop);
                       setRed(id, shop);

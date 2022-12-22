@@ -1,13 +1,12 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:taesch/controller/theme_controller.dart';
-import 'package:taesch/view/page/login_page.dart';
 
 void main() async {
 
   TestWidgetsFlutterBinding.ensureInitialized();
   final prefs = await SharedPreferences.getInstance();
-  final themeController = ThemeController(prefs);
+  //final themeController = ThemeController(prefs);
 
   group("login page", () {
     /* todo:

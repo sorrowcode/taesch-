@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:taesch/middleware/log/log_level.dart';
 import 'package:taesch/model/error_case.dart';
@@ -18,7 +17,6 @@ class LoginPage extends StartingPage {
 }
 
 class _LoginPageState extends StartingPageState {
-
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
@@ -114,17 +112,27 @@ class _LoginPageState extends StartingPageState {
                     level: LogLevel.debug,
                     logMessage: LogMessage(message: "form valid"));
                 try {
-                  FirebaseAuth.instance.signInWithEmailAndPassword(email: _emailController.text, password: _passwordController.text).then((value) {
+                  FirebaseAuth.instance
+                      .signInWithEmailAndPassword(
+                          email: _emailController.text,
+                          password: _passwordController.text)
+                      .then((value) {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => const SplashPage()));
                   });
                 } on FirebaseException catch (_, e) {
-                  await showDialog(context: context, builder: (context) => const AlertDialog(
-                    title: Text("wrong credentials"),
-                    content: Text("your email or your password are invalid"),
+                  logger.log(level: LogLevel.error, logMessage: LogMessage(
+                    message: "$e"
                   ));
+                  await showDialog(
+                      context: context,
+                      builder: (context) => const AlertDialog(
+                            title: Text("wrong credentials"),
+                            content:
+                                Text("your email or your password are invalid"),
+                          ));
                 }
               } else {
                 logger.log(

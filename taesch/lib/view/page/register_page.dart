@@ -119,7 +119,13 @@ class _RegisterPageState extends StartingPageState {
             logger.log(
                 level: LogLevel.debug,
                 logMessage: LogMessage(message: "form valid"));
-            (vm as RegisterPageVM).firebaseRepository.firebaseActions.register(email: _emailController.text, password: (vm as RegisterPageVM).passwordController.text).then((value) {
+            (vm as RegisterPageVM)
+                .firebaseRepository
+                .firebaseActions
+                .register(
+                    email: _emailController.text,
+                    password: (vm as RegisterPageVM).passwordController.text)
+                .then((value) {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => const SplashPage()));
             });

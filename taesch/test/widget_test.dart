@@ -20,37 +20,37 @@ void main() async {
       - register button
         - transition to the register page
      */
-    group("login with wrong values", () {
-      testWidgets("login without values", (widgetTester) async {
+    group("wrong values:", () {
+      testWidgets("without values", (widgetTester) async {
 
       });
 
-      testWidgets("login with random values", (widgetTester) async {
+      testWidgets("with random values", (widgetTester) async {
 
       });
 
-      testWidgets("login with only email", (widgetTester) async {
+      testWidgets("with only email", (widgetTester) async {
 
       });
 
-      testWidgets("login with only password", (widgetTester) async {
+      testWidgets("with only password", (widgetTester) async {
 
       });
 
-      testWidgets("login incorrect email and password", (widgetTester) async {
+      testWidgets("incorrect email and password", (widgetTester) async {
 
       });
 
-      testWidgets("login with correct email and wrong password", (widgetTester) async {
+      testWidgets("with correct email and wrong password", (widgetTester) async {
 
       });
     });
 
-    testWidgets("login with correct values", (widgetTester) async {
+    testWidgets("with correct values", (widgetTester) async {
 
     });
 
-    testWidgets("login click on register button", (widgetTester) async {
+    testWidgets("click on register button", (widgetTester) async {
 
     });
   });
@@ -67,29 +67,29 @@ void main() async {
       - with correct values
         - transition to splash page
      */
-    group("with wrong values", () {
-      testWidgets("registration without values", (widgetTester) async {
+    group("with wrong values:", () {
+      testWidgets("without values", (widgetTester) async {
 
       });
 
-      testWidgets("registration with random values", (widgetTester) async {
+      testWidgets("with random values", (widgetTester) async {
 
       });
 
-      testWidgets("registration with only username", (widgetTester) async {
+      testWidgets("with only username", (widgetTester) async {
 
       });
 
-      testWidgets("registration with only password", (widgetTester) async {
+      testWidgets("with only password", (widgetTester) async {
 
       });
 
-      testWidgets("registration with not matching passwords", (widgetTester) async {
+      testWidgets("with not matching passwords", (widgetTester) async {
 
       });
     });
 
-    testWidgets("registration with correct values", (widgetTester) async {
+    testWidgets("with correct values", (widgetTester) async {
 
     });
   });
@@ -99,7 +99,7 @@ void main() async {
   });
 
   group("home page", () {
-    group("drawer navigation", () {
+    group("drawer navigation:", () {
       /* todo:
         - navigation
           - shopping list screen
@@ -162,7 +162,7 @@ void main() async {
         - filled with values
        */
 
-      testWidgets("find at least one element", (widgetTester) async {
+      testWidgets("find at least one list tile element", (widgetTester) async {
 
       });
     });

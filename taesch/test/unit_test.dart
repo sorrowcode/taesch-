@@ -8,6 +8,22 @@ void main() async {
     - username validation ?
     - same password validation
     */
+
+    group("email", () {
+
+    });
+
+    group("password", () {
+
+    });
+
+    group("username", () {
+
+    });
+
+    group("same password", () {
+
+    });
   });
 
   group("actions", () {
@@ -16,5 +32,17 @@ void main() async {
       - firebase actions
       - osm actions
      */
+
+    group("sql", () {
+
+    });
+
+    group("firebase", () {
+
+    });
+
+    group("osm", () {
+
+    });
   });
 }

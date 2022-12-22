@@ -1,10 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
 
   TestWidgetsFlutterBinding.ensureInitialized();
-  final prefs = await SharedPreferences.getInstance();
+  //final prefs = await SharedPreferences.getInstance();
   //final themeController = ThemeController(prefs);
 
   group("login page", () {

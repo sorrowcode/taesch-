@@ -1,57 +1,86 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:taesch/app.dart';
+import 'package:taesch/controller/theme_controller.dart';
+import 'package:taesch/model/error_case.dart';
+import 'package:taesch/model/widget_key.dart';
+import 'package:taesch/view/page/login_page.dart';
+import 'package:taesch/view/page/register_page.dart';
 
 void main() async {
 
   TestWidgetsFlutterBinding.ensureInitialized();
-  //final prefs = await SharedPreferences.getInstance();
-  //final themeController = ThemeController(prefs);
+  final prefs = await SharedPreferences.getInstance();
+  final themeController = ThemeController(prefs);
 
   group("login page", () {
-    /* todo:
-      - with wrong values
-        - without values
-        - with random values
-        - with only email
-        - with only password
-        - with incorrect email + password
-        - with correct email + wrong password
-      - with correct values
-        - transition to splash page
-      - register button
-        - transition to the register page
-     */
-    group("wrong values:", () {
+      group("wrong values:", () {
       testWidgets("without values", (widgetTester) async {
-
-      });
-
-      testWidgets("with random values", (widgetTester) async {
-
+        await widgetTester.pumpWidget(App(
+          controller: themeController,
+        ));
+        expect(find.byType(LoginPage), findsOneWidget);
+        await widgetTester.enterText(
+            find.byKey(Key(WidgetKey.emailLoginKey.text)), "");
+        await widgetTester.pump();
+        await widgetTester.enterText(
+            find.byKey(Key(WidgetKey.passwordLoginKey.text)), "");
+        await widgetTester.pump();
+        await widgetTester.tap(find.byKey(Key(WidgetKey.loginButtonKey.text)));
+        await widgetTester.pump();
+        testErrorCases(widgetTester, [ErrorCase.noEmail, ErrorCase.noPassword]);
       });
 
       testWidgets("with only email", (widgetTester) async {
-
+        await widgetTester.pumpWidget(App(
+          controller: themeController,
+        ));
+        expect(find.byType(LoginPage), findsOneWidget);
+        await widgetTester.enterText(
+            find.byKey(Key(WidgetKey.emailLoginKey.text)), "test@test.de");
+        await widgetTester.pump();
+        await widgetTester.enterText(
+            find.byKey(Key(WidgetKey.passwordLoginKey.text)), "");
+        await widgetTester.pump();
+        await widgetTester.tap(find.byKey(Key(WidgetKey.loginButtonKey.text)));
+        await widgetTester.pump();
+        testErrorCases(widgetTester, [ErrorCase.noPassword]);
       });
 
       testWidgets("with only password", (widgetTester) async {
-
+        await widgetTester.pumpWidget(App(
+          controller: themeController,
+        ));
+        expect(find.byType(LoginPage), findsOneWidget);
+        await widgetTester.enterText(
+            find.byKey(Key(WidgetKey.emailLoginKey.text)), "");
+        await widgetTester.pump();
+        await widgetTester.enterText(
+            find.byKey(Key(WidgetKey.passwordLoginKey.text)), "Test1234!");
+        await widgetTester.pump();
+        await widgetTester.tap(find.byKey(Key(WidgetKey.loginButtonKey.text)));
+        await widgetTester.pump();
+        testErrorCases(widgetTester, [ErrorCase.noEmail]);
       });
 
       testWidgets("incorrect email and password", (widgetTester) async {
-
+        // todo: after exception handling, maybe covered partially in unit testing
       });
 
       testWidgets("with correct email and wrong password", (widgetTester) async {
-
+        // todo: after exception handling, maybe covered partially in unit testing
       });
     });
 
-    testWidgets("with correct values", (widgetTester) async {
-
-    });
-
     testWidgets("click on register button", (widgetTester) async {
-
+      await widgetTester.pumpWidget(App(
+        controller: themeController,
+      ));
+      expect(find.byType(LoginPage), findsOneWidget);
+      await widgetTester.tap(find.byKey(Key(WidgetKey.registrationButtonKey.text)));
+      await widgetTester.pumpAndSettle();
+      expect(find.byType(RegisterPage), findsOneWidget);
     });
   });
 
@@ -192,4 +221,10 @@ void main() async {
       });
     });
   });
+}
+
+void testErrorCases(WidgetTester widgetTester, List<ErrorCase> exceptCases) {
+  for (ErrorCase errorCase in ErrorCase.values) {
+    expect(find.text(errorCase.message), exceptCases.contains(errorCase) ? findsOneWidget : findsNothing);
+  }
 }

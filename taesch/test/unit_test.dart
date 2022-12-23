@@ -30,6 +30,7 @@ void main() async {
     /* todo:
       - sql actions
       - firebase actions
+        - valid authentication via mocks
       - osm actions
      */
 

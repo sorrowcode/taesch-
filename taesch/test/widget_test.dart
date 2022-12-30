@@ -98,28 +98,71 @@ void main() async {
      */
     group("with wrong values:", () {
       testWidgets("without values", (widgetTester) async {
+        await widgetTester.pumpWidget(App(
+          controller: themeController,
+        ));
+        await widgetTester
+            .tap(find.byKey(Key(WidgetKey.registrationButtonKey.text)));
+        await widgetTester.pumpAndSettle();
 
-      });
+        await widgetTester.tap(find.byKey(Key(WidgetKey.submitButtonKey.text)));
+        await widgetTester.pump();
 
-      testWidgets("with random values", (widgetTester) async {
-
+        testErrorCases(widgetTester, [ErrorCase.noUsername, ErrorCase.noEmail, ErrorCase.noPassword]);
       });
 
       testWidgets("with only username", (widgetTester) async {
-
+        await widgetTester.pumpWidget(App(
+          controller: themeController,
+        ));
+        await widgetTester
+            .tap(find.byKey(Key(WidgetKey.registrationButtonKey.text)));
+        await widgetTester.pumpAndSettle();
+        await widgetTester.enterText(
+            find.byKey(Key(WidgetKey.usernameRegisterKey.text)), "John");
+        await widgetTester.pump();
+        await widgetTester.tap(find.byType(TextButton));
+        await widgetTester.pump();
+        testErrorCases(widgetTester, [ErrorCase.noEmail, ErrorCase.noPassword]);
       });
 
       testWidgets("with only password", (widgetTester) async {
-
+        await widgetTester.pumpWidget(App(
+          controller: themeController,
+        ));
+        await widgetTester
+            .tap(find.byKey(Key(WidgetKey.registrationButtonKey.text)));
+        await widgetTester.pumpAndSettle();
+        await widgetTester.enterText(
+            find.byKey(Key(WidgetKey.firstPasswordRegisterKey.text)), "Test1234!");
+        await widgetTester.pump();
+        await widgetTester.enterText(
+            find.byKey(Key(WidgetKey.secondPasswordRegisterKey.text)), "Test1234!");
+        await widgetTester.pump();
+        await widgetTester.tap(find.byType(TextButton));
+        await widgetTester.pump();
+        testErrorCases(widgetTester, [ErrorCase.noUsername, ErrorCase.noEmail]);
       });
 
       testWidgets("with not matching passwords", (widgetTester) async {
-
+        await widgetTester.pumpWidget(App(
+          controller: themeController,
+        ));
+        await widgetTester
+            .tap(find.byKey(Key(WidgetKey.registrationButtonKey.text)));
+        await widgetTester.pumpAndSettle();
+        await widgetTester.enterText(
+            find.byKey(Key(WidgetKey.usernameRegisterKey.text)), "John");
+        await widgetTester.pump();
+        await widgetTester.enterText(find.byKey(Key(WidgetKey.emailRegisterKey.text)), "test@test.de");
+        await widgetTester.pump();
+        await widgetTester.enterText(
+            find.byKey(Key(WidgetKey.firstPasswordRegisterKey.text)), "Test1234!");
+        await widgetTester.pump();
+        await widgetTester.tap(find.byType(TextButton));
+        await widgetTester.pump();
+        testErrorCases(widgetTester, [ErrorCase.notSamePassword]);
       });
-    });
-
-    testWidgets("with correct values", (widgetTester) async {
-
     });
   });
 

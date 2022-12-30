@@ -3,10 +3,17 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:taesch/app.dart';
 import 'package:taesch/controller/theme_controller.dart';
+import 'package:taesch/controller/theme_controller_provider.dart';
 import 'package:taesch/model/error_case.dart';
+import 'package:taesch/model/screen_state.dart';
 import 'package:taesch/model/widget_key.dart';
+import 'package:taesch/view/page/home_page.dart';
 import 'package:taesch/view/page/login_page.dart';
 import 'package:taesch/view/page/register_page.dart';
+import 'package:taesch/view/screen/near_shops_screen.dart';
+import 'package:taesch/view/screen/settings_screen.dart';
+import 'package:taesch/view/screen/shopping_list_screen.dart';
+import 'package:taesch/view/screen/shops_map_screen.dart';
 
 void main() async {
 
@@ -85,17 +92,6 @@ void main() async {
   });
 
   group("registration page", () {
-    /* todo:
-      - with wrong values -> error cases
-        - without values
-        - with random values
-        - with only username
-        - with only email
-        - with only password(s)
-        - with not matching passwords
-      - with correct values
-        - transition to splash page
-     */
     group("with wrong values:", () {
       testWidgets("without values", (widgetTester) async {
         await widgetTester.pumpWidget(App(
@@ -172,27 +168,54 @@ void main() async {
 
   group("home page", () {
     group("drawer navigation:", () {
-      /* todo:
-        - navigation
-          - shopping list screen
-          - near shops screen
-          - settings screen
-          - shops map screen
-       */
       testWidgets("click on shopping list list tile", (widgetTester) async {
-
+        await widgetTester.pumpWidget(const MaterialApp(
+          home: HomePage(),
+        ));
+        expect(find.text(ScreenState.shoppingList.text), findsOneWidget);
+        await widgetTester.tap(find.byIcon(Icons.menu));
+        await widgetTester.pump();
+        expect(find.byType(ListTile), findsAtLeastNWidgets(ScreenState.values.length));
+        await widgetTester.tap(find.widgetWithText(ListTile, ScreenState.shoppingList.text));
+        await widgetTester.pumpAndSettle();
+        expect(find.byType(ShoppingListScreen), findsOneWidget);
       });
 
       testWidgets("click on near shops list list tile", (widgetTester) async {
-
+        await widgetTester.pumpWidget(const MaterialApp(
+          home: HomePage(),
+        ));
+        await widgetTester.tap(find.byIcon(Icons.menu));
+        await widgetTester.pumpAndSettle();
+        await widgetTester.tap(find.widgetWithText(ListTile, ScreenState.nearShops.text));
+        await widgetTester.pumpAndSettle();
+        expect(find.byType(NearShopsScreen), findsOneWidget);
       });
 
       testWidgets("click on settings list list tile", (widgetTester) async {
-
+        await widgetTester.pumpWidget(AnimatedBuilder(
+            animation: themeController,
+            builder: (context, _) => ThemeControllerProvider(
+                controller: themeController,
+                child: const MaterialApp(
+                  home: HomePage()),
+                )));
+        await widgetTester.tap(find.byIcon(Icons.menu));
+        await widgetTester.pumpAndSettle();
+        await widgetTester.tap(find.widgetWithText(ListTile, ScreenState.settings.text));
+        await widgetTester.pumpAndSettle();
+        expect(find.byType(SettingsScreen), findsOneWidget);
       });
 
       testWidgets("click on shops map list list tile", (widgetTester) async {
-
+        await widgetTester.pumpWidget(const MaterialApp(
+          home: HomePage(),
+        ));
+        await widgetTester.tap(find.byIcon(Icons.menu));
+        await widgetTester.pumpAndSettle();
+        await widgetTester.tap(find.widgetWithText(ListTile, ScreenState.shopsMap.text));
+        await widgetTester.pumpAndSettle();
+        expect(find.byType(ShopsMapScreen), findsOneWidget);
       });
     });
 

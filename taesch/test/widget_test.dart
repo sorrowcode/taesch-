@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:taesch/api/implementation/sql_database.dart';
+import 'package:taesch/api/repositories/repository_type.dart';
+import 'package:taesch/api/repositories/sql_repository.dart';
+import 'package:taesch/api/repository_holder.dart';
 import 'package:taesch/app.dart';
 import 'package:taesch/controller/theme_controller.dart';
 import 'package:taesch/controller/theme_controller_provider.dart';
@@ -175,7 +179,7 @@ void main() async {
         expect(find.text(ScreenState.shoppingList.text), findsOneWidget);
         await widgetTester.tap(find.byIcon(Icons.menu));
         await widgetTester.pump();
-        expect(find.byType(ListTile), findsAtLeastNWidgets(ScreenState.values.length));
+        expect(find.byType(ListTile), findsNWidgets(ScreenState.values.length));
         await widgetTester.tap(find.widgetWithText(ListTile, ScreenState.shoppingList.text));
         await widgetTester.pumpAndSettle();
         expect(find.byType(ShoppingListScreen), findsOneWidget);
@@ -220,35 +224,91 @@ void main() async {
     });
 
     group("shopping list screen", () {
-      /* todo:
-        - adding element
-          - with wrong values
-          - with correct values
-          - with incorrect quantity
-          - with correct quantity
-        - deleting element
-       */
-
       group("add element", () {
-        testWidgets("with wrong values", (widgetTester) async {
+        testWidgets("testing cancel", (widgetTester) async {
+          await widgetTester.pumpWidget(const MaterialApp(
+            home: HomePage(),
+          ));
+          ((RepositoryHolder().getRepositoryByType(RepositoryType.sql)
+          as SQLRepository)
+              .sqlActions as SQLDatabase)
+              .init()
+              .then((value) async {
+            await widgetTester.tap(find.byType(FloatingActionButton));
+            await widgetTester.pumpAndSettle();
+            await widgetTester.enterText(
+                find.byType(TextFormField).first, "Test");
+            await widgetTester.pump();
+            await widgetTester.tap(find.widgetWithIcon(TextButton, Icons.close));
+            await widgetTester.pumpAndSettle();
+            expect(find.byType(Card), findsNothing);
+            expect(find.text("Test"), findsNothing);
+          });
+        });
 
+        testWidgets("with wrong values", (widgetTester) async {
+          ((RepositoryHolder().getRepositoryByType(RepositoryType.sql) as SQLRepository).sqlActions as SQLDatabase).init().then((value) async {
+            await widgetTester.pumpWidget(const MaterialApp(
+              home: HomePage(),
+            ));
+            await widgetTester.tap(find.byType(FloatingActionButton));
+            await widgetTester.pumpAndSettle();
+            await widgetTester.enterText(
+                find.byType(TextFormField).first, " ");
+            await widgetTester.pump();
+            await widgetTester.tap(find.widgetWithIcon(TextButton, Icons.check));
+            await widgetTester.pumpAndSettle();
+            testErrorCases(widgetTester, [ErrorCase.emptyField]);
+          });
         });
 
         testWidgets("with correct values", (widgetTester) async {
-
+          ((RepositoryHolder().getRepositoryByType(RepositoryType.sql) as SQLRepository).sqlActions as SQLDatabase).init().then((value) async {
+            await widgetTester.pumpWidget(const MaterialApp(
+              home: HomePage(),
+            ));
+            await widgetTester.tap(find.byType(FloatingActionButton));
+            await widgetTester.pumpAndSettle();
+            await widgetTester.enterText(
+                find.byType(TextFormField).first, "Apple");
+            await widgetTester.pump();
+            await widgetTester.enterText(find.byType(TextFormField).last, "obst");
+            await widgetTester.pump();
+            await widgetTester.tap(find.widgetWithIcon(TextButton, Icons.check));
+            await widgetTester.pumpAndSettle();
+            expect(find.text("Apple"), findsOneWidget);
+            expect(find.text("obst"), findsOneWidget);
+            expect(find.byType(Card), findsOneWidget);
+          });
         });
 
         testWidgets("with incorrect quantity", (widgetTester) async {
-
+          // todo: has to be added as feature
         });
 
         testWidgets("with correct quantity", (widgetTester) async {
-
+          // todo: has to be added as feature
         });
       });
 
-      testWidgets("with deleting element", (widgetTester) async {
-
+      testWidgets("and deleting element", (widgetTester) async {
+        ((RepositoryHolder().getRepositoryByType(RepositoryType.sql) as SQLRepository).sqlActions as SQLDatabase).init().then((value) async {
+          await widgetTester.pumpWidget(const MaterialApp(
+            home: HomePage(),
+          ));
+          await widgetTester.tap(find.byType(FloatingActionButton));
+          await widgetTester.pumpAndSettle();
+          await widgetTester.enterText(
+              find.byType(TextFormField).first, "Apple");
+          await widgetTester.pump();
+          await widgetTester.enterText(find.byType(TextFormField).last, "obst");
+          await widgetTester.pump();
+          await widgetTester.tap(find.widgetWithIcon(TextButton, Icons.check));
+          await widgetTester.pumpAndSettle();
+          await widgetTester.longPress(find.byType(Card));
+          await widgetTester.pumpAndSettle();
+          expect(find.byType(Card), findsNothing);
+        });
       });
     });
 

@@ -39,7 +39,7 @@ extension ErrorMessage on ErrorCase {
       case ErrorCase.notSamePassword:
         return "passwords don't match";
       case ErrorCase.emptyField:
-        return "Field is empty";
+        return "field is empty";
     }
   }
 }

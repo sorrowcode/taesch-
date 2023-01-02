@@ -16,6 +16,7 @@ import 'package:taesch/controller/theme_controller_provider.dart';
 import 'package:taesch/model/error_case.dart';
 import 'package:taesch/model/screen_state.dart';
 import 'package:taesch/model/widget_key.dart';
+import 'package:taesch/view/custom_widget/marker_long_tap_dialog.dart';
 import 'package:taesch/view/page/home_page.dart';
 import 'package:taesch/view/page/login_page.dart';
 import 'package:taesch/view/page/register_page.dart';
@@ -361,28 +362,30 @@ void main() async {
       });
     });
 
-    group("settings screen", () {
-      /* todo:
-        - light- and dark mode
-       */
-
-      testWidgets("change mode", (widgetTester) async {
-
-      });
-    });
-
     group("shops map screen", () {
-      /* todo:
-        - short tap on marker -> red
-        - long press on marker -> dialog
-       */
-
-      testWidgets("tap on marker", (widgetTester) async {
-
-      });
-
       testWidgets("long press on marker", (widgetTester) async {
-
+        HttpOverrides.global = null;
+        OSMRepository repository = (RepositoryHolder().getRepositoryByType(RepositoryType.osm) as OSMRepository);
+        await widgetTester.pump();
+        (repository.osmActions as OSM).getNearShops(2000, repository.userPosition).then((value) async {
+          repository.cache = value;
+          await widgetTester.pump();
+          await widgetTester.pumpWidget(const MaterialApp(
+            home: HomePage(),
+          ));
+          expect(find.byType(ShoppingListScreen), findsOneWidget);
+          await widgetTester.tap(find.byIcon(Icons.menu));
+          await widgetTester.pumpAndSettle();
+          await widgetTester.tap(
+              find.widgetWithText(ListTile, ScreenState.shopsMap.text));
+          await widgetTester.pumpAndSettle();
+          expect(find.byType(Marker), findsAtLeastNWidgets(5));
+          await widgetTester.tap(find
+              .byType(Marker)
+              .first);
+          await widgetTester.pumpAndSettle();
+          expect(find.byType(MarkerLongTapDialog), findsOneWidget);
+        });
       });
     });
   });

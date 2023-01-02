@@ -1,7 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:taesch/api/implementation/osm.dart';
 import 'package:taesch/api/implementation/sql_database.dart';
+import 'package:taesch/api/repositories/osm_repository.dart';
 import 'package:taesch/api/repositories/repository_type.dart';
 import 'package:taesch/api/repositories/sql_repository.dart';
 import 'package:taesch/api/repository_holder.dart';
@@ -313,12 +318,46 @@ void main() async {
     });
 
     group("near shops screen", () {
-      /* todo:
-        - filled with values
-       */
-
       testWidgets("find at least one list tile element", (widgetTester) async {
+        HttpOverrides.global = null;
+        OSMRepository repository = (RepositoryHolder().getRepositoryByType(RepositoryType.osm) as OSMRepository);
+        await widgetTester.pump();
+        (repository.osmActions as OSM).getNearShops(2000, repository.userPosition).then((value) async {
+          repository.cache = value;
+          await widgetTester.pump();
+          await widgetTester.pumpWidget(const MaterialApp(
+            home: HomePage(),
+          ));
+          expect(find.byType(ShoppingListScreen), findsOneWidget);
+          await widgetTester.tap(find.byIcon(Icons.menu));
+          await widgetTester.pumpAndSettle();
+          await widgetTester.tap(find.widgetWithText(ListTile, ScreenState.nearShops.text));
+          await widgetTester.pumpAndSettle();
+          expect(find.byType(ListTile), findsAtLeastNWidgets(1));
+        });
+      });
 
+      testWidgets("click on one shop to be navigated to the map", (widgetTester) async {
+        HttpOverrides.global = null;
+        OSMRepository repository = (RepositoryHolder().getRepositoryByType(RepositoryType.osm) as OSMRepository);
+        await widgetTester.pump();
+        (repository.osmActions as OSM).getNearShops(2000, repository.userPosition).then((value) async {
+          repository.cache = value;
+          await widgetTester.pump();
+          await widgetTester.pumpWidget(const MaterialApp(
+            home: HomePage(),
+          ));
+          expect(find.byType(ShoppingListScreen), findsOneWidget);
+          await widgetTester.tap(find.byIcon(Icons.menu));
+          await widgetTester.pumpAndSettle();
+          await widgetTester.tap(
+              find.widgetWithText(ListTile, ScreenState.nearShops.text));
+          await widgetTester.pumpAndSettle();
+          await widgetTester.tap(find.byType(ListTile).first);
+          await widgetTester.pumpAndSettle();
+          expect(find.text(ScreenState.shopsMap.text), findsOneWidget);
+          expect(find.byType(Marker), findsOneWidget);
+        });
       });
     });
 

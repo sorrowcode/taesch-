@@ -22,8 +22,7 @@ class OSM implements OSMActions {
     Response response = await get(Uri.parse(
             "${_apiUrl}data=[out:json][timeout:50];"
             "(node[\"shop\"=\"supermarket\"](around:$searchRadius,${position.latitude},${position.longitude})"
-            ";);out;"))
-        .timeout(const Duration(seconds: 10));
+            ";);out;"));
     if (response.statusCode == 200) {
       Map<String, dynamic> responseBodyRaw =
           jsonDecode(utf8.decode(response.body.codeUnits));

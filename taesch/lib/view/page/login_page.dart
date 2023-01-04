@@ -1,11 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:taesch/api/actions/firebase_actions.dart';
+import 'package:taesch/api/repositories/repository_type.dart';
+import 'package:taesch/api/repository_holder.dart';
+import 'package:taesch/exceptions/custom/login_exception.dart';
 import 'package:taesch/middleware/log/log_level.dart';
 import 'package:taesch/model/error_case.dart';
 import 'package:taesch/model/log_message.dart';
 import 'package:taesch/model/widget_key.dart';
 import 'package:taesch/view/page/register_page.dart';
-import 'package:taesch/view/page/splash_page.dart';
 import 'package:taesch/view/page/starting_page.dart';
 import 'package:taesch/view_model/page/login_page_vm.dart';
 
@@ -112,26 +115,27 @@ class _LoginPageState extends StartingPageState {
                     level: LogLevel.debug,
                     logMessage: LogMessage(message: "form valid"));
                 try {
-                  FirebaseAuth.instance
-                      .signInWithEmailAndPassword(
+                  await (RepositoryHolder()
+                          .getRepositoryByType(RepositoryType.firebase)
+                          ?.actions as FirebaseActions)
+                      .login(
                           email: _emailController.text,
-                          password: _passwordController.text)
-                      .then((value) {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const SplashPage()));
-                  });
-                } on FirebaseException catch (_, e) {
-                  logger.log(level: LogLevel.error, logMessage: LogMessage(
-                    message: "$e"
-                  ));
+                          password: _passwordController.text);
+                } on LoginException {
                   await showDialog(
                       context: context,
-                      builder: (context) => const AlertDialog(
-                            title: Text("wrong credentials"),
+                      builder: (context) => AlertDialog(
+                        actions: [
+                          IconButton(onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                              icon: const Icon(Icons.close))
+                        ],
+                            title: const Text("wrong credentials", style: TextStyle(
+                              color: Colors.red,
+                            ),),
                             content:
-                                Text("your email or your password are invalid"),
+                                const Text("your email or your password are invalid"),
                           ));
                 }
               } else {

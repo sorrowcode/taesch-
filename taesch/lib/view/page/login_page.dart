@@ -9,6 +9,7 @@ import 'package:taesch/model/error_case.dart';
 import 'package:taesch/model/log_message.dart';
 import 'package:taesch/model/widget_key.dart';
 import 'package:taesch/view/page/register_page.dart';
+import 'package:taesch/view/page/splash_page.dart';
 import 'package:taesch/view/page/starting_page.dart';
 import 'package:taesch/view_model/page/login_page_vm.dart';
 
@@ -120,7 +121,11 @@ class _LoginPageState extends StartingPageState {
                           ?.actions as FirebaseActions)
                       .login(
                           email: _emailController.text,
-                          password: _passwordController.text);
+                          password: _passwordController.text).then((value)  {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const SplashPage()));0
+                  });
                 } on LoginException {
                   await showDialog(
                       context: context,

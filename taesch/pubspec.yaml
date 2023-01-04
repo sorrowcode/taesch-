@@ -23,6 +23,7 @@ dependencies:
   latlong2: ^0.8.1 # <-- used in conjunction with flutter_map
   firebase_auth: ^4.2.0
   firebase_core: ^2.4.0
+  cloud_firestore: ^4.3.1
   test:
   sqflite_common_ffi:
 

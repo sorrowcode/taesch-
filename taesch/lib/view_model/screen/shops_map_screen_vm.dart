@@ -13,10 +13,11 @@ class ShopsMapScreenVM {
   int idCounter = 1;
   int lastID = 0;
   Shop lastShop = Shop(
+      id: 0,
       spot: MapSpot(
           name: "dummy",
-          long: 0,
-          lat: 0,
+          latitude: 0,
+          longitude: 0,
           street: "dummy",
           houseNumber: "0",
           postcode: 0));

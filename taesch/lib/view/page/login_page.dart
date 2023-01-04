@@ -124,7 +124,7 @@ class _LoginPageState extends StartingPageState {
                           password: _passwordController.text).then((value)  {
                     Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const SplashPage()));0
+                        MaterialPageRoute(builder: (context) => const SplashPage()));
                   });
                 } on LoginException {
                   await showDialog(

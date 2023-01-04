@@ -2,10 +2,11 @@ import 'package:taesch/model/discount.dart';
 import 'package:taesch/model/map_spot.dart';
 
 class Shop {
+  final int id;
   late MapSpot _spot;
   Discount discount = Discount();
 
-  Shop({required MapSpot spot}) {
+  Shop({required this.id, required MapSpot spot}) {
     _spot = spot;
   }
 

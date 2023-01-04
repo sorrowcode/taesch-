@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:taesch/logic/theme_controller_provider.dart';
+import 'package:taesch/controller/theme_controller_provider.dart';
 
 class ThemeController extends ChangeNotifier {
   static const themePrefKey = 'theme';

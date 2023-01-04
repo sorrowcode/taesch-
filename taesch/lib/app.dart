@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:taesch/logic/theme_controller.dart';
-import 'package:taesch/logic/theme_controller_provider.dart';
+import 'package:taesch/controller/theme_controller.dart';
+import 'package:taesch/controller/theme_controller_provider.dart';
 import 'package:taesch/view/page/login_page.dart';
 
 import 'view_model/app_vm.dart';
@@ -23,6 +23,17 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
+    //light
+    var a = const Color(0xFF12263A);
+    var c = const Color(0xFFC5D8D1);
+    var d = const Color(0xFFF4D1AE);
+    var e = const Color(0xFFF4EDEA);
+    // dark
+    var z = const Color(0xFF1A1423);
+    var y = const Color(0xFF372549);
+    var x = const Color(0xFF774C60);
+    var w = const Color(0xFFB75D69);
+    var v = const Color(0xFFEACDC2);
     return AnimatedBuilder(
       animation: widget._controller,
       builder: (context, _) => ThemeControllerProvider(
@@ -31,58 +42,124 @@ class _AppState extends State<App> {
           title: widget._vm.appTitle,
           themeMode: _mode(),
           darkTheme: ThemeData(
-              scaffoldBackgroundColor: const Color(0xFF6a687a),
-              colorScheme: ColorScheme.fromSwatch()
-                  .copyWith(
-                    primary: const Color(0xFF2c3d55),
-                    secondary: const Color(0xFF6a687a),
-                  )
-                  .copyWith(
-                      secondary: const Color(0xFF6a687a),
-                      brightness: Brightness.dark),
-              buttonTheme: ButtonThemeData(
-                colorScheme: ColorScheme.fromSwatch().copyWith(
-                  primary: const Color(0xFF2c3d55),
-                  secondary: const Color(0xFF6a687a),
+            brightness: Brightness.dark,
+            scaffoldBackgroundColor: y,
+            primaryColor: z,
+            secondaryHeaderColor: d,
+            textButtonTheme: TextButtonThemeData(
+              style: ButtonStyle(
+                backgroundColor: MaterialStatePropertyAll(w),
+              ),
+            ),
+            floatingActionButtonTheme: FloatingActionButtonThemeData(
+              backgroundColor: w,
+              foregroundColor: z,
+            ),
+            textTheme: TextTheme(
+                displayMedium: TextStyle(
+                  color: v,
                 ),
-              ),
-              floatingActionButtonTheme: const FloatingActionButtonThemeData(
-                backgroundColor: Color(0xFF2c3d55),
-              ),
-              textTheme: const TextTheme(
-                  button: TextStyle(
-                color: Colors.white,
-                fontSize: 20,
-              )),
-              appBarTheme: const AppBarTheme(
-                backgroundColor: Color(0xFF2c3d55),
-              )),
+                headlineSmall: TextStyle(
+                  color: v,
+                ),
+                titleLarge: TextStyle(
+                  color: e,
+                ),
+                titleMedium: TextStyle(
+                  color: v,
+                ),
+                titleSmall: TextStyle(
+                  color: v,
+                ),
+                labelLarge: TextStyle(
+                  color: v,
+                ),
+                bodyLarge: TextStyle(
+                  color: z,
+                )),
+            appBarTheme: AppBarTheme(
+              backgroundColor: z,
+              titleTextStyle: Theme.of(context).textTheme.titleLarge,
+            ),
+            drawerTheme: DrawerThemeData(
+              backgroundColor: z,
+            ),
+            cardColor: x,
+            iconTheme: IconThemeData(
+              color: w,
+            ),
+            dialogTheme: DialogTheme(
+              backgroundColor: z,
+              //titleTextStyle: Theme.of(context).textTheme.headlineSmall,
+              //contentTextStyle: Theme.of(context).textTheme.bodyLarge,
+            ),
+            listTileTheme: ListTileThemeData(
+              style: ListTileStyle.drawer,
+              textColor: v,
+              tileColor: z,
+            ),
+            dividerTheme: DividerThemeData(
+              color: w,
+              space: 10.0,
+              thickness: 3.0,
+            ),
+          ),
           theme: ThemeData(
             brightness: Brightness.light,
-            scaffoldBackgroundColor: const Color(0xFFf5efff),
-            colorScheme: ColorScheme.fromSwatch().copyWith(
-              primary: const Color(0xFF7371FC),
-              secondary: const Color(0xFFf5efff),
-            ),
-            buttonTheme: ButtonThemeData(
-              colorScheme: ColorScheme.fromSwatch().copyWith(
-                primary: const Color(0xFF7371FC),
-                secondary: const Color(0xFFa594f9),
+            scaffoldBackgroundColor: e,
+            primaryColor: a,
+            secondaryHeaderColor: d,
+            textButtonTheme: TextButtonThemeData(
+              style: ButtonStyle(
+                backgroundColor: MaterialStatePropertyAll(d),
               ),
             ),
-            floatingActionButtonTheme: const FloatingActionButtonThemeData(
-              backgroundColor: Color(0xFF7371FC),
+            floatingActionButtonTheme: FloatingActionButtonThemeData(
+              backgroundColor: c,
+              foregroundColor: a,
             ),
-            textTheme: const TextTheme(
-                button: TextStyle(
-              color: Colors.white,
-              fontSize: 20,
-            )),
-            drawerTheme: const DrawerThemeData(
-              backgroundColor: Color(0xFFf5efff),
+            textTheme: TextTheme(
+              displayMedium: TextStyle(
+                color: a,
+              ),
+              headlineSmall: TextStyle(
+                color: a,
+              ),
+              titleLarge: TextStyle(color: e),
+              titleMedium: TextStyle(
+                color: a,
+              ),
+              titleSmall: TextStyle(
+                color: a,
+              ),
+              labelLarge: TextStyle(
+                color: a,
+              ),
             ),
-            appBarTheme: const AppBarTheme(
-              backgroundColor: Color(0xFF7371FC),
+            appBarTheme: AppBarTheme(
+              backgroundColor: a,
+              titleTextStyle: Theme.of(context).textTheme.titleLarge,
+            ),
+            drawerTheme: DrawerThemeData(
+              backgroundColor: d,
+            ),
+            cardColor: d,
+            iconTheme: IconThemeData(
+              color: a,
+            ),
+            dialogTheme: DialogTheme(
+              backgroundColor: e,
+              titleTextStyle: Theme.of(context).textTheme.headlineSmall,
+            ),
+            listTileTheme: ListTileThemeData(
+              style: ListTileStyle.drawer,
+              textColor: a,
+              tileColor: d,
+            ),
+            dividerTheme: DividerThemeData(
+              color: a,
+              space: 10.0,
+              thickness: 3.0,
             ),
           ),
           home: const LoginPage(),

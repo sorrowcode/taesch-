@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:taesch/middleware/log/log_level.dart';
 import 'package:taesch/model/error_case.dart';
@@ -16,6 +17,9 @@ class LoginPage extends StartingPage {
 }
 
 class _LoginPageState extends StartingPageState {
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
   _LoginPageState() {
     vm = LoginPageVM();
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -36,15 +40,16 @@ class _LoginPageState extends StartingPageState {
 
   @override
   List<Widget> bodyElements() {
-
     logger.log(
         level: LogLevel.info,
         logMessage: LogMessage(message: "entered login page"));
     return [
-      Text(
-        (vm as LoginPageVM).title,
-        style: const TextStyle(
-          fontSize: 40,
+      Container(
+        margin:
+            EdgeInsets.only(bottom: MediaQuery.of(context).size.height / 30),
+        child: Text(
+          (vm as LoginPageVM).title,
+          style: Theme.of(context).textTheme.displayMedium,
         ),
       ),
       (vm as LoginPageVM).isOnline ?
@@ -54,8 +59,9 @@ class _LoginPageState extends StartingPageState {
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
         child: TextFormField(
+          //initialValue: "test@test.de",
+          controller: _emailController,
           enabled: (vm as LoginPageVM).isOnline,
-          initialValue: "test@test.de",
           key: Key(WidgetKey.emailLoginKey.text),
           validator: (value) {
             logger.log(
@@ -73,8 +79,9 @@ class _LoginPageState extends StartingPageState {
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
         child: TextFormField(
+          //initialValue: "123TesT§",
+          controller: _passwordController,
           enabled: (vm as LoginPageVM).isOnline,
-          initialValue: "123TesT§",
           key: Key(WidgetKey.passwordLoginKey.text),
           obscureText: true,
           validator: (value) {
@@ -111,18 +118,16 @@ class _LoginPageState extends StartingPageState {
               );
             },
             child: Text(
+              style: Theme.of(context).textTheme.labelLarge,
               (vm as LoginPageVM).registrationButtonText,
-              style: Theme.of(context).textTheme.button,
             ),
           ),
           TextButton(
             style: OutlinedButton.styleFrom(
-              backgroundColor:
-                  Theme.of(context).buttonTheme.colorScheme?.primary,
-                disabledBackgroundColor: Theme.of(context).disabledColor
+              disabledBackgroundColor: Theme.of(context).disabledColor
             ),
             key: Key(WidgetKey.loginButtonKey.text),
-            onPressed: !(vm as LoginPageVM).isOnline? null: () {
+            onPressed: !(vm as LoginPageVM).isOnline? null: () async {
               logger.log(
                   level: LogLevel.info,
                   logMessage: LogMessage(
@@ -132,10 +137,29 @@ class _LoginPageState extends StartingPageState {
                 logger.log(
                     level: LogLevel.debug,
                     logMessage: LogMessage(message: "form valid"));
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const SplashPage()));
+                try {
+                  FirebaseAuth.instance
+                      .signInWithEmailAndPassword(
+                          email: _emailController.text,
+                          password: _passwordController.text)
+                      .then((value) {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const SplashPage()));
+                  });
+                } on FirebaseException catch (_, e) {
+                  logger.log(level: LogLevel.error, logMessage: LogMessage(
+                    message: "$e"
+                  ));
+                  await showDialog(
+                      context: context,
+                      builder: (context) => const AlertDialog(
+                            title: Text("wrong credentials"),
+                            content:
+                                Text("your email or your password are invalid"),
+                          ));
+                }
               } else {
                 logger.log(
                     level: LogLevel.debug,
@@ -143,8 +167,8 @@ class _LoginPageState extends StartingPageState {
               }
             },
             child: Text(
+              style: Theme.of(context).textTheme.labelLarge,
               (vm as LoginPageVM).loginButtonText,
-              style: Theme.of(context).textTheme.button,
             ),
           )
         ],

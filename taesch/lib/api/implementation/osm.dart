@@ -22,8 +22,7 @@ class OSM implements OSMActions {
     Response response = await get(Uri.parse(
             "${_apiUrl}data=[out:json][timeout:50];"
             "(node[\"shop\"=\"supermarket\"](around:$searchRadius,${position.latitude},${position.longitude})"
-            ";);out;"))
-        .timeout(const Duration(seconds: 4));
+            ";);out;"));
     if (response.statusCode == 200) {
       Map<String, dynamic> responseBodyRaw =
           jsonDecode(utf8.decode(response.body.codeUnits));
@@ -35,13 +34,13 @@ class OSM implements OSMActions {
         Shop shop = Shop(
             spot: MapSpot(
                 name: shopData[OverpassQueryIndex.name.identifier],
-                lat: data[OverpassQueryIndex.latitude.identifier] == null
+                lat: test[OverpassQueryIndex.latitude.identifier] == null
                     ? 0
-                    : double.parse(data[OverpassQueryIndex.latitude.identifier]
+                    : double.parse(test[OverpassQueryIndex.latitude.identifier]
                         .toString()),
-                long: data[OverpassQueryIndex.longitude.identifier] == null
+                long: test[OverpassQueryIndex.longitude.identifier] == null
                     ? 0
-                    : double.parse(data[OverpassQueryIndex.longitude.identifier]
+                    : double.parse(test[OverpassQueryIndex.longitude.identifier]
                         .toString()),
                 street:
                     shopData[OverpassQueryIndex.street.identifier] ?? "noinfo",
@@ -53,7 +52,6 @@ class OSM implements OSMActions {
                     ? 0
                     : int.parse(shopData[OverpassQueryIndex.postcode.identifier]
                         .toString())));
-        //print(shop.name);
         shops.add(shop);
       }
     }

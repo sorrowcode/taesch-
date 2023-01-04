@@ -15,6 +15,8 @@ class RegisterPage extends StartingPage {
 }
 
 class _RegisterPageState extends StartingPageState {
+  final _emailController = TextEditingController();
+
   _RegisterPageState() {
     vm = RegisterPageVM();
   }
@@ -27,9 +29,7 @@ class _RegisterPageState extends StartingPageState {
     return [
       Text(
         (vm as RegisterPageVM).title,
-        style: const TextStyle(
-          fontSize: 40,
-        ),
+        style: Theme.of(context).textTheme.displayMedium,
       ),
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
@@ -52,6 +52,7 @@ class _RegisterPageState extends StartingPageState {
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
         child: TextFormField(
+          controller: _emailController,
           key: Key(WidgetKey.emailRegisterKey.text),
           validator: (value) {
             logger.log(
@@ -106,9 +107,9 @@ class _RegisterPageState extends StartingPageState {
           ),
         ),
       ),
-      OutlinedButton(
+      TextButton(
         key: Key(WidgetKey.submitButtonKey.text),
-        onPressed: () {
+        onPressed: () async {
           logger.log(
               level: LogLevel.info,
               logMessage: LogMessage(
@@ -118,15 +119,26 @@ class _RegisterPageState extends StartingPageState {
             logger.log(
                 level: LogLevel.debug,
                 logMessage: LogMessage(message: "form valid"));
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const SplashPage()));
+            (vm as RegisterPageVM)
+                .firebaseRepository
+                .firebaseActions
+                .register(
+                    email: _emailController.text,
+                    password: (vm as RegisterPageVM).passwordController.text)
+                .then((value) {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const SplashPage()));
+            });
           } else {
             logger.log(
                 level: LogLevel.debug,
                 logMessage: LogMessage(message: "invalid form"));
           }
         },
-        child: Text((vm as RegisterPageVM).submitButtonText),
+        child: Text(
+          (vm as RegisterPageVM).submitButtonText,
+          style: Theme.of(context).textTheme.labelLarge,
+        ),
       ),
     ];
   }

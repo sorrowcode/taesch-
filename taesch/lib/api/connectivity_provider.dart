@@ -10,12 +10,17 @@ class ConnectivityProvider with ChangeNotifier {
   late bool _isGpsOnline;
   bool get isGpsOnline => _isGpsOnline;
 
-  ConnectivityProvider() {
+  static ConnectivityProvider? _instance;
+
+  factory ConnectivityProvider() {
+    _instance ??= ConnectivityProvider._internal();//if null call
+    return _instance!;
+  }
+
+  ConnectivityProvider._internal() {
     Connectivity connectivity = Connectivity();
     _isOnline = false;
     _isGpsOnline = false;
-
-
     Geolocator.getServiceStatusStream().listen((ServiceStatus gpsStatus) {
       if (gpsStatus == ServiceStatus.disabled) {
         _isGpsOnline = false;
@@ -24,11 +29,11 @@ class ConnectivityProvider with ChangeNotifier {
       }
       notifyListeners();
     });
-    connectivity.checkConnectivity().then((result) {// init
+    connectivity.checkConnectivity().then((result) { // init
       _isOnline = _connectivityCheck(result);
       notifyListeners();
     });
-    connectivity.onConnectivityChanged.listen((result) {// change
+    connectivity.onConnectivityChanged.listen((result) { // change
       _isOnline = _connectivityCheck(result);
       notifyListeners();
     });

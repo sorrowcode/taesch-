@@ -9,6 +9,8 @@ import 'package:taesch/view/page/splash_page.dart';
 import 'package:taesch/view/page/starting_page.dart';
 import 'package:taesch/view_model/page/login_page_vm.dart';
 
+import '../../api/connectivity_provider.dart';
+
 class LoginPage extends StartingPage {
   const LoginPage({super.key});
 
@@ -17,24 +19,23 @@ class LoginPage extends StartingPage {
 }
 
 class _LoginPageState extends StartingPageState {
+  ConnectivityProvider connectivityProvider = ConnectivityProvider();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
   _LoginPageState() {
     vm = LoginPageVM();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      (vm as LoginPageVM).connection.addListener(() {
-        if(!(vm as LoginPageVM).connection.isOnline){
-          setState(() {
-            (vm as LoginPageVM).isOnline = false;
-            (vm as LoginPageVM).showAlertDialog(context);
-          });
-        } else {
-          setState(() {
-            (vm as LoginPageVM).isOnline = true;
-          });
-        }
-      });
+    (vm as LoginPageVM).connection.addListener(() {
+      if(!(vm as LoginPageVM).connection.isOnline){
+        setState(() {
+          (vm as LoginPageVM).isOnline = false;
+          (vm as LoginPageVM).showAlertDialog(context);
+        });
+      } else {
+        setState(() {
+          (vm as LoginPageVM).isOnline = true;
+        });
+      }
     });
   }
 

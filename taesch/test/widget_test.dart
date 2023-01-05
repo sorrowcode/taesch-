@@ -26,10 +26,10 @@ import 'package:taesch/view/screen/shopping_list_screen.dart';
 import 'package:taesch/view/screen/shops_map_screen.dart';
 
 void main() async {
-
   TestWidgetsFlutterBinding.ensureInitialized();
   final prefs = await SharedPreferences.getInstance();
   final themeController = ThemeController(prefs);
+
 
   group("login page", () {
       group("wrong values:", () {

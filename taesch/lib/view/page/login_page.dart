@@ -1,13 +1,17 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:taesch/api/actions/ping_actions.dart';
 import 'package:taesch/middleware/log/log_level.dart';
 import 'package:taesch/model/error_case.dart';
 import 'package:taesch/model/log_message.dart';
 import 'package:taesch/model/widget_key.dart';
+import 'package:taesch/view/custom_widget/connection_alert.dart';
 import 'package:taesch/view/page/register_page.dart';
 import 'package:taesch/view/page/splash_page.dart';
 import 'package:taesch/view/page/starting_page.dart';
 import 'package:taesch/view_model/page/login_page_vm.dart';
+
+import '../../api/implementation/ping.dart';
 
 class LoginPage extends StartingPage {
   const LoginPage({super.key});
@@ -22,6 +26,11 @@ class _LoginPageState extends StartingPageState {
 
   _LoginPageState() {
     vm = LoginPageVM();
+    PingActions ping = Ping();
+    ping.isOnline().then((isOnline) => !isOnline ? showDialog(
+      context: context,
+      builder: (BuildContext context) => ConnectionAlert(),
+    ) : null);
   }
 
   @override

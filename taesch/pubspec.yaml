@@ -25,6 +25,7 @@ dependencies:
   firebase_core: ^2.4.0
   test:
   sqflite_common_ffi:
+  app_settings: ^4.1.8
 
 dev_dependencies:
   flutter_launcher_icons: ^0.11.0

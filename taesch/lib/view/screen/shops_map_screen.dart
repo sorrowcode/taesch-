@@ -85,8 +85,8 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
       } else {
         widget._vm.shopsMarker.add(Marker(
             key: Key(WidgetKey.redMarkerKey.text),
-            point: LatLng(
-                widget._vm.shop!.mapSpot.longitude, widget._vm.shop!.mapSpot.latitude),
+            point: LatLng(widget._vm.shop!.mapSpot.longitude,
+                widget._vm.shop!.mapSpot.latitude),
             /*builder: (ctx) => GestureDetector(
                         onTap: () {
                             /*ScaffoldMessenger.of(ctx).showSnackBar(const SnackBar(

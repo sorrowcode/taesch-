@@ -26,13 +26,12 @@ import 'package:taesch/view/screen/shopping_list_screen.dart';
 import 'package:taesch/view/screen/shops_map_screen.dart';
 
 void main() async {
-
   TestWidgetsFlutterBinding.ensureInitialized();
   final prefs = await SharedPreferences.getInstance();
   final themeController = ThemeController(prefs);
 
   group("login page", () {
-      group("wrong values:", () {
+    group("wrong values:", () {
       testWidgets("without values", (widgetTester) async {
         await widgetTester.pumpWidget(App(
           controller: themeController,
@@ -85,7 +84,8 @@ void main() async {
         // todo: after exception handling, maybe covered partially in unit testing
       });
 
-      testWidgets("with correct email and wrong password", (widgetTester) async {
+      testWidgets("with correct email and wrong password",
+          (widgetTester) async {
         // todo: after exception handling, maybe covered partially in unit testing
       });
     });
@@ -95,7 +95,8 @@ void main() async {
         controller: themeController,
       ));
       expect(find.byType(LoginPage), findsOneWidget);
-      await widgetTester.tap(find.byKey(Key(WidgetKey.registrationButtonKey.text)));
+      await widgetTester
+          .tap(find.byKey(Key(WidgetKey.registrationButtonKey.text)));
       await widgetTester.pumpAndSettle();
       expect(find.byType(RegisterPage), findsOneWidget);
     });
@@ -114,7 +115,8 @@ void main() async {
         await widgetTester.tap(find.byKey(Key(WidgetKey.submitButtonKey.text)));
         await widgetTester.pump();
 
-        testErrorCases(widgetTester, [ErrorCase.noUsername, ErrorCase.noEmail, ErrorCase.noPassword]);
+        testErrorCases(widgetTester,
+            [ErrorCase.noUsername, ErrorCase.noEmail, ErrorCase.noPassword]);
       });
 
       testWidgets("with only username", (widgetTester) async {
@@ -140,10 +142,12 @@ void main() async {
             .tap(find.byKey(Key(WidgetKey.registrationButtonKey.text)));
         await widgetTester.pumpAndSettle();
         await widgetTester.enterText(
-            find.byKey(Key(WidgetKey.firstPasswordRegisterKey.text)), "Test1234!");
+            find.byKey(Key(WidgetKey.firstPasswordRegisterKey.text)),
+            "Test1234!");
         await widgetTester.pump();
         await widgetTester.enterText(
-            find.byKey(Key(WidgetKey.secondPasswordRegisterKey.text)), "Test1234!");
+            find.byKey(Key(WidgetKey.secondPasswordRegisterKey.text)),
+            "Test1234!");
         await widgetTester.pump();
         await widgetTester.tap(find.byType(TextButton));
         await widgetTester.pump();
@@ -160,10 +164,12 @@ void main() async {
         await widgetTester.enterText(
             find.byKey(Key(WidgetKey.usernameRegisterKey.text)), "John");
         await widgetTester.pump();
-        await widgetTester.enterText(find.byKey(Key(WidgetKey.emailRegisterKey.text)), "test@test.de");
+        await widgetTester.enterText(
+            find.byKey(Key(WidgetKey.emailRegisterKey.text)), "test@test.de");
         await widgetTester.pump();
         await widgetTester.enterText(
-            find.byKey(Key(WidgetKey.firstPasswordRegisterKey.text)), "Test1234!");
+            find.byKey(Key(WidgetKey.firstPasswordRegisterKey.text)),
+            "Test1234!");
         await widgetTester.pump();
         await widgetTester.tap(find.byType(TextButton));
         await widgetTester.pump();
@@ -186,7 +192,8 @@ void main() async {
         await widgetTester.tap(find.byIcon(Icons.menu));
         await widgetTester.pump();
         expect(find.byType(ListTile), findsNWidgets(ScreenState.values.length));
-        await widgetTester.tap(find.widgetWithText(ListTile, ScreenState.shoppingList.text));
+        await widgetTester
+            .tap(find.widgetWithText(ListTile, ScreenState.shoppingList.text));
         await widgetTester.pumpAndSettle();
         expect(find.byType(ShoppingListScreen), findsOneWidget);
       });
@@ -197,7 +204,8 @@ void main() async {
         ));
         await widgetTester.tap(find.byIcon(Icons.menu));
         await widgetTester.pumpAndSettle();
-        await widgetTester.tap(find.widgetWithText(ListTile, ScreenState.nearShops.text));
+        await widgetTester
+            .tap(find.widgetWithText(ListTile, ScreenState.nearShops.text));
         await widgetTester.pumpAndSettle();
         expect(find.byType(NearShopsScreen), findsOneWidget);
       });
@@ -206,13 +214,13 @@ void main() async {
         await widgetTester.pumpWidget(AnimatedBuilder(
             animation: themeController,
             builder: (context, _) => ThemeControllerProvider(
-                controller: themeController,
-                child: const MaterialApp(
-                  home: HomePage()),
+                  controller: themeController,
+                  child: const MaterialApp(home: HomePage()),
                 )));
         await widgetTester.tap(find.byIcon(Icons.menu));
         await widgetTester.pumpAndSettle();
-        await widgetTester.tap(find.widgetWithText(ListTile, ScreenState.settings.text));
+        await widgetTester
+            .tap(find.widgetWithText(ListTile, ScreenState.settings.text));
         await widgetTester.pumpAndSettle();
         expect(find.byType(SettingsScreen), findsOneWidget);
       });
@@ -223,7 +231,8 @@ void main() async {
         ));
         await widgetTester.tap(find.byIcon(Icons.menu));
         await widgetTester.pumpAndSettle();
-        await widgetTester.tap(find.widgetWithText(ListTile, ScreenState.shopsMap.text));
+        await widgetTester
+            .tap(find.widgetWithText(ListTile, ScreenState.shopsMap.text));
         await widgetTester.pumpAndSettle();
         expect(find.byType(ShopsMapScreen), findsOneWidget);
       });
@@ -236,8 +245,8 @@ void main() async {
             home: HomePage(),
           ));
           ((RepositoryHolder().getRepositoryByType(RepositoryType.sql)
-          as SQLRepository)
-              .sqlActions as SQLDatabase)
+                      as SQLRepository)
+                  .sqlActions as SQLDatabase)
               .init()
               .then((value) async {
             await widgetTester.tap(find.byType(FloatingActionButton));
@@ -245,7 +254,8 @@ void main() async {
             await widgetTester.enterText(
                 find.byType(TextFormField).first, "Test");
             await widgetTester.pump();
-            await widgetTester.tap(find.widgetWithIcon(TextButton, Icons.close));
+            await widgetTester
+                .tap(find.widgetWithIcon(TextButton, Icons.close));
             await widgetTester.pumpAndSettle();
             expect(find.byType(Card), findsNothing);
             expect(find.text("Test"), findsNothing);
@@ -253,23 +263,31 @@ void main() async {
         });
 
         testWidgets("with wrong values", (widgetTester) async {
-          ((RepositoryHolder().getRepositoryByType(RepositoryType.sql) as SQLRepository).sqlActions as SQLDatabase).init().then((value) async {
+          ((RepositoryHolder().getRepositoryByType(RepositoryType.sql)
+                      as SQLRepository)
+                  .sqlActions as SQLDatabase)
+              .init()
+              .then((value) async {
             await widgetTester.pumpWidget(const MaterialApp(
               home: HomePage(),
             ));
             await widgetTester.tap(find.byType(FloatingActionButton));
             await widgetTester.pumpAndSettle();
-            await widgetTester.enterText(
-                find.byType(TextFormField).first, " ");
+            await widgetTester.enterText(find.byType(TextFormField).first, " ");
             await widgetTester.pump();
-            await widgetTester.tap(find.widgetWithIcon(TextButton, Icons.check));
+            await widgetTester
+                .tap(find.widgetWithIcon(TextButton, Icons.check));
             await widgetTester.pumpAndSettle();
             testErrorCases(widgetTester, [ErrorCase.emptyField]);
           });
         });
 
         testWidgets("with correct values", (widgetTester) async {
-          ((RepositoryHolder().getRepositoryByType(RepositoryType.sql) as SQLRepository).sqlActions as SQLDatabase).init().then((value) async {
+          ((RepositoryHolder().getRepositoryByType(RepositoryType.sql)
+                      as SQLRepository)
+                  .sqlActions as SQLDatabase)
+              .init()
+              .then((value) async {
             await widgetTester.pumpWidget(const MaterialApp(
               home: HomePage(),
             ));
@@ -278,9 +296,11 @@ void main() async {
             await widgetTester.enterText(
                 find.byType(TextFormField).first, "Apple");
             await widgetTester.pump();
-            await widgetTester.enterText(find.byType(TextFormField).last, "obst");
+            await widgetTester.enterText(
+                find.byType(TextFormField).last, "obst");
             await widgetTester.pump();
-            await widgetTester.tap(find.widgetWithIcon(TextButton, Icons.check));
+            await widgetTester
+                .tap(find.widgetWithIcon(TextButton, Icons.check));
             await widgetTester.pumpAndSettle();
             expect(find.text("Apple"), findsOneWidget);
             expect(find.text("obst"), findsOneWidget);
@@ -298,7 +318,11 @@ void main() async {
       });
 
       testWidgets("and deleting element", (widgetTester) async {
-        ((RepositoryHolder().getRepositoryByType(RepositoryType.sql) as SQLRepository).sqlActions as SQLDatabase).init().then((value) async {
+        ((RepositoryHolder().getRepositoryByType(RepositoryType.sql)
+                    as SQLRepository)
+                .sqlActions as SQLDatabase)
+            .init()
+            .then((value) async {
           await widgetTester.pumpWidget(const MaterialApp(
             home: HomePage(),
           ));
@@ -321,9 +345,12 @@ void main() async {
     group("near shops screen", () {
       testWidgets("find at least one list tile element", (widgetTester) async {
         HttpOverrides.global = null;
-        OSMRepository repository = (RepositoryHolder().getRepositoryByType(RepositoryType.osm) as OSMRepository);
+        OSMRepository repository = (RepositoryHolder()
+            .getRepositoryByType(RepositoryType.osm) as OSMRepository);
         await widgetTester.pump();
-        (repository.osmActions as OSM).getNearShops(2000, repository.userPosition).then((value) async {
+        (repository.osmActions as OSM)
+            .getNearShops(2000, repository.userPosition)
+            .then((value) async {
           repository.cache = value;
           await widgetTester.pump();
           await widgetTester.pumpWidget(const MaterialApp(
@@ -332,17 +359,22 @@ void main() async {
           expect(find.byType(ShoppingListScreen), findsOneWidget);
           await widgetTester.tap(find.byIcon(Icons.menu));
           await widgetTester.pumpAndSettle();
-          await widgetTester.tap(find.widgetWithText(ListTile, ScreenState.nearShops.text));
+          await widgetTester
+              .tap(find.widgetWithText(ListTile, ScreenState.nearShops.text));
           await widgetTester.pumpAndSettle();
           expect(find.byType(ListTile), findsAtLeastNWidgets(1));
         });
       });
 
-      testWidgets("click on one shop to be navigated to the map", (widgetTester) async {
+      testWidgets("click on one shop to be navigated to the map",
+          (widgetTester) async {
         HttpOverrides.global = null;
-        OSMRepository repository = (RepositoryHolder().getRepositoryByType(RepositoryType.osm) as OSMRepository);
+        OSMRepository repository = (RepositoryHolder()
+            .getRepositoryByType(RepositoryType.osm) as OSMRepository);
         await widgetTester.pump();
-        (repository.osmActions as OSM).getNearShops(2000, repository.userPosition).then((value) async {
+        (repository.osmActions as OSM)
+            .getNearShops(2000, repository.userPosition)
+            .then((value) async {
           repository.cache = value;
           await widgetTester.pump();
           await widgetTester.pumpWidget(const MaterialApp(
@@ -351,8 +383,8 @@ void main() async {
           expect(find.byType(ShoppingListScreen), findsOneWidget);
           await widgetTester.tap(find.byIcon(Icons.menu));
           await widgetTester.pumpAndSettle();
-          await widgetTester.tap(
-              find.widgetWithText(ListTile, ScreenState.nearShops.text));
+          await widgetTester
+              .tap(find.widgetWithText(ListTile, ScreenState.nearShops.text));
           await widgetTester.pumpAndSettle();
           await widgetTester.tap(find.byType(ListTile).first);
           await widgetTester.pumpAndSettle();
@@ -365,9 +397,12 @@ void main() async {
     group("shops map screen", () {
       testWidgets("long press on marker", (widgetTester) async {
         HttpOverrides.global = null;
-        OSMRepository repository = (RepositoryHolder().getRepositoryByType(RepositoryType.osm) as OSMRepository);
+        OSMRepository repository = (RepositoryHolder()
+            .getRepositoryByType(RepositoryType.osm) as OSMRepository);
         await widgetTester.pump();
-        (repository.osmActions as OSM).getNearShops(2000, repository.userPosition).then((value) async {
+        (repository.osmActions as OSM)
+            .getNearShops(2000, repository.userPosition)
+            .then((value) async {
           repository.cache = value;
           await widgetTester.pump();
           await widgetTester.pumpWidget(const MaterialApp(
@@ -376,13 +411,11 @@ void main() async {
           expect(find.byType(ShoppingListScreen), findsOneWidget);
           await widgetTester.tap(find.byIcon(Icons.menu));
           await widgetTester.pumpAndSettle();
-          await widgetTester.tap(
-              find.widgetWithText(ListTile, ScreenState.shopsMap.text));
+          await widgetTester
+              .tap(find.widgetWithText(ListTile, ScreenState.shopsMap.text));
           await widgetTester.pumpAndSettle();
           expect(find.byType(Marker), findsAtLeastNWidgets(5));
-          await widgetTester.tap(find
-              .byType(Marker)
-              .first);
+          await widgetTester.tap(find.byType(Marker).first);
           await widgetTester.pumpAndSettle();
           expect(find.byType(MarkerLongTapDialog), findsOneWidget);
         });
@@ -393,6 +426,7 @@ void main() async {
 
 void testErrorCases(WidgetTester widgetTester, List<ErrorCase> exceptCases) {
   for (ErrorCase errorCase in ErrorCase.values) {
-    expect(find.text(errorCase.message), exceptCases.contains(errorCase) ? findsOneWidget : findsNothing);
+    expect(find.text(errorCase.message),
+        exceptCases.contains(errorCase) ? findsOneWidget : findsNothing);
   }
 }

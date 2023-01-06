@@ -14,9 +14,9 @@ class FirebaseWrapper implements FirebaseActions {
 
   @override
   void init() async {
-    logger.log(level: LogLevel.info, logMessage: LogMessage(
-      message: "initialized firebase wrapper"
-    ));
+    logger.log(
+        level: LogLevel.info,
+        logMessage: LogMessage(message: "initialized firebase wrapper"));
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
@@ -28,7 +28,7 @@ class FirebaseWrapper implements FirebaseActions {
     try {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
-    } on FirebaseAuthException catch (_, e) {
+    } on FirebaseAuthException {
       throw LoginException(cause: "invalid login");
     }
   }

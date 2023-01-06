@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:taesch/api/repositories/firebase_repository.dart';
+import 'package:taesch/api/repositories/repository_type.dart';
+import 'package:taesch/api/repository_holder.dart';
 import 'package:taesch/exceptions/custom/registration_exception.dart';
 import 'package:taesch/middleware/log/log_level.dart';
 import 'package:taesch/model/error_case.dart';
@@ -19,7 +22,8 @@ class _RegisterPageState extends StartingPageState {
   final _emailController = TextEditingController();
 
   _RegisterPageState() {
-    vm = RegisterPageVM();
+    vm = RegisterPageVM(RepositoryHolder()
+        .getRepositoryByType(RepositoryType.firebase) as FirebaseRepository);
   }
 
   @override
@@ -125,30 +129,35 @@ class _RegisterPageState extends StartingPageState {
                   .firebaseRepository
                   .firebaseActions
                   .register(
-                  email: _emailController.text,
-                  password: (vm as RegisterPageVM).passwordController.text)
+                      email: _emailController.text,
+                      password: (vm as RegisterPageVM).passwordController.text)
                   .then((value) {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const SplashPage()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SplashPage()));
               });
             } on RegistrationException {
               await showDialog(
                   context: context,
                   builder: (context) => AlertDialog(
-                    actions: [
-                      IconButton(onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                          icon: const Icon(Icons.close))
-                    ],
-                    title: const Text("email already in use", style: TextStyle(
-                      color: Colors.red,
-                    ),),
-                    content:
-                    const Text("consider using another email instead"),
-                  ));
+                        actions: [
+                          IconButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              icon: const Icon(Icons.close))
+                        ],
+                        title: const Text(
+                          "email already in use",
+                          style: TextStyle(
+                            color: Colors.red,
+                          ),
+                        ),
+                        content:
+                            const Text("consider using another email instead"),
+                      ));
             }
-
           } else {
             logger.log(
                 level: LogLevel.debug,

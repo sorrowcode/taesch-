@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:taesch/api/actions/firebase_actions.dart';
 import 'package:taesch/api/repositories/repository_type.dart';
@@ -121,26 +120,32 @@ class _LoginPageState extends StartingPageState {
                           ?.actions as FirebaseActions)
                       .login(
                           email: _emailController.text,
-                          password: _passwordController.text).then((value)  {
+                          password: _passwordController.text)
+                      .then((value) {
                     Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const SplashPage()));
+                        MaterialPageRoute(
+                            builder: (context) => const SplashPage()));
                   });
                 } on LoginException {
                   await showDialog(
                       context: context,
                       builder: (context) => AlertDialog(
-                        actions: [
-                          IconButton(onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                              icon: const Icon(Icons.close))
-                        ],
-                            title: const Text("wrong credentials", style: TextStyle(
-                              color: Colors.red,
-                            ),),
-                            content:
-                                const Text("your email or your password are invalid"),
+                            actions: [
+                              IconButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  icon: const Icon(Icons.close))
+                            ],
+                            title: const Text(
+                              "wrong credentials",
+                              style: TextStyle(
+                                color: Colors.red,
+                              ),
+                            ),
+                            content: const Text(
+                                "your email or your password are invalid"),
                           ));
                 }
               } else {

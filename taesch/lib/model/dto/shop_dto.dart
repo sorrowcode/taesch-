@@ -18,8 +18,7 @@ class ShopDTO {
           street: json["street"] as String,
           postcode: json["postcode"] as int,
           houseNumber: json["houseNumber"] as String,
-        )
-    );
+        ));
   }
 
   Map<String, Object> toJson() {

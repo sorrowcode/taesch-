@@ -1,13 +1,13 @@
 import 'package:taesch/model/product.dart';
 
 class ShoppingListTemplate {
-  static List<ShoppingListTemplate> templates = [];
-  List<Product> _products = [];
-  
+  static final List<ShoppingListTemplate> templates = [];
+  //List<Product> _products = [];
+
   ShoppingListTemplate() {
     templates.add(this);
   }
-  
+
   // todo: add elements
   void addProduct(Product product) {
     // todo: direkt persistieren?

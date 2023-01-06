@@ -11,7 +11,8 @@ class MarkerLongTapDialog {
                   child: Column(
                     children: [
                       RichText(
-                          text: TextSpan(style: const TextStyle(color: Colors.black),
+                          text: TextSpan(
+                              style: const TextStyle(color: Colors.black),
                               //apply style to all
                               children: [
                             const TextSpan(
@@ -52,7 +53,7 @@ class MarkerLongTapDialog {
                                 style: TextStyle(fontWeight: FontWeight.bold)),
                             const TextSpan(text: ' 8:00 - 19:30 Uhr'),
                             const TextSpan(text: "\n"),
-                                TextSpan(text: "${shop.id}")
+                            TextSpan(text: "${shop.id}")
                           ])),
                     ],
                   ),

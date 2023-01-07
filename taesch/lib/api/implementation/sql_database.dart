@@ -5,7 +5,6 @@ import 'package:taesch/api/actions/sql_actions.dart';
 import 'package:taesch/api/mapper/product_dto_map_data.dart';
 import 'package:taesch/middleware/log/log_level.dart';
 import 'package:taesch/middleware/log/logger_wrapper.dart';
-import 'package:taesch/model/dto/product_dto.dart';
 import 'package:taesch/model/log_message.dart';
 import 'package:taesch/model/product.dart';
 
@@ -89,9 +88,7 @@ class SQLDatabase implements SQLActions {
     final List<Map<String, dynamic>> products =
         await db.query(generated ? _generatedTable : _effectiveTable);
     return List.generate(products.length, (index) {
-      var dto = ProductDTO.fromMap(map: products[index]);
-      dto.toProduct();
-      return dto.product;
+      return Product.fromMap(products[index]);
     });
   }
 
@@ -101,8 +98,6 @@ class SQLDatabase implements SQLActions {
         level: LogLevel.info,
         logMessage: LogMessage(message: "sql database insert product called"));
     var db = _database;
-    var dto = ProductDTO.fromProduct(product: product);
-    dto.toMap();
-    await db.insert(generated ? _generatedTable : _effectiveTable, dto.map);
+    await db.insert(generated ? _generatedTable : _effectiveTable, product.toMap());
   }
 }

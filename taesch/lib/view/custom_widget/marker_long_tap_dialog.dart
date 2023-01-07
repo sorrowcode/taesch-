@@ -6,7 +6,7 @@ class MarkerLongTapDialog {
     showDialog(
         context: context,
         builder: (ctx) => AlertDialog(
-                title: Text(shop.name),
+                title: Text(shop.spot.name),
                 content: SingleChildScrollView(
                   child: Column(
                     children: [
@@ -18,7 +18,7 @@ class MarkerLongTapDialog {
                             const TextSpan(
                                 text: 'Street:',
                                 style: TextStyle(fontWeight: FontWeight.bold)),
-                            TextSpan(text: shop.address),
+                            TextSpan(text: shop.spot.street),
                             const TextSpan(text: "\n")
                           ])),
                       RichText(
@@ -29,7 +29,7 @@ class MarkerLongTapDialog {
                             const TextSpan(
                                 text: 'Number:',
                                 style: TextStyle(fontWeight: FontWeight.bold)),
-                            TextSpan(text: shop.houseNumber),
+                            TextSpan(text: shop.spot.houseNumber),
                             const TextSpan(text: "\n")
                           ])),
                       RichText(

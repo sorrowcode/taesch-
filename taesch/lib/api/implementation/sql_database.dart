@@ -26,7 +26,6 @@ class SQLDatabase implements SQLActions {
     _database = await openDatabase(join(await getDatabasesPath(), "taesch.db"),
         version: 1, onCreate: (db, version) {
       var name = ProductDTOMapData.name.value();
-      var imageURL = ProductDTOMapData.imageUrl.value();
       var quantity = ProductDTOMapData.quantity.value();
       var tags = ProductDTOMapData.tags.value();
       var positionValue = ProductDTOMapData.positionValue.value();

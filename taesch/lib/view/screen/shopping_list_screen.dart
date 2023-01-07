@@ -43,7 +43,7 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
                       logMessage: LogMessage(
                           message:
                               "tapped on ${widget._vm.products[index].name} item"));
-                  //widget._vm.sqlRepository.sqlActions.insertProduct(false, widget._vm.products[index]).then((value){
+                  widget._vm.sqlRepository.sqlActions.insertProduct(false, widget._vm.products[index]).then((value){
                     widget._vm.sqlRepository.sqlActions
                         .deleteProduct(true, widget._vm.products[index].name)
                         .then((value) {
@@ -51,7 +51,7 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
                         widget._vm.products.remove(widget._vm.products[index]);
                       });
                     });
-                  //});
+                  });
 
                   // todo:
                   // - wenn widget._vm.products leer ist, ist der Einkauf abgeschlossen

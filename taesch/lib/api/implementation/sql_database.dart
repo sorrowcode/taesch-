@@ -34,7 +34,6 @@ class SQLDatabase implements SQLActions {
       var timesBought = ProductDTOMapData.timesBought.value();
       var sql = "CREATE TABLE IF NOT EXISTS $_generatedTable("
           "$name TEXT PRIMARY KEY,"
-          "$imageURL TEXT NOT NULL,"
           "$quantity INTEGER NOT NULL,"
           "$tags TEXT,"
           "$positionValue DOUBLE PRECISION NOT NULL,"
@@ -43,7 +42,6 @@ class SQLDatabase implements SQLActions {
           ");"
           "CREATE TABLE IF NOT EXISTS $_effectiveTable("
           "$name TEXT PRIMARY KEY,"
-          "$imageURL TEXT NOT NULL,"
           "$quantity INTEGER NOT NULL,"
           "$tags TEXT,"
           "$positionValue DOUBLE PRECISION NOT NULL,"

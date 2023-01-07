@@ -1,5 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'package:taesch/api/implementation/sql_database.dart';
 import 'package:taesch/model/error_case.dart';
+import 'package:taesch/model/product.dart';
 import 'package:taesch/view_model/page/login_page_vm.dart';
 import 'package:taesch/view_model/page/register_page_vm.dart';
 import 'package:taesch/view_model/page/starting_page_vm.dart';
@@ -125,10 +130,51 @@ void main() {
       - osm actions
      */
 
-    group("sql", () {});
+    group("sql", () {
+      test("insert and get list", () async {
+        await sqlSetup();
+        var sqlDatabase = SQLDatabase();
+        await sqlDatabase.init();
+        Product testProduct = Product(name: "test product");
+        await sqlDatabase.insertProduct(false, testProduct);
+        var products = await sqlDatabase.getProductList(false);
+        Product product = products[0];
+        expect(product.name, testProduct.name);
+      });
+
+      test("deletion", () async {
+        await sqlSetup();
+        var sqlDatabase = SQLDatabase();
+        await sqlDatabase.init();
+        Product testProduct1 =
+        Product(name: "test product 1");
+        Product testProduct2 =
+        Product(name: "test product 2");
+        Product testProduct3 =
+        Product(name: "test product 3");
+        await sqlDatabase.insertProduct(false, testProduct1);
+        await sqlDatabase.insertProduct(false, testProduct2);
+        await sqlDatabase.insertProduct(false, testProduct3);
+        var products = await sqlDatabase.getProductList(false);
+        expect(products.length, 3);
+        await sqlDatabase.deleteProduct(false, testProduct3.name);
+        products = await sqlDatabase.getProductList(false);
+        expect(products.length, 2);
+        await sqlDatabase.deleteProductList(false);
+        products = await sqlDatabase.getProductList(false);
+        expect(products.length, 0);
+      });
+    });
 
     group("firebase", () {});
 
     group("osm", () {});
   });
+}
+
+Future<void> sqlSetup() async {
+  sqfliteFfiInit(); // only for testing purposes
+  databaseFactory = databaseFactoryFfi; // only for testing purposes
+  databaseFactory
+      .deleteDatabase(join(await getDatabasesPath(), "taesch.db"));
 }

@@ -43,13 +43,21 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
                       logMessage: LogMessage(
                           message:
                               "tapped on ${widget._vm.products[index].name} item"));
-                  widget._vm.sqlRepository.sqlActions
-                      .deleteProduct(true, widget._vm.products[index].name)
-                      .then((value) {
-                    setState(() {
-                      widget._vm.products.remove(widget._vm.products[index]);
+                  widget._vm.sqlRepository.sqlActions.insertProduct(false, widget._vm.products[index]).then((value){
+                    widget._vm.sqlRepository.sqlActions
+                        .deleteProduct(true, widget._vm.products[index].name)
+                        .then((value) {
+                      setState(() {
+                        widget._vm.products.remove(widget._vm.products[index]);
+                      });
                     });
                   });
+
+                  // todo:
+                  // - wenn widget._vm.products leer ist, ist der Einkauf abgeschlossen
+                  // - holen der Elemente aus der Datenbank
+                  // - initialisieren eines Purchase Objektes
+                  // - senden nach Firebase -> verändern der Daten aus dem Shop, falls Daten vorhanden sind
                 },
                 child: Column(children: [
                   SizedBox(

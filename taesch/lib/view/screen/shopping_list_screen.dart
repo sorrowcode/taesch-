@@ -43,7 +43,7 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
                       logMessage: LogMessage(
                           message:
                               "tapped on ${widget._vm.products[index].name} item"));
-                  widget._vm.sqlRepository.sqlActions.insertProduct(false, widget._vm.products[index]).then((value){
+                  //widget._vm.sqlRepository.sqlActions.insertProduct(false, widget._vm.products[index]).then((value){
                     widget._vm.sqlRepository.sqlActions
                         .deleteProduct(true, widget._vm.products[index].name)
                         .then((value) {
@@ -51,7 +51,7 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
                         widget._vm.products.remove(widget._vm.products[index]);
                       });
                     });
-                  });
+                  //});
 
                   // todo:
                   // - wenn widget._vm.products leer ist, ist der Einkauf abgeschlossen
@@ -60,27 +60,20 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
                   // - senden nach Firebase -> verändern der Daten aus dem Shop, falls Daten vorhanden sind
                 },
                 child: Column(children: [
-                  SizedBox(
-                    width: 100,
-                    height: 125,
-                    child: Center(
+                  Center(
                         child: Text(
                       widget._vm.products[index].name,
                       style: Theme.of(context).textTheme.headlineSmall,
                     )),
-                  ),
-                  SizedBox(
-                    width: 100,
-                    height: 50,
-                    child: Text(
-                      widget._vm.products[index].tags
-                          .map((e) => e.name)
-                          .join(' , ')
-                          .replaceAll('[', '')
-                          .replaceAll(']', ''),
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.titleSmall,
-                    ),
+
+                  Text(
+                    widget._vm.products[index].tags
+                        .map((e) => e.name)
+                        .join(' , ')
+                        .replaceAll('[', '')
+                        .replaceAll(']', ''),
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.titleSmall,
                   ),
                 ])),
           );

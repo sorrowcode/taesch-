@@ -10,25 +10,7 @@ import 'package:taesch/view_model/page/register_page_vm.dart';
 import 'package:taesch/view_model/page/starting_page_vm.dart';
 
 void main() {
-  /*
-  setUpAll(() async {
-    sqfliteFfiInit(); // only for testing purposes
-    databaseFactory = databaseFactoryFfi; // only for testing purposes
-    databaseFactory
-        .deleteDatabase(join(await getDatabasesPath(), "taesch.db"));
-    RepositoryHolder();
-  });
-
-   */
-
   group("validation", () {
-    /* todo:
-    - email validation
-    - password validation
-    - username validation ?
-    - same password validation
-    */
-
     group("email", () {
       StartingPageVM vm = LoginPageVM();
 

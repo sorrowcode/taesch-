@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:taesch/api/actions/sql_actions.dart';
@@ -22,7 +21,6 @@ class SQLDatabase implements SQLActions {
         logMessage: LogMessage(
           message: "sql database init called",
         ));
-    WidgetsFlutterBinding.ensureInitialized();
     _database = await openDatabase(join(await getDatabasesPath(), "taesch.db"),
         version: 1, onCreate: (db, version) {
       var name = ProductDTOMapData.name.value();
@@ -95,6 +93,6 @@ class SQLDatabase implements SQLActions {
         level: LogLevel.info,
         logMessage: LogMessage(message: "sql database insert product called"));
     var db = _database;
-    await db.insert(generated ? _generatedTable : _effectiveTable, product.toMap());
+    await db.insert(generated ? _generatedTable : _effectiveTable, product.toMapForSqlDatabase());
   }
 }

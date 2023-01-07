@@ -9,11 +9,11 @@ import 'keys/product_metadata_keys.dart';
 class Product {
   late final String name;
   late int quantity = 1;
-  late List<Tag> tags;
+  late List<Tag> tags = [];
   late ProductMetadata metadata;
 
   Product({required this.name}) {
-    //tags = [Tag(name: "testTag")];
+    tags = [Tag(name: "testTag")];
     metadata = ProductMetadata();
   }
 
@@ -27,7 +27,17 @@ class Product {
     );
   }
 
-  Map<String, dynamic> toMap() {
+  Map<String, Object> toMapForSqlDatabase() {
+    HashMap<String, Object> map = HashMap();
+    map.putIfAbsent(ProductKeys.name.text(), () => name);
+    map.putIfAbsent(ProductKeys.quantity.text(), () => quantity);
+    map.putIfAbsent(ProductMetadataKeys.positionValue.text(), () => metadata.positionValue);
+    map.putIfAbsent(ProductMetadataKeys.sumOfAllWeights.text(), () => metadata.sumOfAllWeights);
+    map.putIfAbsent(ProductMetadataKeys.timesBought.text(), () => metadata.timesBought);
+    return map;
+  }
+
+  Map<String, dynamic> toMapForFireStore() {
     HashMap<String, dynamic> map = HashMap();
     map.putIfAbsent(ProductKeys.name.text(), () => name);
     map.putIfAbsent(ProductKeys.quantity.text(), () => quantity);

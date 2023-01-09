@@ -127,47 +127,50 @@ class _RegisterPageState extends StartingPageState {
             logger.log(
                 level: LogLevel.debug,
                 logMessage: LogMessage(message: "form valid"));
-            if (((RepositoryHolder().getRepositoryByType(RepositoryType.ping) as PingRepository).pingActions as Ping).isOnline) {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) => ConnectionAlert(),
-              );
-            } else {
-              try {
-                await (vm as RegisterPageVM)
-                    .firebaseRepository
-                    .firebaseActions
-                    .register(
-                    email: _emailController.text,
-                    password: (vm as RegisterPageVM).passwordController.text)
-                    .then((value) {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const SplashPage()));
-                });
-              } on RegistrationException {
-                await showDialog(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                      actions: [
-                        IconButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            icon: const Icon(Icons.close))
-                      ],
-                      title: const Text(
-                        "email already in use",
-                        style: TextStyle(
-                          color: Colors.red,
-                        ),
+            ((RepositoryHolder().getRepositoryByType(RepositoryType.ping) as PingRepository).pingActions as Ping).init().then((value) async {
+              if (!((RepositoryHolder().getRepositoryByType(RepositoryType.ping) as PingRepository).pingActions as Ping).isOnline) {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) => ConnectionAlert(),
+                );
+              } else {
+                try {
+                  await (vm as RegisterPageVM)
+                      .firebaseRepository
+                      .firebaseActions
+                      .register(
+                      email: _emailController.text,
+                      password: (vm as RegisterPageVM).passwordController.text)
+                      .then((value) {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const SplashPage()));
+                  });
+                } on RegistrationException {
+                  await showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                    actions: [
+                      IconButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          icon: const Icon(Icons.close))
+                    ],
+                    title: const Text(
+                      "email already in use",
+                      style: TextStyle(
+                        color: Colors.red,
                       ),
-                      content:
-                      const Text("consider using another email instead"),
-                    ));
-              }
+                    ),
+                    content:
+                    const Text("consider using another email instead"),
+                  ));
             }
+            }
+            });
+
 
           } else {
             logger.log(

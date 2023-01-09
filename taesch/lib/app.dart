@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:taesch/controller/theme_controller.dart';
 import 'package:taesch/controller/theme_controller_provider.dart';
+import 'package:taesch/view/page/home_page.dart';
 import 'package:taesch/view/page/login_page.dart';
+import 'package:taesch/view/page/splash_page.dart';
 
 import 'view_model/app_vm.dart';
 
@@ -162,7 +164,7 @@ class _AppState extends State<App> {
               thickness: 3.0,
             ),
           ),
-          home: const LoginPage(),
+          home: const HomePage(),
         ),
       ),
     );

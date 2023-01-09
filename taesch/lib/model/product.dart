@@ -31,6 +31,7 @@ class Product {
     HashMap<String, Object> map = HashMap();
     map.putIfAbsent(ProductKeys.name.text(), () => name);
     map.putIfAbsent(ProductKeys.quantity.text(), () => quantity);
+    map.putIfAbsent("tags", () => "");
     map.putIfAbsent(ProductMetadataKeys.positionValue.text(), () => metadata.positionValue);
     map.putIfAbsent(ProductMetadataKeys.sumOfAllWeights.text(), () => metadata.sumOfAllWeights);
     map.putIfAbsent(ProductMetadataKeys.timesBought.text(), () => metadata.timesBought);

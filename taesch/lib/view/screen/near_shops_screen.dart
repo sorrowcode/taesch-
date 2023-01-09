@@ -32,7 +32,6 @@ class _NearShopsScreenState extends State<NearShopsScreen> {
   }
 
   List<Widget> _getShopList() {
-
     var shopsList = <Widget>[];
     for (int i = 0; i < widget._vm.osmRepository.cache.length; i++) {
       shopsList.add(ShopsTile(

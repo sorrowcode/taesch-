@@ -118,8 +118,16 @@ class _LoginPageState extends StartingPageState {
                 logger.log(
                     level: LogLevel.debug,
                     logMessage: LogMessage(message: "form valid"));
-                ((RepositoryHolder().getRepositoryByType(RepositoryType.ping) as PingRepository).pingActions as Ping).init().then((value) async {
-                  if (!((RepositoryHolder().getRepositoryByType(RepositoryType.ping) as PingRepository).pingActions as Ping).isOnline) {
+                ((RepositoryHolder().getRepositoryByType(RepositoryType.ping)
+                            as PingRepository)
+                        .pingActions as Ping)
+                    .init()
+                    .then((value) async {
+                  if (!((RepositoryHolder()
+                                  .getRepositoryByType(RepositoryType.ping)
+                              as PingRepository)
+                          .pingActions as Ping)
+                      .isOnline) {
                     showDialog(
                       context: context,
                       builder: (BuildContext context) => ConnectionAlert(),
@@ -127,11 +135,11 @@ class _LoginPageState extends StartingPageState {
                   } else {
                     try {
                       await (RepositoryHolder()
-                          .getRepositoryByType(RepositoryType.firebase)
-                          ?.actions as FirebaseActions)
+                              .getRepositoryByType(RepositoryType.firebase)
+                              ?.actions as FirebaseActions)
                           .login(
-                          email: _emailController.text,
-                          password: _passwordController.text)
+                              email: _emailController.text,
+                              password: _passwordController.text)
                           .then((value) {
                         Navigator.push(
                             context,
@@ -142,26 +150,25 @@ class _LoginPageState extends StartingPageState {
                       await showDialog(
                           context: context,
                           builder: (context) => AlertDialog(
-                        actions: [
-                          IconButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              icon: const Icon(Icons.close))
-                        ],
-                        title: const Text(
-                          "wrong credentials",
-                          style: TextStyle(
-                            color: Colors.red,
-                          ),
-                        ),
-                        content: const Text(
-                            "your email or your password are invalid"),
-                      ));
-                }
-                }
+                                actions: [
+                                  IconButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      icon: const Icon(Icons.close))
+                                ],
+                                title: const Text(
+                                  "wrong credentials",
+                                  style: TextStyle(
+                                    color: Colors.red,
+                                  ),
+                                ),
+                                content: const Text(
+                                    "your email or your password are invalid"),
+                              ));
+                    }
+                  }
                 });
-
               } else {
                 logger.log(
                     level: LogLevel.debug,

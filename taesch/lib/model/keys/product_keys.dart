@@ -4,7 +4,6 @@ enum ProductKeys {
 }
 
 extension ProductKeyString on ProductKeys {
-
   String text() {
     switch (this) {
       case ProductKeys.name:

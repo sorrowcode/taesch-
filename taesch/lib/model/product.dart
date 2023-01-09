@@ -21,10 +21,12 @@ class Product {
     name = map[ProductKeys.name.text()].toString();
     quantity = int.parse(map[ProductKeys.quantity.text()].toString());
     metadata = ProductMetadata.withData(
-        positionValue: double.parse(map[ProductMetadataKeys.positionValue.text()].toString()),
-        sumOfAllWeights: double.parse(map[ProductMetadataKeys.sumOfAllWeights.text()].toString()),
-        timesBought: int.parse(map[ProductMetadataKeys.timesBought.text()].toString())
-    );
+        positionValue: double.parse(
+            map[ProductMetadataKeys.positionValue.text()].toString()),
+        sumOfAllWeights: double.parse(
+            map[ProductMetadataKeys.sumOfAllWeights.text()].toString()),
+        timesBought:
+            int.parse(map[ProductMetadataKeys.timesBought.text()].toString()));
   }
 
   Map<String, Object> toMapForSqlDatabase() {
@@ -32,9 +34,12 @@ class Product {
     map.putIfAbsent(ProductKeys.name.text(), () => name);
     map.putIfAbsent(ProductKeys.quantity.text(), () => quantity);
     map.putIfAbsent("tags", () => "");
-    map.putIfAbsent(ProductMetadataKeys.positionValue.text(), () => metadata.positionValue);
-    map.putIfAbsent(ProductMetadataKeys.sumOfAllWeights.text(), () => metadata.sumOfAllWeights);
-    map.putIfAbsent(ProductMetadataKeys.timesBought.text(), () => metadata.timesBought);
+    map.putIfAbsent(
+        ProductMetadataKeys.positionValue.text(), () => metadata.positionValue);
+    map.putIfAbsent(ProductMetadataKeys.sumOfAllWeights.text(),
+        () => metadata.sumOfAllWeights);
+    map.putIfAbsent(
+        ProductMetadataKeys.timesBought.text(), () => metadata.timesBought);
     return map;
   }
 
@@ -42,9 +47,12 @@ class Product {
     HashMap<String, dynamic> map = HashMap();
     map.putIfAbsent(ProductKeys.name.text(), () => name);
     map.putIfAbsent(ProductKeys.quantity.text(), () => quantity);
-    map.putIfAbsent(ProductMetadataKeys.positionValue.text(), () => metadata.positionValue);
-    map.putIfAbsent(ProductMetadataKeys.sumOfAllWeights.text(), () => metadata.sumOfAllWeights);
-    map.putIfAbsent(ProductMetadataKeys.timesBought.text(), () => metadata.timesBought);
+    map.putIfAbsent(
+        ProductMetadataKeys.positionValue.text(), () => metadata.positionValue);
+    map.putIfAbsent(ProductMetadataKeys.sumOfAllWeights.text(),
+        () => metadata.sumOfAllWeights);
+    map.putIfAbsent(
+        ProductMetadataKeys.timesBought.text(), () => metadata.timesBought);
     return map;
   }
 }

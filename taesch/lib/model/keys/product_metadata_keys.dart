@@ -1,12 +1,8 @@
-enum ProductMetadataKeys {
-  positionValue,
-  sumOfAllWeights,
-  timesBought
-}
+enum ProductMetadataKeys { positionValue, sumOfAllWeights, timesBought }
 
 extension ProductMetadataKeysString on ProductMetadataKeys {
   String text() {
-    switch(this) {
+    switch (this) {
       case ProductMetadataKeys.positionValue:
         return "positionValue";
       case ProductMetadataKeys.sumOfAllWeights:

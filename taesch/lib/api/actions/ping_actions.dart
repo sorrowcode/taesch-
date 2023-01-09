@@ -1,5 +1,3 @@
 import 'actions.dart';
 
-abstract class PingActions implements Actions {
-
-}
+abstract class PingActions implements Actions {}

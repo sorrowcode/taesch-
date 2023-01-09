@@ -127,8 +127,15 @@ class _RegisterPageState extends StartingPageState {
             logger.log(
                 level: LogLevel.debug,
                 logMessage: LogMessage(message: "form valid"));
-            ((RepositoryHolder().getRepositoryByType(RepositoryType.ping) as PingRepository).pingActions as Ping).init().then((value) async {
-              if (!((RepositoryHolder().getRepositoryByType(RepositoryType.ping) as PingRepository).pingActions as Ping).isOnline) {
+            ((RepositoryHolder().getRepositoryByType(RepositoryType.ping)
+                        as PingRepository)
+                    .pingActions as Ping)
+                .init()
+                .then((value) async {
+              if (!((RepositoryHolder().getRepositoryByType(RepositoryType.ping)
+                          as PingRepository)
+                      .pingActions as Ping)
+                  .isOnline) {
                 showDialog(
                   context: context,
                   builder: (BuildContext context) => ConnectionAlert(),
@@ -139,8 +146,9 @@ class _RegisterPageState extends StartingPageState {
                       .firebaseRepository
                       .firebaseActions
                       .register(
-                      email: _emailController.text,
-                      password: (vm as RegisterPageVM).passwordController.text)
+                          email: _emailController.text,
+                          password:
+                              (vm as RegisterPageVM).passwordController.text)
                       .then((value) {
                     Navigator.push(
                         context,
@@ -151,27 +159,25 @@ class _RegisterPageState extends StartingPageState {
                   await showDialog(
                       context: context,
                       builder: (context) => AlertDialog(
-                    actions: [
-                      IconButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          icon: const Icon(Icons.close))
-                    ],
-                    title: const Text(
-                      "email already in use",
-                      style: TextStyle(
-                        color: Colors.red,
-                      ),
-                    ),
-                    content:
-                    const Text("consider using another email instead"),
-                  ));
-            }
-            }
+                            actions: [
+                              IconButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  icon: const Icon(Icons.close))
+                            ],
+                            title: const Text(
+                              "email already in use",
+                              style: TextStyle(
+                                color: Colors.red,
+                              ),
+                            ),
+                            content: const Text(
+                                "consider using another email instead"),
+                          ));
+                }
+              }
             });
-
-
           } else {
             logger.log(
                 level: LogLevel.debug,

@@ -7,12 +7,11 @@ class Ping implements PingActions {
 
   @override
   Future<void> init() async {
-    get(Uri.parse(_apiUrl))
-        .then((result) {
+    get(Uri.parse(_apiUrl)).then((result) {
       isOnline = (result.statusCode ~/ 100) == 2 ? true : false;
     }) // 200 range
         .catchError((err) {
-          isOnline = false;
+      isOnline = false;
     });
     /*
     get(Uri.parse(_apiUrl))

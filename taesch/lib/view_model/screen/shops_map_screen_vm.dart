@@ -1,4 +1,3 @@
-
 import 'package:flutter_map/flutter_map.dart';
 import 'package:taesch/api/repositories/osm_repository.dart';
 import 'package:taesch/api/repositories/repository_type.dart';
@@ -22,5 +21,4 @@ class ShopsMapScreenVM {
           street: "dummy",
           houseNumber: "0",
           postcode: 0));
-
 }

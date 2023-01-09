@@ -18,5 +18,4 @@ class ConnectionAlertVM {
   void emitWifiSettingScreen() {
     AppSettings.openWIFISettings();
   }
-
 }

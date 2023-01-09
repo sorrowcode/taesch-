@@ -43,7 +43,9 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
                       logMessage: LogMessage(
                           message:
                               "tapped on ${widget._vm.products[index].name} item"));
-                  widget._vm.sqlRepository.sqlActions.insertProduct(false, widget._vm.products[index]).then((value){
+                  widget._vm.sqlRepository.sqlActions
+                      .insertProduct(false, widget._vm.products[index])
+                      .then((value) {
                     widget._vm.sqlRepository.sqlActions
                         .deleteProduct(true, widget._vm.products[index].name)
                         .then((value) {
@@ -61,11 +63,10 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
                 },
                 child: Column(children: [
                   Center(
-                        child: Text(
-                      widget._vm.products[index].name,
-                      style: Theme.of(context).textTheme.headlineSmall,
-                    )),
-
+                      child: Text(
+                    widget._vm.products[index].name,
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  )),
                   Text(
                     widget._vm.products[index].tags
                         .map((e) => e.name)

@@ -1,11 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:taesch/api/actions/ping_actions.dart';
-import 'package:taesch/api/implementation/ping.dart';
-import 'package:taesch/api/repositories/ping_repository.dart';
-import 'package:taesch/api/repositories/repository_type.dart';
-import 'package:taesch/api/repository_holder.dart';
 import 'package:taesch/middleware/log/logger_wrapper.dart';
-import 'package:taesch/view/custom_widget/connection_alert.dart';
 import 'package:taesch/view_model/page/starting_page_vm.dart';
 
 abstract class StartingPage extends StatefulWidget {

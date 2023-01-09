@@ -1,7 +1,6 @@
 import 'package:taesch/model/product.dart';
 
 class ShoppingListTemplate {
-
   // todo: add elements
   void addProduct(Product product) {
     // todo: direkt persistieren?

@@ -1,15 +1,8 @@
-enum MapSpotKeys {
-  name,
-  latitude,
-  longitude,
-  street,
-  postcode,
-  houseNumber
-}
+enum MapSpotKeys { name, latitude, longitude, street, postcode, houseNumber }
 
 extension MapSpotKeysString on MapSpotKeys {
   String text() {
-    switch(this) {
+    switch (this) {
       case MapSpotKeys.name:
         return "name";
       case MapSpotKeys.latitude:

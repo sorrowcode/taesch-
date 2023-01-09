@@ -58,8 +58,7 @@ class SQLDatabase implements SQLActions {
         logMessage: LogMessage(message: "sql database delete product called"));
     final db = _database;
     await db.delete(generated ? _generatedTable : _effectiveTable,
-        where: "${ProductKeys.name.text()} = ?;",
-        whereArgs: [productName]);
+        where: "${ProductKeys.name.text()} = ?;", whereArgs: [productName]);
   }
 
   @override
@@ -94,6 +93,7 @@ class SQLDatabase implements SQLActions {
         level: LogLevel.info,
         logMessage: LogMessage(message: "sql database insert product called"));
     var db = _database;
-    await db.insert(generated ? _generatedTable : _effectiveTable, product.toMapForSqlDatabase());
+    await db.insert(generated ? _generatedTable : _effectiveTable,
+        product.toMapForSqlDatabase());
   }
 }

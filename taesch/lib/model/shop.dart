@@ -6,6 +6,7 @@ import 'package:taesch/model/map_spot.dart';
 class Shop {
   late final int id;
   late MapSpot spot;
+
   //Discount discount = Discount();
 
   Shop({required this.id, required this.spot}) {
@@ -20,7 +21,6 @@ class Shop {
         longitude: double.parse(map[MapSpotKeys.longitude.text()].toString()),
         street: map[MapSpotKeys.street].toString(),
         houseNumber: map[MapSpotKeys.houseNumber.text()].toString(),
-        postcode: int.parse(map[MapSpotKeys.postcode.text()].toString())
-    );
+        postcode: int.parse(map[MapSpotKeys.postcode.text()].toString()));
   }
 }

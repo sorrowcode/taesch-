@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:taesch/api/implementation/ping.dart';
-import 'package:taesch/api/repositories/ping_repository.dart';
-import 'package:taesch/api/repositories/repository_type.dart';
-import 'package:taesch/api/repository_holder.dart';
 import 'package:taesch/controller/theme_controller.dart';
 import 'package:taesch/controller/theme_controller_provider.dart';
-import 'package:taesch/view/custom_widget/connection_alert.dart';
 import 'package:taesch/view/page/login_page.dart';
 
 import 'view_model/app_vm.dart';

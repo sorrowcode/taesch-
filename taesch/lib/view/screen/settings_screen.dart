@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:taesch/controller/theme_controller.dart';
 import 'package:taesch/middleware/log/log_level.dart';
 import 'package:taesch/middleware/log/logger_wrapper.dart';
 import 'package:taesch/model/log_message.dart';
 import 'package:taesch/view_model/screen/settings_screen_vm.dart';
-import 'package:intl/intl.dart';
 
 /// shows the shopping list elements
 class SettingsScreen extends StatefulWidget {
@@ -33,10 +33,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
           activeColor: Theme.of(context).secondaryHeaderColor,
           onChanged: (bool value) {
             logger.log(
-            level: LogLevel.info,
-            logMessage: LogMessage(
-            message:
-            "switched ${widget._vm.switchTitle} button to $value"));
+                level: LogLevel.info,
+                logMessage: LogMessage(
+                    message:
+                        "switched ${widget._vm.switchTitle} button to $value"));
             setState(() {
               ThemeController.of(context).darkTheme = value;
             });
@@ -50,21 +50,31 @@ class _SettingsScreenState extends State<SettingsScreen> {
           title: Text(widget._vm.radTitle),
           trailing: DropdownButton(
             value: widget._vm.repo.searchRadius,
-            items: (widget._vm.radValues.map((int e) => DropdownMenuItem(value: e,child: Text(formatter.format(e)))).toList()),
+            items: (widget._vm.radValues
+                .map((int e) => DropdownMenuItem(
+                    value: e, child: Text(formatter.format(e))))
+                .toList()),
             onChanged: (int? value) {
               logger.log(
-                level: LogLevel.info,
-                logMessage: LogMessage(
-                  message:
-                  "switched ${widget._vm.switchTitle} button to $value"));
+                  level: LogLevel.info,
+                  logMessage: LogMessage(
+                      message:
+                          "switched ${widget._vm.switchTitle} button to $value"));
+
               setState(() {
                 widget._vm.repo.searchRadius = value!;
+              });
+
+              widget._vm.repo.osmActions
+                  .getNearShops(widget._vm.repo.searchRadius,
+                      widget._vm.repo.userPosition)
+                  .then((value) {
+                widget._vm.repo.cache = value;
               });
             },
           ),
         )
       ],
     );
-
   }
 }

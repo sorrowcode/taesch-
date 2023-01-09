@@ -9,7 +9,6 @@ class HomePageVM {
   bool init = true;
   SQLRepository sqlRepository = (RepositoryHolder()
       .getRepositoryByType(RepositoryType.sql) as SQLRepository);
-
   OSMRepository osmRepository = (RepositoryHolder()
       .getRepositoryByType(RepositoryType.osm) as OSMRepository);
 

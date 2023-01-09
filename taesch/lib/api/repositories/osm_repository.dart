@@ -9,6 +9,10 @@ import 'package:taesch/model/shop.dart';
 class OSMRepository extends Repo {
   List<Shop> cache = [];
 
+  bool geolocatorServicesEnabled = true;
+  bool geolocatorPermissionIsSet = false;
+  bool permamnentlyDenied = false;
+
   Position userPosition = const Position(
       latitude: 49.1427,
       longitude: 9.2109,
@@ -18,6 +22,22 @@ class OSMRepository extends Repo {
       heading: 0.0,
       speed: 0.0,
       speedAccuracy: 0.0);
+
+  bool geolocationServicesEnabled(){
+    return geolocatorServicesEnabled;
+  }
+
+  bool geoLocationPermissionGranted(){
+    return geolocatorPermissionIsSet;
+  }
+
+  bool geoLocationPermissionIsPermanentlyDenied(){
+    return permamnentlyDenied;
+  }
+
+  void denyGeoLocationPermission(){
+    geolocatorPermissionIsSet = false;
+  }
 
   OSMRepository({required OSMActions super.actions}) {
     type = RepositoryType.osm;

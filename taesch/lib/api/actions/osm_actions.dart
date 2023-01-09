@@ -1,10 +1,8 @@
 import 'package:geolocator/geolocator.dart';
 import 'package:taesch/api/actions/actions.dart';
-import 'package:taesch/api/repositories/osm_repository.dart';
 import 'package:taesch/model/shop.dart';
 
 abstract class OSMActions implements Actions {
-  OSMRepository? osmRepository;
 
   Future<List<Shop>> getNearShops(int searchRadius, Position position);
 
@@ -12,5 +10,12 @@ abstract class OSMActions implements Actions {
 
   Future<void> handleLocationPermission();
 
-  void assignOSMRepository(OSMRepository repository);
+  bool geolocationServicesEnabled();
+
+  bool geoLocationPermissionGranted();
+
+  bool geoLocationPermissionIsPermanentlyDenied();
+
+  void denyGeoLocationPermission();
+
 }

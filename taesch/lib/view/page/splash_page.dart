@@ -36,6 +36,7 @@ class _SplashPageState extends State<SplashPage> {
               .then((shops) {
             osmRepository.cache = shops;
             Timer(const Duration(seconds: 3), () {
+              osmRepository.osmActions.handleLocationPermission();
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => const HomePage(),
                   settings: RouteSettings(arguments: products)));

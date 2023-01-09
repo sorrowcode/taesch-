@@ -3,17 +3,30 @@ import 'dart:convert';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart';
 import 'package:taesch/api/actions/osm_actions.dart';
+import 'package:taesch/api/repositories/osm_repository.dart';
+import 'package:taesch/middleware/log/log_level.dart';
+import 'package:taesch/middleware/log/logger_wrapper.dart';
+import 'package:taesch/model/log_message.dart';
 import 'package:taesch/model/map_spot.dart';
 import 'package:taesch/model/shop.dart';
 
 import 'overpass_query_index.dart';
 
 class OSM implements OSMActions {
+  LoggerWrapper logger = LoggerWrapper();
   late final String _apiUrl;
 
   @override
   void init() {
     _apiUrl = 'http://overpass-api.de//api/interpreter?';
+  }
+
+  @override
+  OSMRepository? osmRepository;
+
+  @override
+  void assignOSMRepository(OSMRepository repository){
+    osmRepository = repository;
   }
 
   @override
@@ -71,27 +84,64 @@ class OSM implements OSMActions {
   }
 
   @override
-  Future<bool> handleLocationPermission() async {
+  Future<void> handleLocationPermission() async {
     bool serviceEnabled;
     LocationPermission permission;
 
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      // snackbar
-      // print('Location services are disabled. Please enable the services'); // <- log
-      return false;
+      logger.log(
+          level: LogLevel.info,
+          logMessage: LogMessage(
+              message: "Location services are disabled. Please enable the services.")// <-- maybe show a pop-up
+      );
+      osmRepository?.geolocatorServicesEnabled = false;
+      return;
     }
+
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      // print('Location permissions are denied');// <- log
-      return false;
+      permission = await Geolocator.requestPermission(); // <-- check again
+      if (permission != LocationPermission.denied && permission != LocationPermission.deniedForever) {
+        logger.log(
+            level: LogLevel.info,
+            logMessage: LogMessage(
+                message: "Geolocator is permitted.")
+        );
+        osmRepository?.geolocatorPermissionIsSet = true;
+        osmRepository?.permamnentlyDenied = false;
+        osmRepository?.geolocatorServicesEnabled = true;
+        return;
+
+      } else {
+        logger.log(
+            level: LogLevel.info,
+            logMessage: LogMessage(
+                message: "Location permissions are denied.")
+        );
+        osmRepository?.geolocatorPermissionIsSet = false;
+        return;
+      }
     }
+
     if (permission == LocationPermission.deniedForever) {
-      // print('Location permissions are permanently denied, we cannot request permissions.'); // <- log
-      return false;
+      logger.log(
+          level: LogLevel.info,
+          logMessage: LogMessage(
+              message: "Location permissions are permanently denied, we cannot request permissions.")
+      );
+      osmRepository?.geolocatorPermissionIsSet = false;
+      osmRepository?.permamnentlyDenied = true;
+      return;
     }
-    // print("geolocator permitted."); // <- log
-    return true;
+
+    logger.log(
+        level: LogLevel.info,
+        logMessage: LogMessage(
+            message: "Geolocator is permitted.")
+    );
+    osmRepository?.geolocatorPermissionIsSet = true;
+    osmRepository?.permamnentlyDenied = false;
+    return;
   }
 }

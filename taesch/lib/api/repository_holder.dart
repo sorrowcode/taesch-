@@ -30,7 +30,9 @@ class RepositoryHolder {
           _repositories[type] = SQLRepository(actions: SQLDatabase());
           break;
         case RepositoryType.osm:
-          _repositories[type] = OSMRepository(actions: OSM());
+          OSMRepository osmRepository = OSMRepository(actions: OSM());
+          _repositories[type] = osmRepository;
+          osmRepository.osmActions.assignOSMRepository(osmRepository);
           break;
         case RepositoryType.firebase:
           _repositories[type] = FirebaseRepository(actions: FirebaseWrapper());

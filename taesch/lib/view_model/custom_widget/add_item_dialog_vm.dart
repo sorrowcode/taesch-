@@ -21,7 +21,7 @@ class AddItemDialogVM {
     if (value == null || value.isEmpty) {
       return ErrorCase.emptyField;
     } else {
-      temp = Product(name: value, imageUrl: '');
+      temp = Product(name: value);
     }
     return null;
   }

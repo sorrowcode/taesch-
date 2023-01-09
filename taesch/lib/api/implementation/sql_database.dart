@@ -1,11 +1,10 @@
-import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:taesch/api/actions/sql_actions.dart';
-import 'package:taesch/api/mapper/product_dto_map_data.dart';
 import 'package:taesch/middleware/log/log_level.dart';
 import 'package:taesch/middleware/log/logger_wrapper.dart';
-import 'package:taesch/model/dto/product_dto.dart';
+import 'package:taesch/model/keys/product_keys.dart';
+import 'package:taesch/model/keys/product_metadata_keys.dart';
 import 'package:taesch/model/log_message.dart';
 import 'package:taesch/model/product.dart';
 
@@ -23,19 +22,16 @@ class SQLDatabase implements SQLActions {
         logMessage: LogMessage(
           message: "sql database init called",
         ));
-    WidgetsFlutterBinding.ensureInitialized();
     _database = await openDatabase(join(await getDatabasesPath(), "taesch.db"),
         version: 1, onCreate: (db, version) {
-      var name = ProductDTOMapData.name.value();
-      var imageURL = ProductDTOMapData.imageUrl.value();
-      var quantity = ProductDTOMapData.quantity.value();
-      var tags = ProductDTOMapData.tags.value();
-      var positionValue = ProductDTOMapData.positionValue.value();
-      var sumOfAllWeights = ProductDTOMapData.sumOfAllWeights.value();
-      var timesBought = ProductDTOMapData.timesBought.value();
+      var name = ProductKeys.name.text();
+      var quantity = ProductKeys.quantity.text();
+      var tags = "tags";
+      var positionValue = ProductMetadataKeys.positionValue.text();
+      var sumOfAllWeights = ProductMetadataKeys.sumOfAllWeights.text();
+      var timesBought = ProductMetadataKeys.timesBought.text();
       var sql = "CREATE TABLE IF NOT EXISTS $_generatedTable("
           "$name TEXT PRIMARY KEY,"
-          "$imageURL TEXT NOT NULL,"
           "$quantity INTEGER NOT NULL,"
           "$tags TEXT,"
           "$positionValue DOUBLE PRECISION NOT NULL,"
@@ -44,7 +40,6 @@ class SQLDatabase implements SQLActions {
           ");"
           "CREATE TABLE IF NOT EXISTS $_effectiveTable("
           "$name TEXT PRIMARY KEY,"
-          "$imageURL TEXT NOT NULL,"
           "$quantity INTEGER NOT NULL,"
           "$tags TEXT,"
           "$positionValue DOUBLE PRECISION NOT NULL,"
@@ -63,7 +58,7 @@ class SQLDatabase implements SQLActions {
         logMessage: LogMessage(message: "sql database delete product called"));
     final db = _database;
     await db.delete(generated ? _generatedTable : _effectiveTable,
-        where: "${ProductDTOMapData.name.value()} = ?;",
+        where: "${ProductKeys.name.text()} = ?;",
         whereArgs: [productName]);
   }
 
@@ -89,9 +84,7 @@ class SQLDatabase implements SQLActions {
     final List<Map<String, dynamic>> products =
         await db.query(generated ? _generatedTable : _effectiveTable);
     return List.generate(products.length, (index) {
-      var dto = ProductDTO.fromMap(map: products[index]);
-      dto.toProduct();
-      return dto.product;
+      return Product.fromMap(products[index]);
     });
   }
 
@@ -101,8 +94,6 @@ class SQLDatabase implements SQLActions {
         level: LogLevel.info,
         logMessage: LogMessage(message: "sql database insert product called"));
     var db = _database;
-    var dto = ProductDTO.fromProduct(product: product);
-    dto.toMap();
-    await db.insert(generated ? _generatedTable : _effectiveTable, dto.map);
+    await db.insert(generated ? _generatedTable : _effectiveTable, product.toMapForSqlDatabase());
   }
 }

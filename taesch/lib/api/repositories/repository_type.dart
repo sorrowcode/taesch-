@@ -1,1 +1,1 @@
-enum RepositoryType { sql, osm, firebase }
+enum RepositoryType { sql, osm, firebase, ping }

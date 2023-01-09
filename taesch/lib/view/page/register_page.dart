@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:taesch/api/implementation/ping.dart';
+import 'package:taesch/api/repositories/firebase_repository.dart';
+import 'package:taesch/api/repositories/ping_repository.dart';
+import 'package:taesch/api/repositories/repository_type.dart';
+import 'package:taesch/api/repository_holder.dart';
+import 'package:taesch/exceptions/custom/registration_exception.dart';
 import 'package:taesch/middleware/log/log_level.dart';
 import 'package:taesch/model/error_case.dart';
 import 'package:taesch/model/log_message.dart';
 import 'package:taesch/model/widget_key.dart';
+import 'package:taesch/view/custom_widget/connection_alert.dart';
 import 'package:taesch/view/page/splash_page.dart';
 import 'package:taesch/view/page/starting_page.dart';
 import 'package:taesch/view_model/page/register_page_vm.dart';
@@ -18,7 +25,8 @@ class _RegisterPageState extends StartingPageState {
   final _emailController = TextEditingController();
 
   _RegisterPageState() {
-    vm = RegisterPageVM();
+    vm = RegisterPageVM(RepositoryHolder()
+        .getRepositoryByType(RepositoryType.firebase) as FirebaseRepository);
   }
 
   @override
@@ -119,16 +127,48 @@ class _RegisterPageState extends StartingPageState {
             logger.log(
                 level: LogLevel.debug,
                 logMessage: LogMessage(message: "form valid"));
-            (vm as RegisterPageVM)
-                .firebaseRepository
-                .firebaseActions
-                .register(
+            if (((RepositoryHolder().getRepositoryByType(RepositoryType.ping) as PingRepository).pingActions as Ping).isOnline) {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) => ConnectionAlert(),
+              );
+            } else {
+              try {
+                await (vm as RegisterPageVM)
+                    .firebaseRepository
+                    .firebaseActions
+                    .register(
                     email: _emailController.text,
                     password: (vm as RegisterPageVM).passwordController.text)
-                .then((value) {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const SplashPage()));
-            });
+                    .then((value) {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const SplashPage()));
+                });
+              } on RegistrationException {
+                await showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      actions: [
+                        IconButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            icon: const Icon(Icons.close))
+                      ],
+                      title: const Text(
+                        "email already in use",
+                        style: TextStyle(
+                          color: Colors.red,
+                        ),
+                      ),
+                      content:
+                      const Text("consider using another email instead"),
+                    ));
+              }
+            }
+
           } else {
             logger.log(
                 level: LogLevel.debug,

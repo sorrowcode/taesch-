@@ -23,6 +23,7 @@ dependencies:
   latlong2: ^0.8.1 # <-- used in conjunction with flutter_map
   firebase_auth: ^4.2.0
   firebase_core: ^2.4.0
+  cloud_firestore: ^4.3.1
   test:
   sqflite_common_ffi:
   app_settings: ^4.1.8
@@ -30,7 +31,11 @@ dependencies:
 dev_dependencies:
   flutter_launcher_icons: ^0.11.0
   flutter_lints: ^2.0.1
+  integration_test:
+    sdk: flutter
   flutter_test:
+    sdk: flutter
+  flutter_driver:
     sdk: flutter
 
 flutter_icons:

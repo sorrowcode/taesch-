@@ -1,8 +1,10 @@
 import 'dart:collection';
 
+import 'package:taesch/api/implementation/ping.dart';
 import 'package:taesch/api/implementation/sql_database.dart';
 import 'package:taesch/api/repositories/firebase_repository.dart';
 import 'package:taesch/api/repositories/osm_repository.dart';
+import 'package:taesch/api/repositories/ping_repository.dart';
 import 'package:taesch/api/repositories/repository.dart';
 import 'package:taesch/api/repositories/sql_repository.dart';
 
@@ -32,6 +34,9 @@ class RepositoryHolder {
           break;
         case RepositoryType.firebase:
           _repositories[type] = FirebaseRepository(actions: FirebaseWrapper());
+          break;
+        case RepositoryType.ping:
+          _repositories[type] = PingRepository(actions: Ping());
           break;
       }
     }

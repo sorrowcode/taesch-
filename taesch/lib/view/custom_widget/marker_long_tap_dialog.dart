@@ -6,18 +6,19 @@ class MarkerLongTapDialog {
     showDialog(
         context: context,
         builder: (ctx) => AlertDialog(
-                title: Text(shop.name),
+                title: Text(shop.spot.name),
                 content: SingleChildScrollView(
                   child: Column(
                     children: [
                       RichText(
-                          text: TextSpan(style: const TextStyle(color: Colors.black),
+                          text: TextSpan(
+                              style: const TextStyle(color: Colors.black),
                               //apply style to all
                               children: [
                             const TextSpan(
                                 text: 'Street:',
                                 style: TextStyle(fontWeight: FontWeight.bold)),
-                            TextSpan(text: shop.address),
+                            TextSpan(text: shop.spot.street),
                             const TextSpan(text: "\n")
                           ])),
                       RichText(
@@ -28,7 +29,7 @@ class MarkerLongTapDialog {
                             const TextSpan(
                                 text: 'Number:',
                                 style: TextStyle(fontWeight: FontWeight.bold)),
-                            TextSpan(text: shop.houseNumber),
+                            TextSpan(text: shop.spot.houseNumber),
                             const TextSpan(text: "\n")
                           ])),
                       RichText(
@@ -43,15 +44,16 @@ class MarkerLongTapDialog {
                             TextSpan(text: "\n")
                           ])),
                       RichText(
-                          text: const TextSpan(
-                              style: TextStyle(color: Colors.black),
+                          text: TextSpan(
+                              style: const TextStyle(color: Colors.black),
                               //apply style to all
                               children: [
-                            TextSpan(
+                            const TextSpan(
                                 text: 'Öffnungszeiten:',
                                 style: TextStyle(fontWeight: FontWeight.bold)),
-                            TextSpan(text: ' 8:00 - 19:30 Uhr'),
-                            TextSpan(text: "\n")
+                            const TextSpan(text: ' 8:00 - 19:30 Uhr'),
+                            const TextSpan(text: "\n"),
+                            TextSpan(text: "${shop.id}")
                           ])),
                     ],
                   ),

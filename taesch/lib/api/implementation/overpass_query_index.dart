@@ -1,4 +1,5 @@
 enum OverpassQueryIndex {
+  id,
   name,
   latitude,
   longitude,
@@ -22,6 +23,8 @@ extension OverpassQueryJSONIndexesValues on OverpassQueryIndex {
         return "addr:housenumber";
       case OverpassQueryIndex.postcode:
         return "addr:postcode";
+      case OverpassQueryIndex.id:
+        return "id";
     }
   }
 }

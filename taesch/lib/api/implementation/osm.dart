@@ -20,9 +20,9 @@ class OSM implements OSMActions {
   Future<List<Shop>> getNearShops(int searchRadius, Position position) async {
     List<Shop> shops = [];
     Response response = await get(Uri.parse(
-            "${_apiUrl}data=[out:json][timeout:50];"
-            "(node[\"shop\"=\"supermarket\"](around:$searchRadius,${position.latitude},${position.longitude})"
-            ";);out;"));
+        "${_apiUrl}data=[out:json][timeout:50];"
+        "(node[\"shop\"=\"supermarket\"](around:$searchRadius,${position.latitude},${position.longitude})"
+        ";);out;"));
     if (response.statusCode == 200) {
       Map<String, dynamic> responseBodyRaw =
           jsonDecode(utf8.decode(response.body.codeUnits));
@@ -30,15 +30,18 @@ class OSM implements OSMActions {
       for (dynamic node in nodes) {
         var test = node as Map<String, dynamic>;
         var data = test["tags"];
+        var id = int.parse(test[OverpassQueryIndex.id.identifier].toString());
         var shopData = data as Map<String, dynamic>;
         Shop shop = Shop(
+            id: id,
+            //shopData[OverpassQueryIndex.id.identifier] == null ? 0 : int.parse(shopData[OverpassQueryIndex.id.identifier].toString()),
             spot: MapSpot(
                 name: shopData[OverpassQueryIndex.name.identifier],
-                lat: test[OverpassQueryIndex.latitude.identifier] == null
+                longitude: test[OverpassQueryIndex.latitude.identifier] == null
                     ? 0
                     : double.parse(test[OverpassQueryIndex.latitude.identifier]
                         .toString()),
-                long: test[OverpassQueryIndex.longitude.identifier] == null
+                latitude: test[OverpassQueryIndex.longitude.identifier] == null
                     ? 0
                     : double.parse(test[OverpassQueryIndex.longitude.identifier]
                         .toString()),

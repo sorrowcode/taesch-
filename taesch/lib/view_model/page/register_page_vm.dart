@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:taesch/api/repositories/firebase_repository.dart';
-import 'package:taesch/api/repositories/repository_type.dart';
-import 'package:taesch/api/repository_holder.dart';
 import 'package:taesch/model/error_case.dart';
 import 'package:taesch/view_model/page/starting_page_vm.dart';
 
@@ -12,8 +10,11 @@ class RegisterPageVM extends StartingPageVM {
   static const passwordHint = "password";
   String submitButtonText = "Submit";
   final passwordController = TextEditingController();
-  FirebaseRepository firebaseRepository = (RepositoryHolder()
-      .getRepositoryByType(RepositoryType.firebase) as FirebaseRepository);
+  late FirebaseRepository firebaseRepository;
+
+  RegisterPageVM(this.firebaseRepository);
+
+  RegisterPageVM.empty();
 
   ErrorCase? validateUsername(String? value) {
     if (value == null || value.isEmpty) {

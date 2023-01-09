@@ -22,25 +22,28 @@ class _NearShopsScreenState extends State<NearShopsScreen> {
   @override
   void initState() {
     super.initState();
-    widget._vm.osmRepository.osmActions.getNearShops(2000, widget._vm.osmRepository.userPosition).then((value) => {
-      setState(() {
-        widget._vm.osmRepository.cache = value;
-      })
-    });
+    widget._vm.osmRepository.osmActions
+        .getNearShops(2000, widget._vm.osmRepository.userPosition)
+        .then((value) => {
+              setState(() {
+                widget._vm.osmRepository.cache = value;
+              })
+            });
   }
 
   List<Widget> _getShopList() {
+
     var shopsList = <Widget>[];
     for (int i = 0; i < widget._vm.osmRepository.cache.length; i++) {
       shopsList.add(ShopsTile(
-        title: widget._vm.osmRepository.cache[i].name,
-        address: widget._vm.osmRepository.cache[i].address,
+        title: widget._vm.osmRepository.cache[i].spot.name,
+        address: widget._vm.osmRepository.cache[i].spot.street,
         callBack: () {
           logger.log(
               level: LogLevel.info,
               logMessage: LogMessage(
                   message:
-                      "Taped On: ${widget._vm.osmRepository.cache[i].name}"));
+                      "Taped On: ${widget._vm.osmRepository.cache[i].spot.name}"));
           setState(() {
             widget._vm.selectedShop = widget._vm.osmRepository.cache[i];
             widget._vm.isMap = true;

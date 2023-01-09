@@ -1,19 +1,26 @@
-import 'package:taesch/model/discount.dart';
+import 'dart:collection';
+
+import 'package:taesch/model/keys/map_spot_keys.dart';
 import 'package:taesch/model/map_spot.dart';
 
 class Shop {
-  late MapSpot _spot;
-  Discount discount = Discount();
+  late final int id;
+  late MapSpot spot;
+  //Discount discount = Discount();
 
-  Shop({required MapSpot spot}) {
-    _spot = spot;
+  Shop({required this.id, required this.spot}) {
+    spot = spot;
   }
 
-  String get name => _spot.name;
-
-  String get address => _spot.street;
-
-  String get houseNumber => _spot.houseNumber;
-
-  MapSpot get mapSpot => _spot;
+  Shop.fromMap(HashMap<String, dynamic> map) {
+    id = int.parse(map["id"].toString());
+    spot = MapSpot(
+        name: map[MapSpotKeys.name.text()].toString(),
+        latitude: double.parse(map[MapSpotKeys.latitude.text()].toString()),
+        longitude: double.parse(map[MapSpotKeys.longitude.text()].toString()),
+        street: map[MapSpotKeys.street].toString(),
+        houseNumber: map[MapSpotKeys.houseNumber.text()].toString(),
+        postcode: int.parse(map[MapSpotKeys.postcode.text()].toString())
+    );
+  }
 }

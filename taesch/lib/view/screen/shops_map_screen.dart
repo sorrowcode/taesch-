@@ -49,7 +49,7 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
         for (Shop shop in widget._vm.osmRepository.cache) {
           int id = widget._vm.idCounter;
           widget._vm.shopsMarker.add(Marker(
-              point: LatLng(shop.mapSpot.lat, shop.mapSpot.long),
+              point: LatLng(shop.spot.longitude, shop.spot.latitude),
               builder: (ctx) => GestureDetector(
                     onLongPress: () {
                       if (widget._vm.lastID != 0) {
@@ -85,8 +85,8 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
       } else {
         widget._vm.shopsMarker.add(Marker(
             key: Key(WidgetKey.redMarkerKey.text),
-            point: LatLng(
-                widget._vm.shop!.mapSpot.lat, widget._vm.shop!.mapSpot.long),
+            point: LatLng(widget._vm.shop!.spot.longitude,
+                widget._vm.shop!.spot.latitude),
             /*builder: (ctx) => GestureDetector(
                         onTap: () {
                             /*ScaffoldMessenger.of(ctx).showSnackBar(const SnackBar(
@@ -118,8 +118,8 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
               center: widget._vm.shop == null
                   ? LatLng(widget._vm.osmRepository.userPosition.latitude,
                       widget._vm.osmRepository.userPosition.longitude)
-                  : LatLng(widget._vm.shop!.mapSpot.lat,
-                      widget._vm.shop!.mapSpot.long),
+                  : LatLng(widget._vm.shop!.spot.longitude,
+                      widget._vm.shop!.spot.latitude),
               zoom: 13,
             ),
             children: [

@@ -5,7 +5,7 @@ class ProductMetadata {
 
   ProductMetadata();
 
-  ProductMetadata.fromMap(
+  ProductMetadata.withData(
       {required this.positionValue,
       required this.sumOfAllWeights,
       required this.timesBought});

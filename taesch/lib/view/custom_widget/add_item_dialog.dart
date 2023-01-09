@@ -55,15 +55,7 @@ class _AddItemDialogState extends State<AddItemDialog> {
                   decoration: InputDecoration(
                       border: const OutlineInputBorder(),
                       hintText: widget._vm.textFormHint)),
-              TextFormField(
-                validator: (value) {
-                  return widget._vm.validateTags(value);
-                },
-                decoration: InputDecoration(
-                    border: const OutlineInputBorder(),
-                    hintText: widget._vm.tagFormHint),
-                controller: tagEditController,
-              ),
+
               // widget._vm.tags.map((e) => Text(e.name)).toList()<vdhjavdjhh
               SingleChildScrollView(
                   scrollDirection: Axis.horizontal,

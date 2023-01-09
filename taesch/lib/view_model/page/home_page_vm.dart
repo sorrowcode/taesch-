@@ -1,3 +1,4 @@
+import 'package:taesch/api/repositories/osm_repository.dart';
 import 'package:taesch/api/repositories/repository_type.dart';
 import 'package:taesch/api/repositories/sql_repository.dart';
 import 'package:taesch/api/repository_holder.dart';
@@ -8,4 +9,10 @@ class HomePageVM {
   bool init = true;
   SQLRepository sqlRepository = (RepositoryHolder()
       .getRepositoryByType(RepositoryType.sql) as SQLRepository);
+
+  OSMRepository osmRepository = (RepositoryHolder()
+      .getRepositoryByType(RepositoryType.osm) as OSMRepository);
+
+  List<int> radValues = [500,1000,3000,5000,10000];
 }
+

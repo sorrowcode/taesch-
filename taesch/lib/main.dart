@@ -11,8 +11,8 @@ import 'app.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final prefs = await SharedPreferences.getInstance();
-  (RepositoryHolder().getRepositoryByType(RepositoryType.osm) as OSMRepository)
-      .startGeoTimer();
+  //(RepositoryHolder().getRepositoryByType(RepositoryType.osm) as OSMRepository)
+  //    .startGeoTimer();
   final themeController = ThemeController(prefs);
   runApp(App(
     controller: themeController,

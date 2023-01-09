@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:geolocator/geolocator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:taesch/api/actions/osm_actions.dart';
 import 'package:taesch/api/repositories/repository.dart';
 import 'package:taesch/api/repositories/repository_type.dart';
@@ -19,8 +20,22 @@ class OSMRepository extends Repo {
       speed: 0.0,
       speedAccuracy: 0.0);
 
+  static const radiusPrefKey = 'radius';
+  int _searchRadius = 5000; //m
+  late final SharedPreferences _prefs;
+
   OSMRepository({required OSMActions super.actions}) {
     type = RepositoryType.osm;
+    SharedPreferences.getInstance().then((prefs) {
+      _prefs = prefs;
+      _searchRadius = _prefs.getInt(radiusPrefKey) ?? 5000;
+    });
+  }
+
+  int get searchRadius => _searchRadius;
+  set searchRadius(int radius) {
+    _searchRadius = radius;
+    _prefs.setInt(radiusPrefKey, radius);
   }
 
   OSMActions get osmActions => actions as OSMActions;

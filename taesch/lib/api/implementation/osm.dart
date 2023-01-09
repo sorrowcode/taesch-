@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart';
 import 'package:taesch/api/actions/osm_actions.dart';
-import 'package:taesch/api/repositories/osm_repository.dart';
 import 'package:taesch/middleware/log/log_level.dart';
 import 'package:taesch/middleware/log/logger_wrapper.dart';
 import 'package:taesch/model/log_message.dart';
@@ -16,17 +15,13 @@ class OSM implements OSMActions {
   LoggerWrapper logger = LoggerWrapper();
   late final String _apiUrl;
 
+  bool _geolocatorServicesEnabled = true;
+  bool _geolocatorPermissionIsSet = false;
+  bool _permamnentlyDenied = false;
+
   @override
   void init() {
     _apiUrl = 'http://overpass-api.de//api/interpreter?';
-  }
-
-  @override
-  OSMRepository? osmRepository;
-
-  @override
-  void assignOSMRepository(OSMRepository repository){
-    osmRepository = repository;
   }
 
   @override
@@ -95,7 +90,7 @@ class OSM implements OSMActions {
           logMessage: LogMessage(
               message: "Location services are disabled. Please enable the services.")// <-- maybe show a pop-up
       );
-      osmRepository?.geolocatorServicesEnabled = false;
+      _geolocatorServicesEnabled = false;
       return;
     }
 
@@ -108,9 +103,9 @@ class OSM implements OSMActions {
             logMessage: LogMessage(
                 message: "Geolocator is permitted.")
         );
-        osmRepository?.geolocatorPermissionIsSet = true;
-        osmRepository?.permamnentlyDenied = false;
-        osmRepository?.geolocatorServicesEnabled = true;
+        _geolocatorPermissionIsSet = true;
+        _permamnentlyDenied = false;
+        _geolocatorServicesEnabled = true;
         return;
 
       } else {
@@ -119,7 +114,7 @@ class OSM implements OSMActions {
             logMessage: LogMessage(
                 message: "Location permissions are denied.")
         );
-        osmRepository?.geolocatorPermissionIsSet = false;
+        _geolocatorPermissionIsSet = false;
         return;
       }
     }
@@ -130,8 +125,8 @@ class OSM implements OSMActions {
           logMessage: LogMessage(
               message: "Location permissions are permanently denied, we cannot request permissions.")
       );
-      osmRepository?.geolocatorPermissionIsSet = false;
-      osmRepository?.permamnentlyDenied = true;
+      _geolocatorPermissionIsSet = false;
+      _permamnentlyDenied = true;
       return;
     }
 
@@ -140,8 +135,28 @@ class OSM implements OSMActions {
         logMessage: LogMessage(
             message: "Geolocator is permitted.")
     );
-    osmRepository?.geolocatorPermissionIsSet = true;
-    osmRepository?.permamnentlyDenied = false;
+    _geolocatorPermissionIsSet = true;
+    _permamnentlyDenied = false;
     return;
+  }
+
+  @override
+  bool geolocationServicesEnabled(){
+    return _geolocatorServicesEnabled;
+  }
+
+  @override
+  bool geoLocationPermissionGranted(){
+    return _geolocatorPermissionIsSet;
+  }
+
+  @override
+  bool geoLocationPermissionIsPermanentlyDenied(){
+    return _permamnentlyDenied;
+  }
+
+  @override
+  void denyGeoLocationPermission(){
+    _geolocatorPermissionIsSet = false;
   }
 }

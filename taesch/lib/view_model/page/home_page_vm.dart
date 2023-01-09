@@ -13,6 +13,5 @@ class HomePageVM {
   OSMRepository osmRepository = (RepositoryHolder()
       .getRepositoryByType(RepositoryType.osm) as OSMRepository);
 
-  List<int> radValues = [500,1000,3000,5000,10000];
-}
 
+}

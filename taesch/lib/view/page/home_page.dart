@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'package:taesch/api/actions/osm_actions.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:taesch/middleware/log/log_level.dart';
@@ -7,6 +9,7 @@ import 'package:taesch/model/product.dart';
 import 'package:taesch/model/screen_state.dart';
 import 'package:taesch/model/widget_key.dart';
 import 'package:taesch/view/custom_widget/add_item_dialog.dart';
+import 'package:taesch/view/custom_widget/permission_dialog.dart';
 import 'package:taesch/view/screen/near_shops_screen.dart';
 import 'package:taesch/view/screen/settings_screen.dart';
 import 'package:taesch/view/screen/shopping_list_screen.dart';
@@ -30,6 +33,17 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     if (_vm.init) {
+
+      Timer(const Duration(seconds: 2), () {
+        OSMActions osmActions = _vm.osmRepository.osmActions;
+        if (!osmActions.geolocationServicesEnabled()) {
+          PermissionDialog().showGeolocationPermissionDialog(
+              context,
+              "Location Services are disabled",
+              "Please go to your phone's settings and enable the Location Services.");
+        }
+      });
+
       var products = ModalRoute.of(context)?.settings.arguments;
       _vm.init = false;
       screen = products == null

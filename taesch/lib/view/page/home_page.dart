@@ -1,7 +1,7 @@
 import 'dart:async';
-
-import 'package:flutter/material.dart';
 import 'package:taesch/api/actions/osm_actions.dart';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:taesch/middleware/log/log_level.dart';
 import 'package:taesch/middleware/log/logger_wrapper.dart';
 import 'package:taesch/model/log_message.dart';
@@ -28,6 +28,7 @@ class _HomePageState extends State<HomePage> {
   LoggerWrapper logger = LoggerWrapper();
   late Widget screen;
   final _vm = HomePageVM();
+  var formatter = NumberFormat.decimalPattern();
 
   @override
   Widget build(BuildContext context) {

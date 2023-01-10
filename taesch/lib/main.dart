@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:taesch/api/repository_holder.dart';
 //import 'package:taesch/api/repositories/repository_type.dart';
 import 'package:taesch/controller/theme_controller.dart';
 
@@ -11,6 +12,7 @@ import 'app.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final prefs = await SharedPreferences.getInstance();
+  RepositoryHolder();
   //(RepositoryHolder().getRepositoryByType(RepositoryType.osm) as OSMRepository)
   //    .startGeoTimer();
   final themeController = ThemeController(prefs);

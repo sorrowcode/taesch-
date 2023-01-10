@@ -26,67 +26,77 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
         level: LogLevel.info,
         logMessage: LogMessage(message: "entered shopping list screen"));
 
-    return widget._vm.products.isEmpty? Center(
-      child:  Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
-        Text("Press ",style: TextStyle(fontSize: 20),),
-        Icon(Icons.add_circle),
-        Text(" to add items",style: TextStyle(fontSize: 20),)
-
-      ], ),
-    ) :  Padding(
-      padding: EdgeInsets.all(MediaQuery.of(context).size.width / 80),
-      child: GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisSpacing: 10,
-          mainAxisSpacing: 10,
-          crossAxisCount: 2,
-        ),
-        itemCount: widget._vm.products.length,
-        itemBuilder: (BuildContext context, int index) {
-          return Card(
-            child: InkWell(
-                onLongPress: () {
-                  logger.log(
-                      level: LogLevel.info,
-                      logMessage: LogMessage(
-                          message:
-                              "tapped on ${widget._vm.products[index].name} item"));
-                  /*
+    return widget._vm.products.isEmpty
+        ? Center(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const [
+                Text(
+                  "Press ",
+                  style: TextStyle(fontSize: 20),
+                ),
+                Icon(Icons.add_circle),
+                Text(
+                  " to add items",
+                  style: TextStyle(fontSize: 20),
+                )
+              ],
+            ),
+          )
+        : Padding(
+            padding: EdgeInsets.all(MediaQuery.of(context).size.width / 80),
+            child: GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+                crossAxisCount: 2,
+              ),
+              itemCount: widget._vm.products.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Card(
+                  child: InkWell(
+                      onLongPress: () {
+                        logger.log(
+                            level: LogLevel.info,
+                            logMessage: LogMessage(
+                                message:
+                                    "tapped on ${widget._vm.products[index].name} item"));
+                        /*
                   widget._vm.sqlRepository.sqlActions
 
                       .insertProduct(false, widget._vm.products[index])
                       .then((value) {*/
 
-                  widget._vm.sqlRepository.sqlActions
-                      .deleteProduct(true, widget._vm.products[index].name)
-                      .then((value) {
-                    setState(() {
-                      widget._vm.products.remove(widget._vm.products[index]);
-                    });
-                  });
+                        widget._vm.sqlRepository.sqlActions
+                            .deleteProduct(
+                                true, widget._vm.products[index].name)
+                            .then((value) {
+                          setState(() {
+                            widget._vm.products
+                                .remove(widget._vm.products[index]);
+                          });
+                        });
 
-                  //});
+                        //});
 
-                  // todo:
-                  // - wenn widget._vm.products leer ist, ist der Einkauf abgeschlossen
-                  // - holen der Elemente aus der Datenbank
-                  // - initialisieren eines Purchase Objektes
-                  // - senden nach Firebase -> verändern der Daten aus dem Shop, falls Daten vorhanden sind
-                },
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                  Center(
-                      child: Text(
-                    widget._vm.products[index].name,
-                    style: Theme.of(context).textTheme.headlineSmall,
-                  )),
-                ])),
+                        // todo:
+                        // - wenn widget._vm.products leer ist, ist der Einkauf abgeschlossen
+                        // - holen der Elemente aus der Datenbank
+                        // - initialisieren eines Purchase Objektes
+                        // - senden nach Firebase -> verändern der Daten aus dem Shop, falls Daten vorhanden sind
+                      },
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Center(
+                                child: Text(
+                              widget._vm.products[index].name,
+                              style: Theme.of(context).textTheme.headlineSmall,
+                            )),
+                          ])),
+                );
+              },
+            ),
           );
-        },
-      ),
-    );
   }
 }

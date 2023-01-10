@@ -17,7 +17,7 @@ class OSM implements OSMActions {
 
   bool _geolocatorServicesEnabled = true;
   bool _geolocatorPermissionIsSet = false;
-  bool _permamnentlyDenied = false;
+  bool _permanentlyDenied = false;
 
   @override
   void init() {
@@ -89,8 +89,9 @@ class OSM implements OSMActions {
       logger.log(
           level: LogLevel.info,
           logMessage: LogMessage(
-              message: "Location services are disabled. Please enable the services.")// <-- maybe show a pop-up
-      );
+              message:
+                  "Location services are disabled. Please enable the services.") // <-- maybe show a pop-up
+          );
       _geolocatorServicesEnabled = false;
       return;
     }
@@ -98,23 +99,20 @@ class OSM implements OSMActions {
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission(); // <-- check again
-      if (permission != LocationPermission.denied && permission != LocationPermission.deniedForever) {
+      if (permission != LocationPermission.denied &&
+          permission != LocationPermission.deniedForever) {
         logger.log(
             level: LogLevel.info,
-            logMessage: LogMessage(
-                message: "Geolocator is permitted.")
-        );
+            logMessage: LogMessage(message: "Geolocator is permitted."));
         _geolocatorPermissionIsSet = true;
-        _permamnentlyDenied = false;
+        _permanentlyDenied = false;
         _geolocatorServicesEnabled = true;
         return;
-
       } else {
         logger.log(
             level: LogLevel.info,
-            logMessage: LogMessage(
-                message: "Location permissions are denied.")
-        );
+            logMessage:
+                LogMessage(message: "Location permissions are denied."));
         _geolocatorPermissionIsSet = false;
         return;
       }
@@ -124,40 +122,38 @@ class OSM implements OSMActions {
       logger.log(
           level: LogLevel.info,
           logMessage: LogMessage(
-              message: "Location permissions are permanently denied, we cannot request permissions.")
-      );
+              message:
+                  "Location permissions are permanently denied, we cannot request permissions."));
       _geolocatorPermissionIsSet = false;
-      _permamnentlyDenied = true;
+      _permanentlyDenied = true;
       return;
     }
 
     logger.log(
         level: LogLevel.info,
-        logMessage: LogMessage(
-            message: "Geolocator is permitted.")
-    );
+        logMessage: LogMessage(message: "Geolocator is permitted."));
     _geolocatorPermissionIsSet = true;
-    _permamnentlyDenied = false;
+    _permanentlyDenied = false;
     return;
   }
 
   @override
-  bool geolocationServicesEnabled(){
+  bool geolocationServicesEnabled() {
     return _geolocatorServicesEnabled;
   }
 
   @override
-  bool geoLocationPermissionGranted(){
+  bool geoLocationPermissionGranted() {
     return _geolocatorPermissionIsSet;
   }
 
   @override
-  bool geoLocationPermissionIsPermanentlyDenied(){
-    return _permamnentlyDenied;
+  bool geoLocationPermissionIsPermanentlyDenied() {
+    return _permanentlyDenied;
   }
 
   @override
-  void denyGeoLocationPermission(){
+  void denyGeoLocationPermission() {
     _geolocatorPermissionIsSet = false;
   }
 }

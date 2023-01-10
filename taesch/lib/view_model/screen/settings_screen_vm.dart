@@ -7,7 +7,10 @@ class SettingsScreenVM {
   String permissionSwitchTitle = 'Allow Location';
   String radTitle = 'Supermarket Search Radius';
 
-  List<int> radValues = [500,1000,3000,5000,10000];
+  //var formatter = NumberFormat.decimalPattern();
 
-  OSMRepository repo = RepositoryHolder().getRepositoryByType(RepositoryType.osm) as OSMRepository;
+  List<int> radValues = [500, 1000, 3000, 5000, 10000];
+
+  OSMRepository repo = RepositoryHolder()
+      .getRepositoryByType(RepositoryType.osm) as OSMRepository;
 }

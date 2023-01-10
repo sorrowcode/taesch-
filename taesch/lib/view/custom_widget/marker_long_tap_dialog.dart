@@ -6,7 +6,7 @@ class MarkerLongTapDialog {
     showDialog(
         context: context,
         builder: (ctx) => AlertDialog(
-                title: Text(shop.spot.name),
+                title: Center(child: Text(shop.spot.name)),
                 content: SingleChildScrollView(
                   child: Column(
                     children: [

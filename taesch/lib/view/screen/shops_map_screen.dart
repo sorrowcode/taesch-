@@ -180,21 +180,15 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
                       Icons.location_on,
                       color: Colors.black54,
                     )*/
-                    Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        //verticalDirection: VerticalDirection.up,
-                        children: const [
-                          Text(
-                              " "
-                          ),
+                        Column(mainAxisAlignment: MainAxisAlignment.center,
+                            //verticalDirection: VerticalDirection.up,
+                            children: const [
+                          Text(" "),
                           Center(
-                            child: Icon(
-                                Icons.location_on,
-                                color: Colors.black54
-                            ),
+                            child:
+                                Icon(Icons.location_on, color: Colors.black54),
                           )
-                        ]
-                    ),
+                        ]),
                   )));
     });
   }
@@ -233,22 +227,22 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
                       Icons.location_on,
                       color: Colors.red,
                     )*/
-                      Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          //verticalDirection: VerticalDirection.up,
-                          children: [
-                            Text(
-                                shop.spot.name,
-                                style: const TextStyle(fontWeight: FontWeight.bold)
-                            ),
-                            const Center(
-                                child: Icon(
-                                    Icons.location_on,
-                                    color: Colors.red
-                                ),
-                            )
-                          ]
-                      ),
+                        Column(mainAxisAlignment: MainAxisAlignment.center,
+                            //verticalDirection: VerticalDirection.up,
+                            children: [
+                          Container(
+                            padding: EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                                color: const Color(0xffffffff).withOpacity(0.9),
+                                borderRadius: BorderRadius.circular(12)),
+                            child: Text(shop.spot.name,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold)),
+                          ),
+                          const Center(
+                            child: Icon(Icons.location_on, color: Colors.red),
+                          )
+                        ]),
                   )));
     });
   }

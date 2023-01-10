@@ -236,7 +236,7 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
                                 color: const Color(0xffffffff).withOpacity(0.9),
                                 borderRadius: BorderRadius.circular(12)),
                             child: Text(shop.spot.name,
-                                style: const TextStyle(
+                                style: const TextStyle(color: Color(0xff000000),
                                     fontWeight: FontWeight.bold)),
                           ),
                           const Center(

@@ -24,7 +24,8 @@ class _NearShopsScreenState extends State<NearShopsScreen> {
     super.initState();
     _getCurrentUserPosition();
     widget._vm.osmRepository.osmActions
-        .getNearShops(widget._vm.osmRepository.searchRadius, widget._vm.osmRepository.userPosition)
+        .getNearShops(widget._vm.osmRepository.searchRadius,
+            widget._vm.osmRepository.userPosition)
         .then((value) => {
               setState(() {
                 widget._vm.osmRepository.cache = value;
@@ -32,8 +33,9 @@ class _NearShopsScreenState extends State<NearShopsScreen> {
             });
   }
 
-  void _getCurrentUserPosition() async{
-    widget._vm.osmRepository.userPosition = await widget._vm.osmRepository.osmActions.getCurrentPosition();
+  void _getCurrentUserPosition() async {
+    widget._vm.osmRepository.userPosition =
+        await widget._vm.osmRepository.osmActions.getCurrentPosition();
   }
 
   List<Widget> _getShopList() {

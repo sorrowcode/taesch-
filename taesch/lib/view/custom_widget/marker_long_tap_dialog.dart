@@ -44,16 +44,15 @@ class MarkerLongTapDialog {
                             TextSpan(text: "\n")
                           ])),
                       RichText(
-                          text: TextSpan(
-                              style: const TextStyle(color: Colors.black),
+                          text: const TextSpan(
+                              style: TextStyle(color: Colors.black),
                               //apply style to all
                               children: [
-                            const TextSpan(
+                            TextSpan(
                                 text: 'Öffnungszeiten:',
                                 style: TextStyle(fontWeight: FontWeight.bold)),
-                            const TextSpan(text: ' 8:00 - 19:30 Uhr'),
-                            const TextSpan(text: "\n"),
-                            TextSpan(text: "${shop.id}")
+                            TextSpan(text: ' 8:00 - 19:30 Uhr'),
+                            TextSpan(text: "\n")
                           ])),
                     ],
                   ),

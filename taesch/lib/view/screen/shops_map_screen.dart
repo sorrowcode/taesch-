@@ -30,6 +30,7 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
   @override
   void initState() {
     setState(() {
+      // this marker shows our location
       widget._vm.shopsMarker.add(Marker(
           point: LatLng(widget._vm.osmRepository.userPosition.latitude,
               widget._vm.osmRepository.userPosition.longitude),
@@ -45,49 +46,59 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
                   size: 30,
                   color: Colors.blue) //const FlutterLogo(),
               )));
-      if (widget._vm.shop == null) {
-        for (Shop shop in widget._vm.osmRepository.cache) {
-          int id = widget._vm.idCounter;
-          widget._vm.shopsMarker.add(Marker(
-              point: LatLng(shop.spot.longitude, shop.spot.latitude),
-              builder: (ctx) => GestureDetector(
-                    onLongPress: () {
-                      if (widget._vm.lastID != 0) {
-                        setBlack(widget._vm.lastID, widget._vm.lastShop);
-                      }
-                      setRed(id, shop);
-                      widget._vm.lastShop = shop;
-                      widget._vm.lastID = id;
-                      var dialog = MarkerLongTapDialog();
-                      dialog.showPupUpDialog(context, shop);
-                    },
-                    onTap: () {
-                      /*ScaffoldMessenger.of(ctx).showSnackBar(const SnackBar(
+      // those marker shows the location of the shops
+    });
+    if (widget._vm.shop == null) {
+      widget._vm.osmRepository.osmActions
+          .getNearShops(widget._vm.osmRepository.searchRadius,
+              widget._vm.osmRepository.userPosition)
+          .then((value) {
+        setState(() {
+          widget._vm.osmRepository.cache = value;
+          for (Shop shop in widget._vm.osmRepository.cache) {
+            int id = widget._vm.idCounter;
+            widget._vm.shopsMarker.add(Marker(
+                point: LatLng(shop.spot.longitude, shop.spot.latitude),
+                builder: (ctx) => GestureDetector(
+                      onLongPress: () {
+                        if (widget._vm.lastID != 0) {
+                          setBlack(widget._vm.lastID, widget._vm.lastShop);
+                        }
+                        setRed(id, shop);
+                        widget._vm.lastShop = shop;
+                        widget._vm.lastID = id;
+                        var dialog = MarkerLongTapDialog();
+                        dialog.showPupUpDialog(context, shop);
+                      },
+                      onTap: () {
+                        /*ScaffoldMessenger.of(ctx).showSnackBar(const SnackBar(
                                 content: Text('Tapped on blue FlutterLogo Marker'),
                                 )
                             );*/
-                      if (widget._vm.lastID != 0) {
-                        setBlack(widget._vm.lastID, widget._vm.lastShop);
-                      }
-                      setRed(id, shop);
-                      setState(() {
-                        widget._vm.lastID = id;
-                        widget._vm.lastShop = shop;
-                      });
-                    },
-                    child: const Icon(
-                      Icons.location_on,
-                      color: Colors.black54,
-                    ),
-                  )));
-          widget._vm.idCounter++;
-        }
-      } else {
-        widget._vm.shopsMarker.add(Marker(
-            key: Key(WidgetKey.redMarkerKey.text),
-            point: LatLng(widget._vm.shop!.spot.longitude,
-                widget._vm.shop!.spot.latitude),
-            /*builder: (ctx) => GestureDetector(
+                        if (widget._vm.lastID != 0) {
+                          setBlack(widget._vm.lastID, widget._vm.lastShop);
+                        }
+                        setRed(id, shop);
+                        setState(() {
+                          widget._vm.lastID = id;
+                          widget._vm.lastShop = shop;
+                        });
+                      },
+                      child: const Icon(
+                        Icons.location_on,
+                        color: Colors.black54,
+                      ),
+                    )));
+            widget._vm.idCounter++;
+          }
+        });
+      });
+    } else {
+      widget._vm.shopsMarker.add(Marker(
+          key: Key(WidgetKey.redMarkerKey.text),
+          point: LatLng(
+              widget._vm.shop!.spot.longitude, widget._vm.shop!.spot.latitude),
+          /*builder: (ctx) => GestureDetector(
                         onTap: () {
                             /*ScaffoldMessenger.of(ctx).showSnackBar(const SnackBar(
                                 content: Text('Tapped on blue FlutterLogo Marker'),
@@ -98,10 +109,9 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
                         child: Icon(Icons.location_on),
 
                     )*/
-            builder: (ctx) =>
-                const Icon(Icons.location_on, color: Colors.red)));
-      }
-    });
+          builder: (ctx) => const Icon(Icons.location_on, color: Colors.red)));
+    }
+    //});
     super.initState();
   }
 

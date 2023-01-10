@@ -32,7 +32,8 @@ class _SplashPageState extends State<SplashPage> {
       sqlRepository.sqlActions.getProductList(true).then((products) {
         try {
           osmRepository.osmActions
-              .getNearShops(2000, osmRepository.userPosition)
+              .getNearShops(
+                  osmRepository.searchRadius, osmRepository.userPosition)
               .then((shops) {
             osmRepository.cache = shops;
             Timer(const Duration(seconds: 3), () {
@@ -45,7 +46,8 @@ class _SplashPageState extends State<SplashPage> {
         } on TimeoutException {
           try {
             osmRepository.osmActions
-                .getNearShops(2000, osmRepository.userPosition)
+                .getNearShops(
+                    osmRepository.searchRadius, osmRepository.userPosition)
                 .then((shops) {
               osmRepository.cache = shops;
               Timer(const Duration(seconds: 3), () {
@@ -56,7 +58,8 @@ class _SplashPageState extends State<SplashPage> {
             });
           } on TimeoutException {
             osmRepository.osmActions
-                .getNearShops(2000, osmRepository.userPosition)
+                .getNearShops(
+                    osmRepository.searchRadius, osmRepository.userPosition)
                 .then((shops) {
               osmRepository.cache = shops;
               Timer(const Duration(seconds: 3), () {

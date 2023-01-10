@@ -84,6 +84,7 @@ class OSM implements OSMActions {
     LocationPermission permission;
 
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    _geolocatorServicesEnabled = true;
     if (!serviceEnabled) {
       logger.log(
           level: LogLevel.info,

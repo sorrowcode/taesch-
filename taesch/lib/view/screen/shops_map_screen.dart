@@ -144,6 +144,8 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
       widget._vm.shopsMarker.insert(
           id,
           Marker(
+              width: 200,
+              height: 300,
               point: LatLng(temp.point.latitude, temp.point.longitude),
               builder: (ctx) => GestureDetector(
                     onLongPress: () {
@@ -164,9 +166,24 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
                       widget._vm.lastID = id;
                       widget._vm.lastShop = shop;
                     },
-                    child: const Icon(
+                    child: /*const Icon(
                       Icons.location_on,
                       color: Colors.black54,
+                    )*/
+                    Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        //verticalDirection: VerticalDirection.up,
+                        children: const [
+                          Text(
+                              " "
+                          ),
+                          Center(
+                            child: Icon(
+                                Icons.location_on,
+                                color: Colors.black54
+                            ),
+                          )
+                        ]
                     ),
                   )));
     });
@@ -179,6 +196,8 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
       widget._vm.shopsMarker.insert(
           id,
           Marker(
+              width: 200,
+              height: 300,
               point: LatLng(temp.point.latitude, temp.point.longitude),
               builder: (ctx) => GestureDetector(
                     onLongPress: () {
@@ -200,10 +219,26 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
                       widget._vm.lastShop = shop;
                       widget._vm.lastID = id;
                     },
-                    child: const Icon(
+                    child: /*const Icon(
                       Icons.location_on,
                       color: Colors.red,
-                    ),
+                    )*/
+                      Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          //verticalDirection: VerticalDirection.up,
+                          children: [
+                            Text(
+                                shop.spot.name,
+                                style: const TextStyle(fontWeight: FontWeight.bold)
+                            ),
+                            const Center(
+                                child: Icon(
+                                    Icons.location_on,
+                                    color: Colors.red
+                                ),
+                            )
+                          ]
+                      ),
                   )));
     });
   }

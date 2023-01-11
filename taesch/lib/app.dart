@@ -163,7 +163,7 @@ class _AppState extends State<App> {
               thickness: 3.0,
             ),
           ),
-          home: const HomePage(),
+          home: const LoginPage(),
         ),
       ),
     );

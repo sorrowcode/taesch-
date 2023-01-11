@@ -29,7 +29,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         SwitchListTile(
           title: Text(widget._vm.switchTitle),
           value: ThemeController.of(context).darkTheme,
-          activeColor: Theme.of(context).secondaryHeaderColor,
+          activeColor: Theme.of(context).iconTheme.color,
           onChanged: (bool value) {
             logger.log(
                 level: LogLevel.info,
@@ -48,6 +48,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         SwitchListTile(
           title: Text(widget._vm.permissionSwitchTitle),
           value: widget._vm.repo.osmActions.geoLocationPermissionGranted(),
+          activeColor: Theme.of(context).iconTheme.color,
           onChanged: (bool permitted) async {
             logger.log(
                 level: LogLevel.info,

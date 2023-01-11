@@ -58,6 +58,8 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
           for (Shop shop in widget._vm.osmRepository.cache) {
             int id = widget._vm.idCounter;
             widget._vm.shopsMarker.add(Marker(
+                width: 200,
+                height: 300,
                 point: LatLng(shop.spot.longitude, shop.spot.latitude),
                 builder: (ctx) => GestureDetector(
                       onLongPress: () {
@@ -84,10 +86,38 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
                           widget._vm.lastShop = shop;
                         });
                       },
-                      child: const Icon(
+                      child: /*const Icon(
                         Icons.location_on,
                         color: Colors.black54,
-                      ),
+                      )*/
+
+                      /*Column(mainAxisAlignment: MainAxisAlignment.center,
+                          //verticalDirection: VerticalDirection.up,
+                          children: const [
+                            Text(" jhjhjhjhj "),
+                            Center(
+                              child:
+                              Icon(Icons.location_on, color: Colors.black54),
+                            )
+                      ])*/
+
+                      Column(mainAxisAlignment: MainAxisAlignment.center,
+                          //verticalDirection: VerticalDirection.up,
+                          children: [
+                            Container(
+                              padding: EdgeInsets.all(5),
+                              decoration: BoxDecoration(
+                                  color: const Color(0xffffffff).withOpacity(0.0),
+                                  borderRadius: BorderRadius.circular(12)),
+                              child: const Text(" ",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold)),
+                            ),
+                            const Center(
+                              child: Icon(Icons.location_on, color: Colors.black54),
+                            )
+                          ]),
+
                     )));
             widget._vm.idCounter++;
           }
@@ -180,7 +210,8 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
                       Icons.location_on,
                       color: Colors.black54,
                     )*/
-                        Column(mainAxisAlignment: MainAxisAlignment.center,
+
+                        /*Column(mainAxisAlignment: MainAxisAlignment.center,
                             //verticalDirection: VerticalDirection.up,
                             children: const [
                           Text(" "),
@@ -188,7 +219,25 @@ class _ShopsMapScreenState extends State<ShopsMapScreen> {
                             child:
                                 Icon(Icons.location_on, color: Colors.black54),
                           )
-                        ]),
+                        ])*/
+
+                    Column(mainAxisAlignment: MainAxisAlignment.center,
+                        //verticalDirection: VerticalDirection.up,
+                        children: [
+                          Container(
+                            padding: EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                                color: const Color(0xffffffff).withOpacity(0.0),
+                                borderRadius: BorderRadius.circular(12)),
+                            child: const Text(" ",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold)),
+                          ),
+                          const Center(
+                            child: Icon(Icons.location_on, color: Colors.black54),
+                          )
+                    ]),
+
                   )));
     });
   }

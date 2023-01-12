@@ -106,7 +106,6 @@ class _LoginPageState extends StartingPageState {
             ),
           ),
           TextButton(
-            //style: OutlinedButton.styleFrom(),
             key: Key(WidgetKey.loginButtonKey.text),
             onPressed: () async {
               logger.log(

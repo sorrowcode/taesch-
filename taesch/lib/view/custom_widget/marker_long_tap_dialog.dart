@@ -62,7 +62,7 @@ class MarkerLongTapDialog {
                       onPressed: () {
                         Navigator.pop(ctx);
                       },
-                      child: const Text("Close"))
+                      child: Text("Close", style: Theme.of(context).textTheme.labelLarge,))
                 ]));
   }
 }

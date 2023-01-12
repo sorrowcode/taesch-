@@ -17,7 +17,10 @@ class ConnectionAlert extends AlertDialog {
               _vm.openSettings();
               Navigator.of(context).pop();
             },
-            child: Text(_vm.settingButtonText))
+            child: Text(
+                _vm.settingButtonText, style: Theme.of(context).textTheme.labelLarge,),
+
+        )
       ],
     );
   }

@@ -11,7 +11,7 @@ class PermissionDialog {
                   onPressed: () {
                     Navigator.pop(ctx);
                   },
-                  child: const Text("OK"))
+                  child: Text("OK", style: Theme.of(context).textTheme.labelLarge,),)
             ]));
   }
 }
